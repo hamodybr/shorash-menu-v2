@@ -1,45 +1,12 @@
-
-const I18N={
- ar:{subtitle:'اكتشف منيو شوراش',location:'موقعنا',call:'اتصال',whatsapp:'واتساب منيو',soon:'السعر يضاف قريباً',currency:'د.ع'},
- ku:{subtitle:'مێنیوی شوراش ببینە',location:'شوێنی مە',call:'پەیوەندی',whatsapp:'مێنیوی واتساپ',soon:'نرخ بەم زووانە زیاد دەکرێت',currency:'د.ع'},
- en:{subtitle:'Discover the SHORASH menu',location:'Location',call:'Call',whatsapp:'WhatsApp Menu',soon:'Price coming soon',currency:'IQD'}
-};
-let DB,lang=localStorage.getItem('shorashLang')||'ar',active='';
-const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-function txt(o){return (o&&o[lang])||(o&&o.ar)||''}
-function money(v){return v?Number(v).toLocaleString('en-US')+' '+I18N[lang].currency:I18N[lang].soon}
-function cats(){
- const map=new Map();
- DB.products.forEach(p=>{const k=p.category.ar||p.category.en;if(!map.has(k))map.set(k,p.category)});
- return [...map.values()].sort((a,b)=>a.order-b.order);
-}
-function renderCats(){
- $('#cats').innerHTML=cats().map(c=>`<button class="cat ${c.ar===active?'active':''}" data-cat="${c.ar}">${txt(c)}</button>`).join('');
-}
-function render(){
- const arr=DB.products.filter(p=>!active||p.category.ar===active);
- $('#menu').innerHTML=arr.length?`<section><h2 class="section-title">${txt(arr[0].category)}</h2><div class="grid">${arr.map(p=>`
- <article class="card"><img class="photo" loading="lazy" src="${p.image}" alt="${txt(p.name)}">
- <div class="info"><div class="name">${txt(p.name)}</div>
- ${p.options.some(o=>o.price)?p.options.map(o=>`<div class="option"><span>${txt(o)}</span><b class="price">${money(o.price)}</b></div>`).join(''):`<div class="soon">${I18N[lang].soon}</div>`}
- </div></article>`).join('')}</div></section>`:'';
-}
-function applyLang(){
- document.documentElement.lang=lang;document.documentElement.dir=lang==='en'?'ltr':'rtl';
- $('#subtitle').textContent=I18N[lang].subtitle;
- $$('[data-t]').forEach(x=>x.textContent=I18N[lang][x.dataset.t]);
- $$('.lang button').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));
- renderCats();render();
-}
-document.addEventListener('click',e=>{
- if(e.target.matches('.lang button')){lang=e.target.dataset.lang;localStorage.setItem('shorashLang',lang);applyLang()}
- if(e.target.matches('.cat')){active=e.target.dataset.cat;renderCats();render()}
-});
-fetch('data/menu.json').then(r=>r.json()).then(d=>{
- DB=d; const r=d.restaurant;
- $('#location').href=$('#flocation').href=r.location;$('#call').href=$('#fcall').href='tel:'+r.phone;
- $('#whatsapp').href=$('#fwhatsapp').href=r.whatsapp;
- const cs=cats();active=cs.length?cs[0].ar:'';applyLang();
-}).catch(()=>$('#menu').innerHTML='<div class="loading">Could not load menu.json</div>');
-addEventListener('scroll',()=>{const d=document.documentElement,m=d.scrollHeight-d.clientHeight;$('#progress').style.width=(m?d.scrollTop/m*100:0)+'%'},{passive:true});
-setTimeout(()=>$('#intro').classList.add('hide'),1100);
+const I18N={ar:{subtitle:"اكتشف منيو شوراش",location:"موقعنا",call:"اتصال",whatsapp:"واتساب منيو",popular:"الأكثر طلباً",fresh:"جديد",hot:"حار 🌶",offer:"عرض",unavailable:"غير متوفر حالياً",currency:"د.ع"},ku:{subtitle:"مێنیوی شوراش ببینە",location:"شوێنی مە",call:"پەیوەندی",whatsapp:"مێنیوی واتساپ",popular:"زۆرترین داواکراو",fresh:"نوێ",hot:"توند 🌶",offer:"ئۆفەر",unavailable:"بەردەست نییە",currency:"د.ع"},en:{subtitle:"Discover the SHORASH menu",location:"Location",call:"Call",whatsapp:"WhatsApp Menu",popular:"Most Popular",fresh:"New",hot:"Spicy 🌶",offer:"Offer",unavailable:"Currently unavailable",currency:"IQD"}};let DB,lang=localStorage.getItem("shorashLang")||"ar",active="";const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];const txt=o=>(o&&o[lang])||(o&&o.ar)||"";const money=v=>v?Number(v).toLocaleString("en-US")+" "+I18N[lang].currency:"";
+function effect(c){let k=c.ar;return({"فطور صباحي":"sm-breakfast-card","منسف":"sm-mansaf-card","الأطباق الشرقية":"sm-eastern-card","مشاوي":"sm-grill-card","قلية":"sm-qalya-card","الوجبات الغربية":"sm-western-card","بركر":"sm-burger-card","بيتزا":"sm-pizza-card","السندويشات":"sm-sandwich-card","مشروبات باردة":"sm-cold-card","القهوة":"sm-coffee-card","القهوة الباردة":"sm-icedcoffee-card","موهيتو":"sm-mojito-card","سموذي":"sm-smoothie-card","ميلك شيك":"sm-milkshake-card","حلويات":"sm-dessert-card"})[k]||""}
+function categories(){let m=new Map;DB.products.forEach(p=>{if(!m.has(p.category.ar))m.set(p.category.ar,p.category)});return [...m.values()].sort((a,b)=>a.order-b.order)}
+function renderCats(){let x=$("#smCats").scrollLeft;$("#smCats").innerHTML=categories().map(c=>`<button class="sm-cat ${c.ar===active?"active":""}" data-cat="${c.ar}">${txt(c)}</button>`).join("");requestAnimationFrame(()=>$("#smCats").scrollLeft=x)}
+function badges(p){let b=p.badges||{},s="";if(b.popular)s+=`<span class="sm-display-badge gold">${I18N[lang].popular}</span>`;if(b.new)s+=`<span class="sm-display-badge">${I18N[lang].fresh}</span>`;if(b.hot)s+=`<span class="sm-display-badge red">${I18N[lang].hot}</span>`;if(b.offer)s+=`<span class="sm-display-badge offer">${I18N[lang].offer}</span>`;return s?`<div class="sm-badges">${s}</div>`:""}
+function render(){let arr=DB.products.filter(p=>p.category.ar===active);if(!arr.length){$("#smMenu").innerHTML="";return}$("#smMenu").innerHTML=`<section class="sm-section"><h2 class="sm-section-title">${txt(arr[0].category)}</h2><div class="sm-grid">${arr.map(p=>{let b=p.badges||{};return `<article class="sm-card sm-reveal ${effect(p.category)} ${b.popular?"sm-popular-card":""} ${b.hot?"sm-hot-card":""}">${badges(p)}${b.unavailable?`<div class="sm-off">${I18N[lang].unavailable}</div>`:""}<div class="sm-img"><img loading="lazy" src="${p.image}" alt="${txt(p.name)}"></div><div class="sm-info"><div class="sm-name">${txt(p.name)}</div>${p.options.map(o=>`<div class="sm-option"><span>${txt(o)}</span><b class="sm-price">${money(o.price)}</b></div>`).join("")}</div></article>`}).join("")}</div></section>`;watchCards()}
+function applyLang(){document.documentElement.lang=lang;document.documentElement.dir=lang==="en"?"ltr":"rtl";$("#smHeroSubtitle").textContent=I18N[lang].subtitle;$$("[data-t]").forEach(x=>x.textContent=I18N[lang][x.dataset.t]);$$(".sm-lang-switch button").forEach(b=>b.classList.toggle("active",b.dataset.lang===lang));renderCats();render()}
+document.addEventListener("click",e=>{let l=e.target.closest(".sm-lang-switch button");if(l){lang=l.dataset.lang;localStorage.setItem("shorashLang",lang);applyLang()}let c=e.target.closest(".sm-cat");if(c&&c.dataset.cat!==active){let rail=$("#smCats"),x=rail.scrollLeft;active=c.dataset.cat;renderCats();render();requestAnimationFrame(()=>rail.scrollLeft=x)}})
+let io=("IntersectionObserver"in window)?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("sm-visible");io.unobserve(e.target)}}),{rootMargin:"0px 0px -7% 0px",threshold:.06}):null;function watchCards(){$$(".sm-card:not(.watched)").forEach(c=>{c.classList.add("watched");if(io)io.observe(c);else c.classList.add("sm-visible")})}
+fetch("data/menu.json").then(r=>r.json()).then(d=>{DB=d;let r=d.restaurant;$("#smLogo").src=r.logo;let v=$("#smBgVideo");v.src=r.backgroundVideo;v.muted=true;v.playsInline=true;v.play().catch(()=>{});$("#smLocation").href=$("#fLoc").href=r.location;$("#smCall").href=$("#fCall").href="tel:"+r.phone;$("#smWhatsapp").href=$("#fWa").href=r.whatsapp;active=categories()[0]?.ar||"";applyLang()});
+let intro=$("#smIntro");if(sessionStorage.getItem("shorashIntroSeen"))intro.style.display="none";else{sessionStorage.setItem("shorashIntroSeen","1");setTimeout(()=>intro.classList.add("hide"),1450);setTimeout(()=>intro.style.display="none",2200)}
+let cats=$("#smCats"),sent=$("#smCatsSentinel"),fixed=false,savedX=0;function pin(){if(fixed)return;savedX=cats.scrollLeft;sent.style.height=Math.ceil(cats.getBoundingClientRect().height)+"px";cats.classList.add("fixed");cats.scrollLeft=savedX;fixed=true}function unpin(){if(!fixed)return;savedX=cats.scrollLeft;cats.classList.remove("fixed");sent.style.height="1px";cats.scrollLeft=savedX;fixed=false}function scrollFx(){let d=document.documentElement,max=d.scrollHeight-d.clientHeight;$("#smProgress").style.width=(max?d.scrollTop/max*100:0)+"%";if(!fixed&&sent.getBoundingClientRect().top<=0)pin();else if(fixed&&scrollY<=sent.offsetTop)unpin();$("#smTopBtn").classList.toggle("show",scrollY>520)}addEventListener("scroll",scrollFx,{passive:true});$("#smTopBtn").onclick=()=>scrollTo({top:0,behavior:"smooth"});scrollFx();
