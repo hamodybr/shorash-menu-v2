@@ -287,25 +287,20 @@ function productCard(product) {
 
           <div class="sm-option-buy">
             <b class="sm-price">${money(option.price)}</b>
-            ${
-              b.unavailable || hasVariants
-                ? ""
-                : `<button class="sm-add-cart" type="button"
-                    data-product-id="${product.id}"
-                    data-option-index="${optionIndex}"
-                    aria-label="Add to cart">+</button>`
-            }
+            ${""}
           </div>
         </div>
       `;
     })
     .join("");
 
-  const variantButton = (!b.unavailable && hasVariants)
+  const variantButton = b.unavailable ? "" : hasVariants
     ? `<button class="sm-choose-options" type="button" data-product-id="${product.id}">
          <span>+</span><b>${lang === "en" ? "Choose" : lang === "ku" ? "هەڵبژێرە" : "اختيار"}</b>
        </button>`
-    : "";
+    : `<button class="sm-direct-add" type="button" data-product-id="${product.id}" data-option-index="0">
+         <span>+</span><b>${lang === "en" ? "Add to cart" : lang === "ku" ? "زیادکردن بۆ سەبەتە" : "إضافة للسلة"}</b>
+       </button>`;
 
 
   return `

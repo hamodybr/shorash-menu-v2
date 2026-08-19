@@ -2,9 +2,9 @@
   const KEY="shorashCartV1";
   let cart=[];
   const T={
-    ar:{cart:"السلة",empty:"السلة فارغة",total:"الإجمالي",continue:"متابعة الطلب",added:"تمت الإضافة للسلة",choose:"اختر النوع",add:"إضافة للسلة",close:"إغلاق"},
-    ku:{cart:"سەبەتە",empty:"سەبەتە بەتاڵە",total:"کۆی گشتی",continue:"بەردەوام بە",added:"زیاد کرا",choose:"جۆر هەڵبژێرە",add:"زیادکردن بۆ سەبەتە",close:"داخستن"},
-    en:{cart:"Cart",empty:"Your cart is empty",total:"Total",continue:"Continue order",added:"Added to cart",choose:"Choose an option",add:"Add to cart",close:"Close"}
+    ar:{cart:"السلة",empty:"السلة فارغة",total:"الإجمالي",continue:"متابعة الطلب",added:"تمت الإضافة للسلة",choose:"اختر النوع",add:"إضافة للسلة",close:"إغلاق",clear:"إفراغ السلة",clearConfirm:"هل تريد إفراغ السلة بالكامل؟"},
+    ku:{cart:"سەبەتە",empty:"سەبەتە بەتاڵە",total:"کۆی گشتی",continue:"بەردەوام بە",added:"زیاد کرا",choose:"جۆر هەڵبژێرە",add:"زیادکردن بۆ سەبەتە",close:"داخستن",clear:"بەتاڵکردنەوەی سەبەتە",clearConfirm:"دڵنیایت لە بەتاڵکردنەوەی تەواوی سەبەتە؟"},
+    en:{cart:"Cart",empty:"Your cart is empty",total:"Total",continue:"Continue order",added:"Added to cart",choose:"Choose an option",add:"Add to cart",close:"Close",clear:"Clear cart",clearConfirm:"Clear the entire cart?"}
   };
   const lang=()=>window.SHORASH_LANG?window.SHORASH_LANG():(localStorage.getItem("shorashLang")||"ar");
   const tr=k=>(T[lang()]||T.ar)[k]||T.ar[k];
@@ -21,7 +21,7 @@
       <div id="smCartBackdrop" class="sm-cart-backdrop"></div>
       <aside id="smCartDrawer" class="sm-cart-drawer" aria-hidden="true">
         <div class="sm-cart-handle"></div>
-        <div class="sm-cart-head"><button id="smCartClose" class="sm-cart-close" type="button">×</button><h3 id="smCartTitle"></h3></div>
+        <div class="sm-cart-head"><button id="smCartClose" class="sm-cart-close" type="button">×</button><h3 id="smCartTitle"></h3><button id="smCartClear" class="sm-cart-clear" type="button"></button></div>
         <div id="smCartItems" class="sm-cart-items"></div>
         <div class="sm-cart-bottom"><div class="sm-cart-total-row"><span id="smCartTotalLabel"></span><b id="smCartTotal"></b></div><button id="smCartContinue" class="sm-cart-continue" type="button"></button></div>
       </aside>
@@ -32,6 +32,7 @@
     document.getElementById("smCartFab").onclick=()=>open(true);
     document.getElementById("smCartClose").onclick=()=>open(false);
     document.getElementById("smCartBackdrop").onclick=()=>open(false);
+    document.getElementById("smCartClear").onclick=()=>{if(!cart.length)return;if(confirm(tr("clearConfirm"))){cart=[];save();toast(tr("clear"))}};
     document.getElementById("smCartContinue").onclick=()=>toast(lang()==="en"?"Customer details are next":lang()==="ku"?"قۆناغی داهاتوو زانیاری داواکەرە":"الخطوة التالية: معلومات الزبون");
     document.getElementById("smChoiceClose").onclick=()=>choiceOpen(false);
     document.getElementById("smChoiceBackdrop").onclick=()=>choiceOpen(false);
@@ -49,9 +50,9 @@
   function closeImage(){const v=document.getElementById("smImageViewer");if(!v)return;v.classList.remove("open");v.setAttribute("aria-hidden","true");lock()}
   function change(key,d){const x=cart.find(i=>i.key===key);if(!x)return;x.qty+=d;if(x.qty<=0)cart=cart.filter(i=>i.key!==key);save()}
   function remove(key){cart=cart.filter(i=>i.key!==key);save()}
-  function render(){ensureUI();const {qty,sum}=totals();document.getElementById("smCartFabText").textContent=qty?`${qty} • ${money(sum)}`:tr("cart");document.getElementById("smCartFab").classList.toggle("has-items",qty>0);document.getElementById("smCartTitle").textContent=tr("cart");document.getElementById("smCartTotalLabel").textContent=tr("total");document.getElementById("smCartTotal").textContent=money(sum);document.getElementById("smCartContinue").textContent=tr("continue");const box=document.getElementById("smCartItems");if(!cart.length){box.innerHTML=`<div class="sm-cart-empty"><div>🛒</div><span>${tr("empty")}</span></div>`;return}box.innerHTML=cart.map(x=>`<div class="sm-cart-item"><img src="${x.image}" alt=""><div class="sm-cart-item-info"><strong>${txt(x.name)}</strong><small>${txt(x.option)}</small><b>${money(x.price)}</b></div><div class="sm-cart-qty"><button data-cart-plus="${x.key}" type="button">+</button><span>${x.qty}</span><button data-cart-minus="${x.key}" type="button">−</button></div><button class="sm-cart-remove" data-cart-remove="${x.key}" type="button">×</button></div>`).join("")}
+  function render(){ensureUI();const {qty,sum}=totals();document.getElementById("smCartFabText").textContent=qty?`${qty} • ${money(sum)}`:tr("cart");document.getElementById("smCartFab").classList.toggle("has-items",qty>0);document.getElementById("smCartTitle").textContent=tr("cart");document.getElementById("smCartTotalLabel").textContent=tr("total");document.getElementById("smCartTotal").textContent=money(sum);document.getElementById("smCartContinue").textContent=tr("continue");const clearBtn=document.getElementById("smCartClear");clearBtn.textContent=tr("clear");clearBtn.disabled=!cart.length;const box=document.getElementById("smCartItems");if(!cart.length){box.innerHTML=`<div class="sm-cart-empty"><div>🛒</div><span>${tr("empty")}</span></div>`;return}box.innerHTML=cart.map(x=>`<div class="sm-cart-item"><img src="${x.image}" alt=""><div class="sm-cart-item-info"><strong>${txt(x.name)}</strong><small>${txt(x.option)}</small><b>${money(x.price)}</b></div><div class="sm-cart-qty"><button data-cart-plus="${x.key}" type="button">+</button><span>${x.qty}</span><button data-cart-minus="${x.key}" type="button">−</button></div><button class="sm-cart-remove" data-cart-remove="${x.key}" type="button">×</button></div>`).join("")}
   let timer;function toast(msg){ensureUI();const e=document.getElementById("smCartToast");e.textContent=msg;e.classList.add("show");clearTimeout(timer);timer=setTimeout(()=>e.classList.remove("show"),1300)}
-  document.addEventListener("click",e=>{const a=e.target.closest(".sm-add-cart");if(a){e.preventDefault();addFromButton(a);return}const choose=e.target.closest(".sm-choose-options");if(choose){e.preventDefault();showChoices(choose.dataset.productId);return}const choice=e.target.closest("[data-choice-product]");if(choice){const D=window.SHORASH_DB,p=D&&D.products.find(x=>String(x.id)===String(choice.dataset.choiceProduct));if(p){addItem(p,Number(choice.dataset.choiceIndex));choiceOpen(false)}return}const image=e.target.closest(".sm-product-image");if(image){showImage(image);return}const p=e.target.closest("[data-cart-plus]");if(p){change(p.dataset.cartPlus,1);return}const m=e.target.closest("[data-cart-minus]");if(m){change(m.dataset.cartMinus,-1);return}const r=e.target.closest("[data-cart-remove]");if(r){remove(r.dataset.cartRemove);return}if(e.target.closest("[data-lang]"))setTimeout(render,40)});
+  document.addEventListener("click",e=>{const a=e.target.closest(".sm-add-cart,.sm-direct-add");if(a){e.preventDefault();addFromButton(a);return}const choose=e.target.closest(".sm-choose-options");if(choose){e.preventDefault();showChoices(choose.dataset.productId);return}const choice=e.target.closest("[data-choice-product]");if(choice){const D=window.SHORASH_DB,p=D&&D.products.find(x=>String(x.id)===String(choice.dataset.choiceProduct));if(p){addItem(p,Number(choice.dataset.choiceIndex));choiceOpen(false)}return}const image=e.target.closest(".sm-product-image");if(image){showImage(image);return}const p=e.target.closest("[data-cart-plus]");if(p){change(p.dataset.cartPlus,1);return}const m=e.target.closest("[data-cart-minus]");if(m){change(m.dataset.cartMinus,-1);return}const r=e.target.closest("[data-cart-remove]");if(r){remove(r.dataset.cartRemove);return}if(e.target.closest("[data-lang]"))setTimeout(render,40)});
   document.addEventListener("dblclick",e=>{if(e.target.closest("button,.sm-product-image"))e.preventDefault()},{passive:false});
   window.addEventListener("shorash:ready",render);load();ensureUI();render();
 })();
