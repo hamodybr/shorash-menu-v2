@@ -273,7 +273,10 @@ function productCard(product) {
     .join(" ");
 
 
-  const options = (product.options || [])
+  const productOptions = product.options || [];
+  const hasVariants = productOptions.length > 1;
+
+  const options = productOptions
     .map((option, optionIndex) => {
 
       const optionName = txt(option);
@@ -285,7 +288,7 @@ function productCard(product) {
           <div class="sm-option-buy">
             <b class="sm-price">${money(option.price)}</b>
             ${
-              b.unavailable
+              b.unavailable || hasVariants
                 ? ""
                 : `<button class="sm-add-cart" type="button"
                     data-product-id="${product.id}"
@@ -297,6 +300,12 @@ function productCard(product) {
       `;
     })
     .join("");
+
+  const variantButton = (!b.unavailable && hasVariants)
+    ? `<button class="sm-choose-options" type="button" data-product-id="${product.id}">
+         <span>+</span><b>${lang === "en" ? "Choose" : lang === "ku" ? "هەڵبژێرە" : "اختيار"}</b>
+       </button>`
+    : "";
 
 
   return `
@@ -317,6 +326,9 @@ function productCard(product) {
       <div class="sm-img">
 
         <img
+          class="sm-product-image"
+          data-full-image="${product.image || ""}"
+          data-product-name="${txt(product.name)}"
           loading="lazy"
           decoding="async"
           src="${product.image || ""}"
@@ -332,6 +344,7 @@ function productCard(product) {
         </div>
 
         ${options}
+        ${variantButton}
 
       </div>
 
