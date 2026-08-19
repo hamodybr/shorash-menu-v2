@@ -1,9 +1,173 @@
-<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#080604"><title>SHORASH MENU</title><link rel="stylesheet" href="css/style.css"></head>
-<body><div id="smIntro"><div class="introRing"></div><div class="introLogo">SHORASH</div><small>REST & CAFE</small></div><div id="smProgress"></div>
-<video id="smBgVideo" class="sm-bg-video" loop muted playsinline preload="metadata"></video><div class="sm-bg-overlay"></div>
-<main class="sm-shell"><header class="sm-hero"><div class="sm-logo"><img id="smLogo" alt="SHORASH Restaurant"></div><h1>SHORASH MENU</h1><p id="smHeroSubtitle">اكتشف منيو شوراش</p></header>
-<div class="sm-lang-switch"><button data-lang="ar">عربي</button><button data-lang="ku">کوردی</button><button data-lang="en">English</button></div>
-<div class="sm-quick-actions"><a id="smLocation" target="_blank"><span>📍</span><b data-t="location">موقعنا</b></a><a id="smCall"><span>☎</span><b data-t="call">اتصال</b></a><a id="smWhatsapp" target="_blank"><span>💬</span><b data-t="whatsapp">واتساب منيو</b></a></div>
-<div id="smCatsSentinel"></div><nav class="sm-cats" id="smCats"></nav><section id="smMenu"></section>
-<footer class="sm-footer"><div class="sm-footer-brand"><strong>SHORASH REST & CAFE</strong><span>Duhok • Kurdistan</span></div><div class="sm-footer-actions"><a id="fWa" target="_blank">WhatsApp Menu</a><a id="fCall">Call</a><a id="fLoc" target="_blank">Location</a></div><div class="sm-footer-social"><a href="https://www.instagram.com/shorashrest" target="_blank">Instagram</a><a href="https://www.tiktok.com/@shorashrest" target="_blank">TikTok</a><a href="https://www.snapchat.com/add/shorest2000" target="_blank">Snapchat</a><a href="https://facebook.com/shorashrest" target="_blank">Facebook</a></div><a class="sm-phone" href="tel:+9647502662002"><bdi>+964 750 266 2002</bdi></a><small>© SHORASH — All Rights Reserved 2026</small></footer>
-</main><button id="smTopBtn" aria-label="Back to top">↑</button><script src="js/app.js"></script></body></html>
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#080604">
+
+  <title>SHORASH REST & CAFE</title>
+
+  <!-- SHORASH Favicon -->
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <!-- Background video -->
+  <video
+    id="smBgVideo"
+    class="sm-bg-video"
+    autoplay
+    muted
+    loop
+    playsinline>
+  </video>
+
+  <div class="sm-bg-overlay"></div>
+
+  <!-- Intro -->
+  <div id="smIntro" class="sm-intro">
+
+    <div class="sm-intro-logo-wrap">
+      <img
+        src="assets/shorash-logo.jpeg"
+        alt="SHORASH"
+        class="sm-intro-logo">
+    </div>
+
+    <div class="sm-intro-brand">
+      SHORASH
+    </div>
+
+    <div class="sm-intro-sub">
+      REST &amp; CAFE
+    </div>
+
+  </div>
+
+  <!-- Main page -->
+  <main id="smApp" class="sm-app">
+
+    <header class="sm-header">
+
+      <div class="sm-logo-wrap">
+        <img
+          src="assets/shorash-logo.jpeg"
+          alt="SHORASH Logo"
+          class="sm-logo">
+      </div>
+
+      <h1>SHORASH MENU</h1>
+
+      <p id="smSubtitle">
+        اكتشف منيو شوراش
+      </p>
+
+      <div id="smLangs" class="sm-langs"></div>
+
+      <div id="smActions" class="sm-actions"></div>
+
+    </header>
+
+
+    <!-- Sticky category navigation -->
+    <div class="sm-cats-wrap">
+
+      <div id="smCats" class="sm-cats"></div>
+
+      <div id="smProgress" class="sm-progress">
+        <span></span>
+      </div>
+
+    </div>
+
+    <div id="smCatsSentinel"></div>
+
+
+    <!-- Menu -->
+    <section id="smMenu" class="sm-menu"></section>
+
+
+    <!-- Footer -->
+    <footer class="sm-footer">
+
+      <div class="sm-footer-card">
+
+        <div class="sm-footer-line"></div>
+
+        <h2>SHORASH REST &amp; CAFE</h2>
+
+        <p class="sm-footer-location">
+          Duhok • Kurdistan
+        </p>
+
+        <div class="sm-footer-main-actions">
+
+          <a id="smFooterLocation" href="#" target="_blank">
+            موقعنا
+          </a>
+
+          <a id="smFooterCall" href="#">
+            اتصال
+          </a>
+
+          <a id="smFooterWhatsapp" href="#" target="_blank">
+            WhatsApp Menu
+          </a>
+
+        </div>
+
+
+        <div class="sm-footer-socials">
+
+          <a id="smFacebook" href="#" target="_blank">
+            Facebook
+          </a>
+
+          <a id="smSnapchat" href="#" target="_blank">
+            Snapchat
+          </a>
+
+          <a id="smTikTok" href="#" target="_blank">
+            TikTok
+          </a>
+
+          <a id="smInstagram" href="#" target="_blank">
+            Instagram
+          </a>
+
+        </div>
+
+
+        <div class="sm-footer-phone">
+          +964 750 266 2002
+        </div>
+
+        <div class="sm-footer-copy">
+          SHORASH — All Rights Reserved 2026 ©
+        </div>
+
+      </div>
+
+    </footer>
+
+  </main>
+
+
+  <!-- Back to top -->
+  <button
+    id="smTopBtn"
+    class="sm-top-btn"
+    type="button"
+    aria-label="Back to top">
+    ↑
+  </button>
+
+
+  <script src="js/app.js"></script>
+
+</body>
+</html>
