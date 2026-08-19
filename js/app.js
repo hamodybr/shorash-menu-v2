@@ -274,24 +274,27 @@ function productCard(product) {
 
 
   const options = (product.options || [])
-    .map(option => {
+    .map((option, optionIndex) => {
 
       const optionName = txt(option);
 
       return `
         <div class="sm-option">
+          <span>${optionName}</span>
 
-          <span>
-            ${optionName}
-          </span>
-
-          <b class="sm-price">
-            ${money(option.price)}
-          </b>
-
+          <div class="sm-option-buy">
+            <b class="sm-price">${money(option.price)}</b>
+            ${
+              b.unavailable
+                ? ""
+                : `<button class="sm-add-cart" type="button"
+                    data-product-id="${product.id}"
+                    data-option-index="${optionIndex}"
+                    aria-label="Add to cart">+</button>`
+            }
+          </div>
         </div>
       `;
-
     })
     .join("");
 
@@ -1150,6 +1153,10 @@ async function startShorash() {
     setupFooter();
 
     applyLang();
+
+    window.SHORASH_DB = DB;
+    window.SHORASH_LANG = () => lang;
+    window.dispatchEvent(new CustomEvent("shorash:ready", { detail: { DB } }));
 
     scrollEffects();
 
