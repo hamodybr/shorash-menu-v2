@@ -2419,7 +2419,7 @@
       "badges": {
         "popular": false,
         "new": false,
-        "hot": false,
+        "hot": true,
         "offer": false,
         "unavailable": false
       },
@@ -2629,7 +2629,7 @@
       "badges": {
         "popular": false,
         "new": false,
-        "hot": false,
+        "hot": true,
         "offer": false,
         "unavailable": false
       },
