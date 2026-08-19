@@ -4,8 +4,8 @@
     "phone": "+9647502662002",
     "whatsapp": "https://wa.me/c/9647502662002",
     "location": "https://maps.app.goo.gl/WW6hq7WyYxHQUN4y8?g_st=ic",
-    "logo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiUIQQI_H9l_87q-D7LrurnNs3lGncFXWG5oejiUZIP8vJQtXcG2E0bSTw3ibyUqjhd48Ye3mxGcnEMbGRz5NsSwNH-j7ACxkw3aJwFTVBVoD2rD6JeZ5h2vQsQZw-AP6Y9knhFYzMAQQCi5haEAv4Nvugq2XkxuvM-WGqRT0gu1O3yVTmteYVj-cXNizus/s604/IMG_5915.jpeg",
-    "backgroundVideo": "https://raw.githubusercontent.com/hamodybr/-shorash-assets/refs/heads/main/shorash-bg.MOV"
+    "logo": "assets/shorash-logo.jpeg",
+    "backgroundVideo": "assets/background.mov"
   },
   "products": [
     {
