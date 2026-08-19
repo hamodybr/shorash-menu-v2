@@ -3,7 +3,9 @@
     "name": "SHORASH REST & CAFE",
     "phone": "+9647502662002",
     "whatsapp": "https://wa.me/c/9647502662002",
-    "location": "https://maps.app.goo.gl/WW6hq7WyYxHQUN4y8?g_st=ic"
+    "location": "https://maps.app.goo.gl/WW6hq7WyYxHQUN4y8?g_st=ic",
+    "logo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiUIQQI_H9l_87q-D7LrurnNs3lGncFXWG5oejiUZIP8vJQtXcG2E0bSTw3ibyUqjhd48Ye3mxGcnEMbGRz5NsSwNH-j7ACxkw3aJwFTVBVoD2rD6JeZ5h2vQsQZw-AP6Y9knhFYzMAQQCi5haEAv4Nvugq2XkxuvM-WGqRT0gu1O3yVTmteYVj-cXNizus/s604/IMG_5915.jpeg",
+    "backgroundVideo": "https://raw.githubusercontent.com/hamodybr/-shorash-assets/refs/heads/main/shorash-bg.MOV"
   },
   "products": [
     {
@@ -20,6 +22,13 @@
         "en": "Espresso"
       },
       "image": "https://catalog.kurdunus.com/Public/4d99821a-bf16-488f-9bf2-b020607dc805.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "اسبريسو",
@@ -49,6 +58,13 @@
         "en": "Cappuccino"
       },
       "image": "https://catalog.kurdunus.com/Public/1289c08f-231d-4b28-b853-1b00e802666a.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "كابتشينو",
@@ -72,6 +88,13 @@
         "en": "Latte"
       },
       "image": "https://catalog.kurdunus.com/Public/cd33c671-9f08-4ef0-b4eb-9916cb72ba96.png",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "كافيه لاتي",
@@ -113,6 +136,13 @@
         "en": "Mocha"
       },
       "image": "https://catalog.kurdunus.com/Public/2c41115d-6bd2-4242-a625-3fdc2252d648.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "كافيه موكا",
@@ -136,6 +166,13 @@
         "en": "Con Panna"
       },
       "image": "https://catalog.kurdunus.com/Public/0787971d-91d4-4eb1-b82f-eb8143deae3c.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "كون بانا",
@@ -159,6 +196,13 @@
         "en": "Macchiato"
       },
       "image": "https://catalog.kurdunus.com/Public/f59c6419-3d2e-4038-aabb-f76aa956b436.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "ماكياتو",
@@ -182,6 +226,13 @@
         "en": "Americano"
       },
       "image": "https://catalog.kurdunus.com/Public/0008514a-0174-4738-b445-d5847d6eff5d.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "امريكانو",
@@ -205,6 +256,13 @@
         "en": "Hot Chocolate"
       },
       "image": "https://catalog.kurdunus.com/Public/62f868b7-a00c-4b1e-9842-d55658312e9b.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "هوت شوكليت",
@@ -228,6 +286,13 @@
         "en": "White Chocolate"
       },
       "image": "https://catalog.kurdunus.com/Public/434979b8-88d4-4d7d-bff6-9df45584fb71.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "وايت شوكليت",
@@ -251,6 +316,13 @@
         "en": "Sahlep"
       },
       "image": "https://catalog.kurdunus.com/Public/229d36f7-18ca-4fd5-9324-034c7d08ebdc.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "سحلب",
@@ -274,6 +346,13 @@
         "en": "Turkish Coffee"
       },
       "image": "https://catalog.kurdunus.com/Public/d8c588be-6790-4f98-867f-43f70d07959a.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "قهوه تركيه",
@@ -297,6 +376,13 @@
         "en": "Arabic Coffee"
       },
       "image": "https://catalog.kurdunus.com/Public/4c821a8d-78a2-4605-8a49-528eda0382c7.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "قهوه عربي ساده",
@@ -320,6 +406,13 @@
         "en": "Qazwan Coffee"
       },
       "image": "https://catalog.kurdunus.com/Public/561da205-033c-4fde-ae12-e39ef6fc9859.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "قهوه البطم",
@@ -343,6 +436,13 @@
         "en": "Tea"
       },
       "image": "https://catalog.kurdunus.com/Public/d59a4396-3486-4a57-85da-5c4cbd643ef2.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "شاي",
@@ -366,6 +466,13 @@
         "en": "Iced Latte"
       },
       "image": "https://catalog.kurdunus.com/Public/54779d9c-516a-4e1b-932b-68c803d600f5.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "أيس لاتيه",
@@ -389,6 +496,13 @@
         "en": "Iced Mocha"
       },
       "image": "https://catalog.kurdunus.com/Public/7677ecb5-ac0a-4e4d-af5f-2727e9b59830.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "أيس موكا",
@@ -412,6 +526,13 @@
         "en": "Iced Americano"
       },
       "image": "https://catalog.kurdunus.com/Public/e14aefb2-393e-42d9-9210-04d15dc47d78.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "ايس أمريكانو",
@@ -435,6 +556,13 @@
         "en": "Iced Caramel Latte"
       },
       "image": "https://catalog.kurdunus.com/Public/98447c84-ee50-4138-a63a-905c41709285.png",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "أيس كراميل لاتيه",
@@ -458,6 +586,13 @@
         "en": "Cappuccino Al Freddo"
       },
       "image": "https://catalog.kurdunus.com/Public/350c53f3-fe5e-4e20-8561-a3a095c2004b.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "كابتشينو الفريدو",
@@ -481,6 +616,13 @@
         "en": "Espresso Tonic"
       },
       "image": "https://catalog.kurdunus.com/Public/6fcd6cdc-f2bb-40c4-90e7-295e9d219e3a.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "أسبريسو تونيك",
@@ -504,6 +646,13 @@
         "en": "Orange Americano"
       },
       "image": "https://catalog.kurdunus.com/Public/e94cb3d3-5792-48c4-9a70-5c5180546f83.png",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "اورانج أمريكانو",
@@ -527,6 +676,13 @@
         "en": "Vanilla Milkshake"
       },
       "image": "https://catalog.kurdunus.com/Public/d0d65aaa-c907-423a-ab84-f3bed2883192.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "ميلك شيك فانيلا",
@@ -550,6 +706,13 @@
         "en": "Strawberry Milkshake"
       },
       "image": "https://catalog.kurdunus.com/Public/f5e939ae-b3e0-4c62-8791-73450f70d446.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "ميلك شيك فراولة",
@@ -573,6 +736,13 @@
         "en": "Chocolate Milkshake"
       },
       "image": "https://catalog.kurdunus.com/Public/c0d4806f-dbd1-4124-8ae9-ee33c01fdc94.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "ميلك شيك شكولاته",
@@ -596,6 +766,13 @@
         "en": "Pistachio Milkshake"
       },
       "image": "https://catalog.kurdunus.com/Public/d222c12c-1d2d-4ff9-bfb4-1b3a4fa92034.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "ميلك شيك فستق",
@@ -619,6 +796,13 @@
         "en": "Caramel Milkshake"
       },
       "image": "https://catalog.kurdunus.com/Public/33c9f2c5-139c-4648-bb08-fbd6bdf30bb9.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "ميلك شيك كرميل",
@@ -642,6 +826,13 @@
         "en": "Lemon Milkshake"
       },
       "image": "https://catalog.kurdunus.com/Public/a3890f88-3d08-464d-afd3-e458f4c2933a.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "ميلك شيك ليمون",
@@ -665,6 +856,13 @@
         "en": "Lotus Milkshake"
       },
       "image": "https://catalog.kurdunus.com/Public/e15712f9-3e30-43d1-ac72-e5dbdb227bc6.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "ميلك شيك لوتس",
@@ -688,6 +886,13 @@
         "en": "Nutella Milkshake"
       },
       "image": "https://catalog.kurdunus.com/Public/4f6fae4c-7d7a-4ece-9b85-f9733e0515b6.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "ميلك شيك نوتيلا",
@@ -711,6 +916,13 @@
         "en": "Fruit Cocktail"
       },
       "image": "https://catalog.kurdunus.com/Public/a756ca28-3375-4eb8-955f-131314a1aeb0.png",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "كوكتيل فواكي",
@@ -734,6 +946,13 @@
         "en": "Banana and Milk Cocktail"
       },
       "image": "https://catalog.kurdunus.com/Public/22413bfe-0ec0-47e6-8243-9544fc256d74.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "كوكتيل موز حليب",
@@ -757,6 +976,13 @@
         "en": "Banana Strawberry Milk Cocktail"
       },
       "image": "https://catalog.kurdunus.com/Public/043bc116-9541-4ccb-98db-d888504c15c7.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "كوكتيل موز حليب فراولة",
@@ -780,6 +1006,13 @@
         "en": "Heaven Cocktail"
       },
       "image": "https://catalog.kurdunus.com/Public/b7f095fe-bc93-4860-88c6-06dc2fc36ea0.png",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "كوكتيل الجنة",
@@ -803,6 +1036,13 @@
         "en": "Piña Colada Cocktail"
       },
       "image": "https://catalog.kurdunus.com/Public/3908f787-472b-4323-8ed4-e94df772032e.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "كوكتيل بينا كولادا",
@@ -826,6 +1066,13 @@
         "en": "Emperor Cocktail"
       },
       "image": "https://catalog.kurdunus.com/Public/244ea4b5-3c1d-434d-9381-69e34ab04c35.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "كوكتيل إمبراطور",
@@ -849,6 +1096,13 @@
         "en": "Banana Milk Nutella Cocktail"
       },
       "image": "https://catalog.kurdunus.com/Public/2e8e95fe-c3c2-42a9-90b1-96b7a0cdcc57.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "كوكتيل موز حليب نوتيلا",
@@ -872,6 +1126,13 @@
         "en": "Avocado Cocktail"
       },
       "image": "https://catalog.kurdunus.com/Public/0c5d23f1-f8f8-48f2-9635-6f1884aaa95e.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "كوكتيل أڤو كاتو",
@@ -895,6 +1156,13 @@
         "en": "Orange Juice"
       },
       "image": "https://catalog.kurdunus.com/Public/c7137e53-7b35-4ca2-b15c-7df77ab75304.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "عصير برتقال",
@@ -918,6 +1186,13 @@
         "en": "Lemon Juice"
       },
       "image": "https://catalog.kurdunus.com/Public/31619ac3-c61f-4670-8e64-ecfba2df3e74.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "عصير ليمون",
@@ -941,6 +1216,13 @@
         "en": "Orange Lemon Juice"
       },
       "image": "https://catalog.kurdunus.com/Public/cc2d9d0e-2915-4602-bd95-fa1cd2157b0c.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "عصير برتقال ليمون",
@@ -964,6 +1246,13 @@
         "en": "Honey Ginger Lemon Juice"
       },
       "image": "https://catalog.kurdunus.com/Public/099fb2dc-d490-4c27-b5ae-f47cba8a8293.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "عصير ليمون زنجبيل عسل",
@@ -987,6 +1276,13 @@
         "en": "Strawberry Juice"
       },
       "image": "https://catalog.kurdunus.com/Public/8433fdb4-43c5-4158-b51b-8c95aae38b52.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "عصير فراولة",
@@ -1010,6 +1306,13 @@
         "en": "Pomegranate Juice"
       },
       "image": "https://catalog.kurdunus.com/Public/b04fe5f8-3bba-4f16-80cc-2ff93e43d2de.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "عصير رمان",
@@ -1033,6 +1336,13 @@
         "en": "Pineapple Juice"
       },
       "image": "https://catalog.kurdunus.com/Public/f328ae37-009a-48ef-be33-5efb3ae99cdc.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "عصير اناناس",
@@ -1056,6 +1366,13 @@
         "en": "Peach Juice"
       },
       "image": "https://catalog.kurdunus.com/Public/7e618375-eb66-4fd4-b1a2-e15dac8b2bf3.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "عصير خوخ",
@@ -1079,6 +1396,13 @@
         "en": "French Juice"
       },
       "image": "https://catalog.kurdunus.com/Public/d5a4c9fd-d0fa-4bff-8d5a-594e93e475e2.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "عصير فرنسي",
@@ -1102,6 +1426,13 @@
         "en": "Jamaica Juice"
       },
       "image": "https://catalog.kurdunus.com/Public/5c9ada9d-e374-470f-a242-cd23a604ae92.png",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "عصير جمايكا",
@@ -1125,6 +1456,13 @@
         "en": "Kiwi Juice"
       },
       "image": "https://catalog.kurdunus.com/Public/21d7580e-0e29-40c6-a8a7-88dcc306c6a9.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "عصير كيوي",
@@ -1148,6 +1486,13 @@
         "en": "Blue Hawaiian Juice"
       },
       "image": "https://catalog.kurdunus.com/Public/433d2d00-229b-42f3-8d0b-32d75e2a50ad.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "عصير بلو هاواي",
@@ -1171,6 +1516,13 @@
         "en": "Mango Juice"
       },
       "image": "https://catalog.kurdunus.com/Public/f79130fa-fe85-47d5-8c3a-6026a9adb47c.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "عصير مانكا",
@@ -1194,6 +1546,13 @@
         "en": "Lemonade Juice"
       },
       "image": "https://catalog.kurdunus.com/Public/6fda0766-6b11-45d9-8099-635e573146b4.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "عصير بولو",
@@ -1217,6 +1576,13 @@
         "en": "Blue Ocean Juice"
       },
       "image": "https://catalog.kurdunus.com/Public/ca9b50fa-3325-441a-a023-e283531f2fec.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "عصير بلو اوشن",
@@ -1240,6 +1606,13 @@
         "en": "Nutella Crêpe"
       },
       "image": "https://catalog.kurdunus.com/Public/1d6a1446-dfb6-4147-b56a-5ba669634c51.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نوتيلا",
@@ -1281,6 +1654,13 @@
         "en": "Fruit Crêpe"
       },
       "image": "https://catalog.kurdunus.com/Public/ff233842-82e8-45fd-a448-6fb79cc82719.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "كريب فواكي",
@@ -1304,6 +1684,13 @@
         "en": "Banana Roll Crêpe"
       },
       "image": "https://catalog.kurdunus.com/Public/d09325fd-9513-4bd5-ad0e-27f0999d10d5.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "كربب رول بنانا",
@@ -1327,6 +1714,13 @@
         "en": "Fettuccine Crepe"
       },
       "image": "https://catalog.kurdunus.com/Public/52678ed4-b70f-44cc-a2e5-461bb67041bc.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "كريب فوتشيني",
@@ -1350,6 +1744,13 @@
         "en": "Lotus Crepe"
       },
       "image": "https://catalog.kurdunus.com/Public/7078cce5-1c44-47b5-b190-3b56b4491985.png",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "كريب لوتس",
@@ -1373,6 +1774,13 @@
         "en": "Kinder Crepe"
       },
       "image": "https://catalog.kurdunus.com/Public/7db89a96-d120-454c-aded-c4ecf775a830.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "كريب كيندر",
@@ -1396,6 +1804,13 @@
         "en": "Pistachio Kunafa"
       },
       "image": "https://catalog.kurdunus.com/Public/13a0d363-e2d4-452a-8e65-74112c90f623.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "كنافه فستق",
@@ -1419,6 +1834,13 @@
         "en": "Cheese kunafa"
       },
       "image": "https://catalog.kurdunus.com/Public/07eb7367-9830-421c-9491-4cafb5c8eb65.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "كنافة الجبن",
@@ -1442,6 +1864,13 @@
         "en": "Waffle"
       },
       "image": "https://catalog.kurdunus.com/Public/611ec38f-d3ba-47e9-a4ff-1236bd221753.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "وافل",
@@ -1465,6 +1894,13 @@
         "en": "Pancakes"
       },
       "image": "https://catalog.kurdunus.com/Public/0ebbc405-c936-4b44-96c1-17cd9dac935a.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بان كيك",
@@ -1494,6 +1930,13 @@
         "en": "Large Fruit Plate"
       },
       "image": "https://catalog.kurdunus.com/Public/5e8ff1e1-127b-4b00-ab77-79dbbee0125d.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "صحن فواكه كبير",
@@ -1517,6 +1960,13 @@
         "en": "Small Fruit Plate"
       },
       "image": "https://catalog.kurdunus.com/Public/75bc91bd-44e1-4468-97a2-1ea3a44386c0.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "صحن فواكه صغير",
@@ -1540,6 +1990,13 @@
         "en": "Fruit Salad"
       },
       "image": "https://catalog.kurdunus.com/Public/60b83c87-f3c1-4050-bc29-11c3b49c1404.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "سلطه فواكه",
@@ -1563,6 +2020,13 @@
         "en": "Mexican Red Bull"
       },
       "image": "https://catalog.kurdunus.com/Public/29e3c896-945e-4c12-93d0-654025250f29.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "ريدبول مكسيكي",
@@ -1586,6 +2050,13 @@
         "en": "PEPSI"
       },
       "image": "https://catalog.kurdunus.com/Public/6805b88c-e1ba-4aff-b20a-037be9c7db65.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "ببسي",
@@ -1615,6 +2086,13 @@
         "en": "Miranda"
       },
       "image": "https://catalog.kurdunus.com/Public/98c1a98d-6cfa-421f-ab98-dccf8ad05498.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "ميرندا",
@@ -1644,6 +2122,13 @@
         "en": "7up"
       },
       "image": "https://catalog.kurdunus.com/Public/42d6f704-6a6e-41eb-8412-1fee0c27cec4.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "سفن",
@@ -1673,6 +2158,13 @@
         "en": "Sparkling Mineral Water"
       },
       "image": "https://catalog.kurdunus.com/Public/d1a41b73-caf4-446e-b72a-6bc626b87306.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "صودا ساده",
@@ -1696,6 +2188,13 @@
         "en": "Sparkling Lemon Mineral Water"
       },
       "image": "https://catalog.kurdunus.com/Public/26a759d2-fd7c-498c-81a0-2054fada9080.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "صودا ليمون",
@@ -1719,6 +2218,13 @@
         "en": "Cheese Burger"
       },
       "image": "https://catalog.kurdunus.com/Public/b19bc46e-cd89-4632-b20a-0a7543990f95.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بركر لحم جبن",
@@ -1748,6 +2254,13 @@
         "en": "Chicken Cheeseburger"
       },
       "image": "https://catalog.kurdunus.com/Public/e470f039-5960-452a-af20-b7e0aa2ff126.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بركر دجاج جبن",
@@ -1777,6 +2290,13 @@
         "en": "Barbecue Burger"
       },
       "image": "https://catalog.kurdunus.com/Public/09e214c1-006a-4473-b0c4-b5d5a3367d81.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بركر باربيكيو",
@@ -1800,6 +2320,13 @@
         "en": "Shorash Burger"
       },
       "image": "https://catalog.kurdunus.com/Public/e0f10f7c-cb9f-4519-a798-1f64f86634c5.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بركر شورش",
@@ -1823,6 +2350,13 @@
         "en": "Mushroom Burger"
       },
       "image": "https://catalog.kurdunus.com/Public/50b4e8b3-6e11-4192-94f8-97129a466e32.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بركر ماشروم",
@@ -1846,6 +2380,13 @@
         "en": "Honey Mustard Burger"
       },
       "image": "https://catalog.kurdunus.com/Public/321acd6e-42bd-418a-aeff-78ef5d47ef93.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "لحم",
@@ -1875,6 +2416,13 @@
         "en": "Zinger Cheeseburger"
       },
       "image": "https://catalog.kurdunus.com/Public/49ad2d7d-1fac-449f-96bc-fb47f88c3d51.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "زنجر بركر بل جبن",
@@ -1898,6 +2446,13 @@
         "en": "Pistachio Sauce Burger"
       },
       "image": "https://catalog.kurdunus.com/Public/970f0b83-e5a5-4d60-890d-46cfa1e1a933.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بركر بصوص الفستق الحلبي",
@@ -1921,6 +2476,13 @@
         "en": "Cheetos Burger"
       },
       "image": "https://catalog.kurdunus.com/Public/04605388-d175-4189-b5e6-071f1b9eafbd.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بركر جيتوز",
@@ -1944,6 +2506,13 @@
         "en": "Spicy Meat Burger"
       },
       "image": "https://catalog.kurdunus.com/Public/d8c1e066-5a3a-4bbd-aada-47d38bd2c8b8.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "سبيايسي بركر لحم",
@@ -1967,6 +2536,13 @@
         "en": "Smokey Burger"
       },
       "image": "https://catalog.kurdunus.com/Public/ed63f6ec-42fe-41f3-b472-1b8bf132a0d7.png",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "سموكي بركر لحم",
@@ -1990,6 +2566,13 @@
         "en": "Burger Extra Special"
       },
       "image": "https://catalog.kurdunus.com/Public/d13698ed-07af-4ac1-a00f-3185495422fa.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بركر اكسترا سبيشل",
@@ -2013,6 +2596,13 @@
         "en": "Crispy Chicken"
       },
       "image": "https://catalog.kurdunus.com/Public/47f0047f-65cf-4afe-a1a8-ca9c11a6ada7.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "كرسبي",
@@ -2036,6 +2626,13 @@
         "en": "Spicy Zinger"
       },
       "image": "https://catalog.kurdunus.com/Public/c1bf7c7c-8473-4745-bc28-abd51efc5687.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "زنجر سبايسي",
@@ -2059,6 +2656,13 @@
         "en": "Chicken Steak"
       },
       "image": "https://catalog.kurdunus.com/Public/a292e40d-0a6e-45ff-b3ce-4c0a9f4c024d.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "ستيك دجاج",
@@ -2082,6 +2686,13 @@
         "en": "Chicken Piccata"
       },
       "image": "https://catalog.kurdunus.com/Public/fe1e7c20-6a09-4c9b-884b-06a1ba09604a.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بيكاتا دجاج",
@@ -2105,6 +2716,13 @@
         "en": "Chicken Rizzo"
       },
       "image": "https://catalog.kurdunus.com/Public/1da23b96-81d2-4dbd-a0ee-a0d4112bd58c.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "ريزو دجاج",
@@ -2128,6 +2746,13 @@
         "en": "Meat Piccata"
       },
       "image": "https://catalog.kurdunus.com/Public/470863b4-0cfc-4913-9eb7-a2ee02be4617.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بيكاتا لحم",
@@ -2151,6 +2776,13 @@
         "en": "Chicken Strips"
       },
       "image": "https://catalog.kurdunus.com/Public/84cb8f3b-2e9f-4845-8cf7-fd42a2a08bac.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "ستربس دجاج",
@@ -2174,6 +2806,13 @@
         "en": "Twister Chicken Roll"
       },
       "image": "https://catalog.kurdunus.com/Public/16635032-c2b6-4cc8-99b2-eea78ae467f2.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "تويستر دجاج رول",
@@ -2197,6 +2836,13 @@
         "en": "Mexicano Beef"
       },
       "image": "https://catalog.kurdunus.com/Public/4dd241a7-8c25-435c-a7e3-2f4c36601c7e.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "مكسيكانو لحم",
@@ -2220,6 +2866,13 @@
         "en": "Mixed Pizza"
       },
       "image": "https://catalog.kurdunus.com/Public/19fc3cae-0795-431d-a202-be8e3a14c0dd.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بيتزا  مشكل",
@@ -2243,6 +2896,13 @@
         "en": "Chicken Pizza"
       },
       "image": "https://catalog.kurdunus.com/Public/c5af56ba-bf12-4502-a3bb-4e5b5e1965e3.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بيتزا دجاج",
@@ -2266,6 +2926,13 @@
         "en": "Vegetable Pizza"
       },
       "image": "https://catalog.kurdunus.com/Public/5b59a356-552a-4777-8808-5fabcca6a15c.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بيتزا خضروات",
@@ -2289,6 +2956,13 @@
         "en": "Pepperoni Pizza"
       },
       "image": "https://catalog.kurdunus.com/Public/abfcc67f-0e1f-48af-a843-f7d2d661c0c1.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بيتزا بابروني",
@@ -2312,6 +2986,13 @@
         "en": "Tuna Pizza"
       },
       "image": "https://catalog.kurdunus.com/Public/61ef4400-369e-40b9-9af0-f38bc7a3c5d5.png",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بيتزا تونه",
@@ -2335,6 +3016,13 @@
         "en": "Pizza Margherita"
       },
       "image": "https://catalog.kurdunus.com/Public/13cb3779-516b-4ef5-9730-fb21a67cf7d7.png",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بيتزا ماركريتا",
@@ -2358,6 +3046,13 @@
         "en": "Chicken Pide"
       },
       "image": "https://catalog.kurdunus.com/Public/171af188-83e2-48db-bc91-c07a2c24c9dd.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بيدا دجاج",
@@ -2381,6 +3076,13 @@
         "en": "Meat Pide"
       },
       "image": "https://catalog.kurdunus.com/Public/4aad28ae-fb06-415f-b01f-6e8a9bdc85cd.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بيدا لحم",
@@ -2404,6 +3106,13 @@
         "en": "Cheese Pide"
       },
       "image": "https://catalog.kurdunus.com/Public/5ae213f3-387a-4099-abd6-91c6ae404140.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بيدا جبن",
@@ -2427,6 +3136,13 @@
         "en": "Fries"
       },
       "image": "https://catalog.kurdunus.com/Public/a21a5061-2203-4dc9-a93f-fe14ce9d55da.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "فنكر",
@@ -2456,6 +3172,13 @@
         "en": "Cheese fries"
       },
       "image": "https://catalog.kurdunus.com/Public/c48f54cc-a5b7-48a5-807c-f87a3a08621f.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "فنكر بل جبن",
@@ -2479,6 +3202,13 @@
         "en": "Chicken Escalope"
       },
       "image": "https://catalog.kurdunus.com/Public/9a01b9a9-429c-4565-8705-96280f1d1c04.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "سکالوب دجاج",
@@ -2502,6 +3232,13 @@
         "en": "Morning Meals"
       },
       "image": "https://catalog.kurdunus.com/Public/06005da1-dec5-49a2-bd7f-bdf7c1a8d55a.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "فطور صباحي  1 شخص",
@@ -2543,6 +3280,13 @@
         "en": "Smart Energy Drink"
       },
       "image": "https://catalog.kurdunus.com/Public/3fd514ba-6b4d-474e-b998-e511cb09fb93.jfif",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "سمارت",
@@ -2566,6 +3310,13 @@
         "en": "White Tiger Energy Drink"
       },
       "image": "https://catalog.kurdunus.com/Public/a0fef299-826d-496b-8e1f-ec03664ae69c.png",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "وايت تايكر",
@@ -2589,6 +3340,13 @@
         "en": "Oreo Milkshake"
       },
       "image": "https://catalog.kurdunus.com/Public/a586bded-8c19-4b9d-96d1-ad42f474277b.webp",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "ميلك شيك اوريو",
@@ -2612,6 +3370,13 @@
         "en": "Kinder Milkshake"
       },
       "image": "https://catalog.kurdunus.com/Public/83b2e8ba-7bfc-4ebb-9363-df8ba2e6a354.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "ميلك شيك كيندر",
@@ -2635,6 +3400,13 @@
         "en": "Frappe Coffee"
       },
       "image": "https://catalog.kurdunus.com/Public/4b70224f-60e5-4537-a7a6-a5b77758e6fe.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "فرابي كوفي",
@@ -2658,6 +3430,13 @@
         "en": "Frappe Vanilla"
       },
       "image": "https://catalog.kurdunus.com/Public/c916072b-1c06-4c27-85cf-42af09507c58.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "فرابي فانيلا",
@@ -2681,6 +3460,13 @@
         "en": "Egg"
       },
       "image": "https://catalog.kurdunus.com/Public/95b2eedf-4b5c-41a0-91d7-2af923053d8e.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بيض",
@@ -2704,6 +3490,13 @@
         "en": "Qali"
       },
       "image": "https://catalog.kurdunus.com/Public/a1909cbf-8aae-43ce-961c-f54b8d1e8d1e.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "قلي",
@@ -2727,6 +3520,13 @@
         "en": "Qali With Egg"
       },
       "image": "https://catalog.kurdunus.com/Public/45f39621-02b4-4276-a275-cbf773a9848f.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "قلي مع بيض",
@@ -2750,6 +3550,13 @@
         "en": "Ayran"
       },
       "image": "https://catalog.kurdunus.com/Public/2977d480-88ca-477d-84ad-eb9402a4b23f.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "لبن",
@@ -2773,6 +3580,13 @@
         "en": "Blueberry"
       },
       "image": "https://catalog.kurdunus.com/Public/5ecf9f8e-2a2d-42a3-8dd7-f6216254f532.webp",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بلو بيري",
@@ -2796,6 +3610,13 @@
         "en": "Mango"
       },
       "image": "https://catalog.kurdunus.com/Public/1075ca60-6f0b-4ef8-bb5c-a012dc441ed9.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "مانكو",
@@ -2819,6 +3640,13 @@
         "en": "Pear"
       },
       "image": "https://catalog.kurdunus.com/Public/4d9a0d10-f3fe-4986-9255-080882474907.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "ايجاز",
@@ -2842,6 +3670,13 @@
         "en": "Passion Fruit"
       },
       "image": "https://catalog.kurdunus.com/Public/25b6348d-7625-4a21-9da1-276e62a85a30.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "پاشن",
@@ -2865,6 +3700,13 @@
         "en": "Raspberry"
       },
       "image": "https://catalog.kurdunus.com/Public/ff36219f-d414-4ebe-bb01-b77360e8b628.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "رازبيري",
@@ -2888,6 +3730,13 @@
         "en": "Strawberry"
       },
       "image": "https://catalog.kurdunus.com/Public/08414d45-ad7e-4e36-8862-736dd641ae72.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "فراولة",
@@ -2911,6 +3760,13 @@
         "en": "Peach"
       },
       "image": "https://catalog.kurdunus.com/Public/6eda306f-917b-407c-a0c3-d09731f53ac5.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "خوخ",
@@ -2934,6 +3790,13 @@
         "en": "Lychee"
       },
       "image": "https://catalog.kurdunus.com/Public/8f84a25f-f240-4825-89d6-140f6d09eb70.webp",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "ليتشي",
@@ -2957,6 +3820,13 @@
         "en": "Mint"
       },
       "image": "https://catalog.kurdunus.com/Public/debc21dc-df37-415a-983a-5e25209cebf5.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نعناع",
@@ -2980,6 +3850,13 @@
         "en": "Strawberry"
       },
       "image": "https://catalog.kurdunus.com/Public/415dbc01-e583-4320-920e-ae786514eb42.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "فراولة",
@@ -3003,6 +3880,13 @@
         "en": "Green Apple"
       },
       "image": "https://catalog.kurdunus.com/Public/57a58e72-21f4-405c-8c74-0bb49bc27220.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "تفاح اخضر",
@@ -3026,6 +3910,13 @@
         "en": "Blue"
       },
       "image": "https://catalog.kurdunus.com/Public/0282c888-7ff0-4809-8e6d-63f1ba96b712.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بلو",
@@ -3049,6 +3940,13 @@
         "en": "Raspberry"
       },
       "image": "https://catalog.kurdunus.com/Public/cef0a487-7fcd-4f66-9bb4-460b07061a39.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "رازبيري",
@@ -3072,6 +3970,13 @@
         "en": "Bubble Gum"
       },
       "image": "https://catalog.kurdunus.com/Public/a3a4bd29-f644-4d1f-af18-28315eb67870.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "علك",
@@ -3095,6 +4000,13 @@
         "en": "Blueberry"
       },
       "image": "https://catalog.kurdunus.com/Public/9ccc874f-6b60-4938-a06e-c071cb9ab1df.webp",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بلوبيري",
@@ -3118,6 +4030,13 @@
         "en": "Pineapple"
       },
       "image": "https://catalog.kurdunus.com/Public/df735a45-7502-47fc-aa7f-eda611391600.webp",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "اناناس",
@@ -3141,6 +4060,13 @@
         "en": "Lentil Soup"
       },
       "image": "https://catalog.kurdunus.com/Public/4032811c-da58-41fd-9f6d-6a69de0b9198.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "شوربة عدس",
@@ -3164,6 +4090,13 @@
         "en": "Nuts"
       },
       "image": "https://catalog.kurdunus.com/Public/34f7afc4-526a-4afe-a266-8073136e7799.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "جرزات",
@@ -3187,6 +4120,13 @@
         "en": "Glass bottle of water with lemon"
       },
       "image": "https://catalog.kurdunus.com/Public/2d170009-0e57-4ee5-bd2d-8b153b2603c4.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "ماء زجاجي مع قدح ليمون",
@@ -3210,6 +4150,13 @@
         "en": "Chicken Wings"
       },
       "image": "https://catalog.kurdunus.com/Public/bde236e6-93af-41b2-8a17-edc588888656.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -3239,6 +4186,13 @@
         "en": "Meat Tikka"
       },
       "image": "https://catalog.kurdunus.com/Public/e5b0d311-0905-480c-99d8-a4cb4c50a115.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -3268,6 +4222,13 @@
         "en": "Meat Kebab"
       },
       "image": "https://catalog.kurdunus.com/Public/de2938fe-adc2-4958-b22b-6416465a5c0d.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -3297,6 +4258,13 @@
         "en": "Chicken Tikka"
       },
       "image": "https://catalog.kurdunus.com/Public/7d31bf22-c25c-45f8-849d-e1adfdbcd441.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -3326,6 +4294,13 @@
         "en": "Liver"
       },
       "image": "https://catalog.kurdunus.com/Public/f36e479d-19ab-4e4d-b6ed-8ba84dbd0a0a.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -3355,6 +4330,13 @@
         "en": "Chicken Kabab"
       },
       "image": "https://catalog.kurdunus.com/Public/ce7b3aaa-cb1f-4b44-a542-f002a2ff740f.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -3384,6 +4366,13 @@
         "en": "Mix grills"
       },
       "image": "https://catalog.kurdunus.com/Public/9c162aa3-4a42-450c-939c-cd098dafc6f6.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -3413,6 +4402,13 @@
         "en": "Charcoal Chicken"
       },
       "image": "https://catalog.kurdunus.com/Public/71208be2-66b1-408e-8b0e-45433b300c8b.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -3442,6 +4438,13 @@
         "en": "Chicken on Rice"
       },
       "image": "https://catalog.kurdunus.com/Public/5db97fcb-4120-4848-9888-9b40bb9828e9.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "ربع",
@@ -3471,6 +4474,13 @@
         "en": "Qaly Shvan"
       },
       "image": "https://catalog.kurdunus.com/Public/111b6be0-8af4-4c93-8701-7d6977f0a7d6.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -3500,6 +4510,13 @@
         "en": "Meat Qali"
       },
       "image": "https://catalog.kurdunus.com/Public/37d29ddf-39bc-432e-958b-1d3874f3a00c.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -3529,6 +4546,13 @@
         "en": "Qalı Akrı"
       },
       "image": "https://catalog.kurdunus.com/Public/56ae6a59-00f2-4d12-9a66-c1f938eae4d3.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -3558,6 +4582,13 @@
         "en": "Villagers Qalı"
       },
       "image": "https://catalog.kurdunus.com/Public/f1800062-7cf8-4816-aef8-38087823b12d.JPG",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -3587,6 +4618,13 @@
         "en": "Pan Qali"
       },
       "image": "https://catalog.kurdunus.com/Public/33bc95e5-8311-4c75-b6f2-2f911cf32bc8.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -3616,6 +4654,13 @@
         "en": "Liver Qali"
       },
       "image": "https://catalog.kurdunus.com/Public/0f61f1ed-0766-462c-9156-74d076666233.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -3645,6 +4690,13 @@
         "en": "Chalawi"
       },
       "image": "https://catalog.kurdunus.com/Public/c8403fca-6a47-4de5-b675-e54d1b29b888.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -3674,6 +4726,13 @@
         "en": "Sheep testicles"
       },
       "image": "https://catalog.kurdunus.com/Public/78319f29-aa48-4f25-905a-cab8067332e1.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -3703,6 +4762,13 @@
         "en": "Ribs"
       },
       "image": "https://catalog.kurdunus.com/Public/39d9d312-1954-4554-8629-84bcc0bbbdd8.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -3732,6 +4798,13 @@
         "en": "Meat Shawarma with Rice"
       },
       "image": "https://catalog.kurdunus.com/Public/981bc893-2471-438d-b435-029f37d29a2c.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -3761,6 +4834,13 @@
         "en": "Stuffed Quzi with Rise"
       },
       "image": "https://catalog.kurdunus.com/Public/72fdf86c-5a4f-4a64-a0ee-92fe08cd64ee.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -3784,6 +4864,13 @@
         "en": "Quzi With rise"
       },
       "image": "https://catalog.kurdunus.com/Public/5a5baf16-bccb-4b8e-9d1b-6d8b68f84364.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -3807,6 +4894,13 @@
         "en": "Quzi Sham"
       },
       "image": "https://catalog.kurdunus.com/Public/7fb1aa17-23f6-4e94-9a64-b306405b5e2f.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -3830,6 +4924,13 @@
         "en": "Qali with rice"
       },
       "image": "https://catalog.kurdunus.com/Public/c051a861-c546-4300-812e-93765d64388d.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -3859,6 +4960,13 @@
         "en": "kibbeh"
       },
       "image": "https://catalog.kurdunus.com/Public/1f56f469-590b-4aaa-a3b1-47758cf7d50b.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -3888,6 +4996,13 @@
         "en": "Meet Quzi Tashrib"
       },
       "image": "https://catalog.kurdunus.com/Public/e5f98df9-99fc-4744-93ae-6ea6e2128b7c.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -3911,6 +5026,13 @@
         "en": "Tashreb Shawrma Meet"
       },
       "image": "https://catalog.kurdunus.com/Public/b8d8ce07-c56b-44a4-afe9-3386fb409b92.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -3940,6 +5062,13 @@
         "en": "Meat Shawarma Plate"
       },
       "image": "https://catalog.kurdunus.com/Public/0178032f-9d17-4326-a274-ccd29df25715.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -3969,6 +5098,13 @@
         "en": "Chicken Shawarma plate"
       },
       "image": "https://catalog.kurdunus.com/Public/113c8633-097f-4a52-8c69-1286d7c680b1.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -3998,6 +5134,13 @@
         "en": "Kurdish Rooster"
       },
       "image": "https://catalog.kurdunus.com/Public/8f63e78f-6071-4e8d-9fac-848dc35db0d5.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نصف",
@@ -4027,6 +5170,13 @@
         "en": "Dolma"
       },
       "image": "https://catalog.kurdunus.com/Public/bcb568c1-360a-429f-a9ac-c6d925197801.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -4056,6 +5206,13 @@
         "en": "Qali Tashreb"
       },
       "image": "https://catalog.kurdunus.com/Public/50995adc-5b54-486d-8ea5-341270ee0852.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -4085,6 +5242,13 @@
         "en": "Meat Lahimajeen"
       },
       "image": "https://catalog.kurdunus.com/Public/5215603f-5e2c-4c03-ae61-909c034b9cca.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "عادي",
@@ -4120,6 +5284,13 @@
         "en": "Italian Pizza"
       },
       "image": "https://catalog.kurdunus.com/Public/d2e57e42-ac97-412b-96a7-4e2b78bddafb.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "عائلي",
@@ -4143,6 +5314,13 @@
         "en": "Meat steak"
       },
       "image": "https://catalog.kurdunus.com/Public/54a479a4-dae1-439a-8236-7543d4db0432.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -4166,6 +5344,13 @@
         "en": "Mixed Falafel Plate"
       },
       "image": "https://catalog.kurdunus.com/Public/538a4d3f-e694-4762-8159-07daf3b5a979.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -4189,6 +5374,13 @@
         "en": "Water"
       },
       "image": "https://catalog.kurdunus.com/Public/f44c1112-85f6-4df2-91eb-54542413b621.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "ماء",
@@ -4212,6 +5404,13 @@
         "en": "Shawarma with rice"
       },
       "image": "https://catalog.kurdunus.com/Public/1b4e0424-a938-4673-95e9-f8fef6003142.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "ماعون",
@@ -4241,6 +5440,13 @@
         "en": "Meat Noodles"
       },
       "image": "https://catalog.kurdunus.com/Public/779529df-916b-4fa2-be59-9f8e49ec615c.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نودلز لحم",
@@ -4264,6 +5470,13 @@
         "en": "Chicken Noodles"
       },
       "image": "https://catalog.kurdunus.com/Public/6e84f07b-1908-4d93-825b-c87267344339.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نودلز دجاج",
@@ -4287,6 +5500,13 @@
         "en": "Chicken Noodles Vegetables"
       },
       "image": "https://catalog.kurdunus.com/Public/7f2f03e0-817b-41bb-a060-e5401c66df9d.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نودلز دجاج خضار",
@@ -4310,6 +5530,13 @@
         "en": "Fettuccine Alfredo"
       },
       "image": "https://catalog.kurdunus.com/Public/02462836-d496-49c6-a640-eec185587136.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "فيتوتشيني ألفريدو",
@@ -4333,6 +5560,13 @@
         "en": "Mexican Chicken Pasta"
       },
       "image": "https://catalog.kurdunus.com/Public/2e1f0262-8f5c-4c25-8e10-b4eefe09815d.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "باستا مكسيكي دجاج",
@@ -4356,6 +5590,13 @@
         "en": "Pesto Pasta"
       },
       "image": "https://catalog.kurdunus.com/Public/97d263ef-a76c-4847-9b57-51edcf8d16c8.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بيستو باستا",
@@ -4379,6 +5620,13 @@
         "en": "Bechamel Chicken Pasta"
       },
       "image": "https://catalog.kurdunus.com/Public/35f9a37a-581a-41b5-bd45-93c9e6a74288.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "باستا دجاد بصوص البشاميل",
@@ -4402,6 +5650,13 @@
         "en": "French fries"
       },
       "image": "https://catalog.kurdunus.com/Public/58ab8673-c632-4538-a82c-91e8d37f1190.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "فنكر",
@@ -4431,6 +5686,13 @@
         "en": "Beef Stroganoff"
       },
       "image": "https://catalog.kurdunus.com/Public/e3600256-3e12-4bc8-a962-509f3e2723ff.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بيف ستروغونوف",
@@ -4454,6 +5716,13 @@
         "en": "Kurdish pizza"
       },
       "image": "https://catalog.kurdunus.com/Public/aab31fb9-f87a-4f69-9795-71d87a4ce1a7.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بيتزا كوردي طويل مشكل",
@@ -4507,6 +5776,13 @@
         "en": "Qumbala Pizza"
       },
       "image": "https://catalog.kurdunus.com/Public/483fa5f4-23a5-4e8c-bb31-cddd7c0d8162.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بيتزا قمبلة",
@@ -4530,6 +5806,13 @@
         "en": "Arabic Shawarma meal"
       },
       "image": "https://catalog.kurdunus.com/Public/3263d3fe-4c4f-40ac-b168-5184067e906f.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "وجبة عربي شاورما دجاج",
@@ -4553,6 +5836,13 @@
         "en": "Shawarma Wrap"
       },
       "image": "https://catalog.kurdunus.com/Public/7ff610c1-b078-416e-8500-f0566ff01a6e.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "صاج شاورما",
@@ -4576,6 +5866,13 @@
         "en": "Shawarma"
       },
       "image": "https://catalog.kurdunus.com/Public/9a89cc50-d029-4462-ba3b-d2d25cd14672.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "شاورما",
@@ -4599,6 +5896,13 @@
         "en": "Chicken Box"
       },
       "image": "https://catalog.kurdunus.com/Public/cf122801-43ce-4bb1-a2ac-ea16b4f62772.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بوكس شاورما",
@@ -4622,6 +5926,13 @@
         "en": "Chicken Doner"
       },
       "image": "https://catalog.kurdunus.com/Public/979f093f-4db9-48c5-8da1-d66864d0304c.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "دونر دجاج",
@@ -4645,6 +5956,13 @@
         "en": "Shawarma Tashreeb"
       },
       "image": "https://catalog.kurdunus.com/Public/b8aa4521-419d-43a7-a103-ad897ea65c4e.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "نفر",
@@ -4674,6 +5992,13 @@
         "en": "Smoked burger"
       },
       "image": "https://catalog.kurdunus.com/Public/27540479-ec56-4a88-be81-5808144186d9.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "سموك بركر",
@@ -4697,6 +6022,13 @@
         "en": "Crunchy Chicken Burger"
       },
       "image": "https://catalog.kurdunus.com/Public/035d0f9a-ffee-4669-9023-e2425a5e46ff.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "كرانشي بركر دجاج",
@@ -4720,6 +6052,13 @@
         "en": "Falafel"
       },
       "image": "https://catalog.kurdunus.com/Public/17fb09a7-f6c6-4994-9713-d27a5cf57fda.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "فلافل",
@@ -4743,6 +6082,13 @@
         "en": "Shesh Tawq"
       },
       "image": "https://catalog.kurdunus.com/Public/549daa7d-4f3d-463b-b3fa-95522322159d.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "شيش طاوق",
@@ -4766,6 +6112,13 @@
         "en": "Meat Shawrma"
       },
       "image": "https://catalog.kurdunus.com/Public/9970f7d6-0ac0-41e0-b4b1-3ed44780581d.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "كص لحم",
@@ -4789,6 +6142,13 @@
         "en": "Patient soup"
       },
       "image": "https://catalog.kurdunus.com/Public/66a9aaed-fc69-42f2-8f75-c37ab862e301.jpeg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "شوربة المرضى",
@@ -4812,6 +6172,13 @@
         "en": "Makhlama"
       },
       "image": "https://catalog.kurdunus.com/Public/7c41f7ec-b287-48a3-be01-1c12660f9bbc.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "مخلمة لحم",
@@ -4841,6 +6208,13 @@
         "en": "Whole rooster with rice"
       },
       "image": "https://catalog.kurdunus.com/Public/88ab2a4c-a9bd-488d-92ad-d297d89e3ca8.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "ديك كامل",
@@ -4876,6 +6250,13 @@
         "en": "Large Quzi plate"
       },
       "image": "https://catalog.kurdunus.com/Public/613eba07-81c5-4f7c-961f-9ecf5648e4d0.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "2 نفر",
@@ -4911,6 +6292,13 @@
         "en": "Large Grilled Chicken Plate"
       },
       "image": "https://catalog.kurdunus.com/Public/a0e5f223-724c-48ce-8ba7-1c46a108d932.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "دجاجە کاملە على منسف تمن",
@@ -4958,6 +6346,13 @@
         "en": "Stuffed Chicken Large Plate"
       },
       "image": "https://catalog.kurdunus.com/Public/08e59dce-d654-4854-aae1-0c903943a3ed.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "منسف دجاج محشی",
@@ -4981,6 +6376,13 @@
         "en": "Shorash Special large plate"
       },
       "image": "https://catalog.kurdunus.com/Public/47718d35-f955-4716-be6d-9f22c3290ae8.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "منسف شورش",
@@ -5016,6 +6418,13 @@
         "en": "Mixed Large Plate"
       },
       "image": "https://catalog.kurdunus.com/Public/c660d09c-7a9b-4430-b11f-d76a76a9cc16.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "منسف 2 عادي 2 قوزي",
@@ -5057,6 +6466,13 @@
         "en": "Yogurt"
       },
       "image": "https://catalog.kurdunus.com/Public/c6f34254-8011-4e37-aac5-e538fc1295a6.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "لبن",
@@ -5080,6 +6496,13 @@
         "en": "Qaly With Egg"
       },
       "image": "https://catalog.kurdunus.com/Public/f79a9c4b-ed0f-4a6f-a469-be6fa8aa74d3.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "ماعون",
@@ -5109,6 +6532,13 @@
         "en": "Kids Meal"
       },
       "image": "https://catalog.kurdunus.com/Public/f8813136-93e6-4d4b-bdb6-de74c9642795.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "وجبة اطفال",
@@ -5132,6 +6562,13 @@
         "en": "Chicken Qaly Pan"
       },
       "image": "https://catalog.kurdunus.com/Public/960a8226-f1ff-4b36-8fe9-aea0ee579870.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "ماعون",
@@ -5161,6 +6598,13 @@
         "en": "Barbecue chicken wings"
       },
       "image": "https://catalog.kurdunus.com/Public/f8476e73-827f-4e3f-b6e1-3cdb8eaf2686.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "اجنحة باربيكيو",
@@ -5184,6 +6628,13 @@
         "en": "Spicy chicken wings"
       },
       "image": "https://catalog.kurdunus.com/Public/5084e7ab-2786-4960-a23c-0fc67a483125.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "اجنحة سبايسي",
@@ -5207,6 +6658,13 @@
         "en": "Honey Mustard Chicken wings"
       },
       "image": "https://catalog.kurdunus.com/Public/34b8902e-9500-4a5e-94f7-7762868bbd8d.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "اجنحة هاني ماستر",
@@ -5230,6 +6688,13 @@
         "en": "Chicken carry"
       },
       "image": "https://catalog.kurdunus.com/Public/ad60c8a7-9e2d-46cb-ba0a-d1da46142e0f.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "جيكن كاري",
@@ -5253,6 +6718,13 @@
         "en": "Bolognese Meat Fettuccine"
       },
       "image": "https://catalog.kurdunus.com/Public/fc20c1c1-ad87-4824-bf89-55efea55baeb.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "فوتوشينو بولونيس لحم",
@@ -5276,6 +6748,13 @@
         "en": "Bolognese Fettuccine"
       },
       "image": "https://catalog.kurdunus.com/Public/4f6035fd-4751-4acd-9ec1-c5ef7e8176b2.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "فوتوشينو بولونيس",
@@ -5299,6 +6778,13 @@
         "en": "Chicken fillet with cream sauce"
       },
       "image": "https://catalog.kurdunus.com/Public/af948823-10dc-451e-8bfc-389b5ca9cb0b.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "فيلي دجاج صوص الكريمة",
@@ -5322,6 +6808,13 @@
         "en": "Barbecue Burger"
       },
       "image": "https://catalog.kurdunus.com/Public/ba11140c-5ab8-42fe-ab49-9599e1f61c00.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "باربيكيو بركر",
@@ -5345,6 +6838,13 @@
         "en": "Shorash Burger"
       },
       "image": "https://catalog.kurdunus.com/Public/67014d1a-6df4-461c-b8be-bc268e8313b6.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بركر شورش",
@@ -5368,6 +6868,13 @@
         "en": "Special extra meat"
       },
       "image": "https://catalog.kurdunus.com/Public/273c2df2-c288-4f64-b856-8ebae01fff6e.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "سبيشل اكسترا لحم",
@@ -5391,6 +6898,13 @@
         "en": "فنكر ويجز جبن"
       },
       "image": "https://catalog.kurdunus.com/Public/9cd92b0e-d2b9-4261-9807-b8e3c7782bf8.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "فنكر ويجز جبن",
@@ -5414,6 +6928,13 @@
         "en": "Arabic meal Meat"
       },
       "image": "https://catalog.kurdunus.com/Public/ec7eae5f-7674-47bd-9530-4f37b4755608.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "وجبة عربي كص",
@@ -5437,6 +6958,13 @@
         "en": "Meat Doner"
       },
       "image": "https://catalog.kurdunus.com/Public/5f2d518a-95ce-466d-83fc-f84922c8422f.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "دونر كص لحم",
@@ -5460,6 +6988,13 @@
         "en": "Meat Box"
       },
       "image": "https://catalog.kurdunus.com/Public/460b82ee-b69f-4ea6-96ee-fbd8bbbf8406.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بوكس كص لحم",
@@ -5483,6 +7018,13 @@
         "en": "Meat Wrap"
       },
       "image": "https://catalog.kurdunus.com/Public/40c185a1-c3bf-4f11-9ff2-e0c8b197a632.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "صاج كص لحم",
@@ -5506,6 +7048,13 @@
         "en": "Falafel Wrap"
       },
       "image": "https://catalog.kurdunus.com/Public/41ae6ae9-1ef5-466f-860f-b3f17def5c56.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "صاج فلافل",
@@ -5529,6 +7078,13 @@
         "en": "Boiled Chicken Sandwich"
       },
       "image": "https://catalog.kurdunus.com/Public/93290c22-b3d8-481e-8107-4fe76ccaf8d2.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "لفة جام",
@@ -5552,6 +7108,13 @@
         "en": "Egg Sandwich"
       },
       "image": "https://catalog.kurdunus.com/Public/39d51a17-9e7f-464b-957f-c6fcf6225501.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "لفة بيض",
@@ -5575,6 +7138,13 @@
         "en": "Quzi Sandwich"
       },
       "image": "https://catalog.kurdunus.com/Public/50ffca06-15c9-4872-b1d7-e627b7b1a8be.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "لفه قوزي",
@@ -5598,6 +7168,13 @@
         "en": "Cheses Bread"
       },
       "image": "https://catalog.kurdunus.com/Public/08575d4d-799b-47d4-b8cf-13ee98e41245.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "خبز جبن",
@@ -5621,6 +7198,13 @@
         "en": "Kaymak"
       },
       "image": "https://catalog.kurdunus.com/Public/5e4b52b0-ba2f-4526-9fe3-1ceeb3685493.png",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "كيمر",
@@ -5644,6 +7228,13 @@
         "en": "Chicken Box"
       },
       "image": "https://catalog.kurdunus.com/Public/b63055fa-e2fa-453f-81ef-118053036421.jpg",
+      "badges": {
+        "popular": false,
+        "new": false,
+        "hot": false,
+        "offer": false,
+        "unavailable": false
+      },
       "options": [
         {
           "ar": "بوكس شاورما",
