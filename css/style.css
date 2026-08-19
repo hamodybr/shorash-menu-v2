@@ -174,3 +174,304 @@ html[dir="ltr"] .sm-card .sm-info{grid-column:2;grid-row:1}
 *{scroll-behavior:auto!important}
 .sm-popular-card:before,.sm-hot-card:after,.sm-grill-card:before,.sm-cold-card:before,.sm-cold-card:after,.sm-logo,.sm-logo:before,.sm-logo img,.sm-intro-logo-wrap{animation:none!important}
 }
+/* =========================================================
+   SHORASH V3.5 — COMPACT MOBILE CARDS
+   Final mobile sizing + correct RTL layout
+   ========================================================= */
+
+@media (max-width:768px){
+
+  /* More breathing room so background video stays visible */
+  .sm-section{
+    padding:18px 4px 26px !important;
+  }
+
+  .sm-section-title{
+    font-size:24px !important;
+    line-height:1.2 !important;
+    margin:0 5px 12px !important;
+  }
+
+  .sm-grid{
+    display:flex !important;
+    flex-direction:column !important;
+    gap:9px !important;
+    width:100% !important;
+  }
+
+
+  /* =========================
+     COMPACT CARD
+     ========================= */
+
+  .sm-card{
+    display:grid !important;
+
+    /* info 52% + image 48% */
+    grid-template-columns:52% 48% !important;
+    grid-template-rows:155px !important;
+
+    width:100% !important;
+
+    height:155px !important;
+    min-height:155px !important;
+    max-height:155px !important;
+
+    margin:0 !important;
+    padding:0 !important;
+
+    border-radius:17px !important;
+    overflow:hidden !important;
+
+    box-shadow:
+      0 9px 24px rgba(0,0,0,.62) !important;
+  }
+
+
+  /* =========================
+     RTL:
+     INFO LEFT / IMAGE RIGHT
+     ========================= */
+
+  html[dir="rtl"] .sm-card .sm-info{
+    grid-column:1 !important;
+    grid-row:1 !important;
+  }
+
+  html[dir="rtl"] .sm-card .sm-img{
+    grid-column:2 !important;
+    grid-row:1 !important;
+  }
+
+
+  /* =========================
+     LTR:
+     IMAGE LEFT / INFO RIGHT
+     ========================= */
+
+  html[dir="ltr"] .sm-card .sm-img{
+    grid-column:1 !important;
+    grid-row:1 !important;
+  }
+
+  html[dir="ltr"] .sm-card .sm-info{
+    grid-column:2 !important;
+    grid-row:1 !important;
+  }
+
+
+  /* =========================
+     IMAGE
+     ========================= */
+
+  .sm-card .sm-img{
+    width:100% !important;
+
+    height:155px !important;
+    min-height:155px !important;
+    max-height:155px !important;
+
+    padding:0 !important;
+    margin:0 !important;
+
+    overflow:hidden !important;
+  }
+
+  .sm-card .sm-img img{
+    display:block !important;
+
+    width:100% !important;
+    height:100% !important;
+
+    min-width:0 !important;
+    min-height:0 !important;
+
+    object-fit:cover !important;
+    object-position:center !important;
+
+    margin:0 !important;
+    padding:0 !important;
+  }
+
+
+  /* =========================
+     INFO
+     ========================= */
+
+  .sm-card .sm-info{
+    width:100% !important;
+
+    height:155px !important;
+    min-height:0 !important;
+    max-height:155px !important;
+
+    padding:10px 12px !important;
+    margin:0 !important;
+
+    display:flex !important;
+    flex-direction:column !important;
+    justify-content:center !important;
+
+    overflow:hidden !important;
+
+    box-sizing:border-box !important;
+  }
+
+
+  /* Product name */
+
+  .sm-card .sm-name{
+    width:100% !important;
+
+    margin:0 0 5px !important;
+    padding:0 0 6px !important;
+
+    font-size:14px !important;
+    line-height:1.25 !important;
+    font-weight:800 !important;
+
+    white-space:normal !important;
+    overflow:visible !important;
+
+    text-align:start !important;
+  }
+
+
+  /* Option rows */
+
+  .sm-card .sm-option{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+
+    width:100% !important;
+
+    min-height:20px !important;
+
+    margin:0 !important;
+    padding:3px 0 !important;
+
+    gap:5px !important;
+
+    font-size:10.5px !important;
+    line-height:1.15 !important;
+  }
+
+
+  .sm-card .sm-option > span{
+    flex:1 1 auto !important;
+
+    min-width:0 !important;
+
+    white-space:nowrap !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+  }
+
+
+  .sm-card .sm-price{
+    flex:0 0 auto !important;
+
+    font-size:11px !important;
+    line-height:1 !important;
+
+    white-space:nowrap !important;
+  }
+
+
+  /* =========================
+     BADGES
+     ========================= */
+
+  .sm-badges{
+    top:7px !important;
+    right:7px !important;
+    left:auto !important;
+
+    max-width:44% !important;
+
+    gap:3px !important;
+
+    z-index:12 !important;
+  }
+
+  html[dir="ltr"] .sm-badges{
+    left:7px !important;
+    right:auto !important;
+  }
+
+  .sm-display-badge{
+    font-size:8px !important;
+
+    padding:4px 6px !important;
+
+    line-height:1 !important;
+  }
+
+
+  /* =========================
+     SPECIAL EFFECTS
+     Keep all category effects
+     ========================= */
+
+  .sm-cold-card,
+  .sm-grill-card,
+  .sm-popular-card,
+  .sm-hot-card,
+  .sm-breakfast-card,
+  .sm-mansaf-card,
+  .sm-eastern-card,
+  .sm-qalya-card,
+  .sm-western-card,
+  .sm-burger-card,
+  .sm-pizza-card,
+  .sm-sandwich-card,
+  .sm-coffee-card,
+  .sm-icedcoffee-card,
+  .sm-mojito-card,
+  .sm-smoothie-card,
+  .sm-milkshake-card,
+  .sm-dessert-card{
+    min-height:155px !important;
+    max-height:155px !important;
+  }
+
+}
+
+
+/* Small iPhones */
+@media (max-width:390px){
+
+  .sm-card{
+    grid-template-rows:148px !important;
+
+    height:148px !important;
+    min-height:148px !important;
+    max-height:148px !important;
+  }
+
+  .sm-card .sm-img,
+  .sm-card .sm-info{
+    height:148px !important;
+    min-height:148px !important;
+    max-height:148px !important;
+  }
+
+  .sm-card .sm-info{
+    padding:9px 10px !important;
+  }
+
+  .sm-card .sm-name{
+    font-size:13.5px !important;
+  }
+
+  .sm-card .sm-option{
+    font-size:10px !important;
+    padding:2.5px 0 !important;
+  }
+
+  .sm-card .sm-price{
+    font-size:10.5px !important;
+  }
+
+}
