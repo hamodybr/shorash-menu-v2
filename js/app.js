@@ -1,12 +1,1194 @@
-const I18N={ar:{subtitle:"اكتشف منيو شوراش",location:"موقعنا",call:"اتصال",whatsapp:"واتساب منيو",popular:"الأكثر طلباً",fresh:"جديد",hot:"حار 🌶",offer:"عرض",unavailable:"غير متوفر حالياً",currency:"د.ع"},ku:{subtitle:"مێنیوی شوراش ببینە",location:"شوێنی مە",call:"پەیوەندی",whatsapp:"مێنیوی واتساپ",popular:"زۆرترین داواکراو",fresh:"نوێ",hot:"توند 🌶",offer:"ئۆفەر",unavailable:"بەردەست نییە",currency:"د.ع"},en:{subtitle:"Discover the SHORASH menu",location:"Location",call:"Call",whatsapp:"WhatsApp Menu",popular:"Most Popular",fresh:"New",hot:"Spicy 🌶",offer:"Offer",unavailable:"Currently unavailable",currency:"IQD"}};let DB,lang=localStorage.getItem("shorashLang")||"ar",active="";const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];const txt=o=>(o&&o[lang])||(o&&o.ar)||"";const money=v=>v?Number(v).toLocaleString("en-US")+" "+I18N[lang].currency:"";
-function effect(c){let k=c.ar;return({"فطور صباحي":"sm-breakfast-card","منسف":"sm-mansaf-card","الأطباق الشرقية":"sm-eastern-card","مشاوي":"sm-grill-card","قلية":"sm-qalya-card","الوجبات الغربية":"sm-western-card","بركر":"sm-burger-card","بيتزا":"sm-pizza-card","السندويشات":"sm-sandwich-card","مشروبات باردة":"sm-cold-card","القهوة":"sm-coffee-card","القهوة الباردة":"sm-icedcoffee-card","موهيتو":"sm-mojito-card","سموذي":"sm-smoothie-card","ميلك شيك":"sm-milkshake-card","حلويات":"sm-dessert-card"})[k]||""}
-function categories(){let m=new Map;DB.products.forEach(p=>{if(!m.has(p.category.ar))m.set(p.category.ar,p.category)});return [...m.values()].sort((a,b)=>a.order-b.order)}
-function renderCats(){let x=$("#smCats").scrollLeft;$("#smCats").innerHTML=categories().map(c=>`<button class="sm-cat ${c.ar===active?"active":""}" data-cat="${c.ar}">${txt(c)}</button>`).join("");requestAnimationFrame(()=>$("#smCats").scrollLeft=x)}
-function badges(p){let b=p.badges||{},s="";if(b.popular)s+=`<span class="sm-display-badge gold">${I18N[lang].popular}</span>`;if(b.new)s+=`<span class="sm-display-badge">${I18N[lang].fresh}</span>`;if(b.hot)s+=`<span class="sm-display-badge red">${I18N[lang].hot}</span>`;if(b.offer)s+=`<span class="sm-display-badge offer">${I18N[lang].offer}</span>`;return s?`<div class="sm-badges">${s}</div>`:""}
-function render(){let arr=DB.products.filter(p=>p.category.ar===active);if(!arr.length){$("#smMenu").innerHTML="";return}$("#smMenu").innerHTML=`<section class="sm-section"><h2 class="sm-section-title">${txt(arr[0].category)}</h2><div class="sm-grid">${arr.map(p=>{let b=p.badges||{};return `<article class="sm-card sm-reveal ${effect(p.category)} ${b.popular?"sm-popular-card":""} ${b.hot?"sm-hot-card":""}">${badges(p)}${b.unavailable?`<div class="sm-off">${I18N[lang].unavailable}</div>`:""}<div class="sm-img"><img loading="lazy" src="${p.image}" alt="${txt(p.name)}"></div><div class="sm-info"><div class="sm-name">${txt(p.name)}</div>${p.options.map(o=>`<div class="sm-option"><span>${txt(o)}</span><b class="sm-price">${money(o.price)}</b></div>`).join("")}</div></article>`}).join("")}</div></section>`;watchCards()}
-function applyLang(){document.documentElement.lang=lang;document.documentElement.dir=lang==="en"?"ltr":"rtl";$("#smHeroSubtitle").textContent=I18N[lang].subtitle;$$("[data-t]").forEach(x=>x.textContent=I18N[lang][x.dataset.t]);$$(".sm-lang-switch button").forEach(b=>b.classList.toggle("active",b.dataset.lang===lang));renderCats();render()}
-document.addEventListener("click",e=>{let l=e.target.closest(".sm-lang-switch button");if(l){lang=l.dataset.lang;localStorage.setItem("shorashLang",lang);applyLang()}let c=e.target.closest(".sm-cat");if(c&&c.dataset.cat!==active){let rail=$("#smCats"),x=rail.scrollLeft;active=c.dataset.cat;renderCats();render();requestAnimationFrame(()=>rail.scrollLeft=x)}})
-let io=("IntersectionObserver"in window)?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("sm-visible");io.unobserve(e.target)}}),{rootMargin:"0px 0px -7% 0px",threshold:.06}):null;function watchCards(){$$(".sm-card:not(.watched)").forEach(c=>{c.classList.add("watched");if(io)io.observe(c);else c.classList.add("sm-visible")})}
-fetch("data/menu.json").then(r=>r.json()).then(d=>{DB=d;let r=d.restaurant;$("#smLogo").src=r.logo;let v=$("#smBgVideo");v.src=r.backgroundVideo;v.muted=true;v.playsInline=true;v.play().catch(()=>{});$("#smLocation").href=$("#fLoc").href=r.location;$("#smCall").href=$("#fCall").href="tel:"+r.phone;$("#smWhatsapp").href=$("#fWa").href=r.whatsapp;active=categories()[0]?.ar||"";applyLang()});
-let intro=$("#smIntro");if(sessionStorage.getItem("shorashIntroSeen"))intro.style.display="none";else{sessionStorage.setItem("shorashIntroSeen","1");setTimeout(()=>intro.classList.add("hide"),1450);setTimeout(()=>intro.style.display="none",2200)}
-let cats=$("#smCats"),sent=$("#smCatsSentinel"),fixed=false,savedX=0;function pin(){if(fixed)return;savedX=cats.scrollLeft;sent.style.height=Math.ceil(cats.getBoundingClientRect().height)+"px";cats.classList.add("fixed");cats.scrollLeft=savedX;fixed=true}function unpin(){if(!fixed)return;savedX=cats.scrollLeft;cats.classList.remove("fixed");sent.style.height="1px";cats.scrollLeft=savedX;fixed=false}function scrollFx(){let d=document.documentElement,max=d.scrollHeight-d.clientHeight;$("#smProgress").style.width=(max?d.scrollTop/max*100:0)+"%";if(!fixed&&sent.getBoundingClientRect().top<=0)pin();else if(fixed&&scrollY<=sent.offsetTop)unpin();$("#smTopBtn").classList.toggle("show",scrollY>520)}addEventListener("scroll",scrollFx,{passive:true});$("#smTopBtn").onclick=()=>scrollTo({top:0,behavior:"smooth"});scrollFx();
+const I18N = {
+  ar: {
+    subtitle: "اكتشف منيو شوراش",
+    location: "موقعنا",
+    call: "اتصال",
+    whatsapp: "واتساب منيو",
+    popular: "الأكثر طلباً",
+    fresh: "جديد",
+    hot: "حار 🌶",
+    offer: "عرض",
+    unavailable: "غير متوفر حالياً",
+    currency: "د.ع"
+  },
+
+  ku: {
+    subtitle: "مێنیوی شوراش ببینە",
+    location: "شوێنی مە",
+    call: "پەیوەندی",
+    whatsapp: "مێنیوی واتساپ",
+    popular: "زۆرترین داواکراو",
+    fresh: "نوێ",
+    hot: "توند 🌶",
+    offer: "ئۆفەر",
+    unavailable: "بەردەست نییە",
+    currency: "د.ع"
+  },
+
+  en: {
+    subtitle: "Discover the SHORASH menu",
+    location: "Location",
+    call: "Call",
+    whatsapp: "WhatsApp Menu",
+    popular: "Most Popular",
+    fresh: "New",
+    hot: "Spicy 🌶",
+    offer: "Offer",
+    unavailable: "Currently unavailable",
+    currency: "IQD"
+  }
+};
+
+
+let DB = null;
+let lang = localStorage.getItem("shorashLang") || "ar";
+let active = "";
+
+const $ = selector => document.querySelector(selector);
+const $$ = selector => [...document.querySelectorAll(selector)];
+
+
+function txt(obj) {
+  if (!obj) return "";
+  return obj[lang] || obj.ar || obj.en || "";
+}
+
+
+function money(value) {
+
+  if (
+    value === null ||
+    value === undefined ||
+    value === ""
+  ) return "";
+
+  return (
+    Number(value).toLocaleString("en-US") +
+    " " +
+    I18N[lang].currency
+  );
+}
+
+
+/* ========================================
+   CATEGORY EFFECTS
+======================================== */
+
+function effect(category) {
+
+  const k = category?.ar || "";
+
+  const effects = {
+
+    "فطور صباحي": "sm-breakfast-card",
+
+    "منسف": "sm-mansaf-card",
+
+    "الأطباق الشرقية": "sm-eastern-card",
+    "الاطباق الشرقية": "sm-eastern-card",
+
+    "مشاوي": "sm-grill-card",
+
+    "قلية": "sm-qalya-card",
+
+    "الوجبات الغربية": "sm-western-card",
+
+    "بركر": "sm-burger-card",
+
+    "بيتزا": "sm-pizza-card",
+
+    "السندويشات": "sm-sandwich-card",
+    "سندويشات": "sm-sandwich-card",
+
+    /* ❄️ Cold drinks */
+    "مشروبات باردة": "sm-cold-card",
+    "مشروبات بارده": "sm-cold-card",
+    "المشروبات الباردة": "sm-cold-card",
+    "المشروبات بارده": "sm-cold-card",
+
+    "القهوة": "sm-coffee-card",
+
+    "القهوة الباردة": "sm-icedcoffee-card",
+    "القهوة بارده": "sm-icedcoffee-card",
+
+    "موهيتو": "sm-mojito-card",
+
+    "سموذي": "sm-smoothie-card",
+
+    "ميلك شيك": "sm-milkshake-card",
+
+    "حلويات": "sm-dessert-card"
+  };
+
+  return effects[k] || "";
+}
+
+
+/* ========================================
+   CATEGORIES
+======================================== */
+
+function categories() {
+
+  const map = new Map();
+
+  DB.products.forEach(product => {
+
+    if (
+      !product.category ||
+      !product.category.ar
+    ) return;
+
+    if (!map.has(product.category.ar)) {
+      map.set(
+        product.category.ar,
+        product.category
+      );
+    }
+
+  });
+
+  return [...map.values()].sort(
+    (a, b) =>
+      Number(a.order || 999) -
+      Number(b.order || 999)
+  );
+}
+
+
+function renderCats() {
+
+  const rail = $("#smCats");
+
+  if (!rail) return;
+
+  const savedScroll = rail.scrollLeft;
+
+  rail.innerHTML = categories()
+    .map(category => {
+
+      return `
+        <button
+          class="sm-cat ${
+            category.ar === active
+              ? "active"
+              : ""
+          }"
+          data-cat="${category.ar}">
+          ${txt(category)}
+        </button>
+      `;
+
+    })
+    .join("");
+
+  requestAnimationFrame(() => {
+    rail.scrollLeft = savedScroll;
+  });
+}
+
+
+/* ========================================
+   BADGES
+======================================== */
+
+function badges(product) {
+
+  const b = product.badges || {};
+
+  let html = "";
+
+  if (b.popular) {
+
+    html += `
+      <span class="sm-display-badge gold">
+        ⭐ ${I18N[lang].popular}
+      </span>
+    `;
+
+  }
+
+  if (b.new) {
+
+    html += `
+      <span class="sm-display-badge">
+        ✨ ${I18N[lang].fresh}
+      </span>
+    `;
+
+  }
+
+  if (b.hot) {
+
+    html += `
+      <span class="sm-display-badge red">
+        🔥 ${I18N[lang].hot}
+      </span>
+    `;
+
+  }
+
+  if (b.offer) {
+
+    html += `
+      <span class="sm-display-badge offer">
+        🏷 ${I18N[lang].offer}
+      </span>
+    `;
+
+  }
+
+  if (!html) return "";
+
+  return `
+    <div class="sm-badges">
+      ${html}
+    </div>
+  `;
+}
+
+
+/* ========================================
+   PRODUCT CARD
+======================================== */
+
+function productCard(product) {
+
+  const b = product.badges || {};
+
+  const classes = [
+    "sm-card",
+    "sm-reveal",
+    effect(product.category),
+
+    b.popular
+      ? "sm-popular-card"
+      : "",
+
+    b.hot
+      ? "sm-hot-card"
+      : ""
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+
+  const options = (product.options || [])
+    .map(option => {
+
+      const optionName = txt(option);
+
+      return `
+        <div class="sm-option">
+
+          <span>
+            ${optionName}
+          </span>
+
+          <b class="sm-price">
+            ${money(option.price)}
+          </b>
+
+        </div>
+      `;
+
+    })
+    .join("");
+
+
+  return `
+    <article class="${classes}">
+
+      ${badges(product)}
+
+      ${
+        b.unavailable
+          ? `
+            <div class="sm-off">
+              ${I18N[lang].unavailable}
+            </div>
+          `
+          : ""
+      }
+
+      <div class="sm-img">
+
+        <img
+          loading="lazy"
+          decoding="async"
+          src="${product.image || ""}"
+          alt="${txt(product.name)}"
+        >
+
+      </div>
+
+      <div class="sm-info">
+
+        <div class="sm-name">
+          ${txt(product.name)}
+        </div>
+
+        ${options}
+
+      </div>
+
+    </article>
+  `;
+}
+
+
+/* ========================================
+   MENU
+======================================== */
+
+function render() {
+
+  const menu = $("#smMenu");
+
+  if (!menu || !DB) return;
+
+
+  const products = DB.products.filter(
+    product =>
+      product.category &&
+      product.category.ar === active
+  );
+
+
+  if (!products.length) {
+
+    menu.innerHTML = "";
+    return;
+
+  }
+
+
+  menu.innerHTML = `
+    <section class="sm-section">
+
+      <h2 class="sm-section-title">
+        ${txt(products[0].category)}
+      </h2>
+
+      <div class="sm-grid">
+
+        ${products
+          .map(productCard)
+          .join("")}
+
+      </div>
+
+    </section>
+  `;
+
+
+  watchCards();
+}
+
+
+/* ========================================
+   LANGUAGES
+======================================== */
+
+function renderLanguages() {
+
+  const holder = $("#smLangs");
+
+  if (!holder) return;
+
+
+  holder.className = "sm-lang-switch";
+
+
+  holder.innerHTML = `
+
+    <button
+      type="button"
+      data-lang="ar"
+      class="${
+        lang === "ar"
+          ? "active"
+          : ""
+      }">
+      عربي
+    </button>
+
+    <button
+      type="button"
+      data-lang="ku"
+      class="${
+        lang === "ku"
+          ? "active"
+          : ""
+      }">
+      کوردی
+    </button>
+
+    <button
+      type="button"
+      data-lang="en"
+      class="${
+        lang === "en"
+          ? "active"
+          : ""
+      }">
+      English
+    </button>
+
+  `;
+}
+
+
+/* ========================================
+   TOP ACTIONS
+======================================== */
+
+function renderActions() {
+
+  const holder = $("#smActions");
+
+  if (!holder || !DB) return;
+
+
+  const restaurant = DB.restaurant;
+
+
+  holder.className = "sm-quick-actions";
+
+
+  holder.innerHTML = `
+
+    <a
+      href="${restaurant.location || "#"}"
+      target="_blank"
+      rel="noopener">
+
+      <span>📍</span>
+
+      <b>
+        ${I18N[lang].location}
+      </b>
+
+    </a>
+
+
+    <a
+      href="tel:${restaurant.phone || ""}">
+
+      <span>☎</span>
+
+      <b>
+        ${I18N[lang].call}
+      </b>
+
+    </a>
+
+
+    <a
+      href="${restaurant.whatsapp || "#"}"
+      target="_blank"
+      rel="noopener">
+
+      <span>💬</span>
+
+      <b>
+        ${I18N[lang].whatsapp}
+      </b>
+
+    </a>
+
+  `;
+}
+
+
+/* ========================================
+   APPLY LANGUAGE
+======================================== */
+
+function applyLang() {
+
+  document.documentElement.lang = lang;
+
+  document.documentElement.dir =
+    lang === "en"
+      ? "ltr"
+      : "rtl";
+
+
+  const subtitle = $("#smSubtitle");
+
+  if (subtitle) {
+    subtitle.textContent =
+      I18N[lang].subtitle;
+  }
+
+
+  renderLanguages();
+  renderActions();
+  renderCats();
+  render();
+}
+
+
+/* ========================================
+   CARD REVEAL
+======================================== */
+
+let observer = null;
+
+
+if ("IntersectionObserver" in window) {
+
+  observer =
+    new IntersectionObserver(
+
+      entries => {
+
+        entries.forEach(entry => {
+
+          if (entry.isIntersecting) {
+
+            entry.target.classList.add(
+              "sm-visible"
+            );
+
+            observer.unobserve(
+              entry.target
+            );
+          }
+
+        });
+
+      },
+
+      {
+        rootMargin:
+          "0px 0px -6% 0px",
+
+        threshold: 0.05
+      }
+    );
+}
+
+
+function watchCards() {
+
+  $$(".sm-card:not(.watched)")
+    .forEach(card => {
+
+      card.classList.add(
+        "watched"
+      );
+
+
+      if (observer) {
+
+        observer.observe(card);
+
+      } else {
+
+        card.classList.add(
+          "sm-visible"
+        );
+      }
+
+    });
+}
+
+
+/* ========================================
+   CLICK EVENTS
+======================================== */
+
+document.addEventListener(
+  "click",
+  event => {
+
+
+    const languageButton =
+      event.target.closest(
+        "[data-lang]"
+      );
+
+
+    if (languageButton) {
+
+      lang =
+        languageButton.dataset.lang;
+
+      localStorage.setItem(
+        "shorashLang",
+        lang
+      );
+
+      applyLang();
+
+      return;
+    }
+
+
+    const categoryButton =
+      event.target.closest(
+        ".sm-cat"
+      );
+
+
+    if (
+      categoryButton &&
+      categoryButton.dataset.cat !== active
+    ) {
+
+      const rail = $("#smCats");
+
+      const savedScroll =
+        rail
+          ? rail.scrollLeft
+          : 0;
+
+
+      active =
+        categoryButton.dataset.cat;
+
+
+      renderCats();
+      render();
+
+
+      requestAnimationFrame(() => {
+
+        if (rail) {
+          rail.scrollLeft =
+            savedScroll;
+        }
+
+      });
+    }
+
+  }
+);
+
+
+/* ========================================
+   FOOTER
+======================================== */
+
+function setupFooter() {
+
+  if (!DB) return;
+
+
+  const restaurant =
+    DB.restaurant || {};
+
+
+  const location =
+    $("#smFooterLocation");
+
+  const call =
+    $("#smFooterCall");
+
+  const whatsapp =
+    $("#smFooterWhatsapp");
+
+
+  if (location) {
+    location.href =
+      restaurant.location || "#";
+  }
+
+
+  if (call) {
+    call.href =
+      "tel:" +
+      (restaurant.phone || "");
+  }
+
+
+  if (whatsapp) {
+    whatsapp.href =
+      restaurant.whatsapp || "#";
+  }
+
+
+  /*
+    SHORASH social links.
+    Change these later if needed.
+  */
+
+  const facebook =
+    $("#smFacebook");
+
+  const snapchat =
+    $("#smSnapchat");
+
+  const tiktok =
+    $("#smTikTok");
+
+  const instagram =
+    $("#smInstagram");
+
+
+  if (facebook) {
+    facebook.href =
+      "https://facebook.com/shorashrest";
+  }
+
+
+  if (snapchat) {
+    snapchat.href =
+      "https://www.snapchat.com/add/shorest2000";
+  }
+
+
+  if (tiktok) {
+    tiktok.href =
+      "https://www.tiktok.com/@shorashrest";
+  }
+
+
+  if (instagram) {
+    instagram.href =
+      "https://www.instagram.com/shorashrest";
+  }
+}
+
+
+/* ========================================
+   BACKGROUND VIDEO
+======================================== */
+
+function setupBackground() {
+
+  if (!DB) return;
+
+
+  const video =
+    $("#smBgVideo");
+
+
+  if (!video) return;
+
+
+  const url =
+    DB.restaurant?.backgroundVideo;
+
+
+  if (!url) return;
+
+
+  video.src = url;
+
+  video.muted = true;
+  video.loop = true;
+  video.playsInline = true;
+
+
+  const promise =
+    video.play();
+
+
+  if (
+    promise &&
+    typeof promise.catch ===
+      "function"
+  ) {
+
+    promise.catch(() => {
+
+      /*
+        iOS may wait for the first
+        user interaction.
+      */
+
+      const resume = () => {
+
+        video
+          .play()
+          .catch(() => {});
+
+        document.removeEventListener(
+          "touchstart",
+          resume
+        );
+
+        document.removeEventListener(
+          "click",
+          resume
+        );
+      };
+
+
+      document.addEventListener(
+        "touchstart",
+        resume,
+        {
+          once: true,
+          passive: true
+        }
+      );
+
+
+      document.addEventListener(
+        "click",
+        resume,
+        {
+          once: true
+        }
+      );
+
+    });
+  }
+}
+
+
+/* ========================================
+   INTRO
+======================================== */
+
+function setupIntro() {
+
+  const intro =
+    $("#smIntro");
+
+
+  if (!intro) return;
+
+
+  const alreadySeen =
+    sessionStorage.getItem(
+      "shorashIntroSeen"
+    );
+
+
+  if (alreadySeen) {
+
+    intro.style.display =
+      "none";
+
+    return;
+  }
+
+
+  sessionStorage.setItem(
+    "shorashIntroSeen",
+    "1"
+  );
+
+
+  setTimeout(() => {
+
+    intro.classList.add(
+      "hide"
+    );
+
+  }, 1450);
+
+
+  setTimeout(() => {
+
+    intro.style.display =
+      "none";
+
+  }, 2200);
+}
+
+
+/* ========================================
+   STICKY CATEGORIES
+======================================== */
+
+let catsFixed = false;
+let savedCatsX = 0;
+
+
+function pinCategories() {
+
+  const cats =
+    $("#smCats");
+
+  const sentinel =
+    $("#smCatsSentinel");
+
+
+  if (
+    !cats ||
+    !sentinel ||
+    catsFixed
+  ) return;
+
+
+  savedCatsX =
+    cats.scrollLeft;
+
+
+  sentinel.style.height =
+    Math.ceil(
+      cats.getBoundingClientRect().height
+    ) + "px";
+
+
+  cats.classList.add(
+    "fixed"
+  );
+
+
+  cats.scrollLeft =
+    savedCatsX;
+
+
+  catsFixed = true;
+}
+
+
+function unpinCategories() {
+
+  const cats =
+    $("#smCats");
+
+  const sentinel =
+    $("#smCatsSentinel");
+
+
+  if (
+    !cats ||
+    !sentinel ||
+    !catsFixed
+  ) return;
+
+
+  savedCatsX =
+    cats.scrollLeft;
+
+
+  cats.classList.remove(
+    "fixed"
+  );
+
+
+  sentinel.style.height =
+    "1px";
+
+
+  cats.scrollLeft =
+    savedCatsX;
+
+
+  catsFixed = false;
+}
+
+
+/* ========================================
+   SCROLL EFFECTS
+======================================== */
+
+function scrollEffects() {
+
+  const root =
+    document.documentElement;
+
+
+  const max =
+    root.scrollHeight -
+    root.clientHeight;
+
+
+  const progress =
+    $("#smProgress");
+
+
+  if (progress) {
+
+    progress.style.width =
+      (
+        max
+          ? root.scrollTop /
+            max *
+            100
+          : 0
+      ) + "%";
+  }
+
+
+  const sentinel =
+    $("#smCatsSentinel");
+
+
+  if (sentinel) {
+
+    if (
+      !catsFixed &&
+      sentinel
+        .getBoundingClientRect()
+        .top <= 0
+    ) {
+
+      pinCategories();
+
+    }
+
+
+    if (
+      catsFixed &&
+      window.scrollY <=
+        sentinel.offsetTop
+    ) {
+
+      unpinCategories();
+
+    }
+  }
+
+
+  const topButton =
+    $("#smTopBtn");
+
+
+  if (topButton) {
+
+    topButton.classList.toggle(
+      "show",
+      window.scrollY > 520
+    );
+  }
+}
+
+
+window.addEventListener(
+  "scroll",
+  scrollEffects,
+  {
+    passive: true
+  }
+);
+
+
+/* ========================================
+   BACK TO TOP
+======================================== */
+
+const topButton =
+  $("#smTopBtn");
+
+
+if (topButton) {
+
+  topButton.addEventListener(
+    "click",
+    () => {
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+    }
+  );
+}
+
+
+/* ========================================
+   LOAD MENU
+======================================== */
+
+async function startShorash() {
+
+  /*
+    Hide intro independently.
+    This prevents a slow connection
+    from leaving the splash screen
+    stuck forever.
+  */
+
+  setupIntro();
+
+
+  try {
+
+    const response =
+      await fetch(
+        "data/menu.json?v=32",
+        {
+          cache: "no-store"
+        }
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "menu.json HTTP " +
+        response.status
+      );
+    }
+
+
+    DB =
+      await response.json();
+
+
+    if (
+      !DB ||
+      !Array.isArray(DB.products)
+    ) {
+
+      throw new Error(
+        "Invalid menu data"
+      );
+    }
+
+
+    const cats =
+      categories();
+
+
+    active =
+      cats[0]?.ar || "";
+
+
+    setupBackground();
+
+    setupFooter();
+
+    applyLang();
+
+    scrollEffects();
+
+
+  } catch (error) {
+
+    console.error(
+      "SHORASH MENU ERROR:",
+      error
+    );
+
+
+    const menu =
+      $("#smMenu");
+
+
+    if (menu) {
+
+      menu.innerHTML = `
+        <div style="
+          max-width:600px;
+          margin:40px auto;
+          padding:25px;
+          text-align:center;
+          border:1px solid #5b4024;
+          border-radius:20px;
+          background:rgba(10,8,6,.86);
+        ">
+
+          تعذر تحميل المنيو.
+          <br><br>
+
+          يرجى تحديث الصفحة.
+
+        </div>
+      `;
+    }
+  }
+}
+
+
+startShorash();
