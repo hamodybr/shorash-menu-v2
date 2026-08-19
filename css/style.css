@@ -227,3 +227,120 @@ to{background-position:12px -54px,-14px -72px,9px -82px,0 0}
 .sm-logo img,
 .sm-intro-logo-wrap{animation:none!important}
 }
+/* =====================================================
+   SHORASH V3.3 — COMPACT PRODUCT CARDS
+   Mobile optimized sizing
+===================================================== */
+
+@media (max-width: 768px){
+
+  /* المسافة بين الكروت */
+  .sm-grid{
+    gap: 12px !important;
+  }
+
+  /* حجم الكارت */
+  .sm-card{
+    min-height: 0 !important;
+    height: 250px !important;
+    border-radius: 22px !important;
+  }
+
+  /* الصورة نصف الكارت تقريباً */
+  .sm-img{
+    width: 50% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+  }
+
+  .sm-img img{
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  /* منطقة المعلومات */
+  .sm-info{
+    width: 50% !important;
+    height: 100% !important;
+    padding: 16px 15px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+  }
+
+  /* اسم الوجبة */
+  .sm-name{
+    font-size: 20px !important;
+    line-height: 1.35 !important;
+    margin-bottom: 10px !important;
+    padding-bottom: 8px !important;
+  }
+
+  /* الخيارات */
+  .sm-option{
+    min-height: 33px !important;
+    padding: 6px 0 !important;
+    font-size: 14px !important;
+  }
+
+  /* السعر */
+  .sm-price{
+    font-size: 15px !important;
+    white-space: nowrap !important;
+  }
+
+  /* Labels */
+  .sm-badges{
+    top: 10px !important;
+    left: 10px !important;
+    gap: 5px !important;
+  }
+
+  .sm-display-badge{
+    font-size: 10px !important;
+    padding: 5px 8px !important;
+    border-radius: 20px !important;
+  }
+
+  /* عنوان القسم */
+  .sm-section-title{
+    font-size: 28px !important;
+    margin-bottom: 18px !important;
+  }
+
+  /* المسافة حول القسم */
+  .sm-section{
+    padding-top: 18px !important;
+    padding-bottom: 25px !important;
+  }
+}
+
+
+/* iPhone / smaller screens */
+@media (max-width: 430px){
+
+  .sm-card{
+    height: 225px !important;
+    border-radius: 20px !important;
+  }
+
+  .sm-info{
+    padding: 13px 12px !important;
+  }
+
+  .sm-name{
+    font-size: 18px !important;
+  }
+
+  .sm-option{
+    font-size: 13px !important;
+    min-height: 29px !important;
+    padding: 4px 0 !important;
+  }
+
+  .sm-price{
+    font-size: 14px !important;
+  }
+
+}
