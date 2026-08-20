@@ -626,6 +626,116 @@
       }
     }
 
+  
+    /* =========================================================
+       SHORASH ADMIN V3 — SIMPLE APP LAYOUT
+       ========================================================= */
+    body{padding-bottom:92px}
+    .admin-header{
+      position:sticky;top:0;z-index:100;
+      display:grid;grid-template-columns:46px 1fr 42px;align-items:center;gap:11px;
+      padding:10px 14px;text-align:right;
+      background:rgba(6,5,4,.92);
+      border-bottom:1px solid rgba(216,169,88,.16);
+      backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)
+    }
+    .admin-logo{width:46px;height:46px;border-radius:50%;margin:0;box-shadow:none}
+    .admin-header-copy{min-width:0}
+    .admin-header h1{margin:0;font-size:18px;letter-spacing:0;color:#e2b55e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .admin-header p{margin:3px 0 0;font-size:11px;color:#8f8981}
+    .header-refresh{
+      width:42px;height:42px;display:flex;align-items:center;justify-content:center;
+      border-radius:12px;border:1px solid rgba(255,255,255,.08);background:#17130f;color:#e6e6e6;font-size:19px
+    }
+    .admin-main{width:min(760px,calc(100% - 20px));margin:14px auto 26px}
+    .admin-view{display:none;animation:adminFade .16s ease}
+    .admin-view.active{display:block}
+    @keyframes adminFade{from{opacity:.35;transform:translateY(4px)}to{opacity:1;transform:none}}
+    .view-title-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:4px 2px 14px}
+    .view-title-row h2{margin:0;color:#f3f0eb;font-size:20px}
+    .view-subtitle{color:#8f8981;font-size:12px;margin-top:3px}
+    .connection-box{margin-bottom:12px;padding:10px 12px;border-radius:12px;font-size:12px}
+    .stats{grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+    .stat-card{min-height:82px;padding:12px 8px;border-radius:14px;text-align:center}
+    .stat-card span{margin-bottom:5px;font-size:11px}.stat-card strong{font-size:25px}
+    .home-hero{
+      border:1px solid rgba(216,169,88,.18);
+      background:linear-gradient(145deg,rgba(216,169,88,.08),rgba(255,255,255,.02));
+      border-radius:20px;padding:18px;margin-bottom:14px
+    }
+    .home-hero h2{margin:0 0 5px;font-size:20px;color:#e2b55e}
+    .home-hero p{margin:0;color:#9c958d;font-size:12px;line-height:1.7}
+    .quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+    .quick-action{
+      min-height:86px;border-radius:15px;border:1px solid rgba(255,255,255,.075);
+      background:#100d0a;color:#fff;padding:13px;text-align:right
+    }
+    .quick-action strong{display:block;font-size:14px;margin-bottom:5px;color:#f1eee9}
+    .quick-action span{display:block;font-size:11px;color:#8f8981;line-height:1.6}
+    .quick-action.gold{border-color:rgba(216,169,88,.28);background:rgba(216,169,88,.07)}
+    .quick-action.gold strong{color:#e2b55e}
+    .compact-toolbar{display:grid;grid-template-columns:1fr auto;gap:8px;margin-bottom:10px}
+    .compact-toolbar .search-box{min-width:0;width:100%}
+    .filter-strip{display:flex;gap:7px;overflow-x:auto;padding:0 0 10px;margin-bottom:2px;scrollbar-width:none}
+    .filter-strip::-webkit-scrollbar{display:none}
+    .filter-chip{
+      white-space:nowrap;border:1px solid rgba(255,255,255,.08);background:#15110e;color:#aaa39a;
+      border-radius:999px;padding:8px 12px;font-size:11px
+    }
+    .filter-chip.active{color:#100b05;border-color:#d8a958;background:#d8a958;font-weight:800}
+    .panel{border-radius:16px;margin-bottom:12px}
+    .panel-header{padding:13px 14px}.panel-header h2{font-size:16px}.panel-body{padding:10px}
+    .product-row{grid-template-columns:52px 1fr auto;gap:10px;padding:10px 0}
+    .product-image{width:52px;height:52px;border-radius:10px}
+    .product-name{font-size:13px}.product-meta{font-size:11px}.product-side{gap:5px}.product-price{font-size:11px}
+    .edit-product-btn,.danger-action-btn{padding:6px 8px;font-size:11px}
+    .category-row{padding:11px;margin-bottom:7px}.category-name{font-size:13px}.category-meta{font-size:11px}
+    .compact-details{
+      overflow:hidden;margin-bottom:12px;border:1px solid rgba(255,255,255,.075);
+      border-radius:16px;background:rgba(10,8,6,.84)
+    }
+    .compact-details>summary{
+      list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;
+      padding:13px 14px;color:#dcb063;font-size:14px;font-weight:800
+    }
+    .compact-details>summary::-webkit-details-marker{display:none}
+    .compact-details>summary::after{content:'⌄';color:#8f8981;font-size:16px}
+    .compact-details[open]>summary::after{content:'⌃'}
+    .compact-details-body{padding:0 10px 10px}
+    .sort-section{border:0;background:transparent;border-radius:0;padding:0}
+    .sort-section-head{margin-bottom:9px}.sort-help{font-size:11px}
+    .sortable-item{padding:8px 9px;border-radius:11px}.drag-handle{width:34px;height:34px;font-size:17px}
+    .sort-item-name{font-size:12px}
+    .backup-panel{margin:0}.backup-panel .panel-header{display:none}.backup-panel .panel-body{padding:0;gap:10px}
+    .backup-grid{display:none}
+    .tools-primary{display:grid;gap:10px}
+    .tools-card{border:1px solid rgba(255,255,255,.075);background:#100d0a;border-radius:16px;padding:14px}
+    .tools-card h3{margin:0 0 6px;color:#e2b55e;font-size:14px}
+    .tools-card p{margin:0 0 11px;color:#8f8981;font-size:11px;line-height:1.7}
+    .tools-actions{display:flex;gap:8px;flex-wrap:wrap}.tools-actions .btn{flex:1;min-width:130px}
+    .advanced-backup{margin-top:10px}.advanced-backup .backup-grid{display:grid;grid-template-columns:1fr;gap:8px}
+    .advanced-backup .backup-card{padding:11px;border-radius:12px}
+    .bottom-nav{
+      position:fixed;z-index:500;left:10px;right:10px;bottom:max(8px,env(safe-area-inset-bottom));
+      display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:7px;
+      border:1px solid rgba(216,169,88,.18);border-radius:18px;background:rgba(8,6,4,.94);
+      backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);box-shadow:0 16px 45px rgba(0,0,0,.48)
+    }
+    .nav-btn{
+      min-height:55px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+      border:0;border-radius:12px;background:transparent;color:#8f8981;font-size:10px;font-weight:700
+    }
+    .nav-btn .nav-icon{font-size:20px;line-height:1}
+    .nav-btn.active{color:#e2b55e;background:rgba(216,169,88,.08)}
+    @media(max-width:650px){
+      .admin-main{width:calc(100% - 16px);margin-top:10px}
+      .admin-header{grid-template-columns:42px 1fr 40px;padding:8px 10px}
+      .admin-logo{width:42px;height:42px}.admin-header h1{font-size:17px}
+      .quick-grid{grid-template-columns:1fr 1fr}.quick-action{min-height:80px;padding:11px}
+      .compact-toolbar{grid-template-columns:1fr auto}.compact-toolbar .btn{padding:11px 12px}
+      .product-options-preview{display:none}
+    }
+
   </style>
 </head>
 
@@ -633,238 +743,195 @@
 
 
 <header class="admin-header">
+  <img src="assets/shorash-logo.jpeg" alt="SHORASH" class="admin-logo">
 
-  <img
-    src="assets/shorash-logo.jpeg"
-    alt="SHORASH"
-    class="admin-logo"
-  >
+  <div class="admin-header-copy">
+    <h1 id="adminPageTitle">الرئيسية</h1>
+    <p id="adminPageSubtitle">SHORASH Admin</p>
+  </div>
 
-  <h1>SHORASH ADMIN</h1>
-
-  <p>إدارة المنيو والأقسام والأصناف</p>
-
+  <button id="refreshBtn" class="header-refresh" type="button" aria-label="تحديث" title="تحديث">↻</button>
 </header>
-
 
 <main class="admin-main">
 
-
-  <!-- Supabase connection -->
-  <div id="connectionStatus" class="connection-box">
-
-    <span class="status-dot"></span>
-
-    <span id="connectionText">
-      جاري الاتصال بقاعدة البيانات...
-    </span>
-
-  </div>
-
-
-  <!-- Statistics -->
-  <section class="stats">
-
-    <div class="stat-card">
-      <span>الأقسام</span>
-      <strong id="categoryCount">—</strong>
+  <section id="viewHome" class="admin-view active" data-view="home">
+    <div class="home-hero">
+      <h2>أهلاً بك 👋</h2>
+      <p>إدارة سريعة وبسيطة للمنيو. اختر اللي تحتاجه فقط.</p>
     </div>
 
-    <div class="stat-card">
-      <span>الأصناف</span>
-      <strong id="productCount">—</strong>
+    <div id="connectionStatus" class="connection-box">
+      <span class="status-dot"></span>
+      <span id="connectionText">جاري الاتصال بقاعدة البيانات...</span>
     </div>
 
-    <div class="stat-card">
-      <span>الخيارات</span>
-      <strong id="optionCount">—</strong>
-    </div>
+    <section class="stats">
+      <div class="stat-card"><span>الأقسام</span><strong id="categoryCount">—</strong></div>
+      <div class="stat-card"><span>الأصناف</span><strong id="productCount">—</strong></div>
+      <div class="stat-card"><span>الخيارات</span><strong id="optionCount">—</strong></div>
+    </section>
 
-  </section>
+    <div class="quick-grid">
+      <button class="quick-action gold" type="button" id="homeAddProductBtn">
+        <strong>＋ إضافة صنف</strong><span>اسم، صورة، سعر وخيارات</span>
+      </button>
 
-  <!-- Drag & Drop Ordering -->
-  <section class="panel sort-panel">
-    <div class="panel-header">
-      <h2>ترتيب الأقسام والأصناف</h2>
-      <span style="color:#8f8981;font-size:12px;">سحب وإفلات</span>
-    </div>
+      <button class="quick-action" type="button" id="homeAddCategoryBtn">
+        <strong>＋ قسم جديد</strong><span>إضافة قسم للمنيو</span>
+      </button>
 
-    <div class="panel-body">
+      <button class="quick-action" type="button" data-go-view="products">
+        <strong>🍽 إدارة الأصناف</strong><span>تعديل، إخفاء، توفر وترتيب</span>
+      </button>
 
-      <div class="sort-section">
-        <div class="sort-section-head">
-          <h3>ترتيب الأقسام</h3>
-          <button class="btn btn-gold" type="button" id="saveCategoryOrderBtn">
-            حفظ ترتيب الأقسام
-          </button>
-        </div>
-
-        <div class="sort-help">
-          اسحب من علامة ☰ وحط القسم بالمكان المطلوب. قسم «غير معروض» نظامي ويبقى دائماً خارج الترتيب.
-        </div>
-
-        <div id="categorySortList" class="sortable-list"></div>
-        <div id="categorySortStatus" class="sort-status"></div>
-      </div>
-
-      <div class="sort-section">
-        <div class="sort-section-head">
-          <h3>ترتيب أصناف قسم معيّن</h3>
-        </div>
-
-        <div class="sort-toolbar">
-          <select id="productSortCategorySelect"></select>
-          <button class="btn btn-gold" type="button" id="saveProductOrderBtn">
-            حفظ ترتيب الأصناف
-          </button>
-        </div>
-
-        <div class="sort-help" style="margin-top:10px">
-          اختر القسم، بعدها اسحب الأصناف للترتيب الذي تريده. الحفظ يعيد ترقيم أصناف هذا القسم من 1 تلقائياً.
-        </div>
-
-        <div id="productSortList" class="sortable-list"></div>
-        <div id="productSortStatus" class="sort-status"></div>
-      </div>
-
+      <button class="quick-action" type="button" data-go-view="tools">
+        <strong>💾 النسخ الاحتياطي</strong><span>Backup و Restore</span>
+      </button>
     </div>
   </section>
 
-
-  <!-- Backup / Restore -->
-  <section class="panel backup-panel">
-    <div class="panel-header">
-      <h2>النسخ الاحتياطي والاسترجاع</h2>
-      <span style="color:#8f8981;font-size:12px;">JSON</span>
+  <section id="viewProducts" class="admin-view" data-view="products">
+    <div class="view-title-row">
+      <div><h2>الأصناف</h2><div class="view-subtitle">إضافة وتعديل وإخفاء المواد</div></div>
     </div>
-    <div class="panel-body">
-      <div class="backup-grid">
-        <div class="backup-card">
-          <h3>نسخة كاملة للمنيو</h3>
-          <p>الأقسام + الأصناف + الخيارات والأسعار. الصور تُحفظ كرابط داخل النسخة.</p>
-          <button class="btn btn-gold" type="button" id="backupFullBtn">تنزيل نسخة كاملة</button>
-        </div>
-        <div class="backup-card">
-          <h3>الأقسام كاملة</h3>
-          <p>نسخة من بيانات جميع الأقسام فقط.</p>
-          <button class="btn btn-dark" type="button" id="backupCategoriesBtn">تنزيل الأقسام</button>
-        </div>
-        <div class="backup-card">
-          <h3>الأصناف كاملة</h3>
-          <p>جميع الأصناف مع خياراتها وأسعارها.</p>
-          <button class="btn btn-dark" type="button" id="backupProductsBtn">تنزيل الأصناف</button>
-        </div>
-        <div class="backup-card">
-          <h3>قسم معيّن مع أصنافه</h3>
-          <div class="backup-row">
-            <select id="backupCategorySelect"></select>
-            <button class="btn btn-dark" type="button" id="backupCategoryBtn">تنزيل</button>
+
+    <div class="compact-toolbar">
+      <input id="adminSearch" class="search-box" type="search" placeholder="ابحث عن صنف...">
+      <button class="btn btn-gold" type="button" id="addProductBtn">+ إضافة</button>
+    </div>
+
+    <div class="filter-strip" id="productFilterStrip">
+      <button class="filter-chip active" type="button" data-product-filter="all">الكل</button>
+      <button class="filter-chip" type="button" data-product-filter="visible">الظاهر</button>
+      <button class="filter-chip" type="button" data-product-filter="hidden">المخفي</button>
+      <button class="filter-chip" type="button" data-product-filter="unavailable">غير متوفر</button>
+      <button class="filter-chip" type="button" data-product-filter="warehouse">غير معروض</button>
+    </div>
+
+    <section class="panel">
+      <div class="panel-header">
+        <h2>قائمة الأصناف</h2>
+        <span id="productsShown" style="color:#8f8981;font-size:12px;"></span>
+      </div>
+      <div id="productsContainer" class="panel-body">
+        <div class="loading">جاري تحميل الأصناف...</div>
+      </div>
+    </section>
+
+    <details class="compact-details">
+      <summary>ترتيب أصناف قسم معيّن</summary>
+      <div class="compact-details-body">
+        <div class="sort-section">
+          <div class="sort-toolbar">
+            <select id="productSortCategorySelect"></select>
+            <button class="btn btn-gold" type="button" id="saveProductOrderBtn">حفظ الترتيب</button>
           </div>
+          <div class="sort-help" style="margin-top:10px">اسحب من علامة ☰ ثم اضغط حفظ.</div>
+          <div id="productSortList" class="sortable-list"></div>
+          <div id="productSortStatus" class="sort-status"></div>
         </div>
       </div>
-      <div class="backup-card">
-        <h3>استرجاع نسخة احتياطية</h3>
-        <p>يدعم النسخة الكاملة، قسم مع أصنافه، الأقسام فقط، أو الأصناف مع الخيارات. الاسترجاع يعمل Upsert ولا يحذف البيانات الإضافية الموجودة.</p>
-        <div class="backup-row">
+    </details>
+  </section>
+
+  <section id="viewCategories" class="admin-view" data-view="categories">
+    <div class="view-title-row">
+      <div><h2>الأقسام</h2><div class="view-subtitle">إضافة وتعديل وإخفاء الأقسام</div></div>
+      <button id="addCategoryBtn" class="btn btn-gold" type="button">+ قسم</button>
+    </div>
+
+    <section class="panel">
+      <div class="panel-header"><h2>قائمة الأقسام</h2></div>
+      <div id="categoriesContainer" class="panel-body">
+        <div class="loading">جاري تحميل الأقسام...</div>
+      </div>
+    </section>
+
+    <details class="compact-details">
+      <summary>ترتيب الأقسام</summary>
+      <div class="compact-details-body">
+        <div class="sort-section">
+          <div class="sort-section-head">
+            <div></div>
+            <button class="btn btn-gold" type="button" id="saveCategoryOrderBtn">حفظ الترتيب</button>
+          </div>
+          <div class="sort-help">اسحب من علامة ☰ ثم اضغط حفظ.</div>
+          <div id="categorySortList" class="sortable-list"></div>
+          <div id="categorySortStatus" class="sort-status"></div>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <section id="viewTools" class="admin-view" data-view="tools">
+    <div class="view-title-row">
+      <div><h2>الأدوات</h2><div class="view-subtitle">النسخ الاحتياطي والاسترجاع</div></div>
+    </div>
+
+    <div class="tools-primary">
+      <div class="tools-card">
+        <h3>💾 نسخة كاملة للمنيو</h3>
+        <p>الأقسام + الأصناف + الأسعار والخيارات.</p>
+        <div class="tools-actions">
+          <button class="btn btn-gold" type="button" id="backupFullBtn">تنزيل Backup كامل</button>
+        </div>
+      </div>
+
+      <div class="tools-card">
+        <h3>↩ استرجاع البيانات</h3>
+        <p>استرجع أي ملف Backup تم إنشاؤه من لوحة SHORASH.</p>
+        <div class="tools-actions">
           <button class="btn btn-gold" type="button" id="restoreBackupBtn">اختيار ملف واسترجاع</button>
-          <button class="btn btn-dark" type="button" id="downloadEmergencyBackupBtn">تنزيل آخر Backup تلقائي</button>
+          <button class="btn btn-dark" type="button" id="downloadEmergencyBackupBtn">آخر Backup تلقائي</button>
           <input id="restoreBackupInput" type="file" accept=".json,application/json" hidden>
         </div>
       </div>
-      <div id="backupStatus" class="backup-status"></div>
-    </div>
-  </section>
-
-
-  <!-- Toolbar -->
-  <div class="toolbar">
-
-    <input
-      id="adminSearch"
-      class="search-box"
-      type="search"
-      placeholder="ابحث عن صنف..."
-    >
-
-    <button
-      class="btn btn-gold"
-      type="button"
-      id="addProductBtn"
-    >
-      + إضافة صنف
-    </button>
-
-    <button
-      class="btn btn-dark"
-      type="button"
-      id="refreshBtn"
-    >
-      تحديث
-    </button>
-
-  </div>
-
-
-  <!-- Categories -->
-  <section class="panel">
-
-    <div class="panel-header">
-
-      <h2>الأقسام</h2>
-
-      <button
-        id="addCategoryBtn"
-        class="mini-btn"
-        type="button"
-      >
-        + قسم جديد
-      </button>
-
     </div>
 
-    <div
-      id="categoriesContainer"
-      class="panel-body"
-    >
+    <details class="compact-details advanced-backup">
+      <summary>خيارات Backup إضافية</summary>
+      <div class="compact-details-body">
+        <section class="panel backup-panel">
+          <div class="panel-header"><h2>النسخ الاحتياطي والاسترجاع</h2></div>
+          <div class="panel-body">
+            <div class="backup-grid">
+              <div class="backup-card">
+                <h3>الأقسام كاملة</h3>
+                <p>بيانات جميع الأقسام فقط.</p>
+                <button class="btn btn-dark" type="button" id="backupCategoriesBtn">تنزيل الأقسام</button>
+              </div>
 
-      <div class="loading">
-        جاري تحميل الأقسام...
+              <div class="backup-card">
+                <h3>الأصناف كاملة</h3>
+                <p>كل الأصناف مع الخيارات والأسعار.</p>
+                <button class="btn btn-dark" type="button" id="backupProductsBtn">تنزيل الأصناف</button>
+              </div>
+
+              <div class="backup-card">
+                <h3>قسم معيّن مع أصنافه</h3>
+                <div class="backup-row">
+                  <select id="backupCategorySelect"></select>
+                  <button class="btn btn-dark" type="button" id="backupCategoryBtn">تنزيل</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
+    </details>
 
-    </div>
-
+    <div id="backupStatus" class="backup-status"></div>
   </section>
-
-
-  <!-- Products -->
-  <section class="panel">
-
-    <div class="panel-header">
-
-      <h2>الأصناف</h2>
-
-      <span
-        id="productsShown"
-        style="color:#8f8981;font-size:12px;"
-      ></span>
-
-    </div>
-
-    <div
-      id="productsContainer"
-      class="panel-body"
-    >
-
-      <div class="loading">
-        جاري تحميل الأصناف...
-      </div>
-
-    </div>
-
-  </section>
-
 
 </main>
+
+<nav class="bottom-nav" aria-label="Admin Navigation">
+  <button class="nav-btn active" type="button" data-admin-nav="home"><span class="nav-icon">⌂</span><span>الرئيسية</span></button>
+  <button class="nav-btn" type="button" data-admin-nav="products"><span class="nav-icon">🍽</span><span>الأصناف</span></button>
+  <button class="nav-btn" type="button" data-admin-nav="categories"><span class="nav-icon">▦</span><span>الأقسام</span></button>
+  <button class="nav-btn" type="button" data-admin-nav="tools"><span class="nav-icon">⚙</span><span>الأدوات</span></button>
+</nav>
 
 
 
@@ -894,6 +961,9 @@
 
   let categorySortableInstance = null;
   let productSortableInstance = null;
+
+  let adminCurrentView = 'home';
+  let adminProductFilter = 'all';
 
 
   // ==========================================
@@ -1195,6 +1265,75 @@
   function renderBackupCategoryOptions(){
     const select=document.getElementById('backupCategorySelect'); if(!select)return;
     select.innerHTML=adminCategories.filter(c=>!isHiddenCategory(c)).map(c=>`<option value="${escapeAdminHtml(c.id)}">${escapeAdminHtml(c.name_ar||c.name||'بدون اسم')}</option>`).join('');
+  }
+
+
+  function switchAdminView(view){
+    const valid=['home','products','categories','tools'];
+    if(!valid.includes(view))view='home';
+
+    adminCurrentView=view;
+
+    document.querySelectorAll('.admin-view').forEach(section=>{
+      section.classList.toggle('active',section.dataset.view===view);
+    });
+
+    document.querySelectorAll('[data-admin-nav]').forEach(btn=>{
+      btn.classList.toggle('active',btn.dataset.adminNav===view);
+    });
+
+    const titles={
+      home:['الرئيسية','SHORASH Admin'],
+      products:['الأصناف','إدارة المواد والأسعار'],
+      categories:['الأقسام','إدارة أقسام المنيو'],
+      tools:['الأدوات','Backup و Restore']
+    };
+
+    const title=document.getElementById('adminPageTitle');
+    const subtitle=document.getElementById('adminPageSubtitle');
+
+    if(title)title.textContent=titles[view][0];
+    if(subtitle)subtitle.textContent=titles[view][1];
+
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  function productMatchesAdminFilter(product){
+    const category=adminCategories.find(
+      c=>String(c.id)===String(product.category_id)
+    );
+
+    const inWarehouse=isHiddenCategory(category);
+
+    if(adminProductFilter==='visible'){
+      return !inWarehouse && product.is_visible!==false && category?.is_visible!==false;
+    }
+
+    if(adminProductFilter==='hidden'){
+      return !inWarehouse && product.is_visible===false;
+    }
+
+    if(adminProductFilter==='unavailable'){
+      return !inWarehouse && product.is_available===false;
+    }
+
+    if(adminProductFilter==='warehouse'){
+      return inWarehouse;
+    }
+
+    return true;
+  }
+
+  function setProductAdminFilter(filter){
+    adminProductFilter=filter||'all';
+
+    document.querySelectorAll('[data-product-filter]').forEach(btn=>{
+      btn.classList.toggle('active',btn.dataset.productFilter===adminProductFilter);
+    });
+
+    renderAdminProducts(
+      document.getElementById('adminSearch')?.value || ''
+    );
   }
 
   function editAdminProduct(productId) {
@@ -1898,6 +2037,10 @@
 
     const filtered =
       adminProducts.filter(product => {
+
+        if(!productMatchesAdminFilter(product)){
+          return false;
+        }
 
         if (!query) return true;
 
@@ -2824,6 +2967,28 @@
   document.getElementById('addProductBtn').addEventListener('click',openAddProductEditor);
   document.getElementById('addCategoryBtn').addEventListener('click',openAddCategoryEditor);
 
+  document.querySelectorAll('[data-admin-nav]').forEach(btn=>{
+    btn.addEventListener('click',()=>switchAdminView(btn.dataset.adminNav));
+  });
+
+  document.querySelectorAll('[data-go-view]').forEach(btn=>{
+    btn.addEventListener('click',()=>switchAdminView(btn.dataset.goView));
+  });
+
+  document.querySelectorAll('[data-product-filter]').forEach(btn=>{
+    btn.addEventListener('click',()=>setProductAdminFilter(btn.dataset.productFilter));
+  });
+
+  document.getElementById('homeAddProductBtn').addEventListener('click',()=>{
+    switchAdminView('products');
+    openAddProductEditor();
+  });
+
+  document.getElementById('homeAddCategoryBtn').addEventListener('click',()=>{
+    switchAdminView('categories');
+    openAddCategoryEditor();
+  });
+
   document.getElementById('saveCategoryOrderBtn').addEventListener('click',saveCategoryOrder);
   document.getElementById('saveProductOrderBtn').addEventListener('click',saveProductOrder);
   document.getElementById('productSortCategorySelect').addEventListener('change',()=>{
@@ -2860,6 +3025,7 @@
   // Start
   // ==========================================
 
+  switchAdminView('home');
   loadAdminDashboard();
 
 </script>
