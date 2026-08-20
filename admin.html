@@ -433,6 +433,17 @@
 
     }
 
+  
+
+    /* ========================= Admin editor modal ========================= */
+    .admin-modal{position:fixed;inset:0;z-index:9999;display:none;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:14px}
+    .admin-modal.open{display:flex}.admin-modal-card{width:min(760px,100%);max-height:92vh;overflow:auto;background:#0c0906;border:1px solid rgba(218,171,92,.38);border-radius:24px 24px 16px 16px;box-shadow:0 25px 80px rgba(0,0,0,.65);padding:20px}
+    .modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:-20px;background:#0c0906;padding:4px 0 14px;z-index:2}.modal-head h2{margin:0;color:#e2b55e}.modal-close{width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.1);background:#19130e;color:#fff;font-size:24px}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}.field label{font-size:13px;color:#b9b0a5}.field input,.field textarea,.field select{width:100%;border:1px solid rgba(255,255,255,.11);background:#050403;color:#fff;border-radius:12px;padding:12px;outline:none}.field textarea{min-height:92px;resize:vertical}.field input:focus,.field textarea:focus,.field select:focus{border-color:#c99545}
+    .checks{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:14px 0}.check-card{display:flex;justify-content:center;align-items:center;gap:8px;padding:12px;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:#13100d}.check-card input{width:19px;height:19px}
+    .option-editor{border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px;margin-top:10px;background:#090705}.option-editor-grid{display:grid;grid-template-columns:1.4fr .8fr auto;gap:8px;align-items:end}.option-editor input{width:100%;border:1px solid rgba(255,255,255,.1);background:#030302;color:#fff;border-radius:10px;padding:10px}.danger-mini{border:1px solid rgba(248,113,113,.35);background:#251010;color:#fecaca;border-radius:10px;padding:10px 12px}.modal-actions{display:flex;gap:10px;position:sticky;bottom:-20px;background:#0c0906;padding:16px 0 4px;margin-top:14px}.modal-actions .btn{flex:1}.msg{display:none;margin-top:12px;padding:12px;border-radius:12px}.msg.ok{display:block;background:#0d251b;color:#baf3d7;border:1px solid rgba(52,211,153,.3)}.msg.err{display:block;background:#2b1111;color:#fecaca;border:1px solid rgba(248,113,113,.3)}
+    @media(max-width:650px){.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.checks{grid-template-columns:1fr}.option-editor-grid{grid-template-columns:1fr 1fr}.option-editor-grid .danger-mini{grid-column:1/-1}.admin-modal{padding:0}.admin-modal-card{max-height:94vh;border-radius:24px 24px 0 0}}
+
   </style>
 </head>
 
@@ -580,6 +591,15 @@
 
 </main>
 
+
+
+<div id="editorModal" class="admin-modal" aria-hidden="true">
+  <div class="admin-modal-card">
+    <div class="modal-head"><h2 id="editorTitle">تعديل الصنف</h2><button class="modal-close" type="button" onclick="closeAdminEditor()">×</button></div>
+    <div id="editorBody"></div>
+    <div id="editorMsg" class="msg"></div>
+  </div>
+</div>
 
 <!-- Supabase Library -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -791,6 +811,7 @@
               <button
                 class="mini-btn"
                 type="button"
+                onclick="editAdminCategory('${escapeAdminHtml(category.id)}')"
               >
                 تعديل
               </button>
@@ -852,26 +873,85 @@
     `;
   }
 
-  function editAdminProduct(productId) {
-    const product = adminProducts.find(item => item.id === productId);
-    if (!product) return;
-
-    // Use the existing editor if this build already defines it.
-    if (typeof window.openProductEditModal === 'function') {
-      window.openProductEditModal(productId);
-      return;
-    }
-    if (typeof window.openEditProductModal === 'function') {
-      window.openEditProductModal(productId);
-      return;
-    }
-    if (typeof window.editProduct === 'function' && window.editProduct !== editAdminProduct) {
-      window.editProduct(productId);
-      return;
-    }
-
-    alert('زر التعديل أصبح ظاهرًا. محرر الصنف نفسه غير موجود في هذه النسخة من admin.html، لذلك سنربطه في الخطوة التالية.');
+  function hasField(obj, key) { return Object.prototype.hasOwnProperty.call(obj || {}, key); }
+  function firstExisting(obj, keys, fallback='') { for (const k of keys) if (hasField(obj,k)) return obj[k] ?? fallback; return fallback; }
+  function fieldHtml(label, id, value='', type='text', full=false) {
+    return `<div class="field ${full?'full':''}"><label for="${id}">${label}</label><input id="${id}" type="${type}" value="${escapeAdminHtml(value)}"></div>`;
   }
+  function textAreaHtml(label,id,value='') { return `<div class="field full"><label for="${id}">${label}</label><textarea id="${id}">${escapeAdminHtml(value)}</textarea></div>`; }
+  function closeAdminEditor(){ const m=document.getElementById('editorModal'); m.classList.remove('open'); m.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
+  function openAdminEditor(title, html){ document.getElementById('editorTitle').textContent=title; document.getElementById('editorBody').innerHTML=html; const msg=document.getElementById('editorMsg'); msg.className='msg'; msg.textContent=''; const m=document.getElementById('editorModal'); m.classList.add('open'); m.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
+  function showEditorMsg(text, ok=false){ const m=document.getElementById('editorMsg'); m.textContent=text; m.className='msg '+(ok?'ok':'err'); }
+  function val(id){ return document.getElementById(id)?.value ?? ''; }
+  function checked(id){ return !!document.getElementById(id)?.checked; }
+
+  function editAdminProduct(productId) {
+    const product = adminProducts.find(item => String(item.id) === String(productId));
+    if (!product) return;
+    const options=getProductOptions(product.id);
+    const catOptions=adminCategories.map(c=>`<option value="${escapeAdminHtml(c.id)}" ${String(c.id)===String(product.category_id)?'selected':''}>${escapeAdminHtml(c.name_ar||c.name||'بدون اسم')}</option>`).join('');
+    const priceKey=hasField(product,'base_price')?'base_price':(hasField(product,'price')?'price':null);
+    const html=`<div class="form-grid">
+      ${fieldHtml('الاسم العربي','p_name_ar',firstExisting(product,['name_ar','name']))}
+      ${fieldHtml('الاسم الكوردي','p_name_ku',firstExisting(product,['name_ku']))}
+      ${fieldHtml('الاسم الإنجليزي','p_name_en',firstExisting(product,['name_en']))}
+      <div class="field"><label>القسم</label><select id="p_category_id">${catOptions}</select></div>
+      ${fieldHtml('رابط الصورة','p_image_url',firstExisting(product,['image_url','image']),'url',true)}
+      ${priceKey?fieldHtml('السعر الأساسي','p_base_price',product[priceKey]??0,'number'):''}
+      ${hasField(product,'sort_order')?fieldHtml('الترتيب','p_sort_order',product.sort_order??0,'number'):''}
+      ${hasField(product,'description_ar')?textAreaHtml('الوصف العربي','p_description_ar',product.description_ar||''):''}
+      ${hasField(product,'description_ku')?textAreaHtml('الوصف الكوردي','p_description_ku',product.description_ku||''):''}
+      ${hasField(product,'description_en')?textAreaHtml('الوصف الإنجليزي','p_description_en',product.description_en||''):''}
+    </div>
+    <div class="checks">
+      ${hasField(product,'is_active')?`<label class="check-card"><input id="p_is_active" type="checkbox" ${product.is_active?'checked':''}> فعال</label>`:''}
+      ${hasField(product,'is_visible')?`<label class="check-card"><input id="p_is_visible" type="checkbox" ${product.is_visible?'checked':''}> ظاهر في المنيو</label>`:''}
+      ${hasField(product,'is_available')?`<label class="check-card"><input id="p_is_available" type="checkbox" ${product.is_available?'checked':''}> متوفر</label>`:''}
+    </div>
+    <div class="field full"><label>خيارات الصنف والأسعار</label><div id="optionsEditor">${options.map(optionEditorHtml).join('')}</div><button class="btn btn-dark" type="button" style="margin-top:10px" onclick="addOptionEditor()">+ إضافة خيار</button></div>
+    <div class="modal-actions"><button class="btn btn-dark" type="button" onclick="closeAdminEditor()">إلغاء</button><button class="btn btn-gold" id="saveProductBtn" type="button" onclick="saveAdminProduct('${escapeAdminHtml(product.id)}')">حفظ التعديلات</button></div>`;
+    openAdminEditor('تعديل الصنف',html);
+  }
+
+  function optionEditorHtml(o={}){
+    const id=o.id||''; const name=firstExisting(o,['name_ar','label_ar','name_ku','name_en','name'],''); const price=firstExisting(o,['price','base_price'],0);
+    return `<div class="option-editor" data-option-id="${escapeAdminHtml(id)}"><div class="option-editor-grid"><div class="field"><label>اسم الخيار</label><input class="oe-name" value="${escapeAdminHtml(name)}"></div><div class="field"><label>السعر</label><input class="oe-price" type="number" value="${escapeAdminHtml(price)}"></div><button class="danger-mini" type="button" onclick="removeOptionEditor(this)">حذف</button></div></div>`;
+  }
+  function addOptionEditor(){ document.getElementById('optionsEditor').insertAdjacentHTML('beforeend',optionEditorHtml({})); }
+  function removeOptionEditor(btn){ const row=btn.closest('.option-editor'); if(row.dataset.optionId) row.dataset.deleted='1'; row.style.display='none'; }
+
+  async function saveAdminProduct(productId){
+    const product=adminProducts.find(x=>String(x.id)===String(productId)); if(!product)return;
+    const btn=document.getElementById('saveProductBtn'); btn.disabled=true; btn.textContent='جاري الحفظ...';
+    try{
+      const patch={};
+      if(hasField(product,'name_ar')) patch.name_ar=val('p_name_ar'); else if(hasField(product,'name')) patch.name=val('p_name_ar');
+      if(hasField(product,'name_ku')) patch.name_ku=val('p_name_ku'); if(hasField(product,'name_en')) patch.name_en=val('p_name_en');
+      if(hasField(product,'category_id')) patch.category_id=val('p_category_id');
+      if(hasField(product,'image_url')) patch.image_url=val('p_image_url'); else if(hasField(product,'image')) patch.image=val('p_image_url');
+      if(hasField(product,'base_price')) patch.base_price=Number(val('p_base_price')||0); else if(hasField(product,'price')) patch.price=Number(val('p_base_price')||0);
+      if(hasField(product,'sort_order')) patch.sort_order=Number(val('p_sort_order')||0);
+      ['description_ar','description_ku','description_en'].forEach(k=>{if(hasField(product,k))patch[k]=val('p_'+k)});
+      ['is_active','is_visible','is_available'].forEach(k=>{if(hasField(product,k))patch[k]=checked('p_'+k)});
+      const up=await supabaseClient.from('products').update(patch).eq('id',product.id).select(); if(up.error)throw up.error;
+
+      const rows=[...document.querySelectorAll('#optionsEditor .option-editor')];
+      for(const row of rows){
+        const oid=row.dataset.optionId; if(row.dataset.deleted==='1'){ if(oid){const d=await supabaseClient.from('product_options').delete().eq('id',oid);if(d.error)throw d.error;} continue; }
+        const name=row.querySelector('.oe-name').value.trim(); const price=Number(row.querySelector('.oe-price').value||0); if(!name&&!oid)continue;
+        if(oid){ const old=adminOptions.find(o=>String(o.id)===String(oid))||{}; const op={}; if(hasField(old,'name_ar'))op.name_ar=name; else if(hasField(old,'label_ar'))op.label_ar=name; else if(hasField(old,'name'))op.name=name; if(hasField(old,'price'))op.price=price; else if(hasField(old,'base_price'))op.base_price=price; const r=await supabaseClient.from('product_options').update(op).eq('id',oid);if(r.error)throw r.error; }
+        else { const sample=adminOptions[0]||{}; const op={product_id:product.id}; if(hasField(sample,'name_ar'))op.name_ar=name; else if(hasField(sample,'label_ar'))op.label_ar=name; else op.name_ar=name; if(hasField(sample,'price'))op.price=price; else if(hasField(sample,'base_price'))op.base_price=price; else op.price=price; if(hasField(sample,'sort_order'))op.sort_order=getProductOptions(product.id).length+1; const r=await supabaseClient.from('product_options').insert(op);if(r.error)throw r.error; }
+      }
+      showEditorMsg('تم حفظ الصنف والخيارات بنجاح ✓',true); await loadAdminDashboard(); setTimeout(closeAdminEditor,700);
+    }catch(e){console.error(e);showEditorMsg('فشل الحفظ: '+(e.message||e));}finally{btn.disabled=false;btn.textContent='حفظ التعديلات';}
+  }
+
+  function editAdminCategory(categoryId){
+    const c=adminCategories.find(x=>String(x.id)===String(categoryId));if(!c)return;
+    openAdminEditor('تعديل القسم',`<div class="form-grid">${fieldHtml('الاسم العربي','c_name_ar',firstExisting(c,['name_ar','name']))}${hasField(c,'name_ku')?fieldHtml('الاسم الكوردي','c_name_ku',c.name_ku||''):''}${hasField(c,'name_en')?fieldHtml('الاسم الإنجليزي','c_name_en',c.name_en||''):''}${hasField(c,'sort_order')?fieldHtml('الترتيب','c_sort_order',c.sort_order??0,'number'):''}</div><div class="checks">${hasField(c,'is_active')?`<label class="check-card"><input id="c_is_active" type="checkbox" ${c.is_active?'checked':''}> فعال</label>`:''}${hasField(c,'is_visible')?`<label class="check-card"><input id="c_is_visible" type="checkbox" ${c.is_visible?'checked':''}> ظاهر</label>`:''}</div><div class="modal-actions"><button class="btn btn-dark" onclick="closeAdminEditor()">إلغاء</button><button class="btn btn-gold" id="saveCategoryBtn" onclick="saveAdminCategory('${escapeAdminHtml(c.id)}')">حفظ القسم</button></div>`);
+  }
+  async function saveAdminCategory(id){const c=adminCategories.find(x=>String(x.id)===String(id));const p={};if(hasField(c,'name_ar'))p.name_ar=val('c_name_ar');else if(hasField(c,'name'))p.name=val('c_name_ar');if(hasField(c,'name_ku'))p.name_ku=val('c_name_ku');if(hasField(c,'name_en'))p.name_en=val('c_name_en');if(hasField(c,'sort_order'))p.sort_order=Number(val('c_sort_order')||0);if(hasField(c,'is_active'))p.is_active=checked('c_is_active');if(hasField(c,'is_visible'))p.is_visible=checked('c_is_visible');const b=document.getElementById('saveCategoryBtn');b.disabled=true;try{const r=await supabaseClient.from('categories').update(p).eq('id',id);if(r.error)throw r.error;showEditorMsg('تم حفظ القسم ✓',true);await loadAdminDashboard();setTimeout(closeAdminEditor,600)}catch(e){showEditorMsg('فشل الحفظ: '+e.message)}finally{b.disabled=false}}
+
 
 
   function renderAdminProducts(search = '') {
@@ -1033,30 +1113,10 @@
     });
 
 
-  // ==========================================
-  // Temporary buttons
-  // ==========================================
-
-  document
-    .getElementById('addProductBtn')
-    .addEventListener('click', () => {
-
-      alert(
-        'زر إضافة الصنف جاهز — سنفعّله في الخطوة القادمة.'
-      );
-
-    });
-
-
-  document
-    .getElementById('addCategoryBtn')
-    .addEventListener('click', () => {
-
-      alert(
-        'زر إضافة القسم جاهز — سنفعّله في الخطوة القادمة.'
-      );
-
-    });
+  // Add buttons: editors will be enabled after edit/save is verified.
+  document.getElementById('addProductBtn').addEventListener('click',()=>alert('أولاً جرّب تعديل صنف وحفظه. بعد نجاحه نفعّل إضافة صنف بدون مخاطرة بالبيانات.'));
+  document.getElementById('addCategoryBtn').addEventListener('click',()=>alert('أولاً جرّب تعديل قسم وحفظه. بعد نجاحه نفعّل إضافة قسم.'));
+  document.getElementById('editorModal').addEventListener('click',e=>{if(e.target.id==='editorModal')closeAdminEditor();});
 
 
   // ==========================================
