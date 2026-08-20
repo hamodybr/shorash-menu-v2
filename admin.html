@@ -1081,6 +1081,300 @@
     }
   }
 
+
+  // ==========================================
+  // ADD NEW PRODUCT
+  // ==========================================
+
+  function uuidLike(value){
+    return typeof value === 'string' &&
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value);
+  }
+
+  function newUuid(){
+    if(window.crypto?.randomUUID) return window.crypto.randomUUID();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{
+      const r=Math.random()*16|0;
+      const v=c==='x'?r:(r&0x3|0x8);
+      return v.toString(16);
+    });
+  }
+
+  function getNextProductSortOrder(categoryId){
+    const list=adminProducts.filter(p=>String(p.category_id)===String(categoryId));
+    if(!list.length) return 1;
+    return Math.max(...list.map(p=>Number(p.sort_order||0)))+1;
+  }
+
+  function openAddProductEditor(){
+    if(!adminCategories.length){
+      alert('لا توجد أقسام. أضف قسماً أولاً.');
+      return;
+    }
+
+    const sample=adminProducts[0]||{};
+    const firstCategory=adminCategories[0];
+    const catOptions=adminCategories.map(c=>
+      `<option value="${escapeAdminHtml(c.id)}">${escapeAdminHtml(c.name_ar||c.name||'بدون اسم')}</option>`
+    ).join('');
+
+    const defaultOrder=getNextProductSortOrder(firstCategory.id);
+
+    const html=`<div class="form-grid">
+      ${fieldHtml('الاسم العربي *','np_name_ar','')}
+      ${hasField(sample,'name_ku')?fieldHtml('الاسم الكوردي','np_name_ku',''):''}
+      ${hasField(sample,'name_en')?fieldHtml('الاسم الإنجليزي','np_name_en',''):''}
+
+      <div class="field">
+        <label>القسم *</label>
+        <select id="np_category_id" onchange="updateNewProductOrder()">${catOptions}</select>
+      </div>
+
+      <div class="image-upload-box">
+        <div>صورة الصنف — من الجهاز أو رابط مباشر</div>
+        <div class="image-upload-row">
+          <img id="np_image_preview" class="image-preview" src="assets/shorash-logo.jpeg" alt="">
+          <label class="image-upload-btn">📷 اختيار صورة
+            <input id="np_image_file" type="file" accept="image/*" onchange="previewNewProductImage(this)">
+          </label>
+          <span id="np_image_file_name" class="image-file-name">لم يتم اختيار صورة</span>
+        </div>
+        <div id="np_upload_progress" class="upload-progress"></div>
+      </div>
+
+      ${hasField(sample,'image_url')||hasField(sample,'image')?fieldHtml('رابط الصورة (اختياري)','np_image_url','','url',true):''}
+      ${hasField(sample,'base_price')||hasField(sample,'price')?fieldHtml('السعر الأساسي','np_base_price',0,'number'):''}
+      ${hasField(sample,'sort_order')?fieldHtml('الترتيب','np_sort_order',defaultOrder,'number'):''}
+      ${hasField(sample,'description_ar')?textAreaHtml('الوصف العربي','np_description_ar',''):''}
+      ${hasField(sample,'description_ku')?textAreaHtml('الوصف الكوردي','np_description_ku',''):''}
+      ${hasField(sample,'description_en')?textAreaHtml('الوصف الإنجليزي','np_description_en',''):''}
+    </div>
+
+    <div class="checks">
+      ${hasField(sample,'is_active')?`<label class="check-card"><input id="np_is_active" type="checkbox" checked> فعال</label>`:''}
+      ${hasField(sample,'is_visible')?`<label class="check-card"><input id="np_is_visible" type="checkbox" checked> ظاهر في المنيو</label>`:''}
+      ${hasField(sample,'is_available')?`<label class="check-card"><input id="np_is_available" type="checkbox" checked> متوفر</label>`:''}
+    </div>
+
+    <div class="field full">
+      <label>خيارات الصنف والأسعار</label>
+      <div id="newOptionsEditor"></div>
+      <button class="btn btn-dark" type="button" style="margin-top:10px" onclick="addNewOptionEditor()">+ إضافة خيار</button>
+      <div style="font-size:12px;color:#8f8981;margin-top:8px">
+        إذا ما أضفت خيارات، راح ننشئ خيار واحد تلقائياً باسم الصنف وبالسعر الأساسي حتى يشتغل زر إضافة للسلة مباشرة.
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-dark" type="button" onclick="closeAdminEditor()">إلغاء</button>
+      <button class="btn btn-gold" id="createProductBtn" type="button" onclick="createAdminProduct()">إضافة الصنف</button>
+    </div>`;
+
+    openAdminEditor('إضافة صنف جديد',html);
+  }
+
+  function updateNewProductOrder(){
+    const categoryId=val('np_category_id');
+    const input=document.getElementById('np_sort_order');
+    if(input) input.value=getNextProductSortOrder(categoryId);
+  }
+
+  function previewNewProductImage(input){
+    const f=input?.files?.[0];
+    if(!f)return;
+    const name=document.getElementById('np_image_file_name');
+    const preview=document.getElementById('np_image_preview');
+    if(name) name.textContent=f.name;
+    if(preview) preview.src=URL.createObjectURL(f);
+  }
+
+  function newOptionEditorHtml(){
+    return `<div class="option-editor">
+      <div class="option-editor-grid">
+        <div class="field"><label>اسم الخيار</label><input class="noe-name" placeholder="مثلاً: صغير / وسط / كبير"></div>
+        <div class="field"><label>السعر</label><input class="noe-price" type="number" min="0" value="0"></div>
+        <button class="danger-mini" type="button" onclick="this.closest('.option-editor').remove()">حذف</button>
+      </div>
+    </div>`;
+  }
+
+  function addNewOptionEditor(){
+    document.getElementById('newOptionsEditor')
+      .insertAdjacentHTML('beforeend',newOptionEditorHtml());
+  }
+
+  async function uploadNewProductImage(productId){
+    const input=document.getElementById('np_image_file');
+    const file=input?.files?.[0];
+    if(!file) return val('np_image_url').trim();
+
+    if(!file.type.startsWith('image/')) throw new Error('الملف المختار ليس صورة.');
+    if(file.size>10*1024*1024) throw new Error('حجم الصورة أكبر من 10MB.');
+
+    const progress=document.getElementById('np_upload_progress');
+    if(progress) progress.textContent='جاري رفع الصورة...';
+
+    const ext=({'image/jpeg':'jpg','image/png':'png','image/webp':'webp','image/gif':'gif'})[file.type]||'jpg';
+    const path=`products/${String(productId).replace(/[^a-zA-Z0-9_-]/g,'_')}/${Date.now()}-${Math.random().toString(36).slice(2,8)}.${ext}`;
+
+    const upload=await supabaseClient.storage
+      .from('menu-images')
+      .upload(path,file,{cacheControl:'3600',upsert:false,contentType:file.type});
+
+    if(upload.error) throw upload.error;
+
+    const result=supabaseClient.storage.from('menu-images').getPublicUrl(path);
+    const publicUrl=result?.data?.publicUrl;
+    if(!publicUrl) throw new Error('تم رفع الصورة لكن تعذر إنشاء رابطها العام.');
+
+    const urlInput=document.getElementById('np_image_url');
+    if(urlInput) urlInput.value=publicUrl;
+    if(progress) progress.textContent='تم رفع الصورة ✓';
+
+    return publicUrl;
+  }
+
+  function buildNewOptionPayload(productId,name,price,index){
+    const sample=adminOptions[0]||{};
+    const op={product_id:productId};
+
+    if(uuidLike(sample.id)) op.id=newUuid();
+
+    if(hasField(sample,'name_ar')) op.name_ar=name;
+    else if(hasField(sample,'label_ar')) op.label_ar=name;
+    else if(hasField(sample,'name')) op.name=name;
+    else op.name_ar=name;
+
+    if(hasField(sample,'name_ku')) op.name_ku=name;
+    if(hasField(sample,'name_en')) op.name_en=name;
+
+    if(hasField(sample,'price')) op.price=price;
+    else if(hasField(sample,'base_price')) op.base_price=price;
+    else op.price=price;
+
+    if(hasField(sample,'sort_order')) op.sort_order=index+1;
+    if(hasField(sample,'is_active')) op.is_active=true;
+    if(hasField(sample,'is_visible')) op.is_visible=true;
+    if(hasField(sample,'is_available')) op.is_available=true;
+    if(hasField(sample,'created_at')) op.created_at=new Date().toISOString();
+    if(hasField(sample,'updated_at')) op.updated_at=new Date().toISOString();
+
+    return op;
+  }
+
+  async function createAdminProduct(){
+    const sample=adminProducts[0]||{};
+    const btn=document.getElementById('createProductBtn');
+    const nameAr=val('np_name_ar').trim();
+    const categoryId=val('np_category_id');
+
+    if(!nameAr){
+      showEditorMsg('اكتب الاسم العربي للصنف أولاً.');
+      return;
+    }
+    if(!categoryId){
+      showEditorMsg('اختر القسم أولاً.');
+      return;
+    }
+
+    btn.disabled=true;
+    btn.textContent='جاري الإضافة...';
+
+    try{
+      const newId=uuidLike(sample.id)?newUuid():newUuid();
+      const imageUrl=await uploadNewProductImage(newId);
+      const basePrice=Number(val('np_base_price')||0);
+
+      const insert={};
+
+      // ID is UUID in the current SHORASH products table.
+      insert.id=newId;
+
+      if(hasField(sample,'category_id')) insert.category_id=categoryId;
+      if(hasField(sample,'name_ar')) insert.name_ar=nameAr;
+      else if(hasField(sample,'name')) insert.name=nameAr;
+
+      if(hasField(sample,'name_ku')) insert.name_ku=val('np_name_ku').trim()||nameAr;
+      if(hasField(sample,'name_en')) insert.name_en=val('np_name_en').trim()||nameAr;
+
+      if(hasField(sample,'description_ar')) insert.description_ar=val('np_description_ar').trim();
+      if(hasField(sample,'description_ku')) insert.description_ku=val('np_description_ku').trim();
+      if(hasField(sample,'description_en')) insert.description_en=val('np_description_en').trim();
+
+      if(hasField(sample,'image_url')) insert.image_url=imageUrl||null;
+      else if(hasField(sample,'image')) insert.image=imageUrl||null;
+
+      if(hasField(sample,'base_price')) insert.base_price=basePrice;
+      else if(hasField(sample,'price')) insert.price=basePrice;
+
+      if(hasField(sample,'sort_order')) insert.sort_order=Number(val('np_sort_order')||getNextProductSortOrder(categoryId));
+
+      if(hasField(sample,'is_active')) insert.is_active=checked('np_is_active');
+      if(hasField(sample,'is_visible')) insert.is_visible=checked('np_is_visible');
+      if(hasField(sample,'is_available')) insert.is_available=checked('np_is_available');
+
+      const optionRows=[...document.querySelectorAll('#newOptionsEditor .option-editor')]
+        .map(row=>({
+          name:row.querySelector('.noe-name')?.value.trim()||'',
+          price:Number(row.querySelector('.noe-price')?.value||0)
+        }))
+        .filter(row=>row.name);
+
+      if(hasField(sample,'has_options')) insert.has_options=optionRows.length>1;
+
+      // Keep badge defaults safe if the columns exist.
+      ['is_popular','is_new','is_hot','is_offer'].forEach(k=>{
+        if(hasField(sample,k)) insert[k]=false;
+      });
+
+      const now=new Date().toISOString();
+      if(hasField(sample,'created_at')) insert.created_at=now;
+      if(hasField(sample,'updated_at')) insert.updated_at=now;
+
+      const created=await supabaseClient
+        .from('products')
+        .insert(insert);
+
+      if(created.error) throw created.error;
+
+      // If no explicit option was entered, create a single direct-add option.
+      const optionsToCreate=optionRows.length
+        ? optionRows
+        : [{name:nameAr,price:basePrice}];
+
+      for(let i=0;i<optionsToCreate.length;i++){
+        const option=optionsToCreate[i];
+        const payload=buildNewOptionPayload(newId,option.name,option.price,i);
+
+        const r=await supabaseClient
+          .from('product_options')
+          .insert(payload);
+
+        if(r.error) throw r.error;
+      }
+
+      // Verify the new product is readable.
+      const verify=await supabaseClient
+        .from('products')
+        .select('*')
+        .eq('id',newId)
+        .single();
+
+      if(verify.error) throw verify.error;
+
+      showEditorMsg('تمت إضافة الصنف بنجاح ✓',true);
+      await loadAdminDashboard();
+      setTimeout(closeAdminEditor,900);
+
+    }catch(e){
+      console.error('CREATE PRODUCT ERROR:',e);
+      showEditorMsg('فشل إضافة الصنف: '+(e.message||e));
+    }finally{
+      btn.disabled=false;
+      btn.textContent='إضافة الصنف';
+    }
+  }
+
   function editAdminCategory(categoryId){
     const c=adminCategories.find(x=>String(x.id)===String(categoryId));if(!c)return;
     openAdminEditor('تعديل القسم',`<div class="form-grid">${fieldHtml('الاسم العربي','c_name_ar',firstExisting(c,['name_ar','name']))}${hasField(c,'name_ku')?fieldHtml('الاسم الكوردي','c_name_ku',c.name_ku||''):''}${hasField(c,'name_en')?fieldHtml('الاسم الإنجليزي','c_name_en',c.name_en||''):''}${hasField(c,'sort_order')?fieldHtml('الترتيب','c_sort_order',c.sort_order??0,'number'):''}</div><div class="checks">${hasField(c,'is_active')?`<label class="check-card"><input id="c_is_active" type="checkbox" ${c.is_active?'checked':''}> فعال</label>`:''}${hasField(c,'is_visible')?`<label class="check-card"><input id="c_is_visible" type="checkbox" ${c.is_visible?'checked':''}> ظاهر</label>`:''}</div><div class="modal-actions"><button class="btn btn-dark" onclick="closeAdminEditor()">إلغاء</button><button class="btn btn-gold" id="saveCategoryBtn" onclick="saveAdminCategory('${escapeAdminHtml(c.id)}')">حفظ القسم</button></div>`);
@@ -1249,7 +1543,7 @@
 
 
   // Add buttons: editors will be enabled after edit/save is verified.
-  document.getElementById('addProductBtn').addEventListener('click',()=>alert('أولاً جرّب تعديل صنف وحفظه. بعد نجاحه نفعّل إضافة صنف بدون مخاطرة بالبيانات.'));
+  document.getElementById('addProductBtn').addEventListener('click',openAddProductEditor);
   document.getElementById('addCategoryBtn').addEventListener('click',()=>alert('أولاً جرّب تعديل قسم وحفظه. بعد نجاحه نفعّل إضافة قسم.'));
   document.getElementById('editorModal').addEventListener('click',e=>{if(e.target.id==='editorModal')closeAdminEditor();});
 
