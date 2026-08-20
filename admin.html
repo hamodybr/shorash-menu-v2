@@ -380,6 +380,21 @@
       font-size: 12px;
     }
 
+    .danger-action-btn {
+      border: 1px solid rgba(248, 113, 113, 0.38);
+      background: rgba(95, 20, 20, 0.34);
+      color: #fecaca;
+      border-radius: 9px;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .danger-action-btn:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+    }
+
     /* =========================
        Empty / Loading
        ========================= */
@@ -816,6 +831,14 @@
                 onclick="editAdminCategory('${escapeAdminHtml(category.id)}')"
               >
                 تعديل
+              </button>
+
+              <button
+                class="danger-action-btn"
+                type="button"
+                onclick="deleteAdminCategory('${escapeAdminHtml(category.id)}')"
+              >
+                حذف
               </button>
 
             </div>
@@ -1619,6 +1642,14 @@
               >
                 تعديل
               </button>
+
+              <button
+                class="danger-action-btn"
+                type="button"
+                onclick="deleteAdminProduct('${escapeAdminHtml(product.id)}')"
+              >
+                حذف
+              </button>
             </div>
 
           </div>
@@ -1626,6 +1657,116 @@
 
       }).join('');
 
+  }
+
+
+  // ==========================================
+  // SAFE DELETE
+  // ==========================================
+
+  async function deleteAdminProduct(productId){
+    const product=adminProducts.find(p=>String(p.id)===String(productId));
+    if(!product) return;
+
+    const name=product.name_ar||product.name||'هذا الصنف';
+
+    const ok=confirm(
+      `هل أنت متأكد من حذف "${name}"؟\n\n` +
+      `سيتم حذف الصنف وخياراته وأسعاره من المنيو.\n` +
+      `لا يمكن التراجع عن هذه العملية.`
+    );
+
+    if(!ok) return;
+
+    try{
+      // First try deleting the product directly.
+      // If the database has ON DELETE CASCADE, its options will be removed automatically.
+      let result=await supabaseClient
+        .from('products')
+        .delete()
+        .eq('id',productId)
+        .select('id');
+
+      if(result.error){
+        // If a foreign-key restriction prevents deleting the product,
+        // delete its option rows first, then retry.
+        const optionDelete=await supabaseClient
+          .from('product_options')
+          .delete()
+          .eq('product_id',productId);
+
+        if(optionDelete.error) throw optionDelete.error;
+
+        result=await supabaseClient
+          .from('products')
+          .delete()
+          .eq('id',productId)
+          .select('id');
+
+        if(result.error) throw result.error;
+      }
+
+      if(!result.data || result.data.length===0){
+        throw new Error('لم يتم حذف الصنف من قاعدة البيانات.');
+      }
+
+      alert(`تم حذف "${name}" بنجاح ✓`);
+      await loadAdminDashboard();
+
+    }catch(e){
+      console.error('DELETE PRODUCT ERROR:',e);
+      alert('فشل حذف الصنف: '+(e.message||e));
+    }
+  }
+
+  async function deleteAdminCategory(categoryId){
+    const category=adminCategories.find(c=>String(c.id)===String(categoryId));
+    if(!category) return;
+
+    const name=category.name_ar||category.name||'هذا القسم';
+
+    const productsInside=adminProducts.filter(
+      p=>String(p.category_id)===String(categoryId)
+    );
+
+    // Important safety guard:
+    // never delete a category while it still contains products.
+    if(productsInside.length){
+      alert(
+        `لا يمكن حذف قسم "${name}" حالياً.\n\n` +
+        `يوجد داخله ${productsInside.length} صنف.\n` +
+        `انقل أو احذف الأصناف الموجودة فيه أولاً، وبعدها احذف القسم.`
+      );
+      return;
+    }
+
+    const ok=confirm(
+      `هل أنت متأكد من حذف قسم "${name}"؟\n\n` +
+      `القسم فارغ حالياً، وسيتم حذفه نهائياً.`
+    );
+
+    if(!ok) return;
+
+    try{
+      const result=await supabaseClient
+        .from('categories')
+        .delete()
+        .eq('id',categoryId)
+        .select('id');
+
+      if(result.error) throw result.error;
+
+      if(!result.data || result.data.length===0){
+        throw new Error('لم يتم حذف القسم من قاعدة البيانات.');
+      }
+
+      alert(`تم حذف قسم "${name}" بنجاح ✓`);
+      await loadAdminDashboard();
+
+    }catch(e){
+      console.error('DELETE CATEGORY ERROR:',e);
+      alert('فشل حذف القسم: '+(e.message||e));
+    }
   }
 
 
