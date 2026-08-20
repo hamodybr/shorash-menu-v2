@@ -1375,6 +1375,121 @@
     }
   }
 
+
+  // ==========================================
+  // ADD NEW CATEGORY
+  // ==========================================
+
+  function getNextCategorySortOrder(){
+    if(!adminCategories.length) return 1;
+    return Math.max(...adminCategories.map(c=>Number(c.sort_order||0)))+1;
+  }
+
+  function slugifyCategory(value){
+    const clean=String(value||'')
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g,'-')
+      .replace(/[^\p{L}\p{N}-]+/gu,'')
+      .replace(/-+/g,'-')
+      .replace(/^-|-$/g,'');
+    return clean || `category-${Date.now()}`;
+  }
+
+  function openAddCategoryEditor(){
+    const sample=adminCategories[0]||{};
+    const nextOrder=getNextCategorySortOrder();
+
+    const html=`<div class="form-grid">
+      ${fieldHtml('اسم القسم بالعربي *','nc_name_ar','')}
+      ${hasField(sample,'name_ku')?fieldHtml('اسم القسم بالكوردي','nc_name_ku',''):''}
+      ${hasField(sample,'name_en')?fieldHtml('اسم القسم بالإنجليزي','nc_name_en',''):''}
+      ${hasField(sample,'sort_order')?fieldHtml('الترتيب','nc_sort_order',nextOrder,'number'):''}
+    </div>
+
+    <div class="checks">
+      ${hasField(sample,'is_active')?`<label class="check-card"><input id="nc_is_active" type="checkbox" checked> فعال</label>`:''}
+      ${hasField(sample,'is_visible')?`<label class="check-card"><input id="nc_is_visible" type="checkbox" checked> ظاهر</label>`:''}
+    </div>
+
+    <div style="font-size:12px;color:#8f8981;margin:10px 0 2px">
+      ملاحظة: القسم الجديد يظهر في لوحة الإدارة فوراً. في المنيو الرئيسي سيظهر بعد إضافة أول صنف له.
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-dark" type="button" onclick="closeAdminEditor()">إلغاء</button>
+      <button class="btn btn-gold" id="createCategoryBtn" type="button" onclick="createAdminCategory()">إضافة القسم</button>
+    </div>`;
+
+    openAdminEditor('إضافة قسم جديد',html);
+  }
+
+  async function createAdminCategory(){
+    const sample=adminCategories[0]||{};
+    const btn=document.getElementById('createCategoryBtn');
+
+    const nameAr=val('nc_name_ar').trim();
+    if(!nameAr){
+      showEditorMsg('اكتب اسم القسم بالعربي أولاً.');
+      return;
+    }
+
+    btn.disabled=true;
+    btn.textContent='جاري الإضافة...';
+
+    try{
+      const newId=newUuid();
+      const payload={id:newId};
+
+      if(hasField(sample,'name_ar')) payload.name_ar=nameAr;
+      else if(hasField(sample,'name')) payload.name=nameAr;
+
+      if(hasField(sample,'name_ku')) payload.name_ku=val('nc_name_ku').trim()||nameAr;
+      if(hasField(sample,'name_en')) payload.name_en=val('nc_name_en').trim()||nameAr;
+
+      if(hasField(sample,'slug')){
+        payload.slug=slugifyCategory(
+          val('nc_name_en').trim() ||
+          val('nc_name_ar').trim()
+        ) + '-' + Date.now().toString().slice(-5);
+      }
+
+      if(hasField(sample,'image_url')) payload.image_url=null;
+      if(hasField(sample,'sort_order')) payload.sort_order=Number(val('nc_sort_order')||getNextCategorySortOrder());
+      if(hasField(sample,'is_active')) payload.is_active=checked('nc_is_active');
+      if(hasField(sample,'is_visible')) payload.is_visible=checked('nc_is_visible');
+
+      const now=new Date().toISOString();
+      if(hasField(sample,'created_at')) payload.created_at=now;
+      if(hasField(sample,'updated_at')) payload.updated_at=now;
+
+      const result=await supabaseClient
+        .from('categories')
+        .insert(payload);
+
+      if(result.error) throw result.error;
+
+      const verify=await supabaseClient
+        .from('categories')
+        .select('*')
+        .eq('id',newId)
+        .single();
+
+      if(verify.error) throw verify.error;
+
+      showEditorMsg('تمت إضافة القسم بنجاح ✓',true);
+      await loadAdminDashboard();
+      setTimeout(closeAdminEditor,800);
+
+    }catch(e){
+      console.error('CREATE CATEGORY ERROR:',e);
+      showEditorMsg('فشل إضافة القسم: '+(e.message||e));
+    }finally{
+      btn.disabled=false;
+      btn.textContent='إضافة القسم';
+    }
+  }
+
   function editAdminCategory(categoryId){
     const c=adminCategories.find(x=>String(x.id)===String(categoryId));if(!c)return;
     openAdminEditor('تعديل القسم',`<div class="form-grid">${fieldHtml('الاسم العربي','c_name_ar',firstExisting(c,['name_ar','name']))}${hasField(c,'name_ku')?fieldHtml('الاسم الكوردي','c_name_ku',c.name_ku||''):''}${hasField(c,'name_en')?fieldHtml('الاسم الإنجليزي','c_name_en',c.name_en||''):''}${hasField(c,'sort_order')?fieldHtml('الترتيب','c_sort_order',c.sort_order??0,'number'):''}</div><div class="checks">${hasField(c,'is_active')?`<label class="check-card"><input id="c_is_active" type="checkbox" ${c.is_active?'checked':''}> فعال</label>`:''}${hasField(c,'is_visible')?`<label class="check-card"><input id="c_is_visible" type="checkbox" ${c.is_visible?'checked':''}> ظاهر</label>`:''}</div><div class="modal-actions"><button class="btn btn-dark" onclick="closeAdminEditor()">إلغاء</button><button class="btn btn-gold" id="saveCategoryBtn" onclick="saveAdminCategory('${escapeAdminHtml(c.id)}')">حفظ القسم</button></div>`);
@@ -1544,7 +1659,7 @@
 
   // Add buttons: editors will be enabled after edit/save is verified.
   document.getElementById('addProductBtn').addEventListener('click',openAddProductEditor);
-  document.getElementById('addCategoryBtn').addEventListener('click',()=>alert('أولاً جرّب تعديل قسم وحفظه. بعد نجاحه نفعّل إضافة قسم.'));
+  document.getElementById('addCategoryBtn').addEventListener('click',openAddCategoryEditor);
   document.getElementById('editorModal').addEventListener('click',e=>{if(e.target.id==='editorModal')closeAdminEditor();});
 
 
