@@ -1217,6 +1217,10 @@ async function loadMenuFromSupabase() {
 
 
   (categoriesData || [])
+    .filter(category =>
+      category.is_active !== false &&
+      category.is_visible !== false
+    )
     .forEach(category => {
 
       categoryMap.set(
@@ -1327,6 +1331,8 @@ async function loadMenuFromSupabase() {
         */
 
         return (
+          product.is_active !== false &&
+          product.is_visible !== false &&
           product.category_id &&
           categoryMap.has(
             product.category_id
@@ -1462,8 +1468,7 @@ async function loadMenuFromSupabase() {
 
             unavailable:
               product.is_available === false ||
-              product.available === false ||
-              product.is_active === false
+              product.available === false
 
           },
 
