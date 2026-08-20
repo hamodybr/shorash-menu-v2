@@ -1098,16 +1098,479 @@ if (topButton) {
 
 
 /* ========================================
-   LOAD MENU
+   SUPABASE MENU LOADER
+======================================== */
+
+async function loadMenuFromSupabase() {
+
+  if (
+    typeof supabaseClient === "undefined" ||
+    !supabaseClient
+  ) {
+    throw new Error("Supabase client is not available");
+  }
+
+  console.log("🔄 Loading SHORASH menu from Supabase...");
+
+
+  /* =========================
+     RESTAURANT SETTINGS
+  ========================= */
+
+  const {
+    data: settingsData,
+    error: settingsError
+  } = await supabaseClient
+    .from("restaurant_settings")
+    .select("*")
+    .limit(1);
+
+
+  if (settingsError) {
+    console.warn(
+      "Restaurant settings error:",
+      settingsError
+    );
+  }
+
+
+  const settings =
+    settingsData?.[0] || {};
+
+
+  /* =========================
+     CATEGORIES
+  ========================= */
+
+  const {
+    data: categoriesData,
+    error: categoriesError
+  } = await supabaseClient
+    .from("categories")
+    .select("*")
+    .order("sort_order", {
+      ascending: true
+    });
+
+
+  if (categoriesError) {
+    throw categoriesError;
+  }
+
+
+  /* =========================
+     PRODUCTS
+  ========================= */
+
+  const {
+    data: productsData,
+    error: productsError
+  } = await supabaseClient
+    .from("products")
+    .select("*")
+    .order("sort_order", {
+      ascending: true
+    });
+
+
+  if (productsError) {
+    throw productsError;
+  }
+
+
+  /* =========================
+     PRODUCT OPTIONS
+  ========================= */
+
+  const {
+    data: optionsData,
+    error: optionsError
+  } = await supabaseClient
+    .from("product_options")
+    .select("*")
+    .order("sort_order", {
+      ascending: true
+    });
+
+
+  if (optionsError) {
+    throw optionsError;
+  }
+
+
+  console.log(
+    "📦 Supabase data:",
+    {
+      categories: categoriesData?.length || 0,
+      products: productsData?.length || 0,
+      options: optionsData?.length || 0
+    }
+  );
+
+
+  /* =========================
+     CATEGORY MAP
+  ========================= */
+
+  const categoryMap =
+    new Map();
+
+
+  (categoriesData || [])
+    .forEach(category => {
+
+      categoryMap.set(
+        category.id,
+        {
+          id: category.id,
+
+          ar:
+            category.name_ar ||
+            category.ar ||
+            "",
+
+          ku:
+            category.name_ku ||
+            category.ku ||
+            category.name_ar ||
+            "",
+
+          en:
+            category.name_en ||
+            category.en ||
+            category.name_ar ||
+            "",
+
+          order:
+            category.sort_order ??
+            category.order ??
+            999
+        }
+      );
+
+    });
+
+
+  /* =========================
+     OPTIONS MAP
+  ========================= */
+
+  const optionsMap =
+    new Map();
+
+
+  (optionsData || [])
+    .forEach(option => {
+
+      const productId =
+        option.product_id;
+
+
+      if (!optionsMap.has(productId)) {
+
+        optionsMap.set(
+          productId,
+          []
+        );
+
+      }
+
+
+      optionsMap
+        .get(productId)
+        .push({
+
+          id: option.id,
+
+          ar:
+            option.name_ar ||
+            option.ar ||
+            "",
+
+          ku:
+            option.name_ku ||
+            option.ku ||
+            option.name_ar ||
+            "",
+
+          en:
+            option.name_en ||
+            option.en ||
+            option.name_ar ||
+            "",
+
+          price:
+            option.price ?? null,
+
+          order:
+            option.sort_order ??
+            option.order ??
+            999
+
+        });
+
+    });
+
+
+  /* =========================
+     BUILD PRODUCTS
+  ========================= */
+
+  const products =
+    (productsData || [])
+      .filter(product => {
+
+        /*
+          Only products connected
+          to an existing category
+          are displayed.
+        */
+
+        return (
+          product.category_id &&
+          categoryMap.has(
+            product.category_id
+          )
+        );
+
+      })
+      .map(product => {
+
+        const category =
+          categoryMap.get(
+            product.category_id
+          );
+
+
+        let productOptions =
+          optionsMap.get(
+            product.id
+          ) || [];
+
+
+        productOptions =
+          productOptions.sort(
+            (a, b) =>
+              Number(a.order || 999) -
+              Number(b.order || 999)
+          );
+
+
+        /*
+          Safety fallback:
+          if a product has no option row
+          but has a direct price,
+          create one option for the cart.
+        */
+
+        if (
+          !productOptions.length &&
+          product.price !== null &&
+          product.price !== undefined
+        ) {
+
+          productOptions.push({
+
+            id:
+              product.id +
+              "-default",
+
+            ar: "",
+
+            ku: "",
+
+            en: "",
+
+            price:
+              product.price,
+
+            order: 1
+
+          });
+
+        }
+
+
+        return {
+
+          id:
+            product.id,
+
+          name: {
+
+            ar:
+              product.name_ar ||
+              product.ar ||
+              "",
+
+            ku:
+              product.name_ku ||
+              product.ku ||
+              product.name_ar ||
+              "",
+
+            en:
+              product.name_en ||
+              product.en ||
+              product.name_ar ||
+              ""
+
+          },
+
+
+          category:
+            category,
+
+
+          image:
+            product.image_url ||
+            product.image ||
+            "",
+
+
+          order:
+            product.sort_order ??
+            product.order ??
+            999,
+
+
+          badges: {
+
+            popular:
+              Boolean(
+                product.is_popular ??
+                product.popular
+              ),
+
+            new:
+              Boolean(
+                product.is_new ??
+                product.new
+              ),
+
+            hot:
+              Boolean(
+                product.is_hot ??
+                product.hot
+              ),
+
+            offer:
+              Boolean(
+                product.is_offer ??
+                product.offer
+              ),
+
+            unavailable:
+              product.is_available === false ||
+              product.available === false ||
+              product.is_active === false
+
+          },
+
+
+          options:
+            productOptions
+
+        };
+
+      })
+      .sort(
+        (a, b) =>
+          Number(a.order || 999) -
+          Number(b.order || 999)
+      );
+
+
+  /* =========================
+     RESTAURANT OBJECT
+  ========================= */
+
+  const restaurant = {
+
+    name:
+      settings.name_en ||
+      settings.name ||
+      "SHORASH REST & CAFE",
+
+    phone:
+      settings.phone ||
+      "9647502662002",
+
+    whatsapp:
+      settings.whatsapp ||
+      settings.whatsapp_url ||
+      "https://wa.me/9647502662002",
+
+    location:
+      settings.location ||
+      settings.location_url ||
+      "#",
+
+    backgroundVideo:
+      settings.background_video ||
+      settings.background_video_url ||
+      "assets/background.mp4"
+
+  };
+
+
+  return {
+
+    restaurant,
+
+    products
+
+  };
+}
+
+
+
+/* ========================================
+   JSON FALLBACK
+======================================== */
+
+async function loadMenuFallback() {
+
+  console.warn(
+    "⚠️ Using menu.json fallback"
+  );
+
+
+  const response =
+    await fetch(
+      "data/menu.json?v=32",
+      {
+        cache: "no-store"
+      }
+    );
+
+
+  if (!response.ok) {
+
+    throw new Error(
+      "menu.json HTTP " +
+      response.status
+    );
+
+  }
+
+
+  return await response.json();
+
+}
+
+
+
+/* ========================================
+   START SHORASH
 ======================================== */
 
 async function startShorash() {
 
   /*
-    Hide intro independently.
-    This prevents a slow connection
-    from leaving the splash screen
-    stuck forever.
+    Intro runs independently
+    so it never gets stuck while
+    Supabase is loading.
   */
 
   setupIntro();
@@ -1115,27 +1578,47 @@ async function startShorash() {
 
   try {
 
-    const response =
-      await fetch(
-        "data/menu.json?v=32",
-        {
-          cache: "no-store"
-        }
+    /* =========================
+       TRY SUPABASE FIRST
+    ========================= */
+
+    try {
+
+      DB =
+        await loadMenuFromSupabase();
+
+
+      console.log(
+        "✅ SHORASH MENU LOADED FROM SUPABASE"
       );
 
 
-    if (!response.ok) {
+    } catch (supabaseError) {
 
-      throw new Error(
-        "menu.json HTTP " +
-        response.status
+      console.error(
+        "❌ Supabase menu loading failed:",
+        supabaseError
       );
+
+
+      /* =========================
+         FALLBACK TO JSON
+      ========================= */
+
+      DB =
+        await loadMenuFallback();
+
+
+      console.log(
+        "✅ SHORASH MENU LOADED FROM JSON FALLBACK"
+      );
+
     }
 
 
-    DB =
-      await response.json();
-
+    /* =========================
+       VALIDATE DATABASE
+    ========================= */
 
     if (
       !DB ||
@@ -1145,8 +1628,19 @@ async function startShorash() {
       throw new Error(
         "Invalid menu data"
       );
+
     }
 
+
+    console.log(
+      "🍽 Products loaded:",
+      DB.products.length
+    );
+
+
+    /* =========================
+       FIND CATEGORIES
+    ========================= */
 
     const cats =
       categories();
@@ -1156,17 +1650,51 @@ async function startShorash() {
       cats[0]?.ar || "";
 
 
+    console.log(
+      "📂 Categories loaded:",
+      cats.length
+    );
+
+
+    /* =========================
+       INITIALIZE WEBSITE
+    ========================= */
+
     setupBackground();
 
     setupFooter();
 
     applyLang();
 
+
+    /* =========================
+       GLOBAL DATABASE
+    ========================= */
+
     window.SHORASH_DB = DB;
-    window.SHORASH_LANG = () => lang;
-    window.dispatchEvent(new CustomEvent("shorash:ready", { detail: { DB } }));
+
+    window.SHORASH_LANG =
+      () => lang;
+
+
+    window.dispatchEvent(
+      new CustomEvent(
+        "shorash:ready",
+        {
+          detail: {
+            DB
+          }
+        }
+      )
+    );
+
 
     scrollEffects();
+
+
+    console.log(
+      "🚀 SHORASH MENU READY"
+    );
 
 
   } catch (error) {
@@ -1184,6 +1712,7 @@ async function startShorash() {
     if (menu) {
 
       menu.innerHTML = `
+
         <div style="
           max-width:600px;
           margin:40px auto;
@@ -1195,15 +1724,24 @@ async function startShorash() {
         ">
 
           تعذر تحميل المنيو.
+
           <br><br>
 
           يرجى تحديث الصفحة.
 
         </div>
+
       `;
+
     }
+
   }
+
 }
 
+
+/* ========================================
+   RUN
+======================================== */
 
 startShorash();
