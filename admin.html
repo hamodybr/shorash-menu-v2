@@ -736,11 +736,192 @@
       .product-options-preview{display:none}
     }
 
+  
+    /* =========================================================
+       SHORASH ADMIN V3.1 — AUTH
+       ========================================================= */
+    .admin-login-gate{
+      display:none;
+      min-height:100dvh;
+      padding:22px;
+      align-items:center;
+      justify-content:center;
+      background:
+        radial-gradient(circle at 50% 15%,rgba(216,169,88,.08),transparent 32%),
+        #050403;
+    }
+
+    body.auth-locked .admin-login-gate{
+      display:flex;
+    }
+
+    body.auth-locked > .admin-header,
+    body.auth-locked > .admin-main,
+    body.auth-locked > .bottom-nav{
+      display:none !important;
+    }
+
+    .login-card{
+      width:min(420px,100%);
+      border:1px solid rgba(216,169,88,.25);
+      border-radius:24px;
+      background:rgba(11,9,7,.95);
+      padding:24px 20px;
+      box-shadow:0 28px 80px rgba(0,0,0,.48);
+    }
+
+    .login-brand{
+      text-align:center;
+      margin-bottom:22px;
+    }
+
+    .login-brand img{
+      width:82px;
+      height:82px;
+      object-fit:cover;
+      border-radius:50%;
+      border:1px solid rgba(216,169,88,.34);
+      margin-bottom:12px;
+    }
+
+    .login-brand h1{
+      margin:0;
+      color:#e2b55e;
+      font-size:25px;
+    }
+
+    .login-brand p{
+      margin:6px 0 0;
+      color:#8f8981;
+      font-size:12px;
+    }
+
+    .login-field{
+      display:grid;
+      gap:6px;
+      margin-bottom:12px;
+      text-align:right;
+    }
+
+    .login-field label{
+      color:#b7b0a7;
+      font-size:12px;
+    }
+
+    .login-field input{
+      width:100%;
+      box-sizing:border-box;
+      border:1px solid rgba(255,255,255,.11);
+      background:#050403;
+      color:#fff;
+      border-radius:13px;
+      padding:14px;
+      outline:none;
+      font-size:16px;
+      direction:ltr;
+      text-align:left;
+    }
+
+    .login-field input:focus{
+      border-color:rgba(216,169,88,.6);
+      box-shadow:0 0 0 3px rgba(216,169,88,.07);
+    }
+
+    .login-submit{
+      width:100%;
+      min-height:49px;
+      margin-top:5px;
+      border:0;
+      border-radius:13px;
+      background:#d8a958;
+      color:#100b05;
+      font-weight:900;
+      font-size:15px;
+    }
+
+    .login-submit:disabled{
+      opacity:.55;
+    }
+
+    .login-msg{
+      min-height:20px;
+      margin-top:12px;
+      color:#fecaca;
+      font-size:12px;
+      line-height:1.6;
+      text-align:center;
+    }
+
+    .admin-account-card{
+      display:grid;
+      gap:9px;
+    }
+
+    .admin-account-email{
+      direction:ltr;
+      text-align:left;
+      color:#c7c1ba;
+      font-size:12px;
+      word-break:break-all;
+    }
+
+    .logout-btn{
+      width:100%;
+      border:1px solid rgba(248,113,113,.28);
+      background:rgba(95,20,20,.24);
+      color:#fecaca;
+      border-radius:12px;
+      padding:12px;
+      font-weight:800;
+    }
+
   </style>
 </head>
 
-<body>
+<body class="auth-locked">
 
+
+<section id="adminLoginGate" class="admin-login-gate">
+  <div class="login-card">
+    <div class="login-brand">
+      <img src="assets/shorash-logo.jpeg" alt="SHORASH">
+      <h1>SHORASH Admin</h1>
+      <p>تسجيل دخول لوحة الإدارة</p>
+    </div>
+
+    <form id="adminLoginForm">
+      <div class="login-field">
+        <label for="adminLoginEmail">البريد الإلكتروني</label>
+        <input
+          id="adminLoginEmail"
+          type="email"
+          autocomplete="username"
+          autocapitalize="none"
+          spellcheck="false"
+          placeholder="admin@example.com"
+          required
+        >
+      </div>
+
+      <div class="login-field">
+        <label for="adminLoginPassword">كلمة المرور</label>
+        <input
+          id="adminLoginPassword"
+          type="password"
+          autocomplete="current-password"
+          placeholder="••••••••"
+          required
+        >
+      </div>
+
+      <button id="adminLoginBtn" class="login-submit" type="submit">
+        تسجيل الدخول
+      </button>
+
+      <div id="adminLoginMsg" class="login-msg"></div>
+    </form>
+  </div>
+</section>
 
 <header class="admin-header">
   <img src="assets/shorash-logo.jpeg" alt="SHORASH" class="admin-logo">
@@ -887,6 +1068,15 @@
           <input id="restoreBackupInput" type="file" accept=".json,application/json" hidden>
         </div>
       </div>
+      <div class="tools-card admin-account-card">
+        <h3>🔐 حساب الإدارة</h3>
+        <p>أنت مسجل دخول حالياً بهذا الحساب:</p>
+        <div id="adminAccountEmail" class="admin-account-email">—</div>
+        <button id="adminLogoutBtn" class="logout-btn" type="button">
+          تسجيل الخروج
+        </button>
+      </div>
+
     </div>
 
     <details class="compact-details advanced-backup">
@@ -965,6 +1155,9 @@
   let adminCurrentView = 'home';
   let adminProductFilter = 'all';
 
+  let adminSession = null;
+  let adminDashboardLoaded = false;
+
 
   // ==========================================
   // Escape HTML
@@ -992,6 +1185,144 @@
 
     return number.toLocaleString('en-US') + ' د.ع';
 
+  }
+
+
+  // ==========================================
+  // AUTH
+  // ==========================================
+
+  function setLoginMessage(message='',ok=false){
+    const el=document.getElementById('adminLoginMsg');
+    if(!el)return;
+    el.textContent=message;
+    el.style.color=ok?'#baf3d7':'#fecaca';
+  }
+
+  function setAdminLocked(locked){
+    document.body.classList.toggle('auth-locked',!!locked);
+  }
+
+  function updateAdminAccountUI(session){
+    const email=session?.user?.email || '—';
+    const el=document.getElementById('adminAccountEmail');
+    if(el)el.textContent=email;
+  }
+
+  async function unlockAdminForSession(session){
+    adminSession=session;
+    setAdminLocked(false);
+    updateAdminAccountUI(session);
+    setLoginMessage('');
+
+    if(!adminDashboardLoaded){
+      adminDashboardLoaded=true;
+      switchAdminView('home');
+      await loadAdminDashboard();
+    }
+  }
+
+  function lockAdmin(){
+    adminSession=null;
+    adminDashboardLoaded=false;
+    setAdminLocked(true);
+    updateAdminAccountUI(null);
+
+    const password=document.getElementById('adminLoginPassword');
+    if(password)password.value='';
+  }
+
+  async function initAdminAuth(){
+    setAdminLocked(true);
+
+    try{
+      const {
+        data:{session},
+        error
+      }=await supabaseClient.auth.getSession();
+
+      if(error)throw error;
+
+      if(session){
+        await unlockAdminForSession(session);
+      }else{
+        lockAdmin();
+      }
+
+      supabaseClient.auth.onAuthStateChange((event,session)=>{
+        if(event==='SIGNED_OUT' || !session){
+          lockAdmin();
+          return;
+        }
+
+        if(
+          event==='SIGNED_IN' ||
+          event==='TOKEN_REFRESHED' ||
+          event==='INITIAL_SESSION'
+        ){
+          unlockAdminForSession(session);
+        }
+      });
+
+    }catch(e){
+      console.error('AUTH INIT ERROR:',e);
+      lockAdmin();
+      setLoginMessage('تعذر التحقق من تسجيل الدخول: '+(e.message||e));
+    }
+  }
+
+  async function adminSignIn(email,password){
+    const btn=document.getElementById('adminLoginBtn');
+
+    btn.disabled=true;
+    btn.textContent='جاري تسجيل الدخول...';
+    setLoginMessage('');
+
+    try{
+      const {
+        data,
+        error
+      }=await supabaseClient.auth.signInWithPassword({
+        email:String(email||'').trim(),
+        password:String(password||'')
+      });
+
+      if(error)throw error;
+      if(!data?.session)throw new Error('لم يتم إنشاء جلسة تسجيل دخول.');
+
+      setLoginMessage('تم تسجيل الدخول ✓',true);
+      await unlockAdminForSession(data.session);
+
+    }catch(e){
+      console.error('LOGIN ERROR:',e);
+
+      let message=e.message||String(e);
+
+      if(/invalid login credentials/i.test(message)){
+        message='البريد الإلكتروني أو كلمة المرور غير صحيحة.';
+      }else if(/email not confirmed/i.test(message)){
+        message='البريد الإلكتروني غير مؤكد في Supabase Auth.';
+      }
+
+      setLoginMessage(message);
+
+    }finally{
+      btn.disabled=false;
+      btn.textContent='تسجيل الدخول';
+    }
+  }
+
+  async function adminSignOut(){
+    const ok=confirm('هل تريد تسجيل الخروج من لوحة الإدارة؟');
+    if(!ok)return;
+
+    try{
+      const {error}=await supabaseClient.auth.signOut();
+      if(error)throw error;
+      lockAdmin();
+    }catch(e){
+      alert('فشل تسجيل الخروج: '+(e.message||e));
+    }
   }
 
 
@@ -3021,12 +3352,26 @@
   document.getElementById('editorModal').addEventListener('click',e=>{if(e.target.id==='editorModal')closeAdminEditor();});
 
 
+  document.getElementById('adminLoginForm').addEventListener('submit',e=>{
+    e.preventDefault();
+
+    adminSignIn(
+      document.getElementById('adminLoginEmail').value,
+      document.getElementById('adminLoginPassword').value
+    );
+  });
+
+  document.getElementById('adminLogoutBtn').addEventListener(
+    'click',
+    adminSignOut
+  );
+
+
   // ==========================================
   // Start
   // ==========================================
 
-  switchAdminView('home');
-  loadAdminDashboard();
+  initAdminAuth();
 
 </script>
 
