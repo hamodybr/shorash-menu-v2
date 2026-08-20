@@ -444,6 +444,8 @@
     .option-editor{border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px;margin-top:10px;background:#090705}.option-editor-grid{display:grid;grid-template-columns:1.4fr .8fr auto;gap:8px;align-items:end}.option-editor input{width:100%;border:1px solid rgba(255,255,255,.1);background:#030302;color:#fff;border-radius:10px;padding:10px}.danger-mini{border:1px solid rgba(248,113,113,.35);background:#251010;color:#fecaca;border-radius:10px;padding:10px 12px}.modal-actions{display:flex;gap:10px;position:sticky;bottom:-20px;background:#0c0906;padding:16px 0 4px;margin-top:14px}.modal-actions .btn{flex:1}.msg{display:none;margin-top:12px;padding:12px;border-radius:12px}.msg.ok{display:block;background:#0d251b;color:#baf3d7;border:1px solid rgba(52,211,153,.3)}.msg.err{display:block;background:#2b1111;color:#fecaca;border:1px solid rgba(248,113,113,.3)}
     @media(max-width:650px){.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.checks{grid-template-columns:1fr}.option-editor-grid{grid-template-columns:1fr 1fr}.option-editor-grid .danger-mini{grid-column:1/-1}.admin-modal{padding:0}.admin-modal-card{max-height:94vh;border-radius:24px 24px 0 0}}
 
+.image-upload-box{grid-column:1/-1;border:1px dashed rgba(216,169,88,.38);background:rgba(216,169,88,.045);border-radius:16px;padding:14px}
+.image-upload-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.image-upload-btn{display:inline-flex;padding:10px 15px;border-radius:11px;background:#17130f;border:1px solid rgba(216,169,88,.30);color:#e6c88f;font-weight:700;cursor:pointer}.image-upload-btn input{display:none}.image-preview{width:82px;height:82px;object-fit:cover;border-radius:13px}.image-file-name,.upload-progress{font-size:12px;color:#d8a958}
   </style>
 </head>
 
@@ -896,7 +898,7 @@
       ${fieldHtml('الاسم الكوردي','p_name_ku',firstExisting(product,['name_ku']))}
       ${fieldHtml('الاسم الإنجليزي','p_name_en',firstExisting(product,['name_en']))}
       <div class="field"><label>القسم</label><select id="p_category_id">${catOptions}</select></div>
-      ${fieldHtml('رابط الصورة','p_image_url',firstExisting(product,['image_url','image']),'url',true)}
+      <div class="image-upload-box"><div>صورة الصنف — من الجهاز أو رابط مباشر</div><div class="image-upload-row"><img id="p_image_preview" class="image-preview" src="${escapeAdminHtml(firstExisting(product,['image_url','image'],'assets/shorash-logo.jpeg'))}"><label class="image-upload-btn">📷 اختيار صورة<input id="p_image_file" type="file" accept="image/*" onchange="previewAdminImage(this)"></label><span id="p_image_file_name" class="image-file-name">لم يتم اختيار صورة جديدة</span></div><div id="p_upload_progress" class="upload-progress"></div></div>${fieldHtml('رابط الصورة (اختياري)','p_image_url',firstExisting(product,['image_url','image']),'url',true)}
       ${priceKey?fieldHtml('السعر الأساسي','p_base_price',product[priceKey]??0,'number'):''}
       ${hasField(product,'sort_order')?fieldHtml('الترتيب','p_sort_order',product.sort_order??0,'number'):''}
       ${hasField(product,'description_ar')?textAreaHtml('الوصف العربي','p_description_ar',product.description_ar||''):''}
@@ -920,15 +922,19 @@
   function addOptionEditor(){ document.getElementById('optionsEditor').insertAdjacentHTML('beforeend',optionEditorHtml({})); }
   function removeOptionEditor(btn){ const row=btn.closest('.option-editor'); if(row.dataset.optionId) row.dataset.deleted='1'; row.style.display='none'; }
 
+  function previewAdminImage(input){const f=input?.files?.[0];if(!f)return;document.getElementById('p_image_file_name').textContent=f.name;document.getElementById('p_image_preview').src=URL.createObjectURL(f);}
+  async function uploadAdminProductImage(productId){const input=document.getElementById('p_image_file');const f=input?.files?.[0];if(!f)return val('p_image_url').trim();if(!f.type.startsWith('image/'))throw new Error('الملف المختار ليس صورة');if(f.size>10*1024*1024)throw new Error('حجم الصورة أكبر من 10MB');const p=document.getElementById('p_upload_progress');p.textContent='جاري رفع الصورة...';const ext=({'image/jpeg':'jpg','image/png':'png','image/webp':'webp','image/gif':'gif'})[f.type]||'jpg';const path=`products/${String(productId).replace(/[^a-zA-Z0-9_-]/g,'_')}/${Date.now()}-${Math.random().toString(36).slice(2,8)}.${ext}`;const u=await supabaseClient.storage.from('menu-images').upload(path,f,{cacheControl:'3600',upsert:false,contentType:f.type});if(u.error)throw u.error;const g=supabaseClient.storage.from('menu-images').getPublicUrl(path);const url=g?.data?.publicUrl;if(!url)throw new Error('تعذر إنشاء رابط الصورة');document.getElementById('p_image_url').value=url;p.textContent='تم رفع الصورة ✓';return url;}
+
   async function saveAdminProduct(productId){
     const product=adminProducts.find(x=>String(x.id)===String(productId)); if(!product)return;
     const btn=document.getElementById('saveProductBtn'); btn.disabled=true; btn.textContent='جاري الحفظ...';
     try{
+      const uploadedImageUrl=await uploadAdminProductImage(productId);
       const patch={};
       if(hasField(product,'name_ar')) patch.name_ar=val('p_name_ar'); else if(hasField(product,'name')) patch.name=val('p_name_ar');
       if(hasField(product,'name_ku')) patch.name_ku=val('p_name_ku'); if(hasField(product,'name_en')) patch.name_en=val('p_name_en');
       if(hasField(product,'category_id')) patch.category_id=val('p_category_id');
-      if(hasField(product,'image_url')) patch.image_url=val('p_image_url'); else if(hasField(product,'image')) patch.image=val('p_image_url');
+      if(hasField(product,'image_url')) patch.image_url=uploadedImageUrl; else if(hasField(product,'image')) patch.image=uploadedImageUrl;
       if(hasField(product,'base_price')) patch.base_price=Number(val('p_base_price')||0); else if(hasField(product,'price')) patch.price=Number(val('p_base_price')||0);
       if(hasField(product,'sort_order')) patch.sort_order=Number(val('p_sort_order')||0);
       ['description_ar','description_ku','description_en'].forEach(k=>{if(hasField(product,k))patch[k]=val('p_'+k)});
