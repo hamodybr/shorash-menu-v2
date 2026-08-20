@@ -573,6 +573,7 @@
         <p>يدعم النسخة الكاملة، قسم مع أصنافه، الأقسام فقط، أو الأصناف مع الخيارات. الاسترجاع يعمل Upsert ولا يحذف البيانات الإضافية الموجودة.</p>
         <div class="backup-row">
           <button class="btn btn-gold" type="button" id="restoreBackupBtn">اختيار ملف واسترجاع</button>
+          <button class="btn btn-dark" type="button" id="downloadEmergencyBackupBtn">تنزيل آخر Backup تلقائي</button>
           <input id="restoreBackupInput" type="file" accept=".json,application/json" hidden>
         </div>
       </div>
@@ -1497,8 +1498,20 @@
   // ==========================================
 
   function getNextCategorySortOrder(){
-    if(!adminCategories.length) return 1;
-    return Math.max(...adminCategories.map(c=>Number(c.sort_order||0)))+1;
+    // Ignore the system category "غير معروض" (sort_order = 9999).
+    // New normal categories should be placed after the last normal category.
+    const normalCategories=adminCategories.filter(c=>!isHiddenCategory(c));
+
+    if(!normalCategories.length) return 1;
+
+    const maxOrder=Math.max(
+      ...normalCategories.map(c=>{
+        const n=Number(c.sort_order||0);
+        return Number.isFinite(n) ? n : 0;
+      })
+    );
+
+    return maxOrder+1;
   }
 
   function slugifyCategory(value){
@@ -1847,6 +1860,55 @@
     setTimeout(()=>URL.revokeObjectURL(url),1200);
   }
 
+  const SHORASH_EMERGENCY_BACKUP_KEY='SHORASH_LAST_AUTO_BACKUP_V2';
+
+  function saveEmergencyBackup(payload){
+    try{
+      localStorage.setItem(
+        SHORASH_EMERGENCY_BACKUP_KEY,
+        JSON.stringify(payload)
+      );
+      return true;
+    }catch(e){
+      console.warn('Could not save emergency backup locally:',e);
+      return false;
+    }
+  }
+
+  function getEmergencyBackup(){
+    try{
+      const raw=localStorage.getItem(SHORASH_EMERGENCY_BACKUP_KEY);
+      if(!raw)return null;
+      return JSON.parse(raw);
+    }catch(e){
+      console.warn('Could not read emergency backup:',e);
+      return null;
+    }
+  }
+
+  function downloadEmergencyBackup(){
+    const payload=getEmergencyBackup();
+
+    if(!payload){
+      setBackupStatus('لا يوجد Backup تلقائي محفوظ على هذا الجهاز حالياً.',false);
+      alert('لا يوجد Backup تلقائي محفوظ على هذا الجهاز حالياً.');
+      return;
+    }
+
+    const categoryName=payload.category_name||'emergency';
+    const clean=String(categoryName)
+      .replace(/[^\p{L}\p{N}_-]+/gu,'-')
+      .replace(/-+/g,'-')
+      .slice(0,60);
+
+    downloadJson(
+      `SHORASH-AUTO-BACKUP-${clean}-${safeFileDate()}.json`,
+      payload
+    );
+
+    setBackupStatus('تم تنزيل آخر Backup تلقائي محفوظ ✓');
+  }
+
   function backupFullMenu(){
     const payload=makeBackup('full',{
       categories:cloneRows(adminCategories),
@@ -2091,43 +2153,128 @@
   }
 
   async function deleteCategoryWithContents(categoryId){
-    const category=adminCategories.find(c=>String(c.id)===String(categoryId));
+    const category=adminCategories.find(
+      c=>String(c.id)===String(categoryId)
+    );
     if(!category)return;
 
     const name=category.name_ar||category.name||'القسم';
-    const productsInside=adminProducts.filter(p=>String(p.category_id)===String(categoryId));
+    const productsInside=adminProducts.filter(
+      p=>String(p.category_id)===String(categoryId)
+    );
 
     const typed=prompt(
       `حذف نهائي لقسم "${name}" و ${productsInside.length} صنف.\n\n` +
       `اكتب كلمة حذف للتأكيد:`
     );
+
     if(String(typed||'').trim()!=='حذف')return;
 
+    // Build the backup BEFORE touching the database.
+    // On iPhone/Safari, starting a file download before Supabase requests
+    // can sometimes interrupt fetch and produce "TypeError: Load failed".
+    const backupPayload=buildCategoryBackup(categoryId);
+    const backupSavedLocally=saveEmergencyBackup(backupPayload);
+
     try{
-      backupOneCategory(categoryId);
-      showEditorMsg('تم تنزيل Backup. جاري الحذف النهائي...');
+      showEditorMsg(
+        backupSavedLocally
+          ? 'تم حفظ Backup تلقائي على هذا الجهاز. جاري حذف الخيارات والأصناف...'
+          : 'جاري حذف الخيارات والأصناف...'
+      );
 
-      const productIds=productsInside.map(p=>p.id);
-      for(let i=0;i<productIds.length;i+=80){
-        const ids=productIds.slice(i,i+80);
-        if(!ids.length)continue;
+      // Delete each product safely in FK order:
+      // product_options -> product.
+      // Sequential requests are intentionally used here for maximum
+      // compatibility with iPhone Safari and small restaurant datasets.
+      for(let i=0;i<productsInside.length;i++){
+        const product=productsInside[i];
+        const productName=
+          product.name_ar ||
+          product.name ||
+          `الصنف ${i+1}`;
 
-        const od=await supabaseClient.from('product_options').delete().in('product_id',ids);
-        if(od.error)throw od.error;
+        showEditorMsg(
+          `جاري الحذف ${i+1}/${productsInside.length}: ${productName}`
+        );
 
-        const pd=await supabaseClient.from('products').delete().in('id',ids);
-        if(pd.error)throw pd.error;
+        const optionDelete=await supabaseClient
+          .from('product_options')
+          .delete()
+          .eq('product_id',product.id);
+
+        if(optionDelete.error){
+          throw new Error(
+            `فشل حذف خيارات "${productName}": ` +
+            (optionDelete.error.message||optionDelete.error)
+          );
+        }
+
+        const productDelete=await supabaseClient
+          .from('products')
+          .delete()
+          .eq('id',product.id);
+
+        if(productDelete.error){
+          throw new Error(
+            `فشل حذف الصنف "${productName}": ` +
+            (productDelete.error.message||productDelete.error)
+          );
+        }
       }
 
-      const cd=await supabaseClient.from('categories').delete().eq('id',categoryId);
-      if(cd.error)throw cd.error;
+      showEditorMsg('تم حذف الأصناف. جاري حذف القسم...');
 
-      showEditorMsg(`تم حذف قسم "${name}" وكل محتوياته ✓`,true);
+      const categoryDelete=await supabaseClient
+        .from('categories')
+        .delete()
+        .eq('id',categoryId);
+
+      if(categoryDelete.error){
+        throw new Error(
+          'فشل حذف القسم: ' +
+          (categoryDelete.error.message||categoryDelete.error)
+        );
+      }
+
+      // Refresh DB data BEFORE triggering a browser file download.
       await loadAdminDashboard();
-      setTimeout(closeAdminEditor,1000);
+
+      showEditorMsg(
+        `تم حذف قسم "${name}" وكل محتوياته نهائياً ✓`,
+        true
+      );
+
+      // The destructive operation has completed. Now it is safe to
+      // offer/download the backup without risking interruption of fetch.
+      try{
+        const clean=String(name)
+          .replace(/[^\p{L}\p{N}_-]+/gu,'-')
+          .replace(/-+/g,'-')
+          .slice(0,60);
+
+        downloadJson(
+          `SHORASH-before-delete-${clean}-${safeFileDate()}.json`,
+          backupPayload
+        );
+      }catch(downloadError){
+        console.warn('Backup download failed, local copy is still saved:',downloadError);
+      }
+
+      setTimeout(closeAdminEditor,1300);
+
     }catch(e){
       console.error('DELETE CATEGORY CONTENTS ERROR:',e);
-      showEditorMsg('فشل الحذف النهائي: '+(e.message||e));
+
+      showEditorMsg(
+        'فشل الحذف النهائي: ' +
+        (e.message||e) +
+        (
+          backupSavedLocally
+            ? ' — تم الاحتفاظ بالـ Backup التلقائي داخل هذا الجهاز.'
+            : ''
+        )
+      );
     }
   }
 
@@ -2176,6 +2323,11 @@
   document.getElementById('restoreBackupBtn').addEventListener('click',()=>{
     document.getElementById('restoreBackupInput').click();
   });
+
+  document.getElementById('downloadEmergencyBackupBtn').addEventListener(
+    'click',
+    downloadEmergencyBackup
+  );
   document.getElementById('restoreBackupInput').addEventListener('change',e=>{
     handleRestoreFile(e.target.files?.[0]);
   });
