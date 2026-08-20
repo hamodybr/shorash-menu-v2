@@ -10,6 +10,7 @@
   <!-- SHORASH Favicon -->
   <link rel="icon" type="image/png" href="assets/favicon.png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
   <link rel="stylesheet" href="css/style.css?v=4.0">
   <link rel="stylesheet" href="css/cart.css?v=3.0">
 </head>
@@ -27,6 +28,7 @@
   </video>
 
   <div class="sm-bg-overlay"></div>
+
 
   <!-- Intro -->
   <div id="smIntro" class="sm-intro">
@@ -47,6 +49,7 @@
     </div>
 
   </div>
+
 
   <!-- Main page -->
   <main id="smApp" class="sm-app">
@@ -103,6 +106,7 @@
         <p class="sm-footer-location">
           Duhok • Kurdistan
         </p>
+
 
         <div class="sm-footer-main-actions">
 
@@ -167,8 +171,24 @@
   </button>
 
 
+  <!-- ==========================================
+       SUPABASE
+       Must load before app.js
+       ========================================== -->
+
+  <!-- Supabase JavaScript Library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- SHORASH Supabase Configuration -->
+  <script src="js/supabase.js?v=1.0"></script>
+
+
+  <!-- SHORASH Application -->
   <script src="js/app.js?v=4.2"></script>
+
+  <!-- SHORASH Cart -->
   <script src="js/cart.js?v=3.0"></script>
+
 
 </body>
 </html>
