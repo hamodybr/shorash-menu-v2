@@ -481,6 +481,151 @@
     .modal-choice.danger{border-color:rgba(248,113,113,.35);background:#251010;color:#fecaca}
     @media(max-width:650px){.backup-grid{grid-template-columns:1fr}}
 
+  
+    /* =========================
+       Drag & Drop ordering
+       ========================= */
+    .sort-panel .panel-body{
+      display:grid;
+      gap:16px;
+    }
+
+    .sort-section{
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.025);
+      border-radius:16px;
+      padding:14px;
+    }
+
+    .sort-section-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom:12px;
+    }
+
+    .sort-section-head h3{
+      margin:0;
+      color:#e2b55e;
+      font-size:15px;
+    }
+
+    .sort-help{
+      color:#8f8981;
+      font-size:12px;
+      line-height:1.7;
+      margin-bottom:10px;
+    }
+
+    .sort-toolbar{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .sort-toolbar select{
+      min-width:210px;
+      flex:1;
+      border:1px solid rgba(255,255,255,.11);
+      background:#050403;
+      color:#fff;
+      border-radius:11px;
+      padding:11px;
+      outline:none;
+    }
+
+    .sortable-list{
+      display:grid;
+      gap:8px;
+      min-height:54px;
+    }
+
+    .sortable-item{
+      display:grid;
+      grid-template-columns:42px 1fr auto;
+      align-items:center;
+      gap:10px;
+      border:1px solid rgba(255,255,255,.075);
+      background:#100d0a;
+      border-radius:13px;
+      padding:10px 11px;
+      user-select:none;
+      -webkit-user-select:none;
+      touch-action:none;
+    }
+
+    .sortable-item.sortable-ghost{
+      opacity:.35;
+      border-color:#d8a958;
+    }
+
+    .sortable-item.sortable-chosen{
+      border-color:rgba(216,169,88,.65);
+      box-shadow:0 8px 25px rgba(0,0,0,.32);
+    }
+
+    .drag-handle{
+      width:38px;
+      height:38px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:10px;
+      border:1px solid rgba(216,169,88,.22);
+      background:rgba(216,169,88,.07);
+      color:#d8a958;
+      font-size:20px;
+      cursor:grab;
+      touch-action:none;
+    }
+
+    .drag-handle:active{cursor:grabbing}
+
+    .sort-item-main{
+      min-width:0;
+    }
+
+    .sort-item-name{
+      font-weight:800;
+      color:#f3f1ee;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+
+    .sort-item-meta{
+      color:#89847d;
+      font-size:11px;
+      margin-top:3px;
+    }
+
+    .sort-position{
+      min-width:32px;
+      text-align:center;
+      color:#d8a958;
+      font-weight:900;
+      font-size:13px;
+    }
+
+    .sort-status{
+      min-height:20px;
+      font-size:12px;
+      color:#d8a958;
+      line-height:1.6;
+    }
+
+    @media(max-width:650px){
+      .sortable-item{
+        grid-template-columns:42px 1fr 30px;
+      }
+      .sort-toolbar select{
+        min-width:100%;
+      }
+    }
+
   </style>
 </head>
 
@@ -536,6 +681,55 @@
     </div>
 
   </section>
+
+  <!-- Drag & Drop Ordering -->
+  <section class="panel sort-panel">
+    <div class="panel-header">
+      <h2>ترتيب الأقسام والأصناف</h2>
+      <span style="color:#8f8981;font-size:12px;">سحب وإفلات</span>
+    </div>
+
+    <div class="panel-body">
+
+      <div class="sort-section">
+        <div class="sort-section-head">
+          <h3>ترتيب الأقسام</h3>
+          <button class="btn btn-gold" type="button" id="saveCategoryOrderBtn">
+            حفظ ترتيب الأقسام
+          </button>
+        </div>
+
+        <div class="sort-help">
+          اسحب من علامة ☰ وحط القسم بالمكان المطلوب. قسم «غير معروض» نظامي ويبقى دائماً خارج الترتيب.
+        </div>
+
+        <div id="categorySortList" class="sortable-list"></div>
+        <div id="categorySortStatus" class="sort-status"></div>
+      </div>
+
+      <div class="sort-section">
+        <div class="sort-section-head">
+          <h3>ترتيب أصناف قسم معيّن</h3>
+        </div>
+
+        <div class="sort-toolbar">
+          <select id="productSortCategorySelect"></select>
+          <button class="btn btn-gold" type="button" id="saveProductOrderBtn">
+            حفظ ترتيب الأصناف
+          </button>
+        </div>
+
+        <div class="sort-help" style="margin-top:10px">
+          اختر القسم، بعدها اسحب الأصناف للترتيب الذي تريده. الحفظ يعيد ترقيم أصناف هذا القسم من 1 تلقائياً.
+        </div>
+
+        <div id="productSortList" class="sortable-list"></div>
+        <div id="productSortStatus" class="sort-status"></div>
+      </div>
+
+    </div>
+  </section>
+
 
   <!-- Backup / Restore -->
   <section class="panel backup-panel">
@@ -688,12 +882,18 @@
 <!-- Existing SHORASH Supabase Configuration -->
 <script src="js/supabase-config.js?v=1.0"></script>
 
+<!-- Touch-friendly Drag & Drop -->
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
+
 
 <script>
 
   let adminCategories = [];
   let adminProducts = [];
   let adminOptions = [];
+
+  let categorySortableInstance = null;
+  let productSortableInstance = null;
 
 
   // ==========================================
@@ -803,6 +1003,8 @@
       renderAdminCategories();
       renderAdminProducts();
       renderBackupCategoryOptions();
+      renderCategorySortList();
+      renderProductSortCategoryOptions();
 
 
       console.log(
@@ -1824,6 +2026,318 @@
 
 
   // ==========================================
+  // DRAG & DROP ORDERING
+  // ==========================================
+
+  function setSortStatus(id,text,ok=true){
+    const el=document.getElementById(id);
+    if(!el)return;
+    el.textContent=text||'';
+    el.style.color=ok?'#baf3d7':'#fecaca';
+  }
+
+  function updateSortPositionLabels(listId){
+    const list=document.getElementById(listId);
+    if(!list)return;
+
+    [...list.querySelectorAll('.sortable-item')].forEach((item,index)=>{
+      const label=item.querySelector('.sort-position');
+      if(label)label.textContent=index+1;
+    });
+  }
+
+  function renderCategorySortList(){
+    const list=document.getElementById('categorySortList');
+    if(!list)return;
+
+    const categories=adminCategories
+      .filter(c=>!isHiddenCategory(c))
+      .slice()
+      .sort(
+        (a,b)=>
+          Number(a.sort_order||9999)-
+          Number(b.sort_order||9999)
+      );
+
+    if(!categories.length){
+      list.innerHTML='<div class="empty">لا توجد أقسام للترتيب.</div>';
+      return;
+    }
+
+    list.innerHTML=categories.map((category,index)=>{
+      const productCount=adminProducts.filter(
+        p=>String(p.category_id)===String(category.id)
+      ).length;
+
+      const hidden=category.is_visible===false
+        ? ' • مخفي من المنيو'
+        : '';
+
+      return `
+        <div class="sortable-item" data-id="${escapeAdminHtml(category.id)}">
+          <div class="drag-handle" aria-label="اسحب للترتيب">☰</div>
+          <div class="sort-item-main">
+            <div class="sort-item-name">${escapeAdminHtml(category.name_ar||category.name||'بدون اسم')}</div>
+            <div class="sort-item-meta">${productCount} صنف${hidden}</div>
+          </div>
+          <div class="sort-position">${index+1}</div>
+        </div>
+      `;
+    }).join('');
+
+    if(categorySortableInstance){
+      categorySortableInstance.destroy();
+      categorySortableInstance=null;
+    }
+
+    if(window.Sortable){
+      categorySortableInstance=new Sortable(list,{
+        animation:180,
+        handle:'.drag-handle',
+        ghostClass:'sortable-ghost',
+        chosenClass:'sortable-chosen',
+        delay:80,
+        delayOnTouchOnly:true,
+        touchStartThreshold:4,
+        onEnd:()=>{
+          updateSortPositionLabels('categorySortList');
+          setSortStatus(
+            'categorySortStatus',
+            'تم تغيير الترتيب محلياً. اضغط «حفظ ترتيب الأقسام».',
+            true
+          );
+        }
+      });
+    }else{
+      setSortStatus(
+        'categorySortStatus',
+        'تعذر تحميل مكتبة السحب والإفلات. اعمل Refresh للصفحة.',
+        false
+      );
+    }
+  }
+
+  function renderProductSortCategoryOptions(){
+    const select=document.getElementById('productSortCategorySelect');
+    if(!select)return;
+
+    const oldValue=select.value;
+
+    const categories=adminCategories
+      .slice()
+      .sort((a,b)=>{
+        if(isHiddenCategory(a))return 1;
+        if(isHiddenCategory(b))return -1;
+        return Number(a.sort_order||9999)-Number(b.sort_order||9999);
+      });
+
+    select.innerHTML=categories
+      .map(c=>`<option value="${escapeAdminHtml(c.id)}">${escapeAdminHtml(categoryLabel(c))}</option>`)
+      .join('');
+
+    if(oldValue && categories.some(c=>String(c.id)===String(oldValue))){
+      select.value=oldValue;
+    }
+
+    renderProductSortList();
+  }
+
+  function renderProductSortList(){
+    const select=document.getElementById('productSortCategorySelect');
+    const list=document.getElementById('productSortList');
+    if(!select||!list)return;
+
+    const categoryId=select.value;
+
+    const products=adminProducts
+      .filter(p=>String(p.category_id)===String(categoryId))
+      .slice()
+      .sort(
+        (a,b)=>
+          Number(a.sort_order||9999)-
+          Number(b.sort_order||9999)
+      );
+
+    if(productSortableInstance){
+      productSortableInstance.destroy();
+      productSortableInstance=null;
+    }
+
+    if(!products.length){
+      list.innerHTML='<div class="empty">لا توجد أصناف داخل هذا القسم.</div>';
+      setSortStatus('productSortStatus','');
+      return;
+    }
+
+    list.innerHTML=products.map((product,index)=>{
+      const hidden=product.is_visible===false?' • مخفي':'';
+      const unavailable=product.is_available===false?' • غير متوفر':'';
+
+      return `
+        <div class="sortable-item" data-id="${escapeAdminHtml(product.id)}">
+          <div class="drag-handle" aria-label="اسحب للترتيب">☰</div>
+          <div class="sort-item-main">
+            <div class="sort-item-name">${escapeAdminHtml(product.name_ar||product.name||'بدون اسم')}</div>
+            <div class="sort-item-meta">${getProductDisplayPrice(product)}${hidden}${unavailable}</div>
+          </div>
+          <div class="sort-position">${index+1}</div>
+        </div>
+      `;
+    }).join('');
+
+    if(window.Sortable){
+      productSortableInstance=new Sortable(list,{
+        animation:180,
+        handle:'.drag-handle',
+        ghostClass:'sortable-ghost',
+        chosenClass:'sortable-chosen',
+        delay:80,
+        delayOnTouchOnly:true,
+        touchStartThreshold:4,
+        onEnd:()=>{
+          updateSortPositionLabels('productSortList');
+          setSortStatus(
+            'productSortStatus',
+            'تم تغيير ترتيب الأصناف محلياً. اضغط «حفظ ترتيب الأصناف».',
+            true
+          );
+        }
+      });
+    }else{
+      setSortStatus(
+        'productSortStatus',
+        'تعذر تحميل مكتبة السحب والإفلات. اعمل Refresh للصفحة.',
+        false
+      );
+    }
+  }
+
+  async function saveCategoryOrder(){
+    const list=document.getElementById('categorySortList');
+    const btn=document.getElementById('saveCategoryOrderBtn');
+    if(!list||!btn)return;
+
+    const ids=[...list.querySelectorAll('.sortable-item')]
+      .map(item=>item.dataset.id)
+      .filter(Boolean);
+
+    if(!ids.length)return;
+
+    btn.disabled=true;
+    btn.textContent='جاري الحفظ...';
+    setSortStatus('categorySortStatus','جاري حفظ ترتيب الأقسام...');
+
+    try{
+      // Sequential updates are slower than a bulk RPC, but are more reliable
+      // in the current browser-only setup and do not require a new SQL function.
+      for(let i=0;i<ids.length;i++){
+        const result=await supabaseClient
+          .from('categories')
+          .update({
+            sort_order:i+1,
+            ...(adminCategories[0] && hasField(adminCategories[0],'updated_at')
+              ? {updated_at:new Date().toISOString()}
+              : {})
+          })
+          .eq('id',ids[i]);
+
+        if(result.error)throw result.error;
+      }
+
+      // Keep the system hidden category fixed at 9999.
+      const hidden=getHiddenCategory();
+      if(hidden){
+        const hiddenResult=await supabaseClient
+          .from('categories')
+          .update({sort_order:9999,is_visible:false})
+          .eq('id',hidden.id);
+
+        if(hiddenResult.error)throw hiddenResult.error;
+      }
+
+      setSortStatus('categorySortStatus','تم حفظ ترتيب الأقسام بنجاح ✓');
+      await loadAdminDashboard();
+
+    }catch(e){
+      console.error('SAVE CATEGORY ORDER ERROR:',e);
+      setSortStatus(
+        'categorySortStatus',
+        'فشل حفظ ترتيب الأقسام: '+(e.message||e),
+        false
+      );
+    }finally{
+      btn.disabled=false;
+      btn.textContent='حفظ ترتيب الأقسام';
+    }
+  }
+
+  async function saveProductOrder(){
+    const list=document.getElementById('productSortList');
+    const select=document.getElementById('productSortCategorySelect');
+    const btn=document.getElementById('saveProductOrderBtn');
+    if(!list||!select||!btn)return;
+
+    const ids=[...list.querySelectorAll('.sortable-item')]
+      .map(item=>item.dataset.id)
+      .filter(Boolean);
+
+    const selectedCategoryId=select.value;
+
+    if(!ids.length)return;
+
+    btn.disabled=true;
+    btn.textContent='جاري الحفظ...';
+    setSortStatus('productSortStatus','جاري حفظ ترتيب الأصناف...');
+
+    try{
+      for(let i=0;i<ids.length;i++){
+        const product=adminProducts.find(
+          p=>String(p.id)===String(ids[i])
+        );
+
+        const patch={sort_order:i+1};
+
+        if(product && hasField(product,'updated_at')){
+          patch.updated_at=new Date().toISOString();
+        }
+
+        const result=await supabaseClient
+          .from('products')
+          .update(patch)
+          .eq('id',ids[i]);
+
+        if(result.error)throw result.error;
+      }
+
+      setSortStatus('productSortStatus','تم حفظ ترتيب الأصناف بنجاح ✓');
+      await loadAdminDashboard();
+
+      const refreshedSelect=document.getElementById('productSortCategorySelect');
+      if(
+        refreshedSelect &&
+        [...refreshedSelect.options].some(
+          option=>String(option.value)===String(selectedCategoryId)
+        )
+      ){
+        refreshedSelect.value=selectedCategoryId;
+        renderProductSortList();
+      }
+
+    }catch(e){
+      console.error('SAVE PRODUCT ORDER ERROR:',e);
+      setSortStatus(
+        'productSortStatus',
+        'فشل حفظ ترتيب الأصناف: '+(e.message||e),
+        false
+      );
+    }finally{
+      btn.disabled=false;
+      btn.textContent='حفظ ترتيب الأصناف';
+    }
+  }
+
+
+  // ==========================================
   // BACKUP / RESTORE
   // ==========================================
 
@@ -2309,6 +2823,13 @@
   // Add buttons: editors will be enabled after edit/save is verified.
   document.getElementById('addProductBtn').addEventListener('click',openAddProductEditor);
   document.getElementById('addCategoryBtn').addEventListener('click',openAddCategoryEditor);
+
+  document.getElementById('saveCategoryOrderBtn').addEventListener('click',saveCategoryOrder);
+  document.getElementById('saveProductOrderBtn').addEventListener('click',saveProductOrder);
+  document.getElementById('productSortCategorySelect').addEventListener('change',()=>{
+    setSortStatus('productSortStatus','');
+    renderProductSortList();
+  });
 
   document.getElementById('backupFullBtn').addEventListener('click',backupFullMenu);
   document.getElementById('backupCategoriesBtn').addEventListener('click',backupAllCategories);
