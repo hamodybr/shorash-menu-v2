@@ -348,6 +348,38 @@
       font-size: 13px;
     }
 
+    .product-side {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 7px;
+    }
+
+    .product-options-preview {
+      margin-top: 6px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .option-chip {
+      font-size: 11px;
+      color: #c9c2b8;
+      border: 1px solid rgba(216, 169, 88, 0.18);
+      background: rgba(216, 169, 88, 0.06);
+      border-radius: 8px;
+      padding: 4px 7px;
+    }
+
+    .edit-product-btn {
+      border: 1px solid rgba(216, 169, 88, 0.28);
+      background: #17130f;
+      color: #e3c58e;
+      border-radius: 9px;
+      padding: 7px 10px;
+      font-size: 12px;
+    }
+
     /* =========================
        Empty / Loading
        ========================= */
@@ -777,6 +809,71 @@
   // Products
   // ==========================================
 
+
+  function getProductOptions(productId) {
+    return adminOptions
+      .filter(option => option.product_id === productId)
+      .sort((a, b) => Number(a.sort_order || 0) - Number(b.sort_order || 0));
+  }
+
+  function getProductDisplayPrice(product) {
+    const options = getProductOptions(product.id);
+    const optionPrices = options
+      .map(option => Number(option.price ?? option.base_price ?? 0))
+      .filter(price => Number.isFinite(price) && price > 0);
+
+    if (optionPrices.length) {
+      const min = Math.min(...optionPrices);
+      const max = Math.max(...optionPrices);
+      return min === max
+        ? formatAdminPrice(min)
+        : `${formatAdminPrice(min)} — ${formatAdminPrice(max)}`;
+    }
+
+    return formatAdminPrice(product.base_price ?? product.price ?? 0);
+  }
+
+  function renderProductOptionChips(productId) {
+    const options = getProductOptions(productId);
+    if (!options.length) return '';
+
+    return `
+      <div class="product-options-preview">
+        ${options.slice(0, 4).map(option => {
+          const optionName =
+            option.name_ar || option.name_ku || option.name_en ||
+            option.label_ar || option.label_ku || option.label_en ||
+            option.name || 'خيار';
+          const price = Number(option.price ?? option.base_price ?? 0);
+          return `<span class="option-chip">${escapeAdminHtml(optionName)}${price > 0 ? ` • ${formatAdminPrice(price)}` : ''}</span>`;
+        }).join('')}
+        ${options.length > 4 ? `<span class="option-chip">+${options.length - 4}</span>` : ''}
+      </div>
+    `;
+  }
+
+  function editAdminProduct(productId) {
+    const product = adminProducts.find(item => item.id === productId);
+    if (!product) return;
+
+    // Use the existing editor if this build already defines it.
+    if (typeof window.openProductEditModal === 'function') {
+      window.openProductEditModal(productId);
+      return;
+    }
+    if (typeof window.openEditProductModal === 'function') {
+      window.openEditProductModal(productId);
+      return;
+    }
+    if (typeof window.editProduct === 'function' && window.editProduct !== editAdminProduct) {
+      window.editProduct(productId);
+      return;
+    }
+
+    alert('زر التعديل أصبح ظاهرًا. محرر الصنف نفسه غير موجود في هذه النسخة من admin.html، لذلك سنربطه في الخطوة التالية.');
+  }
+
+
   function renderAdminProducts(search = '') {
 
     const container =
@@ -881,11 +978,23 @@
                 ${escapeAdminHtml(categoryName)}
               </div>
 
+              ${renderProductOptionChips(product.id)}
+
             </div>
 
 
-            <div class="product-price">
-              ${formatAdminPrice(product.price)}
+            <div class="product-side">
+              <div class="product-price">
+                ${getProductDisplayPrice(product)}
+              </div>
+
+              <button
+                class="edit-product-btn"
+                type="button"
+                onclick="editAdminProduct('${escapeAdminHtml(product.id)}')"
+              >
+                تعديل
+              </button>
             </div>
 
           </div>
