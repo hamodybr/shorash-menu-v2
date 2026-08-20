@@ -875,6 +875,90 @@
       font-weight:800;
     }
 
+  
+    /* =========================================================
+       SHORASH ADMIN V3.2 — LEGACY IMAGE MIGRATION
+       ========================================================= */
+    .migration-card{
+      border-color:rgba(216,169,88,.24);
+      background:
+        linear-gradient(145deg,rgba(216,169,88,.07),rgba(255,255,255,.02));
+    }
+
+    .migration-count{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:34px;
+      padding:4px 8px;
+      margin-inline-start:6px;
+      border-radius:999px;
+      background:rgba(216,169,88,.12);
+      color:#e2b55e;
+      font-size:11px;
+      font-weight:900;
+    }
+
+    .migration-progress-wrap{
+      display:none;
+      margin-top:12px;
+    }
+
+    .migration-progress-wrap.active{
+      display:block;
+    }
+
+    .migration-progress-track{
+      width:100%;
+      height:8px;
+      border-radius:999px;
+      overflow:hidden;
+      background:#050403;
+      border:1px solid rgba(255,255,255,.075);
+    }
+
+    .migration-progress-bar{
+      width:0%;
+      height:100%;
+      background:#d8a958;
+      transition:width .18s ease;
+    }
+
+    .migration-progress-text{
+      margin-top:7px;
+      color:#b7b0a7;
+      font-size:11px;
+      line-height:1.6;
+    }
+
+    .migration-results{
+      margin-top:8px;
+      font-size:11px;
+      line-height:1.7;
+      color:#8f8981;
+      white-space:pre-wrap;
+    }
+
+    .migration-errors{
+      display:none;
+      margin-top:9px;
+      max-height:190px;
+      overflow:auto;
+      border:1px solid rgba(248,113,113,.17);
+      background:rgba(95,20,20,.11);
+      border-radius:11px;
+      padding:9px;
+      color:#fecaca;
+      font-size:10px;
+      line-height:1.6;
+      direction:ltr;
+      text-align:left;
+    }
+
+    .migration-errors.active{
+      display:block;
+    }
+
   </style>
 </head>
 
@@ -1068,6 +1152,50 @@
           <input id="restoreBackupInput" type="file" accept=".json,application/json" hidden>
         </div>
       </div>
+      <div id="legacyMigrationCard" class="tools-card migration-card">
+        <h3>
+          🖼 نقل الصور القديمة إلى Supabase
+          <span id="legacyImageCount" class="migration-count">—</span>
+        </h3>
+
+        <p>
+          ينقل صور الأصناف التي ما زالت من catalog.kurdunus.com إلى
+          Storage الخاص بالمشروع، ثم يحدّث رابط الصورة تلقائياً.
+          العملية قابلة للاستكمال: إذا توقفت، شغّلها مرة ثانية وسيتم تجاوز الصور المنقولة.
+        </p>
+
+        <div class="tools-actions">
+          <button id="startImageMigrationBtn" class="btn btn-gold" type="button">
+            بدء نقل الصور
+          </button>
+
+          <button id="stopImageMigrationBtn" class="btn btn-dark" type="button" disabled>
+            إيقاف
+          </button>
+        </div>
+
+        <div id="migrationProgressWrap" class="migration-progress-wrap">
+          <div class="migration-progress-track">
+            <div id="migrationProgressBar" class="migration-progress-bar"></div>
+          </div>
+          <div id="migrationProgressText" class="migration-progress-text"></div>
+          <div id="migrationResults" class="migration-results"></div>
+          <div id="migrationErrors" class="migration-errors"></div>
+        </div>
+      </div>
+
+      <div id="legacyMigrationDone" class="tools-card" style="display:none;">
+        <h3>✅ الصور القديمة</h3>
+        <p>
+          جميع صور الأصناف تم نقلها إلى Supabase Storage.
+        </p>
+        <div class="tools-actions">
+          <button id="recheckLegacyImagesBtn" class="btn btn-dark" type="button">
+            إعادة الفحص
+          </button>
+        </div>
+      </div>
+
       <div class="tools-card admin-account-card">
         <h3>🔐 حساب الإدارة</h3>
         <p>أنت مسجل دخول حالياً بهذا الحساب:</p>
@@ -1158,6 +1286,9 @@
   let adminSession = null;
   let adminDashboardLoaded = false;
 
+  let migrationStopRequested = false;
+  let migrationRunning = false;
+
 
   // ==========================================
   // Escape HTML
@@ -1185,6 +1316,295 @@
 
     return number.toLocaleString('en-US') + ' د.ع';
 
+  }
+
+
+  // ==========================================
+  // LEGACY IMAGE MIGRATION
+  // ==========================================
+
+  function isLegacyCatalogImage(url){
+    try{
+      const parsed=new URL(String(url||''));
+      return (
+        parsed.protocol==='https:' &&
+        parsed.hostname.toLowerCase()==='catalog.kurdunus.com'
+      );
+    }catch(_){
+      return false;
+    }
+  }
+
+  function getLegacyImageProducts(){
+    return adminProducts.filter(product=>
+      isLegacyCatalogImage(product.image_url || product.image || '')
+    );
+  }
+
+  function updateLegacyImageCount(){
+    const count=getLegacyImageProducts().length;
+
+    const countEl=document.getElementById('legacyImageCount');
+    const migrationCard=document.getElementById('legacyMigrationCard');
+    const doneCard=document.getElementById('legacyMigrationDone');
+
+    if(countEl)countEl.textContent=count;
+
+    // Keep the migration tool visible only while there are old images left.
+    if(count>0){
+      if(migrationCard)migrationCard.style.display='';
+      if(doneCard)doneCard.style.display='none';
+    }else{
+      if(migrationCard)migrationCard.style.display='none';
+      if(doneCard)doneCard.style.display='';
+    }
+  }
+
+  function setMigrationProgress(done,total,success,failed,skipped=0){
+    const wrap=document.getElementById('migrationProgressWrap');
+    const bar=document.getElementById('migrationProgressBar');
+    const text=document.getElementById('migrationProgressText');
+    const results=document.getElementById('migrationResults');
+
+    if(wrap)wrap.classList.add('active');
+
+    const percent=total
+      ? Math.max(0,Math.min(100,Math.round((done/total)*100)))
+      : 0;
+
+    if(bar)bar.style.width=percent+'%';
+
+    if(text){
+      text.textContent=`${done} / ${total} — ${percent}%`;
+    }
+
+    if(results){
+      results.textContent=
+        `نجح: ${success}  •  فشل: ${failed}` +
+        (skipped ? `  •  متجاوز: ${skipped}` : '');
+    }
+  }
+
+  function showMigrationErrors(errors){
+    const el=document.getElementById('migrationErrors');
+    if(!el)return;
+
+    if(!errors.length){
+      el.classList.remove('active');
+      el.textContent='';
+      return;
+    }
+
+    el.classList.add('active');
+    el.textContent=errors
+      .map(item=>`${item.name}: ${item.error}`)
+      .join('\n');
+  }
+
+  function buildFullEmergencyBackup(){
+    return makeBackup('full',{
+      categories:cloneRows(adminCategories),
+      products:cloneRows(adminProducts),
+      product_options:cloneRows(adminOptions)
+    },{
+      reason:'before_legacy_image_migration'
+    });
+  }
+
+  async function invokeImageMigration(product){
+    const {data,error}=await supabaseClient.functions.invoke(
+      'migrate-menu-image',
+      {
+        body:{
+          product_id:product.id
+        }
+      }
+    );
+
+    if(error){
+      let message=error.message||String(error);
+
+      try{
+        if(error.context && typeof error.context.json==='function'){
+          const detail=await error.context.json();
+          if(detail?.error)message=detail.error;
+          else if(detail?.message)message=detail.message;
+        }
+      }catch(_){}
+
+      throw new Error(message);
+    }
+
+    if(!data?.ok){
+      throw new Error(data?.error || 'Edge Function returned an invalid response.');
+    }
+
+    return data;
+  }
+
+  async function migrateLegacyImages(){
+    if(migrationRunning)return;
+
+    const products=getLegacyImageProducts();
+
+    if(!products.length){
+      alert('كل صور الأصناف أصبحت داخل Supabase Storage ✅');
+      return;
+    }
+
+    const ok=confirm(
+      `سيتم نقل ${products.length} صورة قديمة إلى Supabase Storage.\n\n` +
+      `قبل البدء سيتم حفظ Backup تلقائي لبيانات المنيو على هذا الجهاز.\n` +
+      `يمكنك إيقاف العملية وإكمالها لاحقاً.\n\n` +
+      `هل تريد البدء؟`
+    );
+
+    if(!ok)return;
+
+    // Save DB-state backup locally without starting a browser download.
+    saveEmergencyBackup(buildFullEmergencyBackup());
+
+    migrationRunning=true;
+    migrationStopRequested=false;
+
+    const startBtn=document.getElementById('startImageMigrationBtn');
+    const stopBtn=document.getElementById('stopImageMigrationBtn');
+
+    if(startBtn){
+      startBtn.disabled=true;
+      startBtn.textContent='جاري النقل...';
+    }
+    if(stopBtn)stopBtn.disabled=false;
+
+    const total=products.length;
+    let cursor=0;
+    let done=0;
+    let success=0;
+    let failed=0;
+    let skipped=0;
+    const errors=[];
+
+    showMigrationErrors([]);
+    setMigrationProgress(0,total,0,0,0);
+
+    // Three concurrent workers give good speed without flooding the function.
+    async function worker(){
+      while(true){
+        if(migrationStopRequested)return;
+
+        const index=cursor++;
+        if(index>=total)return;
+
+        const product=products[index];
+        const name=
+          product.name_ar ||
+          product.name ||
+          product.id;
+
+        try{
+          const result=await invokeImageMigration(product);
+
+          if(result.skipped){
+            skipped++;
+          }else{
+            success++;
+          }
+
+        }catch(e){
+          failed++;
+          errors.push({
+            name,
+            error:e.message||String(e)
+          });
+        }finally{
+          done++;
+          setMigrationProgress(done,total,success,failed,skipped);
+          showMigrationErrors(errors);
+        }
+      }
+    }
+
+    try{
+      await Promise.all([
+        worker(),
+        worker(),
+        worker()
+      ]);
+
+      if(migrationStopRequested){
+        const results=document.getElementById('migrationResults');
+        if(results){
+          results.textContent +=
+            '\nتم إيقاف العملية. يمكنك تشغيلها مرة ثانية لإكمال الباقي.';
+        }
+      }else{
+        const results=document.getElementById('migrationResults');
+        if(results){
+          results.textContent +=
+            `\nاكتملت العملية ✓`;
+        }
+      }
+
+      // Refresh products so the remaining legacy count becomes accurate.
+      await loadAdminDashboard();
+
+    }catch(e){
+      console.error('IMAGE MIGRATION ERROR:',e);
+      alert('تعذر إكمال نقل الصور: '+(e.message||e));
+
+    }finally{
+      migrationRunning=false;
+
+      if(startBtn){
+        startBtn.disabled=false;
+        startBtn.textContent='بدء نقل الصور';
+      }
+
+      if(stopBtn)stopBtn.disabled=true;
+      updateLegacyImageCount();
+    }
+  }
+
+  async function recheckLegacyImages(){
+    try{
+      const btn=document.getElementById('recheckLegacyImagesBtn');
+      if(btn){
+        btn.disabled=true;
+        btn.textContent='جاري الفحص...';
+      }
+
+      await loadAdminDashboard();
+
+      const remaining=getLegacyImageProducts().length;
+
+      if(remaining>0){
+        alert(`تم العثور على ${remaining} صورة قديمة تحتاج نقل.`);
+      }else{
+        alert('كل الصور ما زالت داخل Supabase Storage ✅');
+      }
+
+    }catch(e){
+      alert('فشل إعادة الفحص: '+(e.message||e));
+    }finally{
+      const btn=document.getElementById('recheckLegacyImagesBtn');
+      if(btn){
+        btn.disabled=false;
+        btn.textContent='إعادة الفحص';
+      }
+    }
+  }
+
+
+  function stopLegacyImageMigration(){
+    if(!migrationRunning)return;
+
+    migrationStopRequested=true;
+
+    const btn=document.getElementById('stopImageMigrationBtn');
+    if(btn){
+      btn.disabled=true;
+      btn.textContent='جاري الإيقاف...';
+    }
   }
 
 
@@ -1406,6 +1826,7 @@
       renderBackupCategoryOptions();
       renderCategorySortList();
       renderProductSortCategoryOptions();
+      updateLegacyImageCount();
 
 
       console.log(
@@ -3364,6 +3785,22 @@
   document.getElementById('adminLogoutBtn').addEventListener(
     'click',
     adminSignOut
+  );
+
+
+  document.getElementById('startImageMigrationBtn').addEventListener(
+    'click',
+    migrateLegacyImages
+  );
+
+  document.getElementById('stopImageMigrationBtn').addEventListener(
+    'click',
+    stopLegacyImageMigration
+  );
+
+  document.getElementById('recheckLegacyImagesBtn').addEventListener(
+    'click',
+    recheckLegacyImages
   );
 
 
