@@ -934,7 +934,7 @@
     btn.textContent='جاري الحفظ...';
 
     try{
-      // 1) Upload a newly selected image, or use the URL currently in the field.
+      // 1) Upload new image if selected, otherwise use the URL field.
       const uploadedImageUrl=await uploadAdminProductImage(productId);
 
       const patch={};
@@ -946,12 +946,13 @@
       if(hasField(product,'name_en')) patch.name_en=val('p_name_en');
       if(hasField(product,'category_id')) patch.category_id=val('p_category_id');
 
-      // IMPORTANT: persist the exact image field that exists in the loaded DB row.
       const imageField = hasField(product,'image_url')
         ? 'image_url'
         : (hasField(product,'image') ? 'image' : null);
 
-      if(imageField) patch[imageField]=uploadedImageUrl;
+      if(imageField){
+        patch[imageField]=uploadedImageUrl;
+      }
 
       if(hasField(product,'base_price')) patch.base_price=Number(val('p_base_price')||0);
       else if(hasField(product,'price')) patch.price=Number(val('p_base_price')||0);
@@ -966,36 +967,42 @@
         if(hasField(product,k)) patch[k]=checked('p_'+k);
       });
 
-      // 2) Update and REQUIRE Supabase to return the updated row.
-      const up=await supabaseClient
-        .from('products')
-        .update(patch)
-        .eq('id',product.id)
-        .select('*');
-
-      if(up.error) throw up.error;
-
-      if(!up.data || up.data.length !== 1){
-        throw new Error('لم يتم تحديث سجل الصنف في قاعدة البيانات. عدد السجلات المعدلة: '+(up.data?.length||0));
+      if(hasField(product,'updated_at')){
+        patch.updated_at=new Date().toISOString();
       }
 
-      const savedProduct=up.data[0];
+      // 2) Update product. Do NOT chain .select() here.
+      // Some RLS configurations can make UPDATE + SELECT look like 0 rows.
+      const updateResult=await supabaseClient
+        .from('products')
+        .update(patch)
+        .eq('id',product.id);
 
-      // 3) Verify that the image URL really persisted.
-      if(imageField && uploadedImageUrl){
-        const savedImage=String(savedProduct[imageField]||'').trim();
-        const expectedImage=String(uploadedImageUrl||'').trim();
+      if(updateResult.error) throw updateResult.error;
 
-        if(savedImage !== expectedImage){
+      // 3) Read the product again and verify the persisted values.
+      const verify=await supabaseClient
+        .from('products')
+        .select('*')
+        .eq('id',product.id)
+        .single();
+
+      if(verify.error) throw verify.error;
+      if(!verify.data) throw new Error('تعذر قراءة الصنف بعد الحفظ.');
+
+      if(imageField){
+        const expected=String(uploadedImageUrl||'').trim();
+        const actual=String(verify.data[imageField]||'').trim();
+
+        if(expected !== actual){
           throw new Error(
-            'تم رفع الصورة، لكن رابطها لم يُحفظ في products.'+
-            ' الرابط المتوقع: '+expectedImage+
-            ' | الرابط الموجود: '+savedImage
+            'لم يتم حفظ رابط الصورة في جدول products. ' +
+            'الرابط الموجود حالياً: ' + (actual || 'فارغ')
           );
         }
       }
 
-      // 4) Save options.
+      // 4) Save product options.
       const rows=[...document.querySelectorAll('#optionsEditor .option-editor')];
 
       for(const row of rows){
@@ -1003,7 +1010,11 @@
 
         if(row.dataset.deleted==='1'){
           if(oid){
-            const d=await supabaseClient.from('product_options').delete().eq('id',oid);
+            const d=await supabaseClient
+              .from('product_options')
+              .delete()
+              .eq('id',oid);
+
             if(d.error)throw d.error;
           }
           continue;
@@ -1031,6 +1042,7 @@
             .eq('id',oid);
 
           if(r.error)throw r.error;
+
         } else {
           const sample=adminOptions[0]||{};
           const op={product_id:product.id};
@@ -1043,33 +1055,22 @@
           else if(hasField(sample,'base_price'))op.base_price=price;
           else op.price=price;
 
-          if(hasField(sample,'sort_order'))op.sort_order=getProductOptions(product.id).length+1;
+          if(hasField(sample,'sort_order')){
+            op.sort_order=getProductOptions(product.id).length+1;
+          }
 
-          const r=await supabaseClient.from('product_options').insert(op);
+          const r=await supabaseClient
+            .from('product_options')
+            .insert(op);
+
           if(r.error)throw r.error;
         }
       }
 
-      // 5) Read the product again from the database, independently of the UPDATE result.
-      const verify=await supabaseClient
-        .from('products')
-        .select('*')
-        .eq('id',product.id)
-        .single();
-
-      if(verify.error) throw verify.error;
-
-      if(imageField && uploadedImageUrl){
-        const verifiedImage=String(verify.data?.[imageField]||'').trim();
-        if(verifiedImage !== String(uploadedImageUrl).trim()){
-          throw new Error('فشل التحقق النهائي: قاعدة البيانات ما زالت تحتوي رابط صورة مختلف.');
-        }
-      }
-
-      showEditorMsg('تم حفظ الصنف والصورة والخيارات والتحقق منها بنجاح ✓',true);
+      showEditorMsg('تم حفظ الصنف والصورة والخيارات بنجاح ✓',true);
 
       await loadAdminDashboard();
-      setTimeout(closeAdminEditor,900);
+      setTimeout(closeAdminEditor,850);
 
     }catch(e){
       console.error('SHORASH SAVE ERROR:',e);
