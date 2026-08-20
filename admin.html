@@ -1,0 +1,963 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="utf-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+
+  <meta name="theme-color" content="#080604">
+
+  <title>SHORASH — Admin Dashboard</title>
+
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top, #21170d 0%, #0c0906 38%, #050403 100%);
+      color: #f5f5f5;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Tahoma,
+        Arial,
+        sans-serif;
+      min-height: 100vh;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    /* =========================
+       Header
+       ========================= */
+
+    .admin-header {
+      padding: 28px 18px 22px;
+      text-align: center;
+      border-bottom: 1px solid rgba(201, 153, 76, 0.18);
+      background: rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .admin-logo {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid rgba(218, 171, 92, 0.55);
+      box-shadow:
+        0 0 0 6px rgba(218, 171, 92, 0.04),
+        0 12px 35px rgba(0, 0, 0, 0.5);
+    }
+
+    .admin-header h1 {
+      margin: 14px 0 5px;
+      font-size: 24px;
+      letter-spacing: 1px;
+      color: #d8a958;
+    }
+
+    .admin-header p {
+      margin: 0;
+      color: #a9a39a;
+      font-size: 14px;
+    }
+
+    /* =========================
+       Main
+       ========================= */
+
+    .admin-main {
+      width: min(1100px, calc(100% - 28px));
+      margin: 24px auto 60px;
+    }
+
+    /* =========================
+       Connection status
+       ========================= */
+
+    .connection-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 15px;
+      margin-bottom: 20px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.035);
+      color: #aaa;
+      font-size: 14px;
+    }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      flex: 0 0 10px;
+      border-radius: 50%;
+      background: #777;
+    }
+
+    .connection-box.success {
+      border-color: rgba(52, 211, 153, 0.25);
+      color: #baf3d7;
+    }
+
+    .connection-box.success .status-dot {
+      background: #34d399;
+      box-shadow: 0 0 12px rgba(52, 211, 153, 0.7);
+    }
+
+    .connection-box.error {
+      border-color: rgba(248, 113, 113, 0.3);
+      color: #fecaca;
+    }
+
+    .connection-box.error .status-dot {
+      background: #f87171;
+    }
+
+    /* =========================
+       Statistics
+       ========================= */
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+
+    .stat-card {
+      min-height: 105px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(201, 153, 76, 0.18);
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.055),
+          rgba(255, 255, 255, 0.018)
+        );
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.16);
+    }
+
+    .stat-card span {
+      color: #aaa39a;
+      font-size: 13px;
+      margin-bottom: 7px;
+    }
+
+    .stat-card strong {
+      font-size: 30px;
+      color: #e0b364;
+      line-height: 1;
+    }
+
+    /* =========================
+       Toolbar
+       ========================= */
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 190px;
+      padding: 13px 15px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 13px;
+      background: #0d0b09;
+      color: white;
+      outline: none;
+    }
+
+    .search-box:focus {
+      border-color: rgba(216, 169, 88, 0.65);
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 13px;
+      padding: 12px 17px;
+      font-weight: 700;
+    }
+
+    .btn-gold {
+      color: #100b05;
+      background: linear-gradient(135deg, #e2b55e, #ad7426);
+    }
+
+    .btn-dark {
+      color: #e6e6e6;
+      background: #17130f;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+    }
+
+    /* =========================
+       Sections
+       ========================= */
+
+    .panel {
+      overflow: hidden;
+      margin-bottom: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.075);
+      border-radius: 18px;
+      background: rgba(10, 8, 6, 0.84);
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 17px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .panel-header h2 {
+      margin: 0;
+      font-size: 18px;
+      color: #dcb063;
+    }
+
+    .panel-body {
+      padding: 15px;
+    }
+
+    /* =========================
+       Category
+       ========================= */
+
+    .category-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px;
+      margin-bottom: 9px;
+      border-radius: 13px;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.055);
+    }
+
+    .category-info {
+      min-width: 0;
+    }
+
+    .category-name {
+      font-weight: 700;
+      color: #f1f1f1;
+      margin-bottom: 4px;
+    }
+
+    .category-meta {
+      color: #89847d;
+      font-size: 12px;
+    }
+
+    .category-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .mini-btn {
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: #17130f;
+      color: #d6d2cc;
+      border-radius: 9px;
+      padding: 8px 10px;
+      font-size: 12px;
+    }
+
+    /* =========================
+       Products
+       ========================= */
+
+    .product-row {
+      display: grid;
+      grid-template-columns: 58px 1fr auto;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .product-row:last-child {
+      border-bottom: 0;
+    }
+
+    .product-image {
+      width: 58px;
+      height: 58px;
+      border-radius: 11px;
+      object-fit: cover;
+      background: #18130e;
+    }
+
+    .product-info {
+      min-width: 0;
+    }
+
+    .product-name {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .product-meta {
+      color: #8f8981;
+      font-size: 12px;
+    }
+
+    .product-price {
+      color: #d9aa57;
+      font-weight: 800;
+      white-space: nowrap;
+      font-size: 13px;
+    }
+
+    /* =========================
+       Empty / Loading
+       ========================= */
+
+    .loading,
+    .empty {
+      text-align: center;
+      padding: 35px 15px;
+      color: #8e8982;
+    }
+
+    /* =========================
+       Responsive
+       ========================= */
+
+    @media (max-width: 650px) {
+
+      .admin-main {
+        width: min(100% - 20px, 1100px);
+      }
+
+      .stats {
+        gap: 7px;
+      }
+
+      .stat-card {
+        min-height: 88px;
+        padding: 12px 9px;
+        text-align: center;
+      }
+
+      .stat-card span {
+        font-size: 11px;
+      }
+
+      .stat-card strong {
+        font-size: 25px;
+      }
+
+      .panel-header {
+        padding: 14px;
+      }
+
+      .panel-body {
+        padding: 10px;
+      }
+
+      .category-row {
+        padding: 12px 10px;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+
+<header class="admin-header">
+
+  <img
+    src="assets/shorash-logo.jpeg"
+    alt="SHORASH"
+    class="admin-logo"
+  >
+
+  <h1>SHORASH ADMIN</h1>
+
+  <p>إدارة المنيو والأقسام والأصناف</p>
+
+</header>
+
+
+<main class="admin-main">
+
+
+  <!-- Supabase connection -->
+  <div id="connectionStatus" class="connection-box">
+
+    <span class="status-dot"></span>
+
+    <span id="connectionText">
+      جاري الاتصال بقاعدة البيانات...
+    </span>
+
+  </div>
+
+
+  <!-- Statistics -->
+  <section class="stats">
+
+    <div class="stat-card">
+      <span>الأقسام</span>
+      <strong id="categoryCount">—</strong>
+    </div>
+
+    <div class="stat-card">
+      <span>الأصناف</span>
+      <strong id="productCount">—</strong>
+    </div>
+
+    <div class="stat-card">
+      <span>الخيارات</span>
+      <strong id="optionCount">—</strong>
+    </div>
+
+  </section>
+
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+
+    <input
+      id="adminSearch"
+      class="search-box"
+      type="search"
+      placeholder="ابحث عن صنف..."
+    >
+
+    <button
+      class="btn btn-gold"
+      type="button"
+      id="addProductBtn"
+    >
+      + إضافة صنف
+    </button>
+
+    <button
+      class="btn btn-dark"
+      type="button"
+      id="refreshBtn"
+    >
+      تحديث
+    </button>
+
+  </div>
+
+
+  <!-- Categories -->
+  <section class="panel">
+
+    <div class="panel-header">
+
+      <h2>الأقسام</h2>
+
+      <button
+        id="addCategoryBtn"
+        class="mini-btn"
+        type="button"
+      >
+        + قسم جديد
+      </button>
+
+    </div>
+
+    <div
+      id="categoriesContainer"
+      class="panel-body"
+    >
+
+      <div class="loading">
+        جاري تحميل الأقسام...
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- Products -->
+  <section class="panel">
+
+    <div class="panel-header">
+
+      <h2>الأصناف</h2>
+
+      <span
+        id="productsShown"
+        style="color:#8f8981;font-size:12px;"
+      ></span>
+
+    </div>
+
+    <div
+      id="productsContainer"
+      class="panel-body"
+    >
+
+      <div class="loading">
+        جاري تحميل الأصناف...
+      </div>
+
+    </div>
+
+  </section>
+
+
+</main>
+
+
+<!-- Supabase Library -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- Existing SHORASH Supabase Configuration -->
+<script src="js/supabase-config.js?v=1.0"></script>
+
+
+<script>
+
+  let adminCategories = [];
+  let adminProducts = [];
+  let adminOptions = [];
+
+
+  // ==========================================
+  // Escape HTML
+  // ==========================================
+
+  function escapeAdminHtml(value) {
+
+    return String(value ?? '')
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+
+  }
+
+
+  // ==========================================
+  // Price
+  // ==========================================
+
+  function formatAdminPrice(value) {
+
+    const number = Number(value || 0);
+
+    return number.toLocaleString('en-US') + ' د.ع';
+
+  }
+
+
+  // ==========================================
+  // Load dashboard
+  // ==========================================
+
+  async function loadAdminDashboard() {
+
+    const status = document.getElementById('connectionStatus');
+    const statusText = document.getElementById('connectionText');
+
+    try {
+
+      status.className = 'connection-box';
+
+      statusText.textContent =
+        'جاري الاتصال بقاعدة البيانات...';
+
+
+      const [
+        categoriesResult,
+        productsResult,
+        optionsResult
+      ] = await Promise.all([
+
+        supabaseClient
+          .from('categories')
+          .select('*')
+          .order('sort_order', { ascending: true }),
+
+        supabaseClient
+          .from('products')
+          .select('*')
+          .order('sort_order', { ascending: true }),
+
+        supabaseClient
+          .from('product_options')
+          .select('*')
+
+      ]);
+
+
+      if (categoriesResult.error) {
+        throw categoriesResult.error;
+      }
+
+      if (productsResult.error) {
+        throw productsResult.error;
+      }
+
+      if (optionsResult.error) {
+        throw optionsResult.error;
+      }
+
+
+      adminCategories = categoriesResult.data || [];
+      adminProducts = productsResult.data || [];
+      adminOptions = optionsResult.data || [];
+
+
+      status.className =
+        'connection-box success';
+
+      statusText.textContent =
+        'متصل بقاعدة بيانات SHORASH';
+
+
+      document.getElementById('categoryCount').textContent =
+        adminCategories.length;
+
+      document.getElementById('productCount').textContent =
+        adminProducts.length;
+
+      document.getElementById('optionCount').textContent =
+        adminOptions.length;
+
+
+      renderAdminCategories();
+      renderAdminProducts();
+
+
+      console.log(
+        '✅ SHORASH ADMIN DATA LOADED',
+        {
+          categories: adminCategories.length,
+          products: adminProducts.length,
+          options: adminOptions.length
+        }
+      );
+
+    }
+
+    catch (error) {
+
+      console.error(
+        '❌ SHORASH ADMIN ERROR:',
+        error
+      );
+
+      status.className =
+        'connection-box error';
+
+      statusText.textContent =
+        'حدث خطأ أثناء تحميل قاعدة البيانات';
+
+    }
+
+  }
+
+
+  // ==========================================
+  // Categories
+  // ==========================================
+
+  function renderAdminCategories() {
+
+    const container =
+      document.getElementById('categoriesContainer');
+
+
+    if (!adminCategories.length) {
+
+      container.innerHTML =
+        '<div class="empty">لا توجد أقسام.</div>';
+
+      return;
+
+    }
+
+
+    container.innerHTML =
+      adminCategories.map((category, index) => {
+
+        const productCount =
+          adminProducts.filter(
+            product =>
+              product.category_id === category.id
+          ).length;
+
+
+        const name =
+          category.name_ar ||
+          category.name ||
+          'بدون اسم';
+
+
+        return `
+          <div class="category-row">
+
+            <div class="category-info">
+
+              <div class="category-name">
+                ${escapeAdminHtml(name)}
+              </div>
+
+              <div class="category-meta">
+                الترتيب ${index + 1}
+                •
+                ${productCount} صنف
+              </div>
+
+            </div>
+
+
+            <div class="category-actions">
+
+              <button
+                class="mini-btn"
+                type="button"
+              >
+                تعديل
+              </button>
+
+            </div>
+
+          </div>
+        `;
+
+      }).join('');
+
+  }
+
+
+  // ==========================================
+  // Products
+  // ==========================================
+
+  function renderAdminProducts(search = '') {
+
+    const container =
+      document.getElementById('productsContainer');
+
+
+    const query =
+      String(search || '')
+        .trim()
+        .toLowerCase();
+
+
+    const filtered =
+      adminProducts.filter(product => {
+
+        if (!query) return true;
+
+
+        const text = [
+          product.name_ar,
+          product.name_en,
+          product.name_ku,
+          product.description_ar
+        ]
+          .filter(Boolean)
+          .join(' ')
+          .toLowerCase();
+
+
+        return text.includes(query);
+
+      });
+
+
+    document.getElementById('productsShown').textContent =
+      `${filtered.length} من ${adminProducts.length}`;
+
+
+    if (!filtered.length) {
+
+      container.innerHTML =
+        '<div class="empty">لا توجد نتائج.</div>';
+
+      return;
+
+    }
+
+
+    container.innerHTML =
+      filtered.map(product => {
+
+        const name =
+          product.name_ar ||
+          product.name ||
+          'بدون اسم';
+
+
+        const category =
+          adminCategories.find(
+            item => item.id === product.category_id
+          );
+
+
+        const categoryName =
+          category
+            ? (
+                category.name_ar ||
+                category.name ||
+                ''
+              )
+            : 'بدون قسم';
+
+
+        const image =
+          product.image_url ||
+          product.image ||
+          'assets/shorash-logo.jpeg';
+
+
+        return `
+          <div class="product-row">
+
+            <img
+              class="product-image"
+              src="${escapeAdminHtml(image)}"
+              alt=""
+              loading="lazy"
+              onerror="
+                this.onerror=null;
+                this.src='assets/shorash-logo.jpeg';
+              "
+            >
+
+
+            <div class="product-info">
+
+              <div class="product-name">
+                ${escapeAdminHtml(name)}
+              </div>
+
+              <div class="product-meta">
+                ${escapeAdminHtml(categoryName)}
+              </div>
+
+            </div>
+
+
+            <div class="product-price">
+              ${formatAdminPrice(product.price)}
+            </div>
+
+          </div>
+        `;
+
+      }).join('');
+
+  }
+
+
+  // ==========================================
+  // Search
+  // ==========================================
+
+  document
+    .getElementById('adminSearch')
+    .addEventListener('input', event => {
+
+      renderAdminProducts(
+        event.target.value
+      );
+
+    });
+
+
+  // ==========================================
+  // Refresh
+  // ==========================================
+
+  document
+    .getElementById('refreshBtn')
+    .addEventListener('click', () => {
+
+      loadAdminDashboard();
+
+    });
+
+
+  // ==========================================
+  // Temporary buttons
+  // ==========================================
+
+  document
+    .getElementById('addProductBtn')
+    .addEventListener('click', () => {
+
+      alert(
+        'زر إضافة الصنف جاهز — سنفعّله في الخطوة القادمة.'
+      );
+
+    });
+
+
+  document
+    .getElementById('addCategoryBtn')
+    .addEventListener('click', () => {
+
+      alert(
+        'زر إضافة القسم جاهز — سنفعّله في الخطوة القادمة.'
+      );
+
+    });
+
+
+  // ==========================================
+  // Start
+  // ==========================================
+
+  loadAdminDashboard();
+
+</script>
+
+
+</body>
+</html>
