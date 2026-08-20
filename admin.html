@@ -461,6 +461,26 @@
 
 .image-upload-box{grid-column:1/-1;border:1px dashed rgba(216,169,88,.38);background:rgba(216,169,88,.045);border-radius:16px;padding:14px}
 .image-upload-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.image-upload-btn{display:inline-flex;padding:10px 15px;border-radius:11px;background:#17130f;border:1px solid rgba(216,169,88,.30);color:#e6c88f;font-weight:700;cursor:pointer}.image-upload-btn input{display:none}.image-preview{width:82px;height:82px;object-fit:cover;border-radius:13px}.image-file-name,.upload-progress{font-size:12px;color:#d8a958}
+  
+    /* =========================
+       Backup / restore
+       ========================= */
+    .backup-panel .panel-body{display:grid;gap:12px}
+    .backup-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .backup-card{border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025);border-radius:14px;padding:13px}
+    .backup-card h3{margin:0 0 9px;color:#e2b55e;font-size:14px}
+    .backup-card p{margin:0 0 10px;color:#9b958d;font-size:12px;line-height:1.7}
+    .backup-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .backup-row select{flex:1;min-width:180px;border:1px solid rgba(255,255,255,.11);background:#050403;color:#fff;border-radius:11px;padding:11px;outline:none}
+    .backup-status{min-height:20px;color:#d8a958;font-size:12px;line-height:1.6}
+    .system-badge{display:inline-flex;align-items:center;gap:5px;margin-inline-start:6px;padding:3px 7px;border-radius:999px;font-size:10px;border:1px solid rgba(216,169,88,.22);color:#d8a958;background:rgba(216,169,88,.07)}
+    .hidden-badge{display:inline-flex;padding:3px 7px;margin-inline-start:5px;border-radius:999px;font-size:10px;color:#fbcaca;border:1px solid rgba(248,113,113,.24);background:rgba(248,113,113,.06)}
+    .modal-choice-grid{display:grid;gap:10px;margin-top:14px}
+    .modal-choice{width:100%;text-align:right;border-radius:14px;padding:14px;border:1px solid rgba(255,255,255,.09);background:#15110e;color:#fff}
+    .modal-choice strong{display:block;margin-bottom:5px}.modal-choice span{display:block;color:#9f9991;font-size:12px;line-height:1.6}
+    .modal-choice.danger{border-color:rgba(248,113,113,.35);background:#251010;color:#fecaca}
+    @media(max-width:650px){.backup-grid{grid-template-columns:1fr}}
+
   </style>
 </head>
 
@@ -515,6 +535,49 @@
       <strong id="optionCount">—</strong>
     </div>
 
+  </section>
+
+  <!-- Backup / Restore -->
+  <section class="panel backup-panel">
+    <div class="panel-header">
+      <h2>النسخ الاحتياطي والاسترجاع</h2>
+      <span style="color:#8f8981;font-size:12px;">JSON</span>
+    </div>
+    <div class="panel-body">
+      <div class="backup-grid">
+        <div class="backup-card">
+          <h3>نسخة كاملة للمنيو</h3>
+          <p>الأقسام + الأصناف + الخيارات والأسعار. الصور تُحفظ كرابط داخل النسخة.</p>
+          <button class="btn btn-gold" type="button" id="backupFullBtn">تنزيل نسخة كاملة</button>
+        </div>
+        <div class="backup-card">
+          <h3>الأقسام كاملة</h3>
+          <p>نسخة من بيانات جميع الأقسام فقط.</p>
+          <button class="btn btn-dark" type="button" id="backupCategoriesBtn">تنزيل الأقسام</button>
+        </div>
+        <div class="backup-card">
+          <h3>الأصناف كاملة</h3>
+          <p>جميع الأصناف مع خياراتها وأسعارها.</p>
+          <button class="btn btn-dark" type="button" id="backupProductsBtn">تنزيل الأصناف</button>
+        </div>
+        <div class="backup-card">
+          <h3>قسم معيّن مع أصنافه</h3>
+          <div class="backup-row">
+            <select id="backupCategorySelect"></select>
+            <button class="btn btn-dark" type="button" id="backupCategoryBtn">تنزيل</button>
+          </div>
+        </div>
+      </div>
+      <div class="backup-card">
+        <h3>استرجاع نسخة احتياطية</h3>
+        <p>يدعم النسخة الكاملة، قسم مع أصنافه، الأقسام فقط، أو الأصناف مع الخيارات. الاسترجاع يعمل Upsert ولا يحذف البيانات الإضافية الموجودة.</p>
+        <div class="backup-row">
+          <button class="btn btn-gold" type="button" id="restoreBackupBtn">اختيار ملف واسترجاع</button>
+          <input id="restoreBackupInput" type="file" accept=".json,application/json" hidden>
+        </div>
+      </div>
+      <div id="backupStatus" class="backup-status"></div>
+    </div>
   </section>
 
 
@@ -738,6 +801,7 @@
 
       renderAdminCategories();
       renderAdminProducts();
+      renderBackupCategoryOptions();
 
 
       console.log(
@@ -818,6 +882,8 @@
                 الترتيب ${index + 1}
                 •
                 ${productCount} صنف
+                ${isHiddenCategory(category)?'<span class="system-badge">قسم نظامي غير معروض</span>':''}
+                ${category.is_visible===false && !isHiddenCategory(category)?'<span class="hidden-badge">مخفي من المنيو</span>':''}
               </div>
 
             </div>
@@ -910,11 +976,33 @@
   function val(id){ return document.getElementById(id)?.value ?? ''; }
   function checked(id){ return !!document.getElementById(id)?.checked; }
 
+  function isHiddenCategory(category){
+    if(!category) return false;
+    return category.slug==='hidden-products' || category.slug==='__hidden__' || category.name_ar==='غير معروض';
+  }
+  function getHiddenCategory(){ return adminCategories.find(isHiddenCategory)||null; }
+  function categoryLabel(category){
+    const name=category?.name_ar||category?.name||'بدون اسم';
+    return isHiddenCategory(category) ? `📦 ${name} — لا يظهر في المنيو` : name;
+  }
+  function setBackupStatus(text,ok=true){
+    const el=document.getElementById('backupStatus'); if(!el)return;
+    el.textContent=text||''; el.style.color=ok?'#baf3d7':'#fecaca';
+  }
+  function renderBackupCategoryOptions(){
+    const select=document.getElementById('backupCategorySelect'); if(!select)return;
+    select.innerHTML=adminCategories.filter(c=>!isHiddenCategory(c)).map(c=>`<option value="${escapeAdminHtml(c.id)}">${escapeAdminHtml(c.name_ar||c.name||'بدون اسم')}</option>`).join('');
+  }
+
   function editAdminProduct(productId) {
     const product = adminProducts.find(item => String(item.id) === String(productId));
     if (!product) return;
     const options=getProductOptions(product.id);
-    const catOptions=adminCategories.map(c=>`<option value="${escapeAdminHtml(c.id)}" ${String(c.id)===String(product.category_id)?'selected':''}>${escapeAdminHtml(c.name_ar||c.name||'بدون اسم')}</option>`).join('');
+    const catOptions=adminCategories
+      .slice()
+      .sort((a,b)=>Number(isHiddenCategory(a))-Number(isHiddenCategory(b)))
+      .map(c=>`<option value="${escapeAdminHtml(c.id)}" ${String(c.id)===String(product.category_id)?'selected':''}>${escapeAdminHtml(categoryLabel(c))}</option>`)
+      .join('');
     const priceKey=hasField(product,'base_price')?'base_price':(hasField(product,'price')?'price':null);
     const html=`<div class="form-grid">
       ${fieldHtml('الاسم العربي','p_name_ar',firstExisting(product,['name_ar','name']))}
@@ -1051,20 +1139,23 @@
         if(oid){
           const old=adminOptions.find(o=>String(o.id)===String(oid))||{};
           const op={};
+          const oldName=String(old.name_ar ?? old.label_ar ?? old.name ?? '').trim();
+          const oldPrice=Number(old.price ?? old.base_price ?? 0);
 
-          if(hasField(old,'name_ar'))op.name_ar=name;
-          else if(hasField(old,'label_ar'))op.label_ar=name;
-          else if(hasField(old,'name'))op.name=name;
+          if(name!==oldName){
+            if(hasField(old,'name_ar'))op.name_ar=name;
+            else if(hasField(old,'label_ar'))op.label_ar=name;
+            else if(hasField(old,'name'))op.name=name;
+          }
+          if(price!==oldPrice){
+            if(hasField(old,'price'))op.price=price;
+            else if(hasField(old,'base_price'))op.base_price=price;
+          }
 
-          if(hasField(old,'price'))op.price=price;
-          else if(hasField(old,'base_price'))op.base_price=price;
-
-          const r=await supabaseClient
-            .from('product_options')
-            .update(op)
-            .eq('id',oid);
-
-          if(r.error)throw r.error;
+          if(Object.keys(op).length){
+            const r=await supabaseClient.from('product_options').update(op).eq('id',oid);
+            if(r.error)throw r.error;
+          }
 
         } else {
           const sample=adminOptions[0]||{};
@@ -1137,9 +1228,11 @@
 
     const sample=adminProducts[0]||{};
     const firstCategory=adminCategories[0];
-    const catOptions=adminCategories.map(c=>
-      `<option value="${escapeAdminHtml(c.id)}">${escapeAdminHtml(c.name_ar||c.name||'بدون اسم')}</option>`
-    ).join('');
+    const catOptions=adminCategories
+      .slice()
+      .sort((a,b)=>Number(isHiddenCategory(a))-Number(isHiddenCategory(b)))
+      .map(c=>`<option value="${escapeAdminHtml(c.id)}">${escapeAdminHtml(categoryLabel(c))}</option>`)
+      .join('');
 
     const defaultOrder=getNextProductSortOrder(firstCategory.id);
 
@@ -1514,10 +1607,65 @@
   }
 
   function editAdminCategory(categoryId){
-    const c=adminCategories.find(x=>String(x.id)===String(categoryId));if(!c)return;
-    openAdminEditor('تعديل القسم',`<div class="form-grid">${fieldHtml('الاسم العربي','c_name_ar',firstExisting(c,['name_ar','name']))}${hasField(c,'name_ku')?fieldHtml('الاسم الكوردي','c_name_ku',c.name_ku||''):''}${hasField(c,'name_en')?fieldHtml('الاسم الإنجليزي','c_name_en',c.name_en||''):''}${hasField(c,'sort_order')?fieldHtml('الترتيب','c_sort_order',c.sort_order??0,'number'):''}</div><div class="checks">${hasField(c,'is_active')?`<label class="check-card"><input id="c_is_active" type="checkbox" ${c.is_active?'checked':''}> فعال</label>`:''}${hasField(c,'is_visible')?`<label class="check-card"><input id="c_is_visible" type="checkbox" ${c.is_visible?'checked':''}> ظاهر</label>`:''}</div><div class="modal-actions"><button class="btn btn-dark" onclick="closeAdminEditor()">إلغاء</button><button class="btn btn-gold" id="saveCategoryBtn" onclick="saveAdminCategory('${escapeAdminHtml(c.id)}')">حفظ القسم</button></div>`);
+    const c=adminCategories.find(x=>String(x.id)===String(categoryId));
+    if(!c)return;
+
+    if(isHiddenCategory(c)){
+      openAdminEditor('قسم غير معروض',`<div class="backup-card"><h3>📦 هذا قسم نظامي</h3><p style="color:#c9c2b8;line-height:1.9">أي صنف تنقله إلى هذا القسم يبقى محفوظاً في لوحة الإدارة، لكنه لا يظهر في منيو الزبائن. لا يمكن إظهار أو حذف هذا القسم من لوحة الإدارة.</p></div><div class="modal-actions"><button class="btn btn-gold" type="button" onclick="closeAdminEditor()">حسناً</button></div>`);
+      return;
+    }
+
+    openAdminEditor(
+      'تعديل القسم',
+      `<div class="form-grid">
+        ${fieldHtml('الاسم العربي','c_name_ar',firstExisting(c,['name_ar','name']))}
+        ${hasField(c,'name_ku')?fieldHtml('الاسم الكوردي','c_name_ku',c.name_ku||''):''}
+        ${hasField(c,'name_en')?fieldHtml('الاسم الإنجليزي','c_name_en',c.name_en||''):''}
+        ${hasField(c,'sort_order')?fieldHtml('الترتيب','c_sort_order',c.sort_order??0,'number'):''}
+      </div>
+      <div class="checks">
+        ${hasField(c,'is_active')?`<label class="check-card"><input id="c_is_active" type="checkbox" ${c.is_active?'checked':''}> فعال</label>`:''}
+        ${hasField(c,'is_visible')?`<label class="check-card"><input id="c_is_visible" type="checkbox" ${c.is_visible?'checked':''}> ظاهر في المنيو</label>`:''}
+      </div>
+      <div style="font-size:12px;color:#9f9991;line-height:1.8;margin-top:8px">إلغاء «ظاهر في المنيو» يخفي القسم وكل أصنافه من منيو الزبائن بدون حذف أي بيانات.</div>
+      <div class="modal-actions">
+        <button class="btn btn-dark" type="button" onclick="closeAdminEditor()">إلغاء</button>
+        <button class="btn btn-gold" id="saveCategoryBtn" type="button" onclick="saveAdminCategory('${escapeAdminHtml(c.id)}')">حفظ القسم</button>
+      </div>`
+    );
   }
-  async function saveAdminCategory(id){const c=adminCategories.find(x=>String(x.id)===String(id));const p={};if(hasField(c,'name_ar'))p.name_ar=val('c_name_ar');else if(hasField(c,'name'))p.name=val('c_name_ar');if(hasField(c,'name_ku'))p.name_ku=val('c_name_ku');if(hasField(c,'name_en'))p.name_en=val('c_name_en');if(hasField(c,'sort_order'))p.sort_order=Number(val('c_sort_order')||0);if(hasField(c,'is_active'))p.is_active=checked('c_is_active');if(hasField(c,'is_visible'))p.is_visible=checked('c_is_visible');const b=document.getElementById('saveCategoryBtn');b.disabled=true;try{const r=await supabaseClient.from('categories').update(p).eq('id',id);if(r.error)throw r.error;showEditorMsg('تم حفظ القسم ✓',true);await loadAdminDashboard();setTimeout(closeAdminEditor,600)}catch(e){showEditorMsg('فشل الحفظ: '+e.message)}finally{b.disabled=false}}
+
+  async function saveAdminCategory(id){
+    const c=adminCategories.find(x=>String(x.id)===String(id));
+    if(!c)return;
+    if(isHiddenCategory(c)){showEditorMsg('هذا قسم نظامي ولا يمكن تعديله.');return;}
+
+    const patch={};
+    if(hasField(c,'name_ar'))patch.name_ar=val('c_name_ar'); else if(hasField(c,'name'))patch.name=val('c_name_ar');
+    if(hasField(c,'name_ku'))patch.name_ku=val('c_name_ku');
+    if(hasField(c,'name_en'))patch.name_en=val('c_name_en');
+    if(hasField(c,'sort_order'))patch.sort_order=Number(val('c_sort_order')||0);
+    if(hasField(c,'is_active'))patch.is_active=checked('c_is_active');
+    if(hasField(c,'is_visible'))patch.is_visible=checked('c_is_visible');
+    if(hasField(c,'updated_at'))patch.updated_at=new Date().toISOString();
+
+    const btn=document.getElementById('saveCategoryBtn');
+    btn.disabled=true; btn.textContent='جاري الحفظ...';
+    try{
+      const result=await supabaseClient.from('categories').update(patch).eq('id',id);
+      if(result.error)throw result.error;
+      const verify=await supabaseClient.from('categories').select('*').eq('id',id).single();
+      if(verify.error)throw verify.error;
+      showEditorMsg(patch.is_visible===false?'تم حفظ القسم وإخفاؤه من المنيو ✓':'تم حفظ القسم ✓',true);
+      await loadAdminDashboard();
+      setTimeout(closeAdminEditor,700);
+    }catch(e){
+      console.error('SAVE CATEGORY ERROR:',e);
+      showEditorMsg('فشل حفظ القسم: '+(e.message||e));
+    }finally{
+      btn.disabled=false; btn.textContent='حفظ القسم';
+    }
+  }
 
 
 
@@ -1623,6 +1771,8 @@
 
               <div class="product-meta">
                 ${escapeAdminHtml(categoryName)}
+                ${product.is_visible===false?'<span class="hidden-badge">مخفي</span>':''}
+                ${product.is_available===false?'<span class="system-badge">غير متوفر</span>':''}
               </div>
 
               ${renderProductOptionChips(product.id)}
@@ -1661,114 +1811,325 @@
 
 
   // ==========================================
+  // BACKUP / RESTORE
+  // ==========================================
+
+  function safeFileDate(){
+    return new Date().toISOString().replace(/[:.]/g,'-');
+  }
+
+  function cloneRows(rows){
+    return JSON.parse(JSON.stringify(rows||[]));
+  }
+
+  function makeBackup(scope,data,extra={}){
+    return {
+      format:'SHORASH_MENU_BACKUP',
+      version:2,
+      created_at:new Date().toISOString(),
+      scope,
+      restaurant:'SHORASH',
+      note:'Images are stored as URLs. This backup restores menu database rows.',
+      ...extra,
+      data
+    };
+  }
+
+  function downloadJson(filename,payload){
+    const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json;charset=utf-8'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download=filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1200);
+  }
+
+  function backupFullMenu(){
+    const payload=makeBackup('full',{
+      categories:cloneRows(adminCategories),
+      products:cloneRows(adminProducts),
+      product_options:cloneRows(adminOptions)
+    });
+    downloadJson(`SHORASH-full-${safeFileDate()}.json`,payload);
+    setBackupStatus('تم إنشاء نسخة كاملة للمنيو ✓');
+  }
+
+  function backupAllCategories(){
+    const payload=makeBackup('categories',{
+      categories:cloneRows(adminCategories)
+    });
+    downloadJson(`SHORASH-categories-${safeFileDate()}.json`,payload);
+    setBackupStatus('تم إنشاء نسخة للأقسام كاملة ✓');
+  }
+
+  function backupAllProducts(){
+    const payload=makeBackup('products',{
+      products:cloneRows(adminProducts),
+      product_options:cloneRows(adminOptions)
+    });
+    downloadJson(`SHORASH-products-${safeFileDate()}.json`,payload);
+    setBackupStatus('تم إنشاء نسخة لجميع الأصناف والخيارات ✓');
+  }
+
+  function buildCategoryBackup(categoryId){
+    const category=adminCategories.find(c=>String(c.id)===String(categoryId));
+    if(!category)throw new Error('القسم غير موجود.');
+
+    const products=adminProducts.filter(p=>String(p.category_id)===String(categoryId));
+    const ids=new Set(products.map(p=>String(p.id)));
+    const options=adminOptions.filter(o=>ids.has(String(o.product_id)));
+
+    return makeBackup(
+      'category_with_products',
+      {
+        categories:[JSON.parse(JSON.stringify(category))],
+        products:cloneRows(products),
+        product_options:cloneRows(options)
+      },
+      {
+        category_id:category.id,
+        category_name:category.name_ar||category.name||''
+      }
+    );
+  }
+
+  function backupOneCategory(categoryId){
+    const payload=buildCategoryBackup(categoryId);
+    const clean=(payload.category_name||'category')
+      .replace(/[^\p{L}\p{N}_-]+/gu,'-')
+      .replace(/-+/g,'-')
+      .slice(0,60);
+
+    downloadJson(`SHORASH-category-${clean}-${safeFileDate()}.json`,payload);
+    setBackupStatus(`تم إنشاء نسخة لقسم ${payload.category_name} مع أصنافه ✓`);
+    return payload;
+  }
+
+  async function upsertInChunks(table,rows){
+    if(!Array.isArray(rows)||!rows.length)return;
+    for(let i=0;i<rows.length;i+=100){
+      const chunk=rows.slice(i,i+100);
+      const result=await supabaseClient.from(table).upsert(chunk,{onConflict:'id'});
+      if(result.error)throw result.error;
+    }
+  }
+
+  async function restoreBackupObject(payload){
+    if(!payload || payload.format!=='SHORASH_MENU_BACKUP'){
+      throw new Error('هذا الملف ليس نسخة SHORASH مدعومة.');
+    }
+
+    const data=payload.data||{};
+    const categories=Array.isArray(data.categories)?data.categories:[];
+    const products=Array.isArray(data.products)?data.products:[];
+    const options=Array.isArray(data.product_options)?data.product_options:[];
+
+    if(!categories.length&&!products.length&&!options.length){
+      throw new Error('النسخة لا تحتوي بيانات قابلة للاسترجاع.');
+    }
+
+    await upsertInChunks('categories',categories);
+    await upsertInChunks('products',products);
+    await upsertInChunks('product_options',options);
+    await loadAdminDashboard();
+
+    return {categories:categories.length,products:products.length,options:options.length};
+  }
+
+  async function handleRestoreFile(file){
+    if(!file)return;
+
+    const ok=confirm(
+      'سيتم استرجاع البيانات الموجودة داخل النسخة الاحتياطية.\n\n' +
+      'السجلات التي لها نفس ID سيتم تحديثها، والسجلات المفقودة سيتم إنشاؤها.\n' +
+      'لن يتم حذف بيانات أخرى غير موجودة في النسخة.\n\n' +
+      'هل تريد المتابعة؟'
+    );
+    if(!ok)return;
+
+    setBackupStatus('جاري قراءة واسترجاع النسخة...');
+
+    try{
+      const text=await file.text();
+      const payload=JSON.parse(text);
+      const result=await restoreBackupObject(payload);
+      setBackupStatus(`تم الاسترجاع بنجاح ✓ — أقسام: ${result.categories}، أصناف: ${result.products}، خيارات: ${result.options}`);
+      alert('تم استرجاع النسخة الاحتياطية بنجاح ✓');
+    }catch(e){
+      console.error('RESTORE ERROR:',e);
+      setBackupStatus('فشل الاسترجاع: '+(e.message||e),false);
+      alert('فشل الاسترجاع: '+(e.message||e));
+    }finally{
+      const input=document.getElementById('restoreBackupInput');
+      if(input)input.value='';
+    }
+  }
+
+
+  // ==========================================
   // SAFE DELETE
   // ==========================================
 
   async function deleteAdminProduct(productId){
     const product=adminProducts.find(p=>String(p.id)===String(productId));
-    if(!product) return;
+    if(!product)return;
 
     const name=product.name_ar||product.name||'هذا الصنف';
-
     const ok=confirm(
       `هل أنت متأكد من حذف "${name}"؟\n\n` +
-      `سيتم حذف الصنف وخياراته وأسعاره من المنيو.\n` +
-      `لا يمكن التراجع عن هذه العملية.`
+      `سيتم حذف الصنف وخياراته وأسعاره نهائياً.\n` +
+      `لا يمكن التراجع إلا إذا كان لديك Backup.`
     );
-
-    if(!ok) return;
+    if(!ok)return;
 
     try{
-      // First try deleting the product directly.
-      // If the database has ON DELETE CASCADE, its options will be removed automatically.
-      let result=await supabaseClient
-        .from('products')
-        .delete()
-        .eq('id',productId)
-        .select('id');
+      const optionDelete=await supabaseClient.from('product_options').delete().eq('product_id',productId);
+      if(optionDelete.error)throw optionDelete.error;
 
-      if(result.error){
-        // If a foreign-key restriction prevents deleting the product,
-        // delete its option rows first, then retry.
-        const optionDelete=await supabaseClient
-          .from('product_options')
-          .delete()
-          .eq('product_id',productId);
-
-        if(optionDelete.error) throw optionDelete.error;
-
-        result=await supabaseClient
-          .from('products')
-          .delete()
-          .eq('id',productId)
-          .select('id');
-
-        if(result.error) throw result.error;
-      }
-
-      if(!result.data || result.data.length===0){
-        throw new Error('لم يتم حذف الصنف من قاعدة البيانات.');
-      }
+      const result=await supabaseClient.from('products').delete().eq('id',productId);
+      if(result.error)throw result.error;
 
       alert(`تم حذف "${name}" بنجاح ✓`);
       await loadAdminDashboard();
-
     }catch(e){
       console.error('DELETE PRODUCT ERROR:',e);
       alert('فشل حذف الصنف: '+(e.message||e));
     }
   }
 
-  async function deleteAdminCategory(categoryId){
+  function deleteAdminCategory(categoryId){
     const category=adminCategories.find(c=>String(c.id)===String(categoryId));
-    if(!category) return;
+    if(!category)return;
 
-    const name=category.name_ar||category.name||'هذا القسم';
-
-    const productsInside=adminProducts.filter(
-      p=>String(p.category_id)===String(categoryId)
-    );
-
-    // Important safety guard:
-    // never delete a category while it still contains products.
-    if(productsInside.length){
-      alert(
-        `لا يمكن حذف قسم "${name}" حالياً.\n\n` +
-        `يوجد داخله ${productsInside.length} صنف.\n` +
-        `انقل أو احذف الأصناف الموجودة فيه أولاً، وبعدها احذف القسم.`
-      );
+    if(isHiddenCategory(category)){
+      alert('قسم "غير معروض" قسم نظامي ولا يمكن حذفه.');
       return;
     }
 
-    const ok=confirm(
-      `هل أنت متأكد من حذف قسم "${name}"؟\n\n` +
-      `القسم فارغ حالياً، وسيتم حذفه نهائياً.`
+    const name=category.name_ar||category.name||'هذا القسم';
+    const productsInside=adminProducts.filter(p=>String(p.category_id)===String(categoryId));
+
+    if(!productsInside.length){
+      if(!confirm(`هل تريد حذف القسم الفارغ "${name}" نهائياً؟`))return;
+      deleteEmptyCategoryNow(categoryId,name);
+      return;
+    }
+
+    openAdminEditor(
+      `حذف قسم: ${name}`,
+      `<div class="backup-card">
+        <h3>القسم يحتوي ${productsInside.length} صنف</h3>
+        <p>اختر ما تريد فعله. قبل الحذف النهائي سننزّل تلقائياً نسخة احتياطية للقسم مع أصنافه وخياراته.</p>
+      </div>
+      <div class="modal-choice-grid">
+        <button class="modal-choice" type="button" onclick="moveCategoryToHiddenAndDelete('${escapeAdminHtml(categoryId)}')">
+          <strong>📦 نقل الأصناف إلى «غير معروض» ثم حذف القسم</strong>
+          <span>الخيار الآمن: تبقى الأصناف والخيارات محفوظة لكنها تختفي من المنيو.</span>
+        </button>
+        <button class="modal-choice" type="button" onclick="backupOneCategory('${escapeAdminHtml(categoryId)}')">
+          <strong>💾 تنزيل Backup فقط</strong>
+          <span>ينزّل نسخة لهذا القسم مع كل أصنافه وخياراته بدون حذف أي شيء.</span>
+        </button>
+        <button class="modal-choice danger" type="button" onclick="deleteCategoryWithContents('${escapeAdminHtml(categoryId)}')">
+          <strong>🗑 حذف القسم وجميع محتوياته نهائياً</strong>
+          <span>سيتم حذف الأصناف وخياراتها وأسعارها. ينشئ Backup تلقائياً قبل الحذف.</span>
+        </button>
+      </div>
+      <div class="modal-actions"><button class="btn btn-dark" type="button" onclick="closeAdminEditor()">إلغاء</button></div>`
     );
+  }
 
-    if(!ok) return;
-
+  async function deleteEmptyCategoryNow(categoryId,name){
     try{
-      const result=await supabaseClient
-        .from('categories')
-        .delete()
-        .eq('id',categoryId)
-        .select('id');
-
-      if(result.error) throw result.error;
-
-      if(!result.data || result.data.length===0){
-        throw new Error('لم يتم حذف القسم من قاعدة البيانات.');
-      }
-
-      alert(`تم حذف قسم "${name}" بنجاح ✓`);
+      const result=await supabaseClient.from('categories').delete().eq('id',categoryId);
+      if(result.error)throw result.error;
+      alert(`تم حذف قسم "${name}" ✓`);
       await loadAdminDashboard();
-
     }catch(e){
-      console.error('DELETE CATEGORY ERROR:',e);
+      console.error('DELETE EMPTY CATEGORY ERROR:',e);
       alert('فشل حذف القسم: '+(e.message||e));
     }
   }
 
+  async function moveCategoryToHiddenAndDelete(categoryId){
+    const category=adminCategories.find(c=>String(c.id)===String(categoryId));
+    const hidden=getHiddenCategory();
+    if(!category)return;
+    if(!hidden){
+      showEditorMsg('قسم "غير معروض" غير موجود. شغّل ملف SQL المرفق أولاً.');
+      return;
+    }
+
+    const name=category.name_ar||category.name||'القسم';
+    const productsInside=adminProducts.filter(p=>String(p.category_id)===String(categoryId));
+
+    const ok=confirm(
+      `سيتم نقل ${productsInside.length} صنف من "${name}" إلى قسم "غير معروض"، ثم حذف القسم.\n\nمتابعة؟`
+    );
+    if(!ok)return;
+
+    try{
+      showEditorMsg('جاري نقل الأصناف...');
+      const update=await supabaseClient.from('products')
+        .update({category_id:hidden.id,is_visible:false})
+        .eq('category_id',categoryId);
+      if(update.error)throw update.error;
+
+      const del=await supabaseClient.from('categories').delete().eq('id',categoryId);
+      if(del.error)throw del.error;
+
+      showEditorMsg(`تم نقل الأصناف إلى "غير معروض" وحذف قسم "${name}" ✓`,true);
+      await loadAdminDashboard();
+      setTimeout(closeAdminEditor,1000);
+    }catch(e){
+      console.error('MOVE CATEGORY ERROR:',e);
+      showEditorMsg('فشل النقل/الحذف: '+(e.message||e));
+    }
+  }
+
+  async function deleteCategoryWithContents(categoryId){
+    const category=adminCategories.find(c=>String(c.id)===String(categoryId));
+    if(!category)return;
+
+    const name=category.name_ar||category.name||'القسم';
+    const productsInside=adminProducts.filter(p=>String(p.category_id)===String(categoryId));
+
+    const typed=prompt(
+      `حذف نهائي لقسم "${name}" و ${productsInside.length} صنف.\n\n` +
+      `اكتب كلمة حذف للتأكيد:`
+    );
+    if(String(typed||'').trim()!=='حذف')return;
+
+    try{
+      backupOneCategory(categoryId);
+      showEditorMsg('تم تنزيل Backup. جاري الحذف النهائي...');
+
+      const productIds=productsInside.map(p=>p.id);
+      for(let i=0;i<productIds.length;i+=80){
+        const ids=productIds.slice(i,i+80);
+        if(!ids.length)continue;
+
+        const od=await supabaseClient.from('product_options').delete().in('product_id',ids);
+        if(od.error)throw od.error;
+
+        const pd=await supabaseClient.from('products').delete().in('id',ids);
+        if(pd.error)throw pd.error;
+      }
+
+      const cd=await supabaseClient.from('categories').delete().eq('id',categoryId);
+      if(cd.error)throw cd.error;
+
+      showEditorMsg(`تم حذف قسم "${name}" وكل محتوياته ✓`,true);
+      await loadAdminDashboard();
+      setTimeout(closeAdminEditor,1000);
+    }catch(e){
+      console.error('DELETE CATEGORY CONTENTS ERROR:',e);
+      showEditorMsg('فشل الحذف النهائي: '+(e.message||e));
+    }
+  }
 
   // ==========================================
   // Search
@@ -1801,6 +2162,24 @@
   // Add buttons: editors will be enabled after edit/save is verified.
   document.getElementById('addProductBtn').addEventListener('click',openAddProductEditor);
   document.getElementById('addCategoryBtn').addEventListener('click',openAddCategoryEditor);
+
+  document.getElementById('backupFullBtn').addEventListener('click',backupFullMenu);
+  document.getElementById('backupCategoriesBtn').addEventListener('click',backupAllCategories);
+  document.getElementById('backupProductsBtn').addEventListener('click',backupAllProducts);
+
+  document.getElementById('backupCategoryBtn').addEventListener('click',()=>{
+    const id=val('backupCategorySelect');
+    if(!id){setBackupStatus('اختر قسماً أولاً.',false);return;}
+    try{backupOneCategory(id)}catch(e){setBackupStatus('فشل النسخ الاحتياطي: '+(e.message||e),false)}
+  });
+
+  document.getElementById('restoreBackupBtn').addEventListener('click',()=>{
+    document.getElementById('restoreBackupInput').click();
+  });
+  document.getElementById('restoreBackupInput').addEventListener('change',e=>{
+    handleRestoreFile(e.target.files?.[0]);
+  });
+
   document.getElementById('editorModal').addEventListener('click',e=>{if(e.target.id==='editorModal')closeAdminEditor();});
 
 
