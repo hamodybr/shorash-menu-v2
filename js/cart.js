@@ -70,7 +70,28 @@
   function setOrderType(type){orderType=type;document.querySelectorAll("[data-order-type]").forEach(b=>b.classList.toggle("active",b.dataset.orderType===type));document.getElementById("smDeliveryFields").hidden=type!=="delivery"}
   function getCustomerLocation(){if(!navigator.geolocation){toast(tr("locationFail"));return}const b=document.getElementById("smGetLocation");b.disabled=true;navigator.geolocation.getCurrentPosition(pos=>{customerLocation=`https://maps.google.com/?q=${pos.coords.latitude},${pos.coords.longitude}`;document.getElementById("smLocationStatus").textContent="✓ "+tr("locationOk");b.disabled=false},()=>{toast(tr("locationFail"));b.disabled=false},{enableHighAccuracy:true,timeout:10000,maximumAge:60000})}
   function renderCheckout(){const {sum}=totals();document.getElementById("smCheckoutTitle").textContent=tr("checkout");document.getElementById("smNameLabel").textContent=tr("name")+" *";document.getElementById("smPhoneLabel").textContent=tr("phone")+" *";document.getElementById("smTypeLabel").textContent=tr("orderType");document.getElementById("smDeliveryBtn").textContent=tr("delivery");document.getElementById("smPickupBtn").textContent=tr("pickup");document.getElementById("smAddressLabel").textContent=tr("address")+" *";document.querySelector("#smGetLocation span").textContent=tr("getLocation");document.getElementById("smNotesLabel").textContent=tr("notes");document.getElementById("smReviewLabel").textContent=tr("review");document.getElementById("smCheckoutTotalLabel").textContent=tr("total");document.getElementById("smCheckoutTotal").textContent=money(sum);document.getElementById("smSendWhatsApp").textContent="🟢 "+tr("send");document.getElementById("smCheckoutSummary").innerHTML=cart.map(x=>`<div class="sm-review-item"><span>${x.qty}× ${txt(x.name)} <small>${txt(x.option)}</small></span><b>${money(x.qty*x.price)}</b></div>`).join("");setOrderType(orderType)}
-  function sendWhatsApp(){const name=document.getElementById("smCustomerName").value.trim(),phone=document.getElementById("smCustomerPhone").value.trim(),address=document.getElementById("smCustomerAddress").value.trim(),notes=document.getElementById("smCustomerNotes").value.trim();if(!name||!phone||(orderType==="delivery"&&!address)){toast(tr("required"));return}const {sum}=totals(),id="SH-"+new Date().toISOString().slice(2,10).replaceAll("-","")+"-"+String(Date.now()).slice(-5);let lines=[`🍽️ SHORASH REST & CAFE`,`🧾 Order: ${id}`,``,`👤 ${tr("name")}: ${name}`,`📞 ${tr("phone")}: ${phone}`,`🚚 ${tr("orderType")}: ${tr(orderType)}`];if(orderType==="delivery"){lines.push(`📍 ${tr("address")}: ${address}`);if(customerLocation)lines.push(`🗺️ ${tr("location")}: ${customerLocation}`)}lines.push(``,`────────────`);cart.forEach((x,i)=>lines.push(`${i+1}. ${txt(x.name)} — ${txt(x.option)} ×${x.qty} — ${money(x.qty*x.price)}`));lines.push(`────────────`,`💰 ${tr("total")}: ${money(sum)}`);if(notes)lines.push(`📝 ${tr("notes")}: ${notes}`);const url=`https://wa.me/9647502662002?text=${encodeURIComponent(lines.join("\n"))}`;window.location.href=url}
+  function sendWhatsApp(){
+    const name=document.getElementById("smCustomerName").value.trim();
+    let phone=document.getElementById("smCustomerPhone").value.trim();
+    const address=document.getElementById("smCustomerAddress").value.trim();
+    const notes=document.getElementById("smCustomerNotes").value.trim();
+    if(!name||!phone||(orderType==="delivery"&&!address)){toast(tr("required"));return}
+    phone=phone.replace(/\s+/g,"");
+    if(/^7\d{9}$/.test(phone)) phone="0"+phone;
+    if(/^9647\d{9}$/.test(phone)) phone="+"+phone;
+    const {sum}=totals();
+    const id="SH-"+new Date().toISOString().slice(2,10).replaceAll("-","")+"-"+String(Date.now()).slice(-5);
+    const mono=v=>"```"+v+"```", bold=v=>"*"+v+"*";
+    const cleanOption=x=>{const n=txt(x.name).trim(),o=txt(x.option).trim();return o&&o!==n?o:""};
+    let lines=[`🍽️ ${bold("SHORASH REST & CAFE")}`,`🧾 رقم الطلب: ${mono(id)}`,``,`👤 ${bold(name)}`,`📞 ${phone}`,`${orderType==="delivery"?"🚚":"🥡"} ${bold(tr(orderType))}`];
+    if(orderType==="delivery"){lines.push(`📍 ${address}`);if(customerLocation)lines.push(`🗺️ ${customerLocation}`)}
+    lines.push(``,`━━━━━━━━━━━━`,`🛒 ${bold("تفاصيل الطلب")}`,``);
+    cart.forEach((x,i)=>{const option=cleanOption(x);lines.push(`${i+1}. ${bold(txt(x.name))}`);lines.push(option?`   └ ${option} × ${x.qty}`:`   └ × ${x.qty}`);lines.push(`   ${mono(money(x.qty*x.price))}`);if(i<cart.length-1)lines.push(``)});
+    lines.push(``,`━━━━━━━━━━━━`,`💰 ${bold("الإجمالي")}: ${mono(money(sum))}`);
+    if(notes)lines.push(``,`📝 ${bold("ملاحظات الطلب")}`,notes);
+    const url=`https://wa.me/9647502662002?text=${encodeURIComponent(lines.join("\n"))}`;
+    window.location.href=url;
+  }
   function choiceOpen(v){ensureUI();document.getElementById("smChoiceSheet").classList.toggle("open",v);document.getElementById("smChoiceBackdrop").classList.toggle("open",v);document.getElementById("smChoiceSheet").setAttribute("aria-hidden",String(!v));lock()}
 
   function addItem(p,oi){const o=(p.options||[])[oi];if(!o)return;const key=`${p.id}:${oi}`,found=cart.find(x=>x.key===key);if(found)found.qty++;else cart.push({key,productId:p.id,optionIndex:oi,name:p.name,option:{ar:o.ar,ku:o.ku,en:o.en},price:Number(o.price||0),image:p.image||"",qty:1});save();toast(tr("added"))}
