@@ -926,30 +926,158 @@
   async function uploadAdminProductImage(productId){const input=document.getElementById('p_image_file');const f=input?.files?.[0];if(!f)return val('p_image_url').trim();if(!f.type.startsWith('image/'))throw new Error('الملف المختار ليس صورة');if(f.size>10*1024*1024)throw new Error('حجم الصورة أكبر من 10MB');const p=document.getElementById('p_upload_progress');p.textContent='جاري رفع الصورة...';const ext=({'image/jpeg':'jpg','image/png':'png','image/webp':'webp','image/gif':'gif'})[f.type]||'jpg';const path=`products/${String(productId).replace(/[^a-zA-Z0-9_-]/g,'_')}/${Date.now()}-${Math.random().toString(36).slice(2,8)}.${ext}`;const u=await supabaseClient.storage.from('menu-images').upload(path,f,{cacheControl:'3600',upsert:false,contentType:f.type});if(u.error)throw u.error;const g=supabaseClient.storage.from('menu-images').getPublicUrl(path);const url=g?.data?.publicUrl;if(!url)throw new Error('تعذر إنشاء رابط الصورة');document.getElementById('p_image_url').value=url;p.textContent='تم رفع الصورة ✓';return url;}
 
   async function saveAdminProduct(productId){
-    const product=adminProducts.find(x=>String(x.id)===String(productId)); if(!product)return;
-    const btn=document.getElementById('saveProductBtn'); btn.disabled=true; btn.textContent='جاري الحفظ...';
-    try{
-      const uploadedImageUrl=await uploadAdminProductImage(productId);
-      const patch={};
-      if(hasField(product,'name_ar')) patch.name_ar=val('p_name_ar'); else if(hasField(product,'name')) patch.name=val('p_name_ar');
-      if(hasField(product,'name_ku')) patch.name_ku=val('p_name_ku'); if(hasField(product,'name_en')) patch.name_en=val('p_name_en');
-      if(hasField(product,'category_id')) patch.category_id=val('p_category_id');
-      if(hasField(product,'image_url')) patch.image_url=uploadedImageUrl; else if(hasField(product,'image')) patch.image=uploadedImageUrl;
-      if(hasField(product,'base_price')) patch.base_price=Number(val('p_base_price')||0); else if(hasField(product,'price')) patch.price=Number(val('p_base_price')||0);
-      if(hasField(product,'sort_order')) patch.sort_order=Number(val('p_sort_order')||0);
-      ['description_ar','description_ku','description_en'].forEach(k=>{if(hasField(product,k))patch[k]=val('p_'+k)});
-      ['is_active','is_visible','is_available'].forEach(k=>{if(hasField(product,k))patch[k]=checked('p_'+k)});
-      const up=await supabaseClient.from('products').update(patch).eq('id',product.id).select(); if(up.error)throw up.error;
+    const product=adminProducts.find(x=>String(x.id)===String(productId));
+    if(!product)return;
 
-      const rows=[...document.querySelectorAll('#optionsEditor .option-editor')];
-      for(const row of rows){
-        const oid=row.dataset.optionId; if(row.dataset.deleted==='1'){ if(oid){const d=await supabaseClient.from('product_options').delete().eq('id',oid);if(d.error)throw d.error;} continue; }
-        const name=row.querySelector('.oe-name').value.trim(); const price=Number(row.querySelector('.oe-price').value||0); if(!name&&!oid)continue;
-        if(oid){ const old=adminOptions.find(o=>String(o.id)===String(oid))||{}; const op={}; if(hasField(old,'name_ar'))op.name_ar=name; else if(hasField(old,'label_ar'))op.label_ar=name; else if(hasField(old,'name'))op.name=name; if(hasField(old,'price'))op.price=price; else if(hasField(old,'base_price'))op.base_price=price; const r=await supabaseClient.from('product_options').update(op).eq('id',oid);if(r.error)throw r.error; }
-        else { const sample=adminOptions[0]||{}; const op={product_id:product.id}; if(hasField(sample,'name_ar'))op.name_ar=name; else if(hasField(sample,'label_ar'))op.label_ar=name; else op.name_ar=name; if(hasField(sample,'price'))op.price=price; else if(hasField(sample,'base_price'))op.base_price=price; else op.price=price; if(hasField(sample,'sort_order'))op.sort_order=getProductOptions(product.id).length+1; const r=await supabaseClient.from('product_options').insert(op);if(r.error)throw r.error; }
+    const btn=document.getElementById('saveProductBtn');
+    btn.disabled=true;
+    btn.textContent='جاري الحفظ...';
+
+    try{
+      // 1) Upload a newly selected image, or use the URL currently in the field.
+      const uploadedImageUrl=await uploadAdminProductImage(productId);
+
+      const patch={};
+
+      if(hasField(product,'name_ar')) patch.name_ar=val('p_name_ar');
+      else if(hasField(product,'name')) patch.name=val('p_name_ar');
+
+      if(hasField(product,'name_ku')) patch.name_ku=val('p_name_ku');
+      if(hasField(product,'name_en')) patch.name_en=val('p_name_en');
+      if(hasField(product,'category_id')) patch.category_id=val('p_category_id');
+
+      // IMPORTANT: persist the exact image field that exists in the loaded DB row.
+      const imageField = hasField(product,'image_url')
+        ? 'image_url'
+        : (hasField(product,'image') ? 'image' : null);
+
+      if(imageField) patch[imageField]=uploadedImageUrl;
+
+      if(hasField(product,'base_price')) patch.base_price=Number(val('p_base_price')||0);
+      else if(hasField(product,'price')) patch.price=Number(val('p_base_price')||0);
+
+      if(hasField(product,'sort_order')) patch.sort_order=Number(val('p_sort_order')||0);
+
+      ['description_ar','description_ku','description_en'].forEach(k=>{
+        if(hasField(product,k)) patch[k]=val('p_'+k);
+      });
+
+      ['is_active','is_visible','is_available'].forEach(k=>{
+        if(hasField(product,k)) patch[k]=checked('p_'+k);
+      });
+
+      // 2) Update and REQUIRE Supabase to return the updated row.
+      const up=await supabaseClient
+        .from('products')
+        .update(patch)
+        .eq('id',product.id)
+        .select('*');
+
+      if(up.error) throw up.error;
+
+      if(!up.data || up.data.length !== 1){
+        throw new Error('لم يتم تحديث سجل الصنف في قاعدة البيانات. عدد السجلات المعدلة: '+(up.data?.length||0));
       }
-      showEditorMsg('تم حفظ الصنف والخيارات بنجاح ✓',true); await loadAdminDashboard(); setTimeout(closeAdminEditor,700);
-    }catch(e){console.error(e);showEditorMsg('فشل الحفظ: '+(e.message||e));}finally{btn.disabled=false;btn.textContent='حفظ التعديلات';}
+
+      const savedProduct=up.data[0];
+
+      // 3) Verify that the image URL really persisted.
+      if(imageField && uploadedImageUrl){
+        const savedImage=String(savedProduct[imageField]||'').trim();
+        const expectedImage=String(uploadedImageUrl||'').trim();
+
+        if(savedImage !== expectedImage){
+          throw new Error(
+            'تم رفع الصورة، لكن رابطها لم يُحفظ في products.'+
+            ' الرابط المتوقع: '+expectedImage+
+            ' | الرابط الموجود: '+savedImage
+          );
+        }
+      }
+
+      // 4) Save options.
+      const rows=[...document.querySelectorAll('#optionsEditor .option-editor')];
+
+      for(const row of rows){
+        const oid=row.dataset.optionId;
+
+        if(row.dataset.deleted==='1'){
+          if(oid){
+            const d=await supabaseClient.from('product_options').delete().eq('id',oid);
+            if(d.error)throw d.error;
+          }
+          continue;
+        }
+
+        const name=row.querySelector('.oe-name').value.trim();
+        const price=Number(row.querySelector('.oe-price').value||0);
+
+        if(!name&&!oid)continue;
+
+        if(oid){
+          const old=adminOptions.find(o=>String(o.id)===String(oid))||{};
+          const op={};
+
+          if(hasField(old,'name_ar'))op.name_ar=name;
+          else if(hasField(old,'label_ar'))op.label_ar=name;
+          else if(hasField(old,'name'))op.name=name;
+
+          if(hasField(old,'price'))op.price=price;
+          else if(hasField(old,'base_price'))op.base_price=price;
+
+          const r=await supabaseClient
+            .from('product_options')
+            .update(op)
+            .eq('id',oid);
+
+          if(r.error)throw r.error;
+        } else {
+          const sample=adminOptions[0]||{};
+          const op={product_id:product.id};
+
+          if(hasField(sample,'name_ar'))op.name_ar=name;
+          else if(hasField(sample,'label_ar'))op.label_ar=name;
+          else op.name_ar=name;
+
+          if(hasField(sample,'price'))op.price=price;
+          else if(hasField(sample,'base_price'))op.base_price=price;
+          else op.price=price;
+
+          if(hasField(sample,'sort_order'))op.sort_order=getProductOptions(product.id).length+1;
+
+          const r=await supabaseClient.from('product_options').insert(op);
+          if(r.error)throw r.error;
+        }
+      }
+
+      // 5) Read the product again from the database, independently of the UPDATE result.
+      const verify=await supabaseClient
+        .from('products')
+        .select('*')
+        .eq('id',product.id)
+        .single();
+
+      if(verify.error) throw verify.error;
+
+      if(imageField && uploadedImageUrl){
+        const verifiedImage=String(verify.data?.[imageField]||'').trim();
+        if(verifiedImage !== String(uploadedImageUrl).trim()){
+          throw new Error('فشل التحقق النهائي: قاعدة البيانات ما زالت تحتوي رابط صورة مختلف.');
+        }
+      }
+
+      showEditorMsg('تم حفظ الصنف والصورة والخيارات والتحقق منها بنجاح ✓',true);
+
+      await loadAdminDashboard();
+      setTimeout(closeAdminEditor,900);
+
+    }catch(e){
+      console.error('SHORASH SAVE ERROR:',e);
+      showEditorMsg('فشل الحفظ: '+(e.message||e));
+    }finally{
+      btn.disabled=false;
+      btn.textContent='حفظ التعديلات';
+    }
   }
 
   function editAdminCategory(categoryId){
