@@ -1750,7 +1750,202 @@
     }
     .schedule-note{margin-top:8px;color:#766f68;font-size:9px;line-height:1.65}
 
-</style>
+
+    /* =========================================================
+       SHORASH ADMIN V4.0 — ANALYTICS + EXCEL
+       ========================================================= */
+
+    .bottom-nav{
+      grid-template-columns:repeat(5,1fr) !important;
+    }
+
+    .analytics-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:8px;
+      margin-bottom:12px;
+    }
+
+    .analytics-kpi{
+      border:1px solid rgba(255,255,255,.07);
+      background:#0b0806;
+      border-radius:14px;
+      padding:12px 8px;
+      text-align:center;
+    }
+
+    .analytics-kpi span{
+      display:block;
+      color:#857e76;
+      font-size:9px;
+      margin-bottom:5px;
+    }
+
+    .analytics-kpi strong{
+      display:block;
+      color:#e2b55e;
+      font-size:21px;
+      line-height:1.1;
+    }
+
+    .analytics-toolbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+      margin-bottom:10px;
+    }
+
+    .analytics-toolbar select{
+      border:1px solid rgba(255,255,255,.08);
+      background:#060403;
+      color:#eee8e0;
+      border-radius:10px;
+      padding:9px 10px;
+      font:inherit;
+      font-size:11px;
+    }
+
+    .analytics-columns{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    .analytics-card{
+      border:1px solid rgba(255,255,255,.07);
+      background:#0c0907;
+      border-radius:14px;
+      padding:12px;
+      min-width:0;
+    }
+
+    .analytics-card h3{
+      margin:0 0 9px;
+      color:#e6dfd7;
+      font-size:12px;
+    }
+
+    .analytics-list{
+      display:grid;
+      gap:7px;
+    }
+
+    .analytics-row{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) auto;
+      gap:8px;
+      align-items:center;
+    }
+
+    .analytics-label{
+      min-width:0;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+      color:#aaa39b;
+      font-size:10px;
+    }
+
+    .analytics-value{
+      color:#e2b55e;
+      font-size:11px;
+      font-weight:900;
+      white-space:nowrap;
+    }
+
+    .analytics-bar{
+      grid-column:1/-1;
+      height:4px;
+      background:#17120e;
+      border-radius:999px;
+      overflow:hidden;
+      margin-top:-3px;
+    }
+
+    .analytics-bar i{
+      display:block;
+      height:100%;
+      width:0;
+      border-radius:inherit;
+      background:linear-gradient(90deg,rgba(216,169,88,.35),#d8a958);
+    }
+
+    .analytics-empty{
+      color:#7d766f;
+      text-align:center;
+      padding:22px 10px;
+      font-size:11px;
+      line-height:1.7;
+    }
+
+    .analytics-note{
+      margin-top:10px;
+      padding:9px 10px;
+      border:1px solid rgba(216,169,88,.1);
+      background:rgba(216,169,88,.03);
+      border-radius:11px;
+      color:#817a72;
+      font-size:9px;
+      line-height:1.7;
+    }
+
+    .excel-tools{
+      display:grid;
+      gap:9px;
+      padding-top:10px;
+    }
+
+    .excel-actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+
+    .excel-actions .btn{
+      width:100%;
+    }
+
+    .excel-note{
+      border:1px solid rgba(255,255,255,.06);
+      background:#070503;
+      border-radius:11px;
+      padding:10px;
+      color:#817970;
+      font-size:9px;
+      line-height:1.75;
+    }
+
+    .excel-status{
+      min-height:18px;
+      color:#8d867e;
+      font-size:10px;
+      line-height:1.7;
+    }
+
+    @media(max-width:650px){
+      .analytics-grid{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .analytics-columns{
+        grid-template-columns:1fr;
+      }
+
+      .excel-actions{
+        grid-template-columns:1fr;
+      }
+
+      .nav-btn{
+        font-size:9px !important;
+      }
+
+      .nav-btn .nav-icon{
+        font-size:18px !important;
+      }
+    }
+
+  </style>
 </head>
 
 <body class="auth-locked">
@@ -1841,6 +2036,10 @@
         <strong>🍽 إدارة الأصناف</strong><span>تعديل، إخفاء، توفر وترتيب</span>
       </button>
 
+      <button class="quick-action" type="button" data-go-view="analytics">
+        <strong>📊 الإحصائيات</strong><span>مشاهدات وتفاعل المنيو</span>
+      </button>
+
       <button class="quick-action" type="button" data-go-view="tools">
         <strong>💾 النسخ الاحتياطي</strong><span>Backup و Restore</span>
       </button>
@@ -1918,6 +2117,76 @@
         </div>
       </div>
     </details>
+  </section>
+
+  <section id="viewAnalytics" class="admin-view" data-view="analytics">
+    <div class="view-title-row">
+      <div>
+        <h2>الإحصائيات</h2>
+        <div class="view-subtitle">إحصائيات خفيفة بدون أسماء، أرقام هواتف أو بيانات شخصية</div>
+      </div>
+    </div>
+
+    <div class="analytics-toolbar">
+      <select id="analyticsPeriod">
+        <option value="7">آخر 7 أيام</option>
+        <option value="30">آخر 30 يوم</option>
+        <option value="90">آخر 90 يوم</option>
+      </select>
+
+      <button id="refreshAnalyticsBtn" class="btn btn-dark" type="button">
+        ↻ تحديث
+      </button>
+    </div>
+
+    <div class="analytics-grid">
+      <div class="analytics-kpi">
+        <span>فتح المنيو</span>
+        <strong id="analyticsViews">0</strong>
+      </div>
+
+      <div class="analytics-kpi">
+        <span>تفاعل مع الأصناف</span>
+        <strong id="analyticsProducts">0</strong>
+      </div>
+
+      <div class="analytics-kpi">
+        <span>استخدام البحث</span>
+        <strong id="analyticsSearches">0</strong>
+      </div>
+
+      <div class="analytics-kpi">
+        <span>مشاركة روابط</span>
+        <strong id="analyticsShares">0</strong>
+      </div>
+    </div>
+
+    <div class="analytics-columns">
+      <div class="analytics-card">
+        <h3>📂 أكثر الأقسام اهتماماً</h3>
+        <div id="analyticsTopCategories" class="analytics-list"></div>
+      </div>
+
+      <div class="analytics-card">
+        <h3>🍽 أكثر الأصناف تفاعلاً</h3>
+        <div id="analyticsTopProducts" class="analytics-list"></div>
+      </div>
+
+      <div class="analytics-card">
+        <h3>🌐 اللغات المستخدمة</h3>
+        <div id="analyticsLanguages" class="analytics-list"></div>
+      </div>
+
+      <div class="analytics-card">
+        <h3>🔗 المشاركة</h3>
+        <div id="analyticsShareTypes" class="analytics-list"></div>
+      </div>
+    </div>
+
+    <div class="analytics-note">
+      الإحصائيات تجمع عدادات فقط: فتح المنيو، الضغط على الأقسام والأصناف، البحث، اللغة والمشاركة.
+      لا نخزن اسم الزبون، رقم الهاتف، الموقع، IP أو نص البحث.
+    </div>
   </section>
 
   <section id="viewTools" class="admin-view" data-view="tools">
@@ -2672,6 +2941,48 @@
         </div>
       </details>
 
+      <!-- EXCEL -->
+      <details class="settings-accordion">
+        <summary>
+          <span class="settings-accordion-icon">📊</span>
+          <span class="settings-accordion-title">
+            <strong>Excel — تصدير واستيراد</strong>
+            <small>تعديل الأصناف والأسعار بكميات كبيرة ثم رفع الملف</small>
+          </span>
+          <span class="settings-chevron">⌄</span>
+        </summary>
+
+        <div class="settings-accordion-body">
+          <div class="excel-tools">
+
+            <div class="excel-actions">
+              <button id="exportExcelBtn" class="btn btn-gold" type="button">
+                تنزيل Excel الحالي
+              </button>
+
+              <button id="importExcelBtn" class="btn btn-dark" type="button">
+                اختيار Excel واستيراد
+              </button>
+
+              <input
+                id="importExcelInput"
+                type="file"
+                accept=".xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                hidden
+              >
+            </div>
+
+            <div class="excel-note">
+              الملف يحتوي Sheets للأقسام، الأصناف والخيارات. الاستيراد يحدّث السجلات الموجودة حسب <bdi>ID</bdi>
+              ولا يحذف أي سجل. قبل الاستيراد يتم حفظ Backup كامل تلقائياً.
+              الأفضل دائماً: نزّل Excel الحالي → عدّل المطلوب → ارفعه من جديد.
+            </div>
+
+            <div id="excelStatus" class="excel-status"></div>
+          </div>
+        </div>
+      </details>
+
       <!-- 9. BACKUP -->
       <details class="settings-accordion">
         <summary>
@@ -2727,6 +3038,7 @@
   <button class="nav-btn active" type="button" data-admin-nav="home"><span class="nav-icon">⌂</span><span>الرئيسية</span></button>
   <button class="nav-btn" type="button" data-admin-nav="products"><span class="nav-icon">🍽</span><span>الأصناف</span></button>
   <button class="nav-btn" type="button" data-admin-nav="categories"><span class="nav-icon">▦</span><span>الأقسام</span></button>
+  <button class="nav-btn" type="button" data-admin-nav="analytics"><span class="nav-icon">▥</span><span>الإحصائيات</span></button>
   <button class="nav-btn" type="button" data-admin-nav="tools"><span class="nav-icon">⚙</span><span>الإعدادات</span></button>
 </nav>
 
@@ -2748,6 +3060,9 @@
 
 <!-- Touch-friendly Drag & Drop -->
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
+
+<!-- Excel Import / Export -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
 
 <script>
@@ -2797,6 +3112,353 @@
 
     return number.toLocaleString('en-US') + ' د.ع';
 
+  }
+
+
+  // ==========================================
+  // EXCEL IMPORT / EXPORT
+  // ==========================================
+
+  function setExcelStatus(message='',ok=true){
+    const el=document.getElementById('excelStatus');
+    if(!el)return;
+    el.textContent=message;
+    el.style.color=ok?'#baf3d7':'#fecaca';
+  }
+
+  function excelBool(value){
+    if(typeof value==='boolean')return value;
+
+    const text=String(value??'').trim().toLowerCase();
+
+    if(['1','true','yes','y','نعم','فعال','ظاهر','متوفر'].includes(text))return true;
+    if(['0','false','no','n','لا','غير فعال','مخفي','غير متوفر'].includes(text))return false;
+
+    return null;
+  }
+
+  function excelNumber(value,allowNull=true){
+    if(value===null||value===undefined||String(value).trim()===''){
+      return allowNull?null:0;
+    }
+
+    const n=Number(
+      String(value).replaceAll(',','').trim()
+    );
+
+    return Number.isFinite(n)?n:(allowNull?null:0);
+  }
+
+  function excelTime(value){
+    if(value===null||value===undefined||String(value).trim()==='')return null;
+
+    if(typeof value==='number'){
+      const total=Math.round(value*24*60);
+      const h=Math.floor(total/60)%24;
+      const m=total%60;
+      return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+    }
+
+    const text=String(value).trim();
+    const match=text.match(/^(\d{1,2}):(\d{2})/);
+
+    if(!match)return null;
+
+    return `${String(Number(match[1])).padStart(2,'0')}:${match[2]}`;
+  }
+
+  function excelSheetRows(workbook,name){
+    const sheet=workbook.Sheets[name];
+    if(!sheet)return [];
+
+    return XLSX.utils.sheet_to_json(
+      sheet,
+      {
+        defval:'',
+        raw:true
+      }
+    );
+  }
+
+  function exportMenuExcel(){
+    if(typeof XLSX==='undefined'){
+      setExcelStatus('مكتبة Excel لم تتحمل. سوِّ Refresh وحاول مرة ثانية.',false);
+      return;
+    }
+
+    try{
+      setExcelStatus('جاري إنشاء ملف Excel...');
+
+      const wb=XLSX.utils.book_new();
+
+      const instructions=[
+        ['SHORASH MENU — Excel'],
+        ['طريقة الاستخدام'],
+        ['1','لا تغيّر عمود id للسجلات الموجودة.'],
+        ['2','يمكن تعديل الأسماء، الأسعار، الحالات، الترتيب وأوقات التوفر.'],
+        ['3','الاستيراد يحدّث السجلات الموجودة فقط ولا يحذف سجلات.'],
+        ['4','قبل الاستيراد يحفظ Admin Backup كامل تلقائياً.'],
+        ['5','حقول الوقت بصيغة HH:MM مثل 11:00 أو 00:00.']
+      ];
+
+      XLSX.utils.book_append_sheet(
+        wb,
+        XLSX.utils.aoa_to_sheet(instructions),
+        'README'
+      );
+
+      const categories=adminCategories.map(c=>({
+        id:c.id,
+        name_ar:c.name_ar??'',
+        name_ku:c.name_ku??'',
+        name_en:c.name_en??'',
+        is_active:c.is_active!==false,
+        is_visible:c.is_visible!==false,
+        sort_order:c.sort_order??'',
+        availability_schedule_enabled:c.availability_schedule_enabled===true,
+        available_from:String(c.available_from||'').slice(0,5),
+        available_to:String(c.available_to||'').slice(0,5)
+      }));
+
+      const products=adminProducts.map(p=>{
+        const category=adminCategories.find(c=>String(c.id)===String(p.category_id));
+
+        return {
+          id:p.id,
+          category_id:p.category_id??'',
+          category_ar:category?.name_ar??'',
+          name_ar:p.name_ar??'',
+          name_ku:p.name_ku??'',
+          name_en:p.name_en??'',
+          base_price:p.base_price??'',
+          image_url:p.image_url??'',
+          is_active:p.is_active!==false,
+          is_visible:p.is_visible!==false,
+          is_available:p.is_available!==false,
+          sort_order:p.sort_order??'',
+          availability_schedule_enabled:p.availability_schedule_enabled===true,
+          available_from:String(p.available_from||'').slice(0,5),
+          available_to:String(p.available_to||'').slice(0,5)
+        };
+      });
+
+      const options=adminOptions.map(o=>({
+        id:o.id,
+        product_id:o.product_id??'',
+        name_ar:o.name_ar??'',
+        name_ku:o.name_ku??'',
+        name_en:o.name_en??'',
+        price:o.price??'',
+        sort_order:o.sort_order??''
+      }));
+
+      XLSX.utils.book_append_sheet(
+        wb,
+        XLSX.utils.json_to_sheet(categories),
+        'Categories'
+      );
+
+      XLSX.utils.book_append_sheet(
+        wb,
+        XLSX.utils.json_to_sheet(products),
+        'Products'
+      );
+
+      XLSX.utils.book_append_sheet(
+        wb,
+        XLSX.utils.json_to_sheet(options),
+        'Options'
+      );
+
+      XLSX.writeFile(
+        wb,
+        `${backupPrefix()}-menu-${safeFileDate()}.xlsx`
+      );
+
+      setExcelStatus('تم تنزيل Excel الحالي ✓');
+
+    }catch(e){
+      console.error('EXCEL EXPORT ERROR:',e);
+      setExcelStatus('فشل تصدير Excel: '+(e.message||e),false);
+    }
+  }
+
+  function cleanExcelPatch(row,allowed,types={}){
+    const patch={};
+
+    allowed.forEach(key=>{
+      if(!(key in row))return;
+
+      let value=row[key];
+
+      if(types[key]==='bool'){
+        const b=excelBool(value);
+        if(b!==null)patch[key]=b;
+        return;
+      }
+
+      if(types[key]==='number'){
+        patch[key]=excelNumber(value,true);
+        return;
+      }
+
+      if(types[key]==='time'){
+        patch[key]=excelTime(value);
+        return;
+      }
+
+      patch[key]=String(value??'').trim();
+    });
+
+    return patch;
+  }
+
+  async function updateRowsFromExcel(table,rows,currentRows,allowed,types={}){
+    const existing=new Set(
+      currentRows.map(row=>String(row.id))
+    );
+
+    const valid=[];
+
+    rows.forEach(row=>{
+      const id=String(row.id||'').trim();
+
+      if(!id||!existing.has(id))return;
+
+      const patch=cleanExcelPatch(row,allowed,types);
+      delete patch.id;
+
+      valid.push({id,patch});
+    });
+
+    let updated=0;
+
+    for(let i=0;i<valid.length;i+=20){
+      const batch=valid.slice(i,i+20);
+
+      await Promise.all(
+        batch.map(async item=>{
+          const result=await supabaseClient
+            .from(table)
+            .update(item.patch)
+            .eq('id',item.id);
+
+          if(result.error)throw result.error;
+          updated++;
+        })
+      );
+    }
+
+    return updated;
+  }
+
+  async function importMenuExcel(file){
+    if(!file)return;
+
+    if(typeof XLSX==='undefined'){
+      setExcelStatus('مكتبة Excel لم تتحمل. سوِّ Refresh وحاول مرة ثانية.',false);
+      return;
+    }
+
+    const confirmed=confirm(
+      'سيتم تحديث البيانات الموجودة حسب ID من ملف Excel.\\n\\n'+
+      'لن يتم حذف أي صنف أو قسم. قبل التنفيذ سنحفظ Backup كامل تلقائياً.\\n\\n'+
+      'هل تريد المتابعة؟'
+    );
+
+    if(!confirmed)return;
+
+    setExcelStatus('جاري قراءة Excel...');
+
+    try{
+      const bytes=await file.arrayBuffer();
+      const wb=XLSX.read(bytes,{type:'array'});
+
+      const categories=excelSheetRows(wb,'Categories');
+      const products=excelSheetRows(wb,'Products');
+      const options=excelSheetRows(wb,'Options');
+
+      if(!categories.length&&!products.length&&!options.length){
+        throw new Error('لم أجد Sheets باسم Categories / Products / Options.');
+      }
+
+      const emergency=fullBackupPayload();
+      saveEmergencyBackup(emergency);
+
+      setExcelStatus('جاري تحديث البيانات...');
+
+      const categoryCount=await updateRowsFromExcel(
+        'categories',
+        categories,
+        adminCategories,
+        [
+          'name_ar','name_ku','name_en',
+          'is_active','is_visible','sort_order',
+          'availability_schedule_enabled',
+          'available_from','available_to'
+        ],
+        {
+          is_active:'bool',
+          is_visible:'bool',
+          sort_order:'number',
+          availability_schedule_enabled:'bool',
+          available_from:'time',
+          available_to:'time'
+        }
+      );
+
+      const productCount=await updateRowsFromExcel(
+        'products',
+        products,
+        adminProducts,
+        [
+          'category_id',
+          'name_ar','name_ku','name_en',
+          'base_price','image_url',
+          'is_active','is_visible','is_available',
+          'sort_order',
+          'availability_schedule_enabled',
+          'available_from','available_to'
+        ],
+        {
+          base_price:'number',
+          is_active:'bool',
+          is_visible:'bool',
+          is_available:'bool',
+          sort_order:'number',
+          availability_schedule_enabled:'bool',
+          available_from:'time',
+          available_to:'time'
+        }
+      );
+
+      const optionCount=await updateRowsFromExcel(
+        'product_options',
+        options,
+        adminOptions,
+        ['product_id','name_ar','name_ku','name_en','price','sort_order'],
+        {
+          price:'number',
+          sort_order:'number'
+        }
+      );
+
+      await loadAdminDashboard();
+
+      setExcelStatus(
+        `تم الاستيراد ✓ — أقسام ${categoryCount}، أصناف ${productCount}، خيارات ${optionCount}`
+      );
+
+      alert('تم استيراد Excel بنجاح ✓');
+
+    }catch(e){
+      console.error('EXCEL IMPORT ERROR:',e);
+      setExcelStatus('فشل استيراد Excel: '+(e.message||e),false);
+      alert('فشل استيراد Excel: '+(e.message||e));
+    }finally{
+      const input=document.getElementById('importExcelInput');
+      if(input)input.value='';
+    }
   }
 
 
@@ -3500,6 +4162,186 @@
 
 
   // ==========================================
+  // PRIVACY-LIGHT ANALYTICS
+  // ==========================================
+
+  function analyticsNameForCategory(id){
+    const c=adminCategories.find(x=>String(x.id)===String(id));
+    return c?.name_ar||c?.name_en||'قسم';
+  }
+
+  function analyticsNameForProduct(id){
+    const p=adminProducts.find(x=>String(x.id)===String(id));
+    return p?.name_ar||p?.name_en||'صنف';
+  }
+
+  function sumAnalytics(rows,type){
+    return rows
+      .filter(row=>row.event_type===type)
+      .reduce((sum,row)=>sum+Number(row.count||0),0);
+  }
+
+  function aggregateAnalytics(rows,type){
+    const map=new Map();
+
+    rows
+      .filter(row=>row.event_type===type)
+      .forEach(row=>{
+        const key=String(row.ref_id||'');
+        map.set(
+          key,
+          (map.get(key)||0)+Number(row.count||0)
+        );
+      });
+
+    return [...map.entries()]
+      .map(([id,count])=>({id,count}))
+      .sort((a,b)=>b.count-a.count);
+  }
+
+  function renderAnalyticsList(elementId,items,labelFn,limit=8){
+    const holder=document.getElementById(elementId);
+    if(!holder)return;
+
+    const selected=items.slice(0,limit);
+
+    if(!selected.length){
+      holder.innerHTML='<div class="analytics-empty">لا توجد بيانات بعد.</div>';
+      return;
+    }
+
+    const max=Math.max(...selected.map(x=>x.count),1);
+
+    holder.innerHTML=selected.map(item=>`
+      <div class="analytics-row">
+        <div class="analytics-label">${escapeAdminHtml(labelFn(item.id))}</div>
+        <div class="analytics-value">${Number(item.count).toLocaleString('en-US')}</div>
+        <div class="analytics-bar"><i style="width:${Math.max(4,(item.count/max)*100)}%"></i></div>
+      </div>
+    `).join('');
+  }
+
+  async function loadAnalytics(){
+    const days=Math.max(
+      1,
+      Number(document.getElementById('analyticsPeriod')?.value||7)
+    );
+
+    const since=new Date(
+      Date.now()-(days-1)*86400000
+    ).toISOString().slice(0,10);
+
+    const ids=[
+      'analyticsTopCategories',
+      'analyticsTopProducts',
+      'analyticsLanguages',
+      'analyticsShareTypes'
+    ];
+
+    ids.forEach(id=>{
+      const el=document.getElementById(id);
+      if(el)el.innerHTML='<div class="analytics-empty">جاري تحميل الإحصائيات...</div>';
+    });
+
+    try{
+      const result=await supabaseClient
+        .from('menu_analytics_daily')
+        .select('*')
+        .gte('event_date',since)
+        .order('event_date',{ascending:true});
+
+      if(result.error)throw result.error;
+
+      const rows=result.data||[];
+
+      const set=(id,value)=>{
+        const el=document.getElementById(id);
+        if(el)el.textContent=Number(value||0).toLocaleString('en-US');
+      };
+
+      set('analyticsViews',sumAnalytics(rows,'menu_view'));
+      set('analyticsProducts',sumAnalytics(rows,'product_interest'));
+      set('analyticsSearches',sumAnalytics(rows,'search_use'));
+
+      const shares=
+        sumAnalytics(rows,'share_product')+
+        sumAnalytics(rows,'share_category');
+
+      set('analyticsShares',shares);
+
+      renderAnalyticsList(
+        'analyticsTopCategories',
+        aggregateAnalytics(rows,'category_view'),
+        analyticsNameForCategory
+      );
+
+      renderAnalyticsList(
+        'analyticsTopProducts',
+        aggregateAnalytics(rows,'product_interest'),
+        analyticsNameForProduct
+      );
+
+      const langMap=new Map();
+
+      rows
+        .filter(row=>row.event_type==='language_change')
+        .forEach(row=>{
+          const key=String(row.language||'');
+          langMap.set(
+            key,
+            (langMap.get(key)||0)+Number(row.count||0)
+          );
+        });
+
+      const langs=[...langMap.entries()]
+        .map(([id,count])=>({id,count}))
+        .sort((a,b)=>b.count-a.count);
+
+      renderAnalyticsList(
+        'analyticsLanguages',
+        langs,
+        id=>({
+          ar:'العربي',
+          ku:'الكوردي',
+          en:'English'
+        })[id]||id||'—'
+      );
+
+      const shareRows=[
+        {
+          id:'product',
+          count:sumAnalytics(rows,'share_product')
+        },
+        {
+          id:'category',
+          count:sumAnalytics(rows,'share_category')
+        }
+      ].filter(x=>x.count>0);
+
+      renderAnalyticsList(
+        'analyticsShareTypes',
+        shareRows,
+        id=>id==='product'?'مشاركة صنف':'مشاركة قسم',
+        4
+      );
+
+    }catch(e){
+      console.error('ANALYTICS LOAD ERROR:',e);
+
+      ids.forEach(id=>{
+        const el=document.getElementById(id);
+        if(el){
+          el.innerHTML=
+            '<div class="analytics-empty" style="color:#fecaca;">'+
+            'تعذر تحميل الإحصائيات. تأكد من تشغيل SQL الخاص بـ V4.0.'+
+            '</div>';
+        }
+      });
+    }
+  }
+
+
+  // ==========================================
   // AUTH
   // ==========================================
 
@@ -3963,7 +4805,7 @@
 
 
   function switchAdminView(view){
-    const valid=['home','products','categories','tools'];
+    const valid=['home','products','categories','analytics','tools'];
     if(!valid.includes(view))view='home';
 
     adminCurrentView=view;
@@ -3980,6 +4822,7 @@
       home:['الرئيسية',getAdminRestaurantName()?getAdminRestaurantName()+' Admin':'لوحة الإدارة'],
       products:['الأصناف','إدارة المواد والأسعار'],
       categories:['الأقسام','إدارة أقسام المنيو'],
+      analytics:['الإحصائيات','تفاعل الزبائن مع المنيو'],
       tools:['الإعدادات','إعدادات المطعم والأدوات']
     };
 
@@ -3988,6 +4831,8 @@
 
     if(title)title.textContent=titles[view][0];
     if(subtitle)subtitle.textContent=titles[view][1];
+
+    if(view==='analytics')loadAnalytics();
 
     window.scrollTo({top:0,behavior:'smooth'});
   }
@@ -5709,6 +6554,31 @@
   document.getElementById('saveRestaurantSettingsBtn').addEventListener(
     'click',
     saveRestaurantSettings
+  );
+
+  document.getElementById('exportExcelBtn').addEventListener(
+    'click',
+    exportMenuExcel
+  );
+
+  document.getElementById('importExcelBtn').addEventListener(
+    'click',
+    ()=>document.getElementById('importExcelInput').click()
+  );
+
+  document.getElementById('importExcelInput').addEventListener(
+    'change',
+    event=>importMenuExcel(event.target.files?.[0])
+  );
+
+  document.getElementById('analyticsPeriod').addEventListener(
+    'change',
+    loadAnalytics
+  );
+
+  document.getElementById('refreshAnalyticsBtn').addEventListener(
+    'click',
+    loadAnalytics
   );
 
   document.getElementById('bulkPriceCategorySelect').addEventListener(
