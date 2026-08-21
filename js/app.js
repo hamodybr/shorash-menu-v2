@@ -248,6 +248,327 @@ function installMenuDiscoveryUI(){
 }
 
 
+function installV44PolishStyles(){
+  if(document.getElementById("smV44PolishStyles"))return;
+
+  const style=document.createElement("style");
+  style.id="smV44PolishStyles";
+  style.textContent=`
+    .sm-header{position:relative!important}
+
+    .sm-header-tools{
+      position:absolute;
+      z-index:70;
+      top:calc(8px + env(safe-area-inset-top));
+      right:10px;
+      display:flex;
+      align-items:center;
+      gap:7px;
+      direction:ltr;
+    }
+
+    .sm-header-icon-btn{
+      position:relative;
+      width:38px;
+      height:38px;
+      display:grid;
+      place-items:center;
+      padding:0;
+      border:1px solid rgba(232,184,98,.22);
+      border-radius:12px;
+      background:rgba(8,5,3,.54);
+      color:#e8b862;
+      box-shadow:0 8px 22px rgba(0,0,0,.16);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+      font:inherit;
+      font-size:17px;
+      cursor:pointer;
+      touch-action:manipulation;
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    .sm-header-icon-btn:active{transform:scale(.94)}
+
+    .sm-lang-code{
+      position:absolute;
+      right:-3px;
+      bottom:-3px;
+      min-width:17px;
+      height:17px;
+      display:grid;
+      place-items:center;
+      padding:0 3px;
+      border:1px solid rgba(232,184,98,.34);
+      border-radius:999px;
+      background:#171008;
+      color:#e8b862;
+      font-size:7px;
+      line-height:1;
+      font-weight:900;
+      box-sizing:border-box;
+    }
+
+    .sm-lang-menu{
+      position:absolute;
+      z-index:75;
+      top:45px;
+      right:0;
+      width:132px;
+      display:none;
+      gap:5px;
+      padding:6px;
+      border:1px solid rgba(232,184,98,.2);
+      border-radius:12px;
+      background:rgba(8,5,3,.92);
+      box-shadow:0 16px 38px rgba(0,0,0,.34);
+      backdrop-filter:blur(18px);
+      -webkit-backdrop-filter:blur(18px);
+      direction:rtl;
+      box-sizing:border-box;
+    }
+
+    .sm-lang-menu.open{display:grid!important}
+
+    .sm-lang-menu button{
+      width:100%;
+      min-height:34px;
+      border:0;
+      border-radius:8px;
+      background:transparent;
+      color:#d8d1c9;
+      font:inherit;
+      font-size:11px;
+      cursor:pointer;
+    }
+
+    .sm-lang-menu button.active{
+      background:rgba(232,184,98,.12);
+      color:#e8b862;
+      font-weight:900;
+    }
+
+    .sm-header-tools .sm-search-wrap{
+      position:absolute!important;
+      z-index:76;
+      top:45px;
+      right:0;
+      width:min(330px,calc(100vw - 20px))!important;
+      margin:0!important;
+      padding:7px!important;
+      display:none!important;
+      grid-template-columns:1fr!important;
+      gap:5px!important;
+      border-radius:12px!important;
+      background:rgba(8,5,3,.94)!important;
+      box-shadow:0 16px 38px rgba(0,0,0,.34);
+      box-sizing:border-box;
+    }
+
+    .sm-header-tools .sm-search-wrap.open{display:grid!important}
+
+    .sm-search-row{
+      display:grid;
+      grid-template-columns:auto minmax(0,1fr) auto;
+      align-items:center;
+      gap:7px;
+      min-width:0;
+    }
+
+    .sm-header-tools .sm-search-input{
+      min-width:0;
+      width:100%;
+      font-size:16px!important;
+    }
+
+    .sm-header-tools .sm-search-count{
+      width:100%!important;
+      margin:0!important;
+      min-height:0!important;
+      padding:0 4px 1px;
+      font-size:8px!important;
+      text-align:center;
+      box-sizing:border-box;
+    }
+
+    .sm-header .sm-logo-wrap{overflow:visible!important}
+
+    .sm-header .sm-logo{
+      animation:smLogoWaveV44 4.6s ease-in-out infinite;
+      transform-origin:50% 68%;
+      will-change:transform;
+    }
+
+    @keyframes smLogoWaveV44{
+      0%,100%{transform:translateY(0) rotate(0deg) scale(1)}
+      22%{transform:translateY(-3px) rotate(-1.2deg) scale(1.014)}
+      48%{transform:translateY(1px) rotate(.9deg) scale(.998)}
+      74%{transform:translateY(-2px) rotate(1.1deg) scale(1.01)}
+    }
+
+    @media(prefers-reduced-motion:reduce){
+      .sm-header .sm-logo{animation:none!important}
+    }
+
+    .sm-news-ticker{
+      width:min(calc(100% - 18px),680px);
+      height:30px;
+      display:none;
+      align-items:stretch;
+      margin:0 auto 9px;
+      border:1px solid rgba(232,184,98,.22);
+      border-radius:9px;
+      background:rgba(12,8,5,.48);
+      overflow:hidden;
+      box-sizing:border-box;
+      box-shadow:0 7px 22px rgba(0,0,0,.12);
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+    }
+
+    .sm-news-label{
+      flex:0 0 auto;
+      min-width:43px;
+      display:grid;
+      place-items:center;
+      padding:0 7px;
+      background:linear-gradient(135deg,#edc46d,#c98e2d);
+      color:#171008;
+      font-size:8px;
+      font-weight:1000;
+      white-space:nowrap;
+    }
+
+    .sm-news-window{
+      flex:1 1 auto;
+      min-width:0;
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      direction:ltr;
+    }
+
+    .sm-news-track{
+      display:flex;
+      align-items:center;
+      width:max-content;
+      min-width:max-content;
+      white-space:nowrap;
+      will-change:transform;
+      animation:smNewsTickerV44 var(--sm-news-duration,16s) linear infinite;
+    }
+
+    .sm-news-copy{
+      display:inline-flex;
+      align-items:center;
+      gap:18px;
+      min-width:max-content;
+      padding:0 18px;
+      color:#e4d9cd;
+      font-size:9.5px;
+      font-weight:700;
+    }
+
+    .sm-news-dot{color:#d7a54c;font-size:8px}
+
+    @keyframes smNewsTickerV44{
+      from{transform:translateX(0)}
+      to{transform:translateX(-50%)}
+    }
+
+    @media(max-width:650px){
+      .sm-header-tools{
+        top:calc(7px + env(safe-area-inset-top));
+        right:8px;
+        gap:6px;
+      }
+
+      .sm-header-icon-btn{
+        width:36px;
+        height:36px;
+        border-radius:11px;
+        font-size:16px;
+      }
+
+      .sm-lang-menu,
+      .sm-header-tools .sm-search-wrap{top:43px}
+    }
+  `;
+
+  document.head.appendChild(style);
+}
+
+
+function ensureHeaderTools(){
+  const header=document.querySelector(".sm-header");
+  if(!header)return null;
+
+  let tools=document.getElementById("smHeaderTools");
+  if(!tools){
+    tools=document.createElement("div");
+    tools.id="smHeaderTools";
+    tools.className="sm-header-tools";
+    header.appendChild(tools);
+  }
+
+  let searchToggle=document.getElementById("smSearchToggle");
+  if(!searchToggle){
+    searchToggle=document.createElement("button");
+    searchToggle.id="smSearchToggle";
+    searchToggle.type="button";
+    searchToggle.className="sm-header-icon-btn";
+    searchToggle.innerHTML="⌕";
+    searchToggle.setAttribute("aria-label","Search");
+    tools.appendChild(searchToggle);
+  }
+
+  let langToggle=document.getElementById("smLangToggle");
+  if(!langToggle){
+    langToggle=document.createElement("button");
+    langToggle.id="smLangToggle";
+    langToggle.type="button";
+    langToggle.className="sm-header-icon-btn";
+    langToggle.setAttribute("aria-label","Language");
+    tools.appendChild(langToggle);
+  }
+
+  const langHolder=document.getElementById("smLangs");
+  if(langHolder && langHolder.parentElement!==tools){
+    tools.appendChild(langHolder);
+  }
+
+  return tools;
+}
+
+
+function setLanguageMenuOpen(open){
+  const menu=document.getElementById("smLangs");
+  if(menu)menu.classList.toggle("open",!!open);
+}
+
+
+function setSearchPanelOpen(open,{clear=false}={}){
+  const wrap=document.getElementById("smSearchWrap");
+  if(!wrap)return;
+
+  if(clear){
+    const input=document.getElementById("smSearchInput");
+    if(input)input.value="";
+    searchQuery="";
+    searchTracked=false;
+    render();
+    updateSearchCount();
+  }
+
+  wrap.classList.toggle("open",!!open);
+
+  if(open){
+    setLanguageMenuOpen(false);
+    setTimeout(()=>document.getElementById("smSearchInput")?.focus(),40);
+  }
+}
+
+
 function normalizeSearchText(value){
   return String(value||"")
     .toLowerCase()
@@ -287,71 +608,87 @@ function productMatchesSearch(product,query){
 
 
 function ensureSearchUI(){
-  if(document.getElementById("smSearchWrap"))return;
+  const tools=ensureHeaderTools();
+  if(!tools)return;
 
-  const actions=document.getElementById("smActions");
-  if(!actions)return;
+  let wrap=document.getElementById("smSearchWrap");
 
-  const wrap=document.createElement("div");
-  wrap.id="smSearchWrap";
-  wrap.className="sm-search-wrap";
+  if(!wrap){
+    wrap=document.createElement("div");
+    wrap.id="smSearchWrap";
+    wrap.className="sm-search-wrap";
 
-  wrap.innerHTML=`
-    <span class="sm-search-icon">⌕</span>
-    <input
-      id="smSearchInput"
-      class="sm-search-input"
-      type="search"
-      autocomplete="off"
-      enterkeyhint="search"
-    >
-    <button id="smSearchClear" class="sm-search-clear" type="button" aria-label="Clear">×</button>
-  `;
+    wrap.innerHTML=`
+      <div class="sm-search-row">
+        <span class="sm-search-icon">⌕</span>
+        <input id="smSearchInput" class="sm-search-input" type="search" autocomplete="off" enterkeyhint="search">
+        <button id="smSearchClear" class="sm-search-clear" type="button" aria-label="Close search">×</button>
+      </div>
+      <div id="smSearchCount" class="sm-search-count"></div>
+    `;
 
-  actions.insertAdjacentElement("afterend",wrap);
+    tools.appendChild(wrap);
 
-  const count=document.createElement("div");
-  count.id="smSearchCount";
-  count.className="sm-search-count";
-  wrap.insertAdjacentElement("afterend",count);
+    const input=document.getElementById("smSearchInput");
+    const clear=document.getElementById("smSearchClear");
 
-  const input=document.getElementById("smSearchInput");
-  const clear=document.getElementById("smSearchClear");
+    input.addEventListener("input",()=>{
+      const next=input.value.trim();
+      const wasEmpty=!searchQuery;
+      searchQuery=next;
 
-  input.addEventListener("input",()=>{
-    const next=input.value.trim();
-    const wasEmpty=!searchQuery;
-    searchQuery=next;
+      if(next && wasEmpty && !searchTracked){
+        searchTracked=true;
+        trackMenuEvent("search_use");
+      }
 
-    if(next && wasEmpty && !searchTracked){
-      searchTracked=true;
-      trackMenuEvent("search_use");
-    }
+      if(!next)searchTracked=false;
 
-    if(!next){
-      searchTracked=false;
-    }
+      render();
+      updateSearchCount();
+    });
 
-    render();
-    updateSearchCount();
-  });
+    clear.addEventListener("click",()=>{
+      setSearchPanelOpen(false,{clear:true});
+    });
+  }
 
-  clear.addEventListener("click",()=>{
-    input.value="";
-    searchQuery="";
-    searchTracked=false;
-    render();
-    updateSearchCount();
-    input.focus();
-  });
+  const searchToggle=document.getElementById("smSearchToggle");
+  if(searchToggle && !searchToggle.dataset.bound){
+    searchToggle.dataset.bound="1";
+    searchToggle.addEventListener("click",event=>{
+      event.stopPropagation();
+      const open=!wrap.classList.contains("open");
+      setSearchPanelOpen(open);
+    });
+  }
+
+  const langToggle=document.getElementById("smLangToggle");
+  if(langToggle && !langToggle.dataset.bound){
+    langToggle.dataset.bound="1";
+    langToggle.addEventListener("click",event=>{
+      event.stopPropagation();
+      const menu=document.getElementById("smLangs");
+      const open=!menu?.classList.contains("open");
+      setSearchPanelOpen(false);
+      setLanguageMenuOpen(open);
+    });
+  }
 
   updateSearchUiLanguage();
 }
 
-
 function updateSearchUiLanguage(){
   const input=document.getElementById("smSearchInput");
   if(input)input.placeholder=I18N[lang].search;
+
+  const toggle=document.getElementById("smSearchToggle");
+  if(toggle){
+    toggle.setAttribute(
+      "aria-label",
+      lang==="en" ? "Search menu" : lang==="ku" ? "لێگەڕان" : "البحث في المنيو"
+    );
+  }
 }
 
 
@@ -596,7 +933,7 @@ function registerPwa(){
 }
 
 
-const UI_DESIGN_DEFAULTS={card_height:160,image_percent:50,card_radius:18,card_gap:10,info_padding:10,product_name_font:14,option_font:10.5,price_font:11,section_title_font:21,add_button_height:30,add_button_font:10,category_height:41,category_font:12,top_action_height:48,top_action_font:11,cart_width:180,cart_height:56,cart_font:13,cart_horizontal:50,cart_bottom:16,logo_size:84,menu_title_font:26,subtitle_font:12,search_height:46,search_font:16,footer_title_font:17,footer_action_font:10.5,footer_phone_font:17};
+const UI_DESIGN_DEFAULTS={card_height:160,image_percent:50,card_transparency:95,card_radius:18,card_gap:10,info_padding:10,product_name_font:14,option_font:10.5,price_font:11,section_title_font:21,add_button_height:30,add_button_font:10,category_height:41,category_font:12,top_action_height:48,top_action_font:11,cart_width:180,cart_height:56,cart_font:13,cart_horizontal:50,cart_bottom:16,logo_size:84,menu_title_font:26,subtitle_font:12,search_height:46,search_font:16,footer_title_font:17,footer_action_font:10.5,footer_phone_font:17};
 function uiDesignValue(k){const v=Number(DB?.restaurant?.uiDesign?.[k]);return Number.isFinite(v)?v:UI_DESIGN_DEFAULTS[k]}
 function applyUiDesignSettings(){
   if(!DB)return;
@@ -604,6 +941,13 @@ function applyUiDesignSettings(){
   ['card_height','card_radius','card_gap','info_padding','product_name_font','option_font','price_font','section_title_font','add_button_height','add_button_font','category_height','category_font','top_action_height','top_action_font','cart_width','cart_height','cart_font','cart_bottom','logo_size','menu_title_font','subtitle_font','search_height','search_font','footer_title_font','footer_action_font','footer_phone_font'].forEach(k=>root.style.setProperty(`--sm-ui-${k.replaceAll('_','-')}`,`${uiDesignValue(k)}px`));
   root.style.setProperty('--sm-ui-image-percent',`${uiDesignValue('image_percent')}%`);
   root.style.setProperty('--sm-ui-info-percent',`${100-uiDesignValue('image_percent')}%`);
+
+  const cardTransparency=Math.max(0,Math.min(100,uiDesignValue('card_transparency')));
+  root.style.setProperty(
+    '--sm-ui-card-opacity',
+    String(Math.round((1-cardTransparency/100)*1000)/1000)
+  );
+
   root.style.setProperty('--sm-ui-cart-horizontal',`${uiDesignValue('cart_horizontal')}%`);
   let style=document.getElementById('smUiDesignRuntime');if(!style){style=document.createElement('style');style.id='smUiDesignRuntime';document.head.appendChild(style)}
   style.textContent=`
@@ -617,7 +961,7 @@ function applyUiDesignSettings(){
         min-height:var(--sm-ui-card-height,160px)!important;
         max-height:var(--sm-ui-card-height,160px)!important;
         border-radius:var(--sm-ui-card-radius,18px)!important;
-        background:rgba(7,5,3,.10)!important;
+        background:rgba(7,5,3,var(--sm-ui-card-opacity,.05))!important;
         backdrop-filter:blur(10px) saturate(1.05)!important;
         -webkit-backdrop-filter:blur(10px) saturate(1.05)!important;
       }
@@ -1350,54 +1694,35 @@ function render() {
 ======================================== */
 
 function renderLanguages() {
+  ensureHeaderTools();
 
-  const holder = $("#smLangs");
+  const holder=$("#smLangs");
+  const toggle=document.getElementById("smLangToggle");
 
-  if (!holder) return;
+  if(!holder)return;
 
+  const show=DB?.restaurant?.display?.languageSwitch !== false;
 
-  const show =
-    DB?.restaurant?.display?.languageSwitch !== false;
+  holder.style.display=show ? "" : "none";
 
+  if(toggle){
+    toggle.style.display=show ? "grid" : "none";
+    toggle.innerHTML=`
+      <span aria-hidden="true">🌐</span>
+      <small class="sm-lang-code">${lang.toUpperCase()}</small>
+    `;
+  }
 
-  holder.style.display =
-    show
-      ? ""
-      : "none";
+  if(!show)return;
 
+  holder.className="sm-lang-menu";
 
-  if (!show) return;
-
-
-  holder.className = "sm-lang-switch";
-
-
-  holder.innerHTML = `
-
-    <button
-      type="button"
-      data-lang="ar"
-      class="${lang === "ar" ? "active" : ""}">
-      عربي
-    </button>
-
-    <button
-      type="button"
-      data-lang="ku"
-      class="${lang === "ku" ? "active" : ""}">
-      کوردی
-    </button>
-
-    <button
-      type="button"
-      data-lang="en"
-      class="${lang === "en" ? "active" : ""}">
-      English
-    </button>
-
+  holder.innerHTML=`
+    <button type="button" data-lang="ar" class="${lang==="ar"?"active":""}">عربي</button>
+    <button type="button" data-lang="ku" class="${lang==="ku"?"active":""}">کوردی</button>
+    <button type="button" data-lang="en" class="${lang==="en"?"active":""}">English</button>
   `;
 }
-
 
 /* ========================================
    TOP ACTIONS
@@ -1531,6 +1856,14 @@ document.addEventListener(
   event => {
 
 
+    if(
+      !event.target.closest("#smLangToggle") &&
+      !event.target.closest("#smLangs")
+    ){
+      setLanguageMenuOpen(false);
+    }
+
+
     const languageButton =
       event.target.closest(
         "[data-lang]"
@@ -1550,6 +1883,7 @@ document.addEventListener(
       trackMenuEvent("language_change","",lang);
 
       applyLang();
+      setLanguageMenuOpen(false);
 
       return;
     }
@@ -1872,25 +2206,8 @@ function updateRestaurantLanguageUI() {
     announcement.id =
       "smAnnouncement";
 
-    announcement.style.cssText =
-      [
-        "display:none",
-        "width:min(calc(100% - 20px),680px)",
-        "box-sizing:border-box",
-        "margin:0 auto 12px",
-        "padding:10px 14px",
-        "border:1px solid rgba(232,184,98,.26)",
-        "border-radius:13px",
-        "background:rgba(27,18,10,.78)",
-        "color:#e8b862",
-        "font-size:12px",
-        "font-weight:700",
-        "line-height:1.65",
-        "text-align:center",
-        "backdrop-filter:blur(12px)",
-        "-webkit-backdrop-filter:blur(12px)",
-        "box-shadow:0 10px 30px rgba(0,0,0,.18)"
-      ].join(";");
+    announcement.className=
+      "sm-news-ticker";
 
 
     const target =
@@ -1926,13 +2243,28 @@ function updateRestaurantLanguageUI() {
     String(announcementText).trim();
 
 
-  announcement.textContent =
-    announcementText;
+  if(showAnnouncement){
+    const label=lang==="en" ? "NEWS" : lang==="ku" ? "نوێ" : "عاجل";
+    const safeText=escapeUi(String(announcementText));
+    const duration=Math.max(12,Math.min(38,Math.round(String(announcementText).length*.24)));
 
-  announcement.style.display =
-    showAnnouncement
-      ? "block"
-      : "none";
+    announcement.style.setProperty("--sm-news-duration",`${duration}s`);
+
+    announcement.innerHTML=`
+      <span class="sm-news-label">${label}</span>
+      <div class="sm-news-window">
+        <div class="sm-news-track">
+          <span class="sm-news-copy" dir="auto">${safeText}<i class="sm-news-dot">●</i></span>
+          <span class="sm-news-copy" dir="auto" aria-hidden="true">${safeText}<i class="sm-news-dot">●</i></span>
+        </div>
+      </div>
+    `;
+
+    announcement.style.display="flex";
+  }else{
+    announcement.innerHTML="";
+    announcement.style.display="none";
+  }
 }
 
 
@@ -3541,6 +3873,7 @@ async function startShorash() {
 
     installMenuCardPolish();
     installMenuDiscoveryUI();
+    installV44PolishStyles();
     applyUiDesignSettings();
     ensureSearchUI();
 
