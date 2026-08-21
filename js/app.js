@@ -596,272 +596,6 @@ function registerPwa(){
 }
 
 
-const THEME_PREF_KEY="SM_THEME_PREF_V1";
-
-
-function installThemeStyles(){
-
-  if(document.getElementById("smThemeStyles"))return;
-
-  const style=document.createElement("style");
-  style.id="smThemeStyles";
-
-  style.textContent=`
-    .sm-theme-toggle{
-      width:38px;
-      height:38px;
-      display:grid;
-      place-items:center;
-      margin:8px auto 0;
-      border:1px solid rgba(232,184,98,.22);
-      border-radius:12px;
-      background:rgba(10,7,4,.66);
-      color:#e8b862;
-      font-size:17px;
-      cursor:pointer;
-      backdrop-filter:blur(12px);
-      -webkit-backdrop-filter:blur(12px);
-      -webkit-tap-highlight-color:transparent;
-    }
-
-    html[data-sm-theme="light"] body{
-      background:#f3efe8 !important;
-      color:#241d16 !important;
-    }
-
-    html[data-sm-theme="light"] .sm-bg-overlay{
-      background:rgba(246,242,234,.93) !important;
-    }
-
-    html[data-sm-theme="light"] .sm-bg-video{
-      opacity:.22 !important;
-      filter:brightness(1.45) saturate(.55) !important;
-    }
-
-    html[data-sm-theme="light"] .sm-header h1,
-    html[data-sm-theme="light"] .sm-section-title,
-    html[data-sm-theme="light"] .sm-card .sm-name,
-    html[data-sm-theme="light"] .sm-footer h2,
-    html[data-sm-theme="light"] .sm-footer-brand strong{
-      color:#241d16 !important;
-    }
-
-    html[data-sm-theme="light"] #smSubtitle,
-    html[data-sm-theme="light"] .sm-search-category,
-    html[data-sm-theme="light"] .sm-card .sm-option,
-    html[data-sm-theme="light"] .sm-footer-location,
-    html[data-sm-theme="light"] .sm-footer-copy{
-      color:#6d6257 !important;
-    }
-
-    html[data-sm-theme="light"] .sm-card,
-    html[data-sm-theme="light"] .sm-search-wrap,
-    html[data-sm-theme="light"] .sm-quick-actions a,
-    html[data-sm-theme="light"] #smActions a,
-    html[data-sm-theme="light"] .sm-cat,
-    html[data-sm-theme="light"] .sm-footer{
-      background:rgba(255,255,255,.76) !important;
-      border-color:rgba(106,76,35,.16) !important;
-      box-shadow:0 10px 28px rgba(77,55,25,.09) !important;
-    }
-
-    html[data-sm-theme="light"] .sm-search-input{
-      color:#241d16 !important;
-    }
-
-    html[data-sm-theme="light"] .sm-search-input::placeholder{
-      color:#8a7e72 !important;
-    }
-
-    html[data-sm-theme="light"] .sm-cat.active{
-      background:linear-gradient(135deg,#efc76e,#d59a32) !important;
-      color:#17110b !important;
-    }
-
-    html[data-sm-theme="light"] .sm-share-category,
-    html[data-sm-theme="light"] .sm-share-product,
-    html[data-sm-theme="light"] .sm-theme-toggle{
-      background:rgba(255,255,255,.84) !important;
-      color:#9b6d1f !important;
-      border-color:rgba(117,82,30,.2) !important;
-    }
-
-    html[data-sm-theme="light"] .sm-cart-fab,
-    html[data-sm-theme="light"] #smCartFab{
-      background:#fff9ef !important;
-      color:#8b5f17 !important;
-      border-color:rgba(139,95,23,.25) !important;
-      box-shadow:0 12px 32px rgba(73,50,17,.18) !important;
-    }
-
-    html[data-sm-theme="light"] .sm-cart-drawer,
-    html[data-sm-theme="light"] #smCartDrawer,
-    html[data-sm-theme="light"] .sm-checkout-sheet,
-    html[data-sm-theme="light"] #smCheckoutSheet{
-      background:#f7f2ea !important;
-      color:#241d16 !important;
-    }
-  `;
-
-  document.head.appendChild(style);
-}
-
-
-function preferredTheme(){
-
-  const saved=
-    localStorage.getItem(
-      THEME_PREF_KEY
-    );
-
-  if(
-    saved==="dark" ||
-    saved==="light"
-  ){
-    return saved;
-  }
-
-  return (
-    DB?.restaurant?.themeDefault==="light"
-      ? "light"
-      : "dark"
-  );
-}
-
-
-function applyTheme(theme,persist=false){
-
-  const next=
-    theme==="light"
-      ? "light"
-      : "dark";
-
-  document.documentElement.dataset.smTheme=
-    next;
-
-  if(persist){
-    localStorage.setItem(
-      THEME_PREF_KEY,
-      next
-    );
-  }
-
-  const meta=
-    document.querySelector(
-      'meta[name="theme-color"]'
-    );
-
-  if(meta){
-    meta.content=
-      next==="light"
-        ? "#f3efe8"
-        : "#080604";
-  }
-
-  const button=
-    document.getElementById(
-      "smThemeToggle"
-    );
-
-  if(button){
-    button.textContent=
-      next==="light"
-        ? "🌙"
-        : "☀️";
-
-    button.setAttribute(
-      "aria-label",
-      next==="light"
-        ? "Dark mode"
-        : "Light mode"
-    );
-  }
-}
-
-
-function setupTheme(){
-
-  installThemeStyles();
-
-  applyTheme(
-    preferredTheme(),
-    false
-  );
-
-
-  let button=
-    document.getElementById(
-      "smThemeToggle"
-    );
-
-
-  if(
-    DB?.restaurant?.showThemeToggle===false
-  ){
-    button?.remove();
-    return;
-  }
-
-
-  if(!button){
-    button=
-      document.createElement(
-        "button"
-      );
-
-    button.id=
-      "smThemeToggle";
-
-    button.type=
-      "button";
-
-    button.className=
-      "sm-theme-toggle";
-
-
-    const langs=
-      document.getElementById(
-        "smLangs"
-      );
-
-    if(langs){
-      langs.insertAdjacentElement(
-        "afterend",
-        button
-      );
-    }else{
-      document.querySelector(
-        ".sm-header"
-      )?.appendChild(
-        button
-      );
-    }
-
-
-    button.addEventListener(
-      "click",
-      ()=>{
-        const current=
-          document.documentElement.dataset.smTheme;
-
-        applyTheme(
-          current==="light"
-            ? "dark"
-            : "light",
-          true
-        );
-      }
-    );
-  }
-
-
-  applyTheme(
-    preferredTheme(),
-    false
-  );
-}
-
-
 const UI_DESIGN_DEFAULTS={card_height:160,image_percent:50,card_radius:18,card_gap:10,info_padding:10,product_name_font:14,option_font:10.5,price_font:11,section_title_font:21,add_button_height:30,add_button_font:10,category_height:41,category_font:12,top_action_height:48,top_action_font:11,cart_width:180,cart_height:56,cart_font:13,cart_horizontal:50,cart_bottom:16,logo_size:84,menu_title_font:26,subtitle_font:12,search_height:46,search_font:16,footer_title_font:17,footer_action_font:10.5,footer_phone_font:17};
 function uiDesignValue(k){const v=Number(DB?.restaurant?.uiDesign?.[k]);return Number.isFinite(v)?v:UI_DESIGN_DEFAULTS[k]}
 function applyUiDesignSettings(){
@@ -877,11 +611,105 @@ function applyUiDesignSettings(){
       .sm-grid{gap:var(--sm-ui-card-gap,10px)!important}
       html[dir="ltr"] .sm-card{grid-template-columns:var(--sm-ui-image-percent,50%) var(--sm-ui-info-percent,50%)!important}
       html[dir="rtl"] .sm-card{grid-template-columns:var(--sm-ui-info-percent,50%) var(--sm-ui-image-percent,50%)!important}
-      .sm-card{grid-template-rows:var(--sm-ui-card-height,160px)!important;height:var(--sm-ui-card-height,160px)!important;min-height:var(--sm-ui-card-height,160px)!important;max-height:var(--sm-ui-card-height,160px)!important;border-radius:var(--sm-ui-card-radius,18px)!important}
-      .sm-card .sm-img,.sm-card .sm-info{height:var(--sm-ui-card-height,160px)!important;min-height:var(--sm-ui-card-height,160px)!important;max-height:var(--sm-ui-card-height,160px)!important}
-      .sm-card .sm-info{padding:var(--sm-ui-info-padding,10px)!important}
-      .sm-card .sm-name{font-size:var(--sm-ui-product-name-font,14px)!important}
-      .sm-card .sm-option{font-size:var(--sm-ui-option-font,10.5px)!important}
+      .sm-card{
+        grid-template-rows:var(--sm-ui-card-height,160px)!important;
+        height:var(--sm-ui-card-height,160px)!important;
+        min-height:var(--sm-ui-card-height,160px)!important;
+        max-height:var(--sm-ui-card-height,160px)!important;
+        border-radius:var(--sm-ui-card-radius,18px)!important;
+        background:rgba(7,5,3,.72)!important;
+        backdrop-filter:blur(10px) saturate(1.05)!important;
+        -webkit-backdrop-filter:blur(10px) saturate(1.05)!important;
+      }
+
+      .sm-card .sm-img,.sm-card .sm-info{
+        height:var(--sm-ui-card-height,160px)!important;
+        min-height:var(--sm-ui-card-height,160px)!important;
+        max-height:var(--sm-ui-card-height,160px)!important;
+      }
+
+      .sm-card .sm-info,.sm-cold-card .sm-info{
+        padding:var(--sm-ui-info-padding,10px)!important;
+        background:transparent!important;
+        backdrop-filter:none!important;
+        -webkit-backdrop-filter:none!important;
+      }
+
+      .sm-card .sm-info:after{
+        display:none!important;
+      }
+
+      .sm-card .sm-img{
+        position:relative!important;
+        width:100%!important;
+        min-width:0!important;
+        max-width:100%!important;
+        overflow:hidden!important;
+        background:rgba(0,0,0,.22)!important;
+      }
+
+      .sm-card .sm-img:after{
+        content:"";
+        position:absolute;
+        inset:0;
+        z-index:2;
+        pointer-events:none;
+        background:linear-gradient(145deg,rgba(0,0,0,.04),rgba(0,0,0,.12));
+      }
+
+      .sm-card .sm-img img,.sm-card .sm-product-image{
+        position:relative!important;
+        z-index:1;
+        display:block!important;
+        width:100%!important;
+        height:100%!important;
+        min-width:0!important;
+        min-height:0!important;
+        max-width:none!important;
+        max-height:none!important;
+        object-fit:cover!important;
+        object-position:center center!important;
+        margin:0!important;
+        padding:0!important;
+        transform:none!important;
+      }
+
+      .sm-options-scroll{
+        flex:1 1 auto;
+        min-height:0;
+        max-height:100%;
+        overflow-y:auto;
+        overflow-x:hidden;
+        -webkit-overflow-scrolling:touch;
+        overscroll-behavior:contain;
+        scrollbar-width:thin;
+        scrollbar-color:rgba(226,181,94,.48) transparent;
+        padding-inline-end:3px;
+        margin-inline-end:-3px;
+      }
+
+      .sm-options-scroll::-webkit-scrollbar{width:3px}
+      .sm-options-scroll::-webkit-scrollbar-thumb{
+        background:rgba(226,181,94,.48);
+        border-radius:999px;
+      }
+      .sm-options-scroll .sm-option:last-child{border-bottom:0}
+      .sm-card .sm-info{
+        display:flex!important;
+        flex-direction:column!important;
+        justify-content:center!important;
+        min-width:0!important;
+        overflow:hidden!important;
+      }
+
+      .sm-card .sm-name{
+        flex:0 0 auto;
+        font-size:var(--sm-ui-product-name-font,14px)!important;
+      }
+
+      .sm-card .sm-option{
+        font-size:var(--sm-ui-option-font,10.5px)!important;
+      }
       .sm-card .sm-price{font-size:var(--sm-ui-price-font,11px)!important}
       .sm-section-title{font-size:var(--sm-ui-section-title-font,21px)!important}
       .sm-card .sm-choose-options,.sm-card .sm-direct-add{min-height:var(--sm-ui-add-button-height,30px)!important;font-size:var(--sm-ui-add-button-font,10px)!important}
@@ -1318,7 +1146,7 @@ function productCard(product) {
   const productOptions = product.options || [];
   const hasVariants = productOptions.length > 1;
 
-  const options = productOptions
+  const optionRows = productOptions
     .map((option, optionIndex) => {
 
       const optionName = txt(option);
@@ -1335,6 +1163,11 @@ function productCard(product) {
       `;
     })
     .join("");
+
+  const options =
+    optionRows
+      ? `<div class="sm-options-scroll">${optionRows}</div>`
+      : "";
 
   const variantButton = b.unavailable ? "" : hasVariants
     ? `<button class="sm-choose-options" type="button" data-product-id="${product.id}">
@@ -2122,8 +1955,7 @@ function saveBrandCache(){
         nameAr:restaurant.nameAr ?? "",
         nameKu:restaurant.nameKu ?? "",
         nameEn:restaurant.nameEn ?? "",
-        logo:restaurant.logo ?? "",
-        themeDefault:restaurant.themeDefault ?? "dark"
+        logo:restaurant.logo ?? ""
       })
     );
   }catch(_){}
@@ -2159,7 +1991,7 @@ function applyRestaurantBranding() {
 
   [
     ...document.querySelectorAll(
-      ".sm-intro-logo, #smLogo, .sm-logo img"
+      ".sm-intro-logo, #smLogo, .sm-logo, .sm-logo img"
     )
   ].forEach(img => {
 
@@ -2187,7 +2019,7 @@ function applyRestaurantBranding() {
 
 
   document
-    .querySelectorAll(".sm-logo")
+    .querySelectorAll(".sm-logo-wrap")
     .forEach(el => {
       el.style.display =
         display.logo !== false &&
@@ -3402,14 +3234,6 @@ async function loadMenuFromSupabase() {
     uiDesign:
       safeObject(settings.ui_design_settings),
 
-    themeDefault:
-      settings.theme_default === "light"
-        ? "light"
-        : "dark",
-
-    showThemeToggle:
-      settings.show_theme_toggle !== false,
-
     introDurationMs:
       Math.max(
         400,
@@ -3734,7 +3558,6 @@ async function startShorash() {
     applyLang();
 
     saveBrandCache();
-    setupTheme();
     setupIntro();
 
 
