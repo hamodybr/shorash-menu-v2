@@ -209,12 +209,20 @@
       cart.map(x=>`<div class="sm-review-item"><span>${x.qty}× ${txt(x.name)} <small>${txt(x.option)}</small></span><b>${money(x.qty*x.price)}</b></div>`).join("");
 
     const info=document.getElementById("smDeliveryInfo");
-    const infoText=restaurant().deliveryInfo?.[lang()]||restaurant().deliveryInfo?.ar||"";
+
+    const infoText=
+      restaurant().deliveryInfo?.[lang()] ??
+      restaurant().deliveryInfo?.ar ??
+      "";
+
+    const showInfo=
+      restaurant().deliveryInfoEnabled!==false &&
+      String(infoText).trim();
 
     if(info){
       info.textContent=infoText;
-      info.hidden=!String(infoText).trim();
-      info.style.display=String(infoText).trim()?"block":"none";
+      info.hidden=!showInfo;
+      info.style.display=showInfo?"block":"none";
     }
 
     if(!deliveryAllowed()&&pickupAllowed()){

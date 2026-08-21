@@ -75,40 +75,45 @@ function restaurantNameForLang(targetLang=lang) {
   const restaurant =
     DB?.restaurant || {};
 
+
   if (targetLang === "ar") {
-    return (
-      restaurant.nameAr ||
-      restaurant.name ||
-      restaurant.nameEn ||
-      "المطعم"
-    );
+    return String(
+      restaurant.nameAr ??
+      restaurant.name ??
+      restaurant.nameEn ??
+      ""
+    ).trim();
   }
+
 
   if (targetLang === "ku") {
-    return (
-      restaurant.nameKu ||
-      restaurant.nameAr ||
-      restaurant.name ||
-      "Restaurant"
-    );
+    return String(
+      restaurant.nameKu ??
+      restaurant.nameAr ??
+      restaurant.name ??
+      restaurant.nameEn ??
+      ""
+    ).trim();
   }
 
-  return (
-    restaurant.nameEn ||
-    restaurant.name ||
-    restaurant.nameAr ||
-    "Restaurant"
-  );
+
+  return String(
+    restaurant.nameEn ??
+    restaurant.name ??
+    restaurant.nameAr ??
+    ""
+  ).trim();
 }
 
 
 function formatRestaurantTemplate(value,targetLang=lang) {
 
   let text =
-    String(value || "");
+    String(value ?? "");
 
   const currentName =
     restaurantNameForLang(targetLang);
+
 
   text =
     text.replaceAll(
@@ -117,30 +122,11 @@ function formatRestaurantTemplate(value,targetLang=lang) {
     );
 
 
-  /*
-    Backward compatibility:
-    old saved texts may still contain SHORASH / Shorash /
-    شوراش / شورش instead of {name}. Replace those brand
-    references with the current restaurant name.
-  */
-
+  // Backward compatibility with old saved SHORASH text.
   const oldBrandPatterns =
-    targetLang === "ar"
-      ? [
-          /شوراش/g,
-          /شورش/g,
-          /SHORASH/gi
-        ]
-      : targetLang === "ku"
-        ? [
-            /شوراش/g,
-            /شورش/g,
-            /SHORASH/gi
-          ]
-        : [
-            /SHORASH/gi,
-            /Shorash/g
-          ];
+    targetLang === "en"
+      ? [/SHORASH/gi,/Shorash/g]
+      : [/شوراش/g,/شورش/g,/SHORASH/gi];
 
 
   oldBrandPatterns.forEach(pattern => {
@@ -152,7 +138,9 @@ function formatRestaurantTemplate(value,targetLang=lang) {
   });
 
 
-  return text;
+  return text
+    .replace(/\s{2,}/g," ")
+    .trim();
 }
 
 
@@ -245,28 +233,45 @@ function categories() {
 function renderCats() {
 
   const rail = $("#smCats");
+  const sentinel = $("#smCatsSentinel");
 
   if (!rail) return;
+
+
+  const show =
+    DB?.restaurant?.display?.categoryNav !== false;
+
+
+  rail.style.display =
+    show
+      ? ""
+      : "none";
+
+
+  if (sentinel && !show) {
+    sentinel.style.height = "0";
+  }
+
+
+  if (!show) {
+    rail.classList.remove("fixed");
+    catsFixed = false;
+    return;
+  }
+
 
   const savedScroll = rail.scrollLeft;
 
   rail.innerHTML = categories()
-    .map(category => {
-
-      return `
-        <button
-          class="sm-cat ${
-            category.ar === active
-              ? "active"
-              : ""
-          }"
-          data-cat="${category.ar}">
-          ${txt(category)}
-        </button>
-      `;
-
-    })
+    .map(category => `
+      <button
+        class="sm-cat ${category.ar === active ? "active" : ""}"
+        data-cat="${category.ar}">
+        ${txt(category)}
+      </button>
+    `)
     .join("");
+
 
   requestAnimationFrame(() => {
     rail.scrollLeft = savedScroll;
@@ -494,6 +499,19 @@ function renderLanguages() {
   if (!holder) return;
 
 
+  const show =
+    DB?.restaurant?.display?.languageSwitch !== false;
+
+
+  holder.style.display =
+    show
+      ? ""
+      : "none";
+
+
+  if (!show) return;
+
+
   holder.className = "sm-lang-switch";
 
 
@@ -502,33 +520,21 @@ function renderLanguages() {
     <button
       type="button"
       data-lang="ar"
-      class="${
-        lang === "ar"
-          ? "active"
-          : ""
-      }">
+      class="${lang === "ar" ? "active" : ""}">
       عربي
     </button>
 
     <button
       type="button"
       data-lang="ku"
-      class="${
-        lang === "ku"
-          ? "active"
-          : ""
-      }">
+      class="${lang === "ku" ? "active" : ""}">
       کوردی
     </button>
 
     <button
       type="button"
       data-lang="en"
-      class="${
-        lang === "en"
-          ? "active"
-          : ""
-      }">
+      class="${lang === "en" ? "active" : ""}">
       English
     </button>
 
@@ -673,14 +679,25 @@ function applyLang() {
 
   if (subtitle) {
     const customSubtitle =
-      DB?.restaurant?.subtitle?.[lang] ||
-      I18N[lang].subtitle;
+      DB?.restaurant?.subtitle?.[lang];
+
+    const sourceText =
+      customSubtitle === null ||
+      customSubtitle === undefined
+        ? I18N[lang].subtitle
+        : customSubtitle;
 
     subtitle.textContent =
       formatRestaurantTemplate(
-        customSubtitle,
+        sourceText,
         lang
       );
+
+    subtitle.style.display =
+      DB?.restaurant?.display?.subtitle !== false &&
+      subtitle.textContent
+        ? ""
+        : "none";
   }
 
 
@@ -844,6 +861,20 @@ function setupFooter() {
   const restaurant =
     DB.restaurant || {};
 
+  const display =
+    restaurant.display || {};
+
+  const footer =
+    document.querySelector(".sm-footer");
+
+
+  if (footer) {
+    footer.style.display =
+      display.footer === false
+        ? "none"
+        : "";
+  }
+
 
   const location =
     $("#smFooterLocation");
@@ -855,9 +886,27 @@ function setupFooter() {
     $("#smFooterWhatsapp");
 
 
+  const hasLocation =
+    String(restaurant.location || "").trim() &&
+    restaurant.location !== "#";
+
+  const hasPhone =
+    String(restaurant.phone || "").trim();
+
+  const hasWhatsapp =
+    String(restaurant.whatsappNumber || "").trim();
+
+
   if (location) {
     location.href =
       restaurant.location || "#";
+
+    const show =
+      display.footerLocationButton !== false &&
+      !!hasLocation;
+
+    location.hidden = !show;
+    location.style.display = show ? "" : "none";
   }
 
 
@@ -865,12 +914,26 @@ function setupFooter() {
     call.href =
       "tel:" +
       (restaurant.phone || "");
+
+    const show =
+      display.footerCallButton !== false &&
+      !!hasPhone;
+
+    call.hidden = !show;
+    call.style.display = show ? "" : "none";
   }
 
 
   if (whatsapp) {
     whatsapp.href =
       restaurant.whatsapp || "#";
+
+    const show =
+      display.footerWhatsappButton !== false &&
+      !!hasWhatsapp;
+
+    whatsapp.hidden = !show;
+    whatsapp.style.display = show ? "" : "none";
   }
 
 
@@ -887,14 +950,19 @@ function setupFooter() {
     $("#smInstagram");
 
 
-  function applySocialLink(element,url) {
+  function applySocialLink(element,url,enabled) {
 
     if (!element) return;
 
     const clean =
       String(url || "").trim();
 
-    if (clean) {
+    const show =
+      display.footerSocials !== false &&
+      enabled !== false &&
+      !!clean;
+
+    if (show) {
       element.href = clean;
       element.hidden = false;
       element.style.display = "";
@@ -908,41 +976,38 @@ function setupFooter() {
 
   applySocialLink(
     facebook,
-    restaurant.social?.facebook
+    restaurant.social?.facebook,
+    restaurant.socialEnabled?.facebook
   );
 
   applySocialLink(
     snapchat,
-    restaurant.social?.snapchat
+    restaurant.social?.snapchat,
+    restaurant.socialEnabled?.snapchat
   );
 
   applySocialLink(
     tiktok,
-    restaurant.social?.tiktok
+    restaurant.social?.tiktok,
+    restaurant.socialEnabled?.tiktok
   );
 
   applySocialLink(
     instagram,
-    restaurant.social?.instagram
+    restaurant.social?.instagram,
+    restaurant.socialEnabled?.instagram
   );
 
 
-  if (location) {
-    const hasLocation =
-      String(
-        restaurant.location || ""
-      ).trim() &&
-      restaurant.location !== "#";
+  const socialsWrap =
+    document.querySelector(".sm-footer-socials, .sm-footer-social");
 
-    location.hidden =
-      !hasLocation;
-
-    location.style.display =
-      hasLocation
-        ? ""
-        : "none";
+  if (socialsWrap) {
+    socialsWrap.style.display =
+      display.footerSocials === false
+        ? "none"
+        : "";
   }
-
 }
 
 
@@ -957,6 +1022,9 @@ function updateRestaurantLanguageUI() {
   const restaurant =
     DB.restaurant || {};
 
+  const display =
+    restaurant.display || {};
+
 
   const footerLocation =
     document.querySelector(
@@ -964,10 +1032,19 @@ function updateRestaurantLanguageUI() {
     );
 
   if (footerLocation) {
+    const text =
+      restaurant.footerLocation?.[lang] ??
+      restaurant.footerLocation?.ar ??
+      "";
+
     footerLocation.textContent =
-      restaurant.footerLocation?.[lang] ||
-      restaurant.footerLocation?.ar ||
-      "Duhok • Kurdistan";
+      text;
+
+    footerLocation.style.display =
+      display.footerLocation !== false &&
+      String(text).trim()
+        ? ""
+        : "none";
   }
 
 
@@ -1029,8 +1106,8 @@ function updateRestaurantLanguageUI() {
 
 
   const announcementText =
-    restaurant.announcement?.[lang] ||
-    restaurant.announcement?.ar ||
+    restaurant.announcement?.[lang] ??
+    restaurant.announcement?.ar ??
     "";
 
 
@@ -1060,6 +1137,9 @@ function applyRestaurantBranding() {
   const restaurant =
     DB.restaurant || {};
 
+  const display =
+    restaurant.display || {};
+
   const currentName =
     restaurantNameForLang(lang);
 
@@ -1068,52 +1148,48 @@ function applyRestaurantBranding() {
 
 
   document.title =
-    currentName +
-    " — Menu";
+    currentName
+      ? currentName + " — Menu"
+      : "Menu";
 
 
   const logo =
-    restaurant.logo;
+    String(restaurant.logo ?? "").trim();
 
-  if (logo) {
 
-    [
-      ...document.querySelectorAll(
-        ".sm-intro-logo, #smLogo"
-      )
-    ].forEach(img => {
+  [
+    ...document.querySelectorAll(
+      ".sm-intro-logo, #smLogo, .sm-logo img"
+    )
+  ].forEach(img => {
 
-      if (
-        img &&
-        img.tagName === "IMG"
-      ) {
-        img.src = logo;
-        img.alt = currentName;
-      }
+    if (!img) return;
 
+    const show =
+      display.logo !== false &&
+      !!logo;
+
+    img.style.display =
+      show
+        ? ""
+        : "none";
+
+    if (show) {
+      img.src = logo;
+      img.alt = currentName || "Restaurant";
+    }
+  });
+
+
+  document
+    .querySelectorAll(".sm-logo")
+    .forEach(el => {
+      el.style.display =
+        display.logo !== false &&
+        !!logo
+          ? ""
+          : "none";
     });
-
-
-    document
-      .querySelectorAll(".sm-logo")
-      .forEach(el => {
-
-        if (el.tagName === "IMG") {
-          el.src = logo;
-          el.alt = currentName;
-        }
-
-        const img =
-          el.querySelector?.("img");
-
-        if (img) {
-          img.src = logo;
-          img.alt = currentName;
-        }
-
-      });
-
-  }
 
 
   const introBrand =
@@ -1124,6 +1200,11 @@ function applyRestaurantBranding() {
   if (introBrand) {
     introBrand.textContent =
       currentName;
+
+    introBrand.style.display =
+      currentName
+        ? ""
+        : "none";
   }
 
 
@@ -1134,20 +1215,32 @@ function applyRestaurantBranding() {
 
   if (menuTitle) {
 
-    if (lang === "ar") {
-      menuTitle.textContent =
-        "منيو " +
-        currentName;
-    } else if (lang === "ku") {
-      menuTitle.textContent =
-        "مینیوی " +
-        currentName;
-    } else {
-      menuTitle.textContent =
-        englishName +
-        " MENU";
-    }
+    const genericTitle =
+      lang === "ar"
+        ? "المنيو"
+        : lang === "ku"
+          ? "مینیو"
+          : "MENU";
 
+    const title =
+      currentName
+        ? (
+            lang === "ar"
+              ? "منيو " + currentName
+              : lang === "ku"
+                ? "مینیوی " + currentName
+                : (englishName || currentName) + " MENU"
+          )
+        : genericTitle;
+
+
+    menuTitle.textContent =
+      title;
+
+    menuTitle.style.display =
+      display.menuTitle !== false
+        ? ""
+        : "none";
   }
 
 
@@ -1159,17 +1252,35 @@ function applyRestaurantBranding() {
   if (footerTitle) {
     footerTitle.textContent =
       currentName;
+
+    footerTitle.style.display =
+      display.footerBrand !== false &&
+      !!currentName
+        ? ""
+        : "none";
   }
 
 
   const footerPhone =
     document.querySelector(
-      ".sm-footer-phone, .sm-phone bdi"
+      ".sm-footer-phone, .sm-phone"
     );
 
-  if (footerPhone && restaurant.phone) {
-    footerPhone.textContent =
-      restaurant.phone;
+  if (footerPhone) {
+    const phoneText =
+      footerPhone.querySelector?.("bdi") ||
+      footerPhone;
+
+    if (phoneText) {
+      phoneText.textContent =
+        restaurant.phone || "";
+    }
+
+    footerPhone.style.display =
+      display.footerPhone !== false &&
+      String(restaurant.phone || "").trim()
+        ? ""
+        : "none";
   }
 
 
@@ -1179,14 +1290,31 @@ function applyRestaurantBranding() {
     );
 
   if (footerCopy) {
+
     footerCopy.textContent =
-      currentName +
-      " — All Rights Reserved " +
-      new Date().getFullYear() +
-      " ©";
+      currentName
+        ? (
+            currentName +
+            " — All Rights Reserved " +
+            new Date().getFullYear() +
+            " ©"
+          )
+        : (
+            "All Rights Reserved " +
+            new Date().getFullYear() +
+            " ©"
+          );
+
+    footerCopy.style.display =
+      display.footerCopy !== false
+        ? ""
+        : "none";
   }
 
+
+  setupFooter();
 }
+
 
 /* ========================================
    BACKGROUND VIDEO
@@ -1204,13 +1332,25 @@ function setupBackground() {
   if (!video) return;
 
 
+  const enabled =
+    DB.restaurant?.display?.backgroundVideo !== false;
+
+
   const url =
-    DB.restaurant?.backgroundVideo;
+    String(
+      DB.restaurant?.backgroundVideo || ""
+    ).trim();
 
 
-  if (!url) return;
+  if (!enabled || !url) {
+    video.pause?.();
+    video.removeAttribute("src");
+    video.style.display = "none";
+    return;
+  }
 
 
+  video.style.display = "";
   video.src = url;
 
   video.muted = true;
@@ -1224,16 +1364,10 @@ function setupBackground() {
 
   if (
     promise &&
-    typeof promise.catch ===
-      "function"
+    typeof promise.catch === "function"
   ) {
 
     promise.catch(() => {
-
-      /*
-        iOS may wait for the first
-        user interaction.
-      */
 
       const resume = () => {
 
@@ -1287,6 +1421,14 @@ function setupIntro() {
 
 
   if (!intro) return;
+
+
+  if (
+    DB?.restaurant?.display?.intro === false
+  ) {
+    intro.style.display = "none";
+    return;
+  }
 
 
   const alreadySeen =
@@ -1480,10 +1622,20 @@ function scrollEffects() {
 
   if (topButton) {
 
+    const allowed =
+      DB?.restaurant?.display?.backToTop !== false;
+
     topButton.classList.toggle(
       "show",
+      allowed &&
       window.scrollY > 520
     );
+
+    if (!allowed) {
+      topButton.style.display = "none";
+    } else {
+      topButton.style.display = "";
+    }
   }
 }
 
@@ -1945,57 +2097,74 @@ async function loadMenuFromSupabase() {
       whatsappNumber;
   }
 
+  const value=(key,fallback="")=>{
+    const v=settings[key];
+    return v===null || v===undefined
+      ? fallback
+      : v;
+  };
+
+
   const restaurant = {
 
     name:
-      settings.name_en ||
-      settings.name_ar ||
-      settings.name ||
-      "SHORASH REST & CAFE",
+      value(
+        "name_en",
+        value(
+          "name_ar",
+          value("name","")
+        )
+      ),
 
     nameAr:
-      settings.name_ar ||
-      settings.name ||
-      "شوراش",
+      value(
+        "name_ar",
+        value("name","")
+      ),
 
     nameKu:
-      settings.name_ku ||
-      settings.name_ar ||
-      "SHORASH",
+      value("name_ku",""),
 
     nameEn:
-      settings.name_en ||
-      settings.name ||
-      "SHORASH REST & CAFE",
+      value(
+        "name_en",
+        value("name","")
+      ),
 
     subtitle: {
       ar:
-        settings.subtitle_ar ||
-        "اكتشف منيو {name}",
+        value(
+          "subtitle_ar",
+          "اكتشف منيو {name}"
+        ),
 
       ku:
-        settings.subtitle_ku ||
-        "مینیوی {name} ببینە",
+        value(
+          "subtitle_ku",
+          "مینیوی {name} ببینە"
+        ),
 
       en:
-        settings.subtitle_en ||
-        "Discover {name} Menu"
+        value(
+          "subtitle_en",
+          "Discover {name} Menu"
+        )
     },
 
     phone:
-      settings.phone ||
-      "07502662002",
+      value(
+        "phone",
+        "07502662002"
+      ),
 
     whatsappNumber:
       whatsappNumber ||
-      "9647502662002",
+      "",
 
     whatsapp:
-      "https://wa.me/" +
-      (
-        whatsappNumber ||
-        "9647502662002"
-      ),
+      whatsappNumber
+        ? "https://wa.me/" + whatsappNumber
+        : "",
 
     quickActions: {
       location: {
@@ -2004,16 +2173,22 @@ async function loadMenuFromSupabase() {
 
         label: {
           ar:
-            settings.top_location_label_ar ||
-            "موقعنا",
+            value(
+              "top_location_label_ar",
+              "موقعنا"
+            ),
 
           ku:
-            settings.top_location_label_ku ||
-            "شوێنی مە",
+            value(
+              "top_location_label_ku",
+              "شوێنی مە"
+            ),
 
           en:
-            settings.top_location_label_en ||
-            "Location"
+            value(
+              "top_location_label_en",
+              "Location"
+            )
         }
       },
 
@@ -2023,16 +2198,22 @@ async function loadMenuFromSupabase() {
 
         label: {
           ar:
-            settings.top_call_label_ar ||
-            "اتصال",
+            value(
+              "top_call_label_ar",
+              "اتصال"
+            ),
 
           ku:
-            settings.top_call_label_ku ||
-            "پەیوەندی",
+            value(
+              "top_call_label_ku",
+              "پەیوەندی"
+            ),
 
           en:
-            settings.top_call_label_en ||
-            "Call"
+            value(
+              "top_call_label_en",
+              "Call"
+            )
         }
       },
 
@@ -2042,73 +2223,159 @@ async function loadMenuFromSupabase() {
 
         label: {
           ar:
-            settings.top_whatsapp_label_ar ||
-            "واتساب منيو",
+            value(
+              "top_whatsapp_label_ar",
+              "واتساب منيو"
+            ),
 
           ku:
-            settings.top_whatsapp_label_ku ||
-            "مێنیوی واتساپ",
+            value(
+              "top_whatsapp_label_ku",
+              "مێنیوی واتساپ"
+            ),
 
           en:
-            settings.top_whatsapp_label_en ||
-            "WhatsApp Menu"
+            value(
+              "top_whatsapp_label_en",
+              "WhatsApp Menu"
+            )
         }
       }
     },
 
     location:
-      settings.location ||
-      settings.location_url ||
-      "#",
+      value(
+        "location",
+        value("location_url","#")
+      ),
 
     footerLocation: {
       ar:
-        settings.footer_location_ar ||
-        "دهوك • كوردستان",
+        value(
+          "footer_location_ar",
+          "دهوك • كوردستان"
+        ),
 
       ku:
-        settings.footer_location_ku ||
-        "دهۆک • کوردستان",
+        value(
+          "footer_location_ku",
+          "دهۆک • کوردستان"
+        ),
 
       en:
-        settings.footer_location_en ||
-        "Duhok • Kurdistan"
+        value(
+          "footer_location_en",
+          "Duhok • Kurdistan"
+        )
     },
 
     social: {
       instagram:
-        settings.instagram_url !== undefined &&
-        settings.instagram_url !== null
-          ? settings.instagram_url
-          : "https://www.instagram.com/shorashrest",
+        value(
+          "instagram_url",
+          "https://www.instagram.com/shorashrest"
+        ),
 
       facebook:
-        settings.facebook_url !== undefined &&
-        settings.facebook_url !== null
-          ? settings.facebook_url
-          : "https://facebook.com/shorashrest",
+        value(
+          "facebook_url",
+          "https://facebook.com/shorashrest"
+        ),
 
       tiktok:
-        settings.tiktok_url !== undefined &&
-        settings.tiktok_url !== null
-          ? settings.tiktok_url
-          : "https://www.tiktok.com/@shorashrest",
+        value(
+          "tiktok_url",
+          "https://www.tiktok.com/@shorashrest"
+        ),
 
       snapchat:
-        settings.snapchat_url !== undefined &&
-        settings.snapchat_url !== null
-          ? settings.snapchat_url
-          : "https://www.snapchat.com/add/shorest2000"
+        value(
+          "snapchat_url",
+          "https://www.snapchat.com/add/shorest2000"
+        )
+    },
+
+    socialEnabled: {
+      instagram:
+        settings.instagram_enabled !== false,
+
+      facebook:
+        settings.facebook_enabled !== false,
+
+      tiktok:
+        settings.tiktok_enabled !== false,
+
+      snapchat:
+        settings.snapchat_enabled !== false
+    },
+
+    display: {
+      logo:
+        settings.show_logo !== false,
+
+      menuTitle:
+        settings.show_menu_title !== false,
+
+      subtitle:
+        settings.show_subtitle !== false,
+
+      languageSwitch:
+        settings.show_language_switch !== false,
+
+      categoryNav:
+        settings.show_category_nav !== false,
+
+      backToTop:
+        settings.show_back_to_top !== false,
+
+      intro:
+        settings.intro_enabled !== false,
+
+      backgroundVideo:
+        settings.background_video_enabled !== false,
+
+      footer:
+        settings.show_footer !== false,
+
+      footerBrand:
+        settings.show_footer_brand !== false,
+
+      footerLocation:
+        settings.show_footer_location !== false,
+
+      footerPhone:
+        settings.show_footer_phone !== false,
+
+      footerSocials:
+        settings.show_footer_socials !== false,
+
+      footerCopy:
+        settings.show_footer_copy !== false,
+
+      footerLocationButton:
+        settings.footer_location_enabled !== false,
+
+      footerCallButton:
+        settings.footer_call_enabled !== false,
+
+      footerWhatsappButton:
+        settings.footer_whatsapp_enabled !== false
     },
 
     backgroundVideo:
-      settings.background_video ||
-      settings.background_video_url ||
-      "assets/background.mp4",
+      value(
+        "background_video",
+        value(
+          "background_video_url",
+          "assets/background.mp4"
+        )
+      ),
 
     logo:
-      settings.logo_url ||
-      "assets/shorash-logo.jpeg",
+      value(
+        "logo_url",
+        "assets/shorash-logo.jpeg"
+      ),
 
     isOpen:
       settings.is_open !== false,
@@ -2122,15 +2389,18 @@ async function loadMenuFromSupabase() {
     pickupEnabled:
       settings.pickup_enabled !== false,
 
+    deliveryInfoEnabled:
+      settings.delivery_info_enabled !== false,
+
     deliveryInfo: {
       ar:
-        settings.delivery_info_ar || "",
+        value("delivery_info_ar",""),
 
       ku:
-        settings.delivery_info_ku || "",
+        value("delivery_info_ku",""),
 
       en:
-        settings.delivery_info_en || ""
+        value("delivery_info_en","")
     },
 
     announcementEnabled:
@@ -2138,27 +2408,33 @@ async function loadMenuFromSupabase() {
 
     announcement: {
       ar:
-        settings.announcement_ar || "",
+        value("announcement_ar",""),
 
       ku:
-        settings.announcement_ku || "",
+        value("announcement_ku",""),
 
       en:
-        settings.announcement_en || ""
+        value("announcement_en","")
     },
 
     closedMessage: {
       ar:
-        settings.closed_message_ar ||
-        "المطعم مغلق حالياً. يسعدنا استقبال طلبك عند إعادة فتح الطلبات.",
+        value(
+          "closed_message_ar",
+          "المطعم مغلق حالياً. يسعدنا استقبال طلبك عند إعادة فتح الطلبات."
+        ),
 
       ku:
-        settings.closed_message_ku ||
-        "چێشتخانەکە لە ئێستادا داخراوە. کاتێک داواکاری دووبارە کراوە دەبێت، بەخێربێیت.",
+        value(
+          "closed_message_ku",
+          "چێشتخانەکە لە ئێستادا داخراوە."
+        ),
 
       en:
-        settings.closed_message_en ||
-        "The restaurant is currently closed. Ordering will be available again when we reopen."
+        value(
+          "closed_message_en",
+          "The restaurant is currently closed."
+        )
     }
 
   };
@@ -2222,9 +2498,6 @@ async function startShorash() {
     so it never gets stuck while
     Supabase is loading.
   */
-
-  setupIntro();
-
 
   try {
 
@@ -2309,6 +2582,8 @@ async function startShorash() {
     /* =========================
        INITIALIZE WEBSITE
     ========================= */
+
+    setupIntro();
 
     setupBackground();
 
