@@ -104,13 +104,55 @@ function restaurantNameForLang(targetLang=lang) {
 
 function formatRestaurantTemplate(value,targetLang=lang) {
 
-  const text =
+  let text =
     String(value || "");
 
-  return text.replaceAll(
-    "{name}",
-    restaurantNameForLang(targetLang)
-  );
+  const currentName =
+    restaurantNameForLang(targetLang);
+
+  text =
+    text.replaceAll(
+      "{name}",
+      currentName
+    );
+
+
+  /*
+    Backward compatibility:
+    old saved texts may still contain SHORASH / Shorash /
+    شوراش / شورش instead of {name}. Replace those brand
+    references with the current restaurant name.
+  */
+
+  const oldBrandPatterns =
+    targetLang === "ar"
+      ? [
+          /شوراش/g,
+          /شورش/g,
+          /SHORASH/gi
+        ]
+      : targetLang === "ku"
+        ? [
+            /شوراش/g,
+            /شورش/g,
+            /SHORASH/gi
+          ]
+        : [
+            /SHORASH/gi,
+            /Shorash/g
+          ];
+
+
+  oldBrandPatterns.forEach(pattern => {
+    text =
+      text.replace(
+        pattern,
+        currentName
+      );
+  });
+
+
+  return text;
 }
 
 
@@ -1505,6 +1547,9 @@ async function loadMenuFromSupabase() {
   } = await supabaseClient
     .from("restaurant_settings")
     .select("*")
+    .order("updated_at", {
+      ascending: false
+    })
     .limit(1);
 
 
