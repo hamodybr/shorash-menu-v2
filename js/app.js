@@ -309,13 +309,61 @@ function installV44PolishStyles(){
       box-sizing:border-box;
     }
 
-    .sm-lang-menu{
+    .sm-lang-glyph{
+      width:24px;
+      height:24px;
+      position:relative;
+      display:grid;
+      place-items:center;
+      border:1px solid rgba(232,184,98,.55);
+      border-radius:50%;
+      background:
+        radial-gradient(circle at 35% 30%,rgba(232,184,98,.18),transparent 45%),
+        rgba(22,14,8,.72);
+      box-shadow:
+        inset 0 0 0 2px rgba(232,184,98,.045),
+        0 0 15px rgba(216,169,88,.08);
+    }
+
+    .sm-lang-glyph b{
+      position:absolute;
+      right:4px;
+      top:2px;
+      color:#efc86f;
+      font-size:12px;
+      line-height:1;
+      font-weight:900;
+    }
+
+    .sm-lang-glyph i{
+      position:absolute;
+      left:4px;
+      bottom:3px;
+      color:#d3c5b4;
+      font-size:8px;
+      line-height:1;
+      font-weight:900;
+      font-style:normal;
+    }
+
+    .sm-header-icon-btn svg{
+      width:19px;
+      height:19px;
+      display:block;
+      stroke:#e8b862;
+      stroke-width:1.8;
+      fill:none;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+
+    #smLangs.sm-lang-menu{
       position:absolute;
       z-index:75;
       top:45px;
       right:0;
       width:132px;
-      display:none;
+      display:none !important;
       gap:5px;
       padding:6px;
       border:1px solid rgba(232,184,98,.2);
@@ -328,7 +376,7 @@ function installV44PolishStyles(){
       box-sizing:border-box;
     }
 
-    .sm-lang-menu.open{display:grid!important}
+    #smLangs.sm-lang-menu.open{display:grid!important}
 
     .sm-lang-menu button{
       width:100%;
@@ -393,6 +441,29 @@ function installV44PolishStyles(){
 
     .sm-header .sm-logo-wrap{overflow:visible!important}
 
+    .sm-header h1::after{
+      content:"";
+      display:block;
+      width:clamp(92px,28vw,150px);
+      height:1px;
+      margin:10px auto 7px;
+      background:
+        linear-gradient(
+          90deg,
+          transparent 0%,
+          rgba(196,139,52,.45) 18%,
+          #efc86f 50%,
+          rgba(196,139,52,.45) 82%,
+          transparent 100%
+        );
+      box-shadow:0 0 10px rgba(232,184,98,.16);
+    }
+
+    #smSubtitle{
+      letter-spacing:.15px;
+      text-shadow:0 1px 8px rgba(0,0,0,.28);
+    }
+
     .sm-header .sm-logo{
       animation:smLogoWaveV44 4.6s ease-in-out infinite;
       transform-origin:50% 68%;
@@ -411,6 +482,7 @@ function installV44PolishStyles(){
     }
 
     .sm-news-ticker{
+      direction:rtl;
       width:min(calc(100% - 18px),680px);
       height:30px;
       display:none;
@@ -445,12 +517,14 @@ function installV44PolishStyles(){
       overflow:hidden;
       display:flex;
       align-items:center;
-      direction:ltr;
+      justify-content:flex-start;
+      direction:rtl;
     }
 
     .sm-news-track{
       display:flex;
       align-items:center;
+      direction:rtl;
       width:max-content;
       min-width:max-content;
       white-space:nowrap;
@@ -463,7 +537,7 @@ function installV44PolishStyles(){
       align-items:center;
       gap:18px;
       min-width:max-content;
-      padding:0 18px;
+      padding:0 8px;
       color:#e4d9cd;
       font-size:9.5px;
       font-weight:700;
@@ -517,7 +591,12 @@ function ensureHeaderTools(){
     searchToggle.id="smSearchToggle";
     searchToggle.type="button";
     searchToggle.className="sm-header-icon-btn";
-    searchToggle.innerHTML="⌕";
+    searchToggle.innerHTML=`
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="10.5" cy="10.5" r="5.5"></circle>
+        <path d="M14.8 14.8 20 20"></path>
+      </svg>
+    `;
     searchToggle.setAttribute("aria-label","Search");
     tools.appendChild(searchToggle);
   }
@@ -1701,21 +1780,38 @@ function renderLanguages() {
 
   if(!holder)return;
 
-  const show=DB?.restaurant?.display?.languageSwitch !== false;
+  const show=
+    DB?.restaurant?.display?.languageSwitch !== false;
 
-  holder.style.display=show ? "" : "none";
+  holder.className="sm-lang-menu";
+  holder.removeAttribute("style");
 
   if(toggle){
-    toggle.style.display=show ? "grid" : "none";
+    toggle.style.display=
+      show
+        ? "grid"
+        : "none";
+
     toggle.innerHTML=`
-      <span aria-hidden="true">🌐</span>
+      <span class="sm-lang-glyph" aria-hidden="true">
+        <b>ع</b>
+        <i>A</i>
+      </span>
       <small class="sm-lang-code">${lang.toUpperCase()}</small>
     `;
   }
 
-  if(!show)return;
+  if(!show){
+    holder.style.setProperty(
+      "display",
+      "none",
+      "important"
+    );
+    holder.innerHTML="";
+    return;
+  }
 
-  holder.className="sm-lang-menu";
+  holder.classList.remove("open");
 
   holder.innerHTML=`
     <button type="button" data-lang="ar" class="${lang==="ar"?"active":""}">عربي</button>
@@ -2246,7 +2342,7 @@ function updateRestaurantLanguageUI() {
   if(showAnnouncement){
     const label=lang==="en" ? "NEWS" : lang==="ku" ? "نوێ" : "عاجل";
     const safeText=escapeUi(String(announcementText));
-    const duration=Math.max(12,Math.min(38,Math.round(String(announcementText).length*.24)));
+    const duration=Math.max(6,Math.min(16,Math.round(String(announcementText).length*.11)));
 
     announcement.style.setProperty("--sm-news-duration",`${duration}s`);
 
