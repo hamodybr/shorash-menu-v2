@@ -171,6 +171,13 @@ function installMenuDiscoveryUI(){
       margin:0 !important;
     }
 
+    .sm-card .sm-badges,
+    .sm-card .sm-badge,
+    .sm-card .sm-off{
+      position:relative;
+      z-index:30;
+    }
+
     .sm-share-category,
     .sm-share-product{
       display:grid;
@@ -1035,14 +1042,66 @@ function applyUiDesignSettings(){
       html[dir="ltr"] .sm-card{grid-template-columns:var(--sm-ui-image-percent,50%) var(--sm-ui-info-percent,50%)!important}
       html[dir="rtl"] .sm-card{grid-template-columns:var(--sm-ui-info-percent,50%) var(--sm-ui-image-percent,50%)!important}
       .sm-card{
+        position:relative!important;
+        isolation:isolate!important;
+        overflow:hidden!important;
+
         grid-template-rows:var(--sm-ui-card-height,160px)!important;
         height:var(--sm-ui-card-height,160px)!important;
         min-height:var(--sm-ui-card-height,160px)!important;
         max-height:var(--sm-ui-card-height,160px)!important;
+
         border-radius:var(--sm-ui-card-radius,18px)!important;
-        background:rgba(7,5,3,var(--sm-ui-card-opacity,.05))!important;
-        backdrop-filter:blur(10px) saturate(1.05)!important;
-        -webkit-backdrop-filter:blur(10px) saturate(1.05)!important;
+
+        /* ONE glass background for the whole product card */
+        background:
+          linear-gradient(
+            135deg,
+            rgba(255,255,255,.055) 0%,
+            rgba(255,255,255,.018) 19%,
+            transparent 39%,
+            rgba(232,184,98,.018) 100%
+          ),
+          rgba(7,5,3,var(--sm-ui-card-opacity,.05))!important;
+
+        border:1px solid rgba(232,184,98,.30)!important;
+
+        box-shadow:
+          inset 0 1px 0 rgba(255,255,255,.13),
+          inset 0 -1px 0 rgba(255,255,255,.025),
+          0 12px 30px rgba(0,0,0,.20),
+          0 0 0 .5px rgba(232,184,98,.055)!important;
+
+        backdrop-filter:
+          blur(18px)
+          saturate(1.22)
+          contrast(1.025)!important;
+
+        -webkit-backdrop-filter:
+          blur(18px)
+          saturate(1.22)
+          contrast(1.025)!important;
+      }
+
+      /* Full-card glass reflection — not a separate text background */
+      .sm-card::before{
+        content:"";
+        position:absolute;
+        z-index:20;
+        inset:0;
+        pointer-events:none;
+
+        background:
+          linear-gradient(
+            112deg,
+            rgba(255,255,255,.105) 0%,
+            rgba(255,255,255,.035) 11%,
+            transparent 28%,
+            transparent 71%,
+            rgba(232,184,98,.028) 100%
+          );
+
+        opacity:.58;
       }
 
       .sm-card .sm-img,.sm-card .sm-info{
@@ -1051,33 +1110,55 @@ function applyUiDesignSettings(){
         max-height:var(--sm-ui-card-height,160px)!important;
       }
 
-      .sm-card .sm-info,.sm-cold-card .sm-info{
+      .sm-card .sm-info,
+      .sm-cold-card .sm-info{
+        position:relative!important;
+        z-index:10!important;
+
         padding:var(--sm-ui-info-padding,10px)!important;
+
         background:transparent!important;
+        background-image:none!important;
+
+        box-shadow:none!important;
+
         backdrop-filter:none!important;
         -webkit-backdrop-filter:none!important;
       }
 
-      .sm-card .sm-info:after{
+      /* Remove every old text-side glass layer.
+         Only the full .sm-card glass remains. */
+      .sm-card .sm-info::before,
+      .sm-card .sm-info::after,
+      .sm-cold-card .sm-info::before,
+      .sm-cold-card .sm-info::after{
+        content:none!important;
         display:none!important;
+        background:none!important;
+        background-image:none!important;
+        box-shadow:none!important;
+        backdrop-filter:none!important;
+        -webkit-backdrop-filter:none!important;
       }
 
       .sm-card .sm-img{
         position:relative!important;
+        z-index:5!important;
+
         width:100%!important;
         min-width:0!important;
         max-width:100%!important;
+
         overflow:hidden!important;
-        background:rgba(0,0,0,.22)!important;
+        background:transparent!important;
       }
 
-      .sm-card .sm-img:after{
-        content:"";
-        position:absolute;
-        inset:0;
-        z-index:2;
-        pointer-events:none;
-        background:linear-gradient(145deg,rgba(0,0,0,.04),rgba(0,0,0,.12));
+      /* No separate image overlay; the card itself provides the glass/reflection. */
+      .sm-card .sm-img::before,
+      .sm-card .sm-img::after{
+        content:none!important;
+        display:none!important;
+        background:none!important;
       }
 
       .sm-card .sm-img img,.sm-card .sm-product-image{
@@ -1092,6 +1173,12 @@ function applyUiDesignSettings(){
         max-height:none!important;
         object-fit:cover!important;
         object-position:center center!important;
+
+        filter:
+          saturate(1.025)
+          contrast(1.018)
+          brightness(.985)!important;
+
         margin:0!important;
         padding:0!important;
         transform:none!important;
