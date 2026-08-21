@@ -1019,7 +1019,7 @@ function registerPwa(){
 }
 
 
-const UI_DESIGN_DEFAULTS={card_height:160,image_percent:50,card_transparency:95,card_radius:18,card_gap:10,info_padding:10,product_name_font:14,option_font:10.5,price_font:11,section_title_font:21,add_button_height:30,add_button_font:10,category_height:41,category_font:12,top_action_height:48,top_action_font:11,cart_width:180,cart_height:56,cart_font:13,cart_horizontal:50,cart_bottom:16,logo_size:84,menu_title_font:26,subtitle_font:12,search_height:46,search_font:16,footer_title_font:17,footer_action_font:10.5,footer_phone_font:17};
+const UI_DESIGN_DEFAULTS={card_height:160,image_percent:50,card_glass_transparency:0,card_radius:18,card_gap:10,info_padding:10,product_name_font:14,option_font:10.5,price_font:11,section_title_font:21,add_button_height:30,add_button_font:10,category_height:41,category_font:12,top_action_height:48,top_action_font:11,cart_width:180,cart_height:56,cart_font:13,cart_horizontal:50,cart_bottom:16,logo_size:84,menu_title_font:26,subtitle_font:12,search_height:46,search_font:16,footer_title_font:17,footer_action_font:10.5,footer_phone_font:17};
 function uiDesignValue(k){const v=Number(DB?.restaurant?.uiDesign?.[k]);return Number.isFinite(v)?v:UI_DESIGN_DEFAULTS[k]}
 function applyUiDesignSettings(){
   if(!DB)return;
@@ -1028,10 +1028,36 @@ function applyUiDesignSettings(){
   root.style.setProperty('--sm-ui-image-percent',`${uiDesignValue('image_percent')}%`);
   root.style.setProperty('--sm-ui-info-percent',`${100-uiDesignValue('image_percent')}%`);
 
-  const cardTransparency=Math.max(0,Math.min(100,uiDesignValue('card_transparency')));
+  const cardGlassTransparency=
+    Math.max(
+      0,
+      Math.min(
+        100,
+        uiDesignValue('card_glass_transparency')
+      )
+    );
+
+  /*
+    V4.5.2:
+    0% = EXACT footer glass alphas (.91 / .88)
+    100% = fully transparent.
+    New key intentionally ignores the old V4.4/V4.5 transparency value.
+  */
+  const glassFactor=
+    1-(cardGlassTransparency/100);
+
   root.style.setProperty(
-    '--sm-ui-card-opacity',
-    String(Math.round((1-cardTransparency/100)*1000)/1000)
+    '--sm-ui-card-glass-a1',
+    String(
+      Math.round(.91*glassFactor*1000)/1000
+    )
+  );
+
+  root.style.setProperty(
+    '--sm-ui-card-glass-a2',
+    String(
+      Math.round(.88*glassFactor*1000)/1000
+    )
   );
 
   root.style.setProperty('--sm-ui-cart-horizontal',`${uiDesignValue('cart_horizontal')}%`);
@@ -1053,55 +1079,57 @@ function applyUiDesignSettings(){
 
         border-radius:var(--sm-ui-card-radius,18px)!important;
 
-        /* ONE glass background for the whole product card */
+        /*
+          V4.5.2 — PRODUCT CARD = FOOTER GLASS RECIPE
+
+          Footer source:
+          border: rgba(183,132,61,.48)
+          background: rgba(8,8,7,.91) -> rgba(13,10,7,.88)
+          blur(15px) saturate(1.08)
+          shadow + tiny inner highlight
+
+          Only alpha changes when Admin increases transparency.
+        */
+        border:
+          1px solid rgba(183,132,61,.48)!important;
+
         background:
           linear-gradient(
-            135deg,
-            rgba(255,255,255,.055) 0%,
-            rgba(255,255,255,.018) 19%,
-            transparent 39%,
-            rgba(232,184,98,.018) 100%
-          ),
-          rgba(7,5,3,var(--sm-ui-card-opacity,.05))!important;
-
-        border:1px solid rgba(232,184,98,.30)!important;
-
-        box-shadow:
-          inset 0 1px 0 rgba(255,255,255,.13),
-          inset 0 -1px 0 rgba(255,255,255,.025),
-          0 12px 30px rgba(0,0,0,.20),
-          0 0 0 .5px rgba(232,184,98,.055)!important;
+            145deg,
+            rgba(
+              8,8,7,
+              var(--sm-ui-card-glass-a1,.91)
+            ),
+            rgba(
+              13,10,7,
+              var(--sm-ui-card-glass-a2,.88)
+            )
+          )!important;
 
         backdrop-filter:
-          blur(18px)
-          saturate(1.22)
-          contrast(1.025)!important;
+          blur(15px)
+          saturate(1.08)!important;
 
         -webkit-backdrop-filter:
-          blur(18px)
-          saturate(1.22)
-          contrast(1.025)!important;
+          blur(15px)
+          saturate(1.08)!important;
+
+        box-shadow:
+          0 16px 42px rgba(0,0,0,.38),
+          inset 0 1px rgba(255,255,255,.025)!important;
       }
 
-      /* Full-card glass reflection — not a separate text background */
-      .sm-card::before{
-        content:"";
-        position:absolute;
-        z-index:20;
-        inset:0;
-        pointer-events:none;
-
-        background:
-          linear-gradient(
-            112deg,
-            rgba(255,255,255,.105) 0%,
-            rgba(255,255,255,.035) 11%,
-            transparent 28%,
-            transparent 71%,
-            rgba(232,184,98,.028) 100%
-          );
-
-        opacity:.58;
+      /*
+        IMPORTANT:
+        no second sheen / overlay over the card.
+        The footer does not need one, so the product card does not either.
+      */
+      .sm-card::before,
+      .sm-card::after{
+        content:none!important;
+        display:none!important;
+        background:none!important;
+        box-shadow:none!important;
       }
 
       .sm-card .sm-img,.sm-card .sm-info{
