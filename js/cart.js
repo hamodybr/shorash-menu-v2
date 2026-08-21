@@ -91,6 +91,21 @@
           font-size:16px !important;
         }
 
+        html[data-sm-theme="light"] #smCartDrawer,
+        html[data-sm-theme="light"] #smCheckoutSheet{
+          background:#f7f2ea !important;
+          color:#241d16 !important;
+        }
+
+        html[data-sm-theme="light"] #smCartDrawer input,
+        html[data-sm-theme="light"] #smCartDrawer textarea,
+        html[data-sm-theme="light"] #smCheckoutSheet input,
+        html[data-sm-theme="light"] #smCheckoutSheet textarea{
+          background:#fffaf3 !important;
+          color:#241d16 !important;
+          border-color:rgba(74,51,21,.16) !important;
+        }
+
         #smCheckoutSheet,
         #smCheckoutSheet .sm-checkout-body,
         #smCheckoutSheet label,
