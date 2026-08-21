@@ -167,12 +167,29 @@ function refreshScheduledAvailability(){
       product.availability_schedule_enabled===true &&
       scheduledAvailability(product)===false;
 
+    const categoryScheduleUnavailable=
+      product.category?.availability_schedule_enabled===true &&
+      scheduledAvailability(product.category)===false;
+
     product.badges.unavailable=
       product.manualUnavailable===true ||
+      categoryScheduleUnavailable ||
       scheduleUnavailable;
 
-    product.scheduleText=
-      productScheduleText(product);
+    if(categoryScheduleUnavailable){
+      const from=String(product.category.available_from||"").slice(0,5);
+      const to=String(product.category.available_to||"").slice(0,5);
+
+      product.scheduleText=
+        lang==="en"
+          ? `Category available ${from}–${to}`
+          : lang==="ku"
+            ? `بەشەکە بەردەستە ${from}–${to}`
+            : `القسم متوفر ${from}–${to}`;
+    }else{
+      product.scheduleText=
+        productScheduleText(product);
+    }
   });
 
   render();
@@ -1835,7 +1852,16 @@ async function loadMenuFromSupabase() {
           order:
             category.sort_order ??
             category.order ??
-            999
+            999,
+
+          availability_schedule_enabled:
+            category.availability_schedule_enabled === true,
+
+          available_from:
+            category.available_from || null,
+
+          available_to:
+            category.available_to || null
         }
       );
 
@@ -1992,6 +2018,21 @@ async function loadMenuFromSupabase() {
           product.availability_schedule_enabled === true &&
           scheduledAvailability(product) === false;
 
+        const categoryScheduleUnavailable=
+          category.availability_schedule_enabled === true &&
+          scheduledAvailability(category) === false;
+
+        const effectiveScheduleText=
+          categoryScheduleUnavailable
+            ? (
+                lang==="en"
+                  ? `Category available ${String(category.available_from||"").slice(0,5)}–${String(category.available_to||"").slice(0,5)}`
+                  : lang==="ku"
+                    ? `بەشەکە بەردەستە ${String(category.available_from||"").slice(0,5)}–${String(category.available_to||"").slice(0,5)}`
+                    : `القسم متوفر ${String(category.available_from||"").slice(0,5)}–${String(category.available_to||"").slice(0,5)}`
+              )
+            : productScheduleText(product);
+
 
         return {
 
@@ -2011,7 +2052,7 @@ async function loadMenuFromSupabase() {
             product.available_to || null,
 
           scheduleText:
-            productScheduleText(product),
+            effectiveScheduleText,
 
           name: {
 
@@ -2079,6 +2120,7 @@ async function loadMenuFromSupabase() {
 
             unavailable:
               manualUnavailable ||
+              categoryScheduleUnavailable ||
               scheduleUnavailable
 
           },
