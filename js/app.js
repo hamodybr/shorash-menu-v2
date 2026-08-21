@@ -617,7 +617,7 @@ function applyUiDesignSettings(){
         min-height:var(--sm-ui-card-height,160px)!important;
         max-height:var(--sm-ui-card-height,160px)!important;
         border-radius:var(--sm-ui-card-radius,18px)!important;
-        background:rgba(7,5,3,.72)!important;
+        background:rgba(7,5,3,.45)!important;
         backdrop-filter:blur(10px) saturate(1.05)!important;
         -webkit-backdrop-filter:blur(10px) saturate(1.05)!important;
       }
