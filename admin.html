@@ -1596,6 +1596,106 @@
       }
     }
 
+  
+    /* =========================================================
+       SHORASH ADMIN V3.6.1 — MOBILE WIDTH / IOS ZOOM HOTFIX
+       ========================================================= */
+
+    html,
+    body{
+      max-width:100%;
+      overflow-x:hidden;
+    }
+
+    #viewTools,
+    .settings-clean-wrap,
+    .settings-accordion,
+    .settings-accordion-body,
+    .settings-element,
+    .tri-box,
+    .settings-simple-grid,
+    .settings-toggle-grid,
+    .social-setting-row{
+      min-width:0;
+      max-width:100%;
+      box-sizing:border-box;
+    }
+
+    .settings-accordion{
+      width:100%;
+      overflow:hidden;
+    }
+
+    .settings-accordion-body{
+      overflow:hidden;
+    }
+
+    .social-setting-row{
+      width:100%;
+      grid-template-columns:72px minmax(0,1fr) auto;
+      overflow:hidden;
+    }
+
+    .social-setting-row > *{
+      min-width:0;
+      max-width:100%;
+    }
+
+    .social-setting-row input{
+      width:100%;
+      min-width:0;
+      max-width:100%;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      direction:ltr;
+      text-align:left;
+    }
+
+    .tri-pane,
+    .tri-pane input,
+    .tri-pane textarea,
+    .settings-input,
+    .settings-field-clean,
+    .settings-field-clean input{
+      min-width:0;
+      max-width:100%;
+      box-sizing:border-box;
+    }
+
+    @media(max-width:650px){
+      .social-setting-row{
+        grid-template-columns:62px minmax(0,1fr) auto;
+        gap:6px;
+      }
+
+      .social-setting-name{
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+      }
+
+      /* iOS Safari zooms focused inputs when text is under 16px. */
+      .settings-clean-wrap input,
+      .settings-clean-wrap textarea,
+      .settings-clean-wrap select{
+        font-size:16px !important;
+      }
+    }
+
+  
+    /* V3.7 — FLEXIBLE SOCIALS / BUTTONS / BACKUP BY TYPE */
+    .dynamic-manager{display:grid;gap:9px;padding-top:10px;border-top:1px solid rgba(255,255,255,.05);margin-top:2px}
+    .dynamic-manager-head{display:flex;align-items:center;justify-content:space-between;gap:9px}
+    .dynamic-manager-head strong{display:block;color:#e8e2da;font-size:12px}.dynamic-manager-head small{display:block;color:#7c756e;font-size:9px;margin-top:3px;line-height:1.5}
+    .dynamic-add-btn{border:1px solid rgba(216,169,88,.3);background:rgba(216,169,88,.09);color:#e2b55e;border-radius:10px;padding:8px 10px;font:inherit;font-size:10px;font-weight:800;cursor:pointer;white-space:nowrap}
+    .dynamic-list{display:grid;gap:7px;min-width:0}.dynamic-empty{padding:13px 10px;border:1px dashed rgba(255,255,255,.08);border-radius:11px;color:#746e67;text-align:center;font-size:10px;line-height:1.6}
+    .dynamic-item{overflow:hidden;min-width:0;border:1px solid rgba(255,255,255,.065);border-radius:12px;background:#060403}.dynamic-item>summary{list-style:none;display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:8px;align-items:center;min-width:0;padding:9px;cursor:pointer}.dynamic-item>summary::-webkit-details-marker{display:none}
+    .dynamic-item-icon{width:30px;height:30px;display:grid;place-items:center;border-radius:9px;background:rgba(216,169,88,.08);font-size:15px}.dynamic-item-title{min-width:0}.dynamic-item-title strong,.dynamic-item-title small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.dynamic-item-title strong{color:#dcd6ce;font-size:10px}.dynamic-item-title small{color:#706a63;font-size:8px;direction:ltr;text-align:left;margin-top:2px}
+    .dynamic-item-body{display:grid;gap:8px;padding:9px;border-top:1px solid rgba(255,255,255,.05)}.dynamic-grid{display:grid;grid-template-columns:80px minmax(0,1fr);gap:7px}.dynamic-grid .full{grid-column:1/-1}.dynamic-field{display:grid;gap:4px;min-width:0}.dynamic-field span{color:#8a837b;font-size:8px}.dynamic-field input{width:100%;min-width:0;max-width:100%;box-sizing:border-box;border:1px solid rgba(255,255,255,.085);background:#020201;color:#f1ede8;border-radius:9px;padding:9px 10px;outline:none;font:inherit;font-size:16px}
+    .dynamic-row-actions{display:flex;gap:6px;flex-wrap:wrap}.dynamic-row-actions button{flex:1 1 80px;border:1px solid rgba(255,255,255,.075);background:#100d0a;color:#aaa39a;border-radius:9px;padding:8px;font:inherit;font-size:9px;cursor:pointer}.dynamic-row-actions button.danger{color:#fecaca;border-color:rgba(248,113,113,.18)}
+    .backup-type-box{display:grid;gap:9px;padding-top:10px}.backup-type-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.backup-type-field{display:grid;gap:5px;min-width:0}.backup-type-field.full{grid-column:1/-1}.backup-type-field span{color:#908981;font-size:9px}.backup-type-field select{width:100%;min-width:0;box-sizing:border-box;border:1px solid rgba(255,255,255,.085);background:#030201;color:#f1ede8;border-radius:10px;padding:10px;font:inherit;font-size:16px;outline:none}.backup-type-note{padding:9px 10px;border:1px solid rgba(216,169,88,.1);background:rgba(216,169,88,.035);color:#888078;border-radius:10px;font-size:9px;line-height:1.65}
+    @media(max-width:650px){.dynamic-grid,.backup-type-grid{grid-template-columns:1fr}.dynamic-grid .full,.backup-type-field.full{grid-column:auto}}
+
   </style>
 </head>
 
@@ -2153,6 +2253,8 @@
               </div>
             </div>
           </div>
+          <div class="dynamic-manager"><div class="dynamic-manager-head"><div><strong>أزرار علوية إضافية</strong><small>أضف أي زر: Telegram، حجز، موقع ثانٍ، رقم آخر…</small></div><button class="dynamic-add-btn" type="button" onclick="addCustomAction('top')">+ إضافة زر</button></div><div id="customTopActionsList" class="dynamic-list"></div></div>
+
         </div>
       </details>
 
@@ -2207,6 +2309,8 @@
               <i></i>
             </label>
           </div>
+          <div class="dynamic-manager"><div class="dynamic-manager-head"><div><strong>منصات إضافية</strong><small>YouTube، Telegram، X أو أي موقع آخر.</small></div><button class="dynamic-add-btn" type="button" onclick="addCustomSocial()">+ إضافة منصة</button></div><div id="customSocialLinksList" class="dynamic-list"></div></div>
+
         </div>
       </details>
 
@@ -2345,6 +2449,8 @@
               </label>
             </div>
           </div>
+          <div class="dynamic-manager"><div class="dynamic-manager-head"><div><strong>أزرار سفلية إضافية</strong><small>تظهر مع أزرار الفوتر ويمكن ترتيبها.</small></div><button class="dynamic-add-btn" type="button" onclick="addCustomAction('footer')">+ إضافة زر</button></div><div id="customFooterActionsList" class="dynamic-list"></div></div>
+
         </div>
       </details>
 
@@ -2532,30 +2638,7 @@
             <input id="restoreBackupInput" type="file" accept=".json,application/json" hidden>
           </div>
 
-          <details class="settings-subdetails">
-            <summary>Backup إضافي حسب النوع</summary>
-            <div class="settings-subdetails-body">
-              <div class="backup-grid">
-                <div class="backup-card">
-                  <h3>الأقسام فقط</h3>
-                  <button class="btn btn-dark" type="button" id="backupCategoriesBtn">تنزيل الأقسام</button>
-                </div>
-
-                <div class="backup-card">
-                  <h3>الأصناف والخيارات</h3>
-                  <button class="btn btn-dark" type="button" id="backupProductsBtn">تنزيل الأصناف</button>
-                </div>
-
-                <div class="backup-card">
-                  <h3>قسم معيّن</h3>
-                  <div class="backup-row">
-                    <select id="backupCategorySelect"></select>
-                    <button class="btn btn-dark" type="button" id="backupCategoryBtn">تنزيل</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </details>
+          <div class="backup-type-box"><div class="backup-type-grid"><label class="backup-type-field"><span>نوع النسخة</span><select id="backupTypeSelect"><option value="full">كل شيء</option><option value="settings">الإعدادات فقط</option><option value="categories">الأقسام فقط</option><option value="products">الأصناف والخيارات</option><option value="prices">الأسعار فقط</option><option value="category">قسم معيّن مع أصنافه</option></select></label><label id="backupTypeCategoryWrap" class="backup-type-field" hidden><span>اختر القسم</span><select id="backupCategorySelect"></select></label><div class="backup-type-field full"><button id="backupSelectedTypeBtn" class="btn btn-dark" type="button">تنزيل النسخة المختارة</button></div></div><div id="backupTypeNote" class="backup-type-note">النسخة الكاملة تشمل الأقسام، الأصناف، الخيارات وإعدادات المطعم.</div></div>
 
           <div id="backupStatus" class="backup-status"></div>
         </div>
@@ -2629,6 +2712,9 @@
   let adminDashboardLoaded = false;
 
   let adminRestaurantSettings = {};
+  let customSocialLinksDraft = [];
+  let customTopActionsDraft = [];
+  let customFooterActionsDraft = [];
 
 
   // ==========================================
@@ -2909,6 +2995,27 @@
 
 
   // ==========================================
+  // FLEXIBLE SOCIALS + CUSTOM ACTION BUTTONS
+  // ==========================================
+  function jsonArray(value){if(Array.isArray(value))return JSON.parse(JSON.stringify(value));if(typeof value==='string'){try{const p=JSON.parse(value);return Array.isArray(p)?p:[]}catch(_){return []}}return []}
+  function newDynamicId(prefix='item'){return globalThis.crypto?.randomUUID?prefix+'-'+crypto.randomUUID():prefix+'-'+Date.now()+'-'+Math.random().toString(36).slice(2,8)}
+  function normalizeDynamicItem(item,type){const x=item&&typeof item==='object'?item:{};if(type==='social')return{id:String(x.id||newDynamicId('social')),name:String(x.name??''),icon:String(x.icon??'🔗'),url:String(x.url??''),enabled:x.enabled!==false};return{id:String(x.id||newDynamicId(type)),icon:String(x.icon??'🔗'),label_ar:String(x.label_ar??''),label_ku:String(x.label_ku??''),label_en:String(x.label_en??''),url:String(x.url??''),enabled:x.enabled!==false}}
+  function renderCustomManagers(){customSocialLinksDraft=jsonArray(adminRestaurantSettings.custom_social_links).map(x=>normalizeDynamicItem(x,'social'));customTopActionsDraft=jsonArray(adminRestaurantSettings.custom_top_actions).map(x=>normalizeDynamicItem(x,'top'));customFooterActionsDraft=jsonArray(adminRestaurantSettings.custom_footer_actions).map(x=>normalizeDynamicItem(x,'footer'));renderCustomSocialLinks();renderCustomActions('top');renderCustomActions('footer')}
+  function renderCustomSocialLinks(){const h=document.getElementById('customSocialLinksList');if(!h)return;if(!customSocialLinksDraft.length){h.innerHTML='<div class="dynamic-empty">ماكو منصات إضافية حالياً.</div>';return}h.innerHTML=customSocialLinksDraft.map(i=>`<details class="dynamic-item"><summary><span class="dynamic-item-icon">${escapeAdminHtml(i.icon||'🔗')}</span><span class="dynamic-item-title"><strong>${escapeAdminHtml(i.name||'منصة جديدة')}</strong><small>${escapeAdminHtml(i.url||'بدون رابط')}</small></span><label class="mini-visibility" onclick="event.stopPropagation()"><span>إظهار</span><input type="checkbox" ${i.enabled!==false?'checked':''} onchange="updateCustomSocial('${escapeAdminHtml(i.id)}','enabled',this.checked)"><i></i></label></summary><div class="dynamic-item-body"><div class="dynamic-grid"><label class="dynamic-field"><span>الأيقونة / Emoji</span><input value="${escapeAdminHtml(i.icon)}" oninput="updateCustomSocial('${escapeAdminHtml(i.id)}','icon',this.value)" placeholder="▶️"></label><label class="dynamic-field"><span>اسم المنصة</span><input value="${escapeAdminHtml(i.name)}" oninput="updateCustomSocial('${escapeAdminHtml(i.id)}','name',this.value)" placeholder="YouTube"></label><label class="dynamic-field full"><span>الرابط</span><input type="url" value="${escapeAdminHtml(i.url)}" oninput="updateCustomSocial('${escapeAdminHtml(i.id)}','url',this.value)" placeholder="https://..." dir="ltr"></label></div><div class="dynamic-row-actions"><button type="button" onclick="moveCustomSocial('${escapeAdminHtml(i.id)}',-1)">↑ للأعلى</button><button type="button" onclick="moveCustomSocial('${escapeAdminHtml(i.id)}',1)">↓ للأسفل</button><button class="danger" type="button" onclick="removeCustomSocial('${escapeAdminHtml(i.id)}')">حذف</button></div></div></details>`).join('')}
+  function addCustomSocial(){customSocialLinksDraft.push(normalizeDynamicItem({name:'منصة جديدة',icon:'🔗',url:'',enabled:true},'social'));renderCustomSocialLinks()}
+  function updateCustomSocial(id,key,value){const i=customSocialLinksDraft.find(x=>String(x.id)===String(id));if(i)i[key]=value}
+  function removeCustomSocial(id){if(!confirm('حذف هذه المنصة؟'))return;customSocialLinksDraft=customSocialLinksDraft.filter(x=>String(x.id)!==String(id));renderCustomSocialLinks()}
+  function moveArrayItem(a,i,d){const n=i+d;if(i<0||n<0||n>=a.length)return;const [x]=a.splice(i,1);a.splice(n,0,x)}
+  function moveCustomSocial(id,d){const i=customSocialLinksDraft.findIndex(x=>String(x.id)===String(id));moveArrayItem(customSocialLinksDraft,i,d);renderCustomSocialLinks()}
+  function actionDraft(type){return type==='footer'?customFooterActionsDraft:customTopActionsDraft}
+  function actionHolder(type){return document.getElementById(type==='footer'?'customFooterActionsList':'customTopActionsList')}
+  function renderCustomActions(type){const list=actionDraft(type),h=actionHolder(type);if(!h)return;if(!list.length){h.innerHTML=`<div class="dynamic-empty">${type==='footer'?'ماكو أزرار سفلية إضافية حالياً.':'ماكو أزرار علوية إضافية حالياً.'}</div>`;return}h.innerHTML=list.map(i=>{const g=`custom_${type}_${i.id}`;return `<details class="dynamic-item"><summary><span class="dynamic-item-icon">${escapeAdminHtml(i.icon||'🔗')}</span><span class="dynamic-item-title"><strong>${escapeAdminHtml(i.label_ar||i.label_en||'زر جديد')}</strong><small>${escapeAdminHtml(i.url||'بدون رابط')}</small></span><label class="mini-visibility" onclick="event.stopPropagation()"><span>إظهار</span><input type="checkbox" ${i.enabled!==false?'checked':''} onchange="updateCustomAction('${type}','${escapeAdminHtml(i.id)}','enabled',this.checked)"><i></i></label></summary><div class="dynamic-item-body"><div class="dynamic-grid"><label class="dynamic-field"><span>الأيقونة / Emoji</span><input value="${escapeAdminHtml(i.icon)}" oninput="updateCustomAction('${type}','${escapeAdminHtml(i.id)}','icon',this.value)" placeholder="🔗"></label><label class="dynamic-field"><span>الرابط / Action</span><input value="${escapeAdminHtml(i.url)}" oninput="updateCustomAction('${type}','${escapeAdminHtml(i.id)}','url',this.value)" placeholder="https://... أو tel:..." dir="ltr"></label></div><div class="tri-box" data-tri-box="${escapeAdminHtml(g)}"><div class="tri-tabs"><button type="button" class="active" onclick="switchTriLang('${escapeAdminHtml(g)}','ar',this)">عربي</button><button type="button" onclick="switchTriLang('${escapeAdminHtml(g)}','ku',this)">کوردی</button><button type="button" onclick="switchTriLang('${escapeAdminHtml(g)}','en',this)">English</button></div><div class="tri-pane active" data-tri-pane="${escapeAdminHtml(g)}:ar"><input value="${escapeAdminHtml(i.label_ar)}" oninput="updateCustomAction('${type}','${escapeAdminHtml(i.id)}','label_ar',this.value)" placeholder="اسم الزر بالعربي"></div><div class="tri-pane" data-tri-pane="${escapeAdminHtml(g)}:ku"><input value="${escapeAdminHtml(i.label_ku)}" oninput="updateCustomAction('${type}','${escapeAdminHtml(i.id)}','label_ku',this.value)" placeholder="ناڤێ دوگمەیێ"></div><div class="tri-pane" data-tri-pane="${escapeAdminHtml(g)}:en"><input value="${escapeAdminHtml(i.label_en)}" oninput="updateCustomAction('${type}','${escapeAdminHtml(i.id)}','label_en',this.value)" placeholder="Button label"></div></div><div class="dynamic-row-actions"><button type="button" onclick="moveCustomAction('${type}','${escapeAdminHtml(i.id)}',-1)">↑ للأعلى</button><button type="button" onclick="moveCustomAction('${type}','${escapeAdminHtml(i.id)}',1)">↓ للأسفل</button><button class="danger" type="button" onclick="removeCustomAction('${type}','${escapeAdminHtml(i.id)}')">حذف</button></div></div></details>`}).join('')}
+  function addCustomAction(type){actionDraft(type).push(normalizeDynamicItem({icon:'🔗',label_ar:'زر جديد',label_ku:'',label_en:'New Button',url:'',enabled:true},type));renderCustomActions(type)}
+  function updateCustomAction(type,id,key,value){const i=actionDraft(type).find(x=>String(x.id)===String(id));if(i)i[key]=value}
+  function removeCustomAction(type,id){if(!confirm('حذف هذا الزر؟'))return;if(type==='footer')customFooterActionsDraft=customFooterActionsDraft.filter(x=>String(x.id)!==String(id));else customTopActionsDraft=customTopActionsDraft.filter(x=>String(x.id)!==String(id));renderCustomActions(type)}
+  function moveCustomAction(type,id,d){const list=actionDraft(type),i=list.findIndex(x=>String(x.id)===String(id));moveArrayItem(list,i,d);renderCustomActions(type)}
+
+  // ==========================================
   // RESTAURANT SETTINGS
   // ==========================================
 
@@ -3105,6 +3212,7 @@
       }
     }
 
+    renderCustomManagers();
     setRestaurantSettingsMsg('');
   }
 
@@ -3253,6 +3361,10 @@
         facebook_enabled:rsChecked('rs_facebook_enabled'),
         tiktok_enabled:rsChecked('rs_tiktok_enabled'),
         snapchat_enabled:rsChecked('rs_snapchat_enabled'),
+
+        custom_social_links:customSocialLinksDraft.map(x=>({id:String(x.id||newDynamicId('social')),name:String(x.name||''),icon:String(x.icon||''),url:String(x.url||''),enabled:x.enabled!==false})),
+        custom_top_actions:customTopActionsDraft.map(x=>({id:String(x.id||newDynamicId('top')),icon:String(x.icon||''),label_ar:String(x.label_ar||''),label_ku:String(x.label_ku||''),label_en:String(x.label_en||''),url:String(x.url||''),enabled:x.enabled!==false})),
+        custom_footer_actions:customFooterActionsDraft.map(x=>({id:String(x.id||newDynamicId('footer')),icon:String(x.icon||''),label_ar:String(x.label_ar||''),label_ku:String(x.label_ku||''),label_en:String(x.label_en||''),url:String(x.url||''),enabled:x.enabled!==false})),
 
         logo_url:logoUrl || '',
         background_video:rsValue('rs_background_video'),
@@ -5020,203 +5132,29 @@
     return JSON.parse(JSON.stringify(rows||[]));
   }
 
-  function makeBackup(scope,data,extra={}){
-    return {
-      format:'SHORASH_MENU_BACKUP',
-      version:2,
-      created_at:new Date().toISOString(),
-      scope,
-      restaurant:'SHORASH',
-      note:'Images are stored as URLs. This backup restores menu database rows.',
-      ...extra,
-      data
-    };
-  }
-
-  function downloadJson(filename,payload){
-    const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json;charset=utf-8'});
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement('a');
-    a.href=url;
-    a.download=filename;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(()=>URL.revokeObjectURL(url),1200);
-  }
-
+  function backupSafeName(value){return String(value||'restaurant').trim().replace(/[^\p{L}\p{N}_-]+/gu,'-').replace(/-+/g,'-').replace(/^-|-$/g,'').slice(0,50)||'restaurant'}
+  function backupPrefix(){return backupSafeName(getAdminRestaurantName()||'restaurant')}
+  function makeBackup(scope,data,extra={}){return{format:'SHORASH_MENU_BACKUP',version:3,created_at:new Date().toISOString(),scope,restaurant:getAdminRestaurantName()||'',note:'Menu backup generated from the restaurant admin dashboard.',...extra,data}}
+  function downloadJson(filename,payload){const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1200)}
   const SHORASH_EMERGENCY_BACKUP_KEY='SHORASH_LAST_AUTO_BACKUP_V2';
-
-  function saveEmergencyBackup(payload){
-    try{
-      localStorage.setItem(
-        SHORASH_EMERGENCY_BACKUP_KEY,
-        JSON.stringify(payload)
-      );
-      return true;
-    }catch(e){
-      console.warn('Could not save emergency backup locally:',e);
-      return false;
-    }
-  }
-
-  function getEmergencyBackup(){
-    try{
-      const raw=localStorage.getItem(SHORASH_EMERGENCY_BACKUP_KEY);
-      if(!raw)return null;
-      return JSON.parse(raw);
-    }catch(e){
-      console.warn('Could not read emergency backup:',e);
-      return null;
-    }
-  }
-
-  function downloadEmergencyBackup(){
-    const payload=getEmergencyBackup();
-
-    if(!payload){
-      setBackupStatus('لا يوجد Backup تلقائي محفوظ على هذا الجهاز حالياً.',false);
-      alert('لا يوجد Backup تلقائي محفوظ على هذا الجهاز حالياً.');
-      return;
-    }
-
-    const categoryName=payload.category_name||'emergency';
-    const clean=String(categoryName)
-      .replace(/[^\p{L}\p{N}_-]+/gu,'-')
-      .replace(/-+/g,'-')
-      .slice(0,60);
-
-    downloadJson(
-      `SHORASH-AUTO-BACKUP-${clean}-${safeFileDate()}.json`,
-      payload
-    );
-
-    setBackupStatus('تم تنزيل آخر Backup تلقائي محفوظ ✓');
-  }
-
-  function backupFullMenu(){
-    const payload=makeBackup('full',{
-      categories:cloneRows(adminCategories),
-      products:cloneRows(adminProducts),
-      product_options:cloneRows(adminOptions),
-      restaurant_settings:adminRestaurantSettings?.id
-        ? [JSON.parse(JSON.stringify(adminRestaurantSettings))]
-        : []
-    });
-    downloadJson(`SHORASH-full-${safeFileDate()}.json`,payload);
-    setBackupStatus('تم إنشاء نسخة كاملة للمنيو ✓');
-  }
-
-  function backupAllCategories(){
-    const payload=makeBackup('categories',{
-      categories:cloneRows(adminCategories)
-    });
-    downloadJson(`SHORASH-categories-${safeFileDate()}.json`,payload);
-    setBackupStatus('تم إنشاء نسخة للأقسام كاملة ✓');
-  }
-
-  function backupAllProducts(){
-    const payload=makeBackup('products',{
-      products:cloneRows(adminProducts),
-      product_options:cloneRows(adminOptions)
-    });
-    downloadJson(`SHORASH-products-${safeFileDate()}.json`,payload);
-    setBackupStatus('تم إنشاء نسخة لجميع الأصناف والخيارات ✓');
-  }
-
-  function buildCategoryBackup(categoryId){
-    const category=adminCategories.find(c=>String(c.id)===String(categoryId));
-    if(!category)throw new Error('القسم غير موجود.');
-
-    const products=adminProducts.filter(p=>String(p.category_id)===String(categoryId));
-    const ids=new Set(products.map(p=>String(p.id)));
-    const options=adminOptions.filter(o=>ids.has(String(o.product_id)));
-
-    return makeBackup(
-      'category_with_products',
-      {
-        categories:[JSON.parse(JSON.stringify(category))],
-        products:cloneRows(products),
-        product_options:cloneRows(options)
-      },
-      {
-        category_id:category.id,
-        category_name:category.name_ar||category.name||''
-      }
-    );
-  }
-
-  function backupOneCategory(categoryId){
-    const payload=buildCategoryBackup(categoryId);
-    const clean=(payload.category_name||'category')
-      .replace(/[^\p{L}\p{N}_-]+/gu,'-')
-      .replace(/-+/g,'-')
-      .slice(0,60);
-
-    downloadJson(`SHORASH-category-${clean}-${safeFileDate()}.json`,payload);
-    setBackupStatus(`تم إنشاء نسخة لقسم ${payload.category_name} مع أصنافه ✓`);
-    return payload;
-  }
-
-  async function upsertInChunks(table,rows){
-    if(!Array.isArray(rows)||!rows.length)return;
-    for(let i=0;i<rows.length;i+=100){
-      const chunk=rows.slice(i,i+100);
-      const result=await supabaseClient.from(table).upsert(chunk,{onConflict:'id'});
-      if(result.error)throw result.error;
-    }
-  }
-
-  async function restoreBackupObject(payload){
-    if(!payload || payload.format!=='SHORASH_MENU_BACKUP'){
-      throw new Error('هذا الملف ليس نسخة SHORASH مدعومة.');
-    }
-
-    const data=payload.data||{};
-    const categories=Array.isArray(data.categories)?data.categories:[];
-    const products=Array.isArray(data.products)?data.products:[];
-    const options=Array.isArray(data.product_options)?data.product_options:[];
-
-    if(!categories.length&&!products.length&&!options.length){
-      throw new Error('النسخة لا تحتوي بيانات قابلة للاسترجاع.');
-    }
-
-    await upsertInChunks('categories',categories);
-    await upsertInChunks('products',products);
-    await upsertInChunks('product_options',options);
-    await loadAdminDashboard();
-
-    return {categories:categories.length,products:products.length,options:options.length};
-  }
-
-  async function handleRestoreFile(file){
-    if(!file)return;
-
-    const ok=confirm(
-      'سيتم استرجاع البيانات الموجودة داخل النسخة الاحتياطية.\n\n' +
-      'السجلات التي لها نفس ID سيتم تحديثها، والسجلات المفقودة سيتم إنشاؤها.\n' +
-      'لن يتم حذف بيانات أخرى غير موجودة في النسخة.\n\n' +
-      'هل تريد المتابعة؟'
-    );
-    if(!ok)return;
-
-    setBackupStatus('جاري قراءة واسترجاع النسخة...');
-
-    try{
-      const text=await file.text();
-      const payload=JSON.parse(text);
-      const result=await restoreBackupObject(payload);
-      setBackupStatus(`تم الاسترجاع بنجاح ✓ — أقسام: ${result.categories}، أصناف: ${result.products}، خيارات: ${result.options}`);
-      alert('تم استرجاع النسخة الاحتياطية بنجاح ✓');
-    }catch(e){
-      console.error('RESTORE ERROR:',e);
-      setBackupStatus('فشل الاسترجاع: '+(e.message||e),false);
-      alert('فشل الاسترجاع: '+(e.message||e));
-    }finally{
-      const input=document.getElementById('restoreBackupInput');
-      if(input)input.value='';
-    }
-  }
+  function saveEmergencyBackup(payload){try{localStorage.setItem(SHORASH_EMERGENCY_BACKUP_KEY,JSON.stringify(payload));return true}catch(e){console.warn(e);return false}}
+  function getEmergencyBackup(){try{const raw=localStorage.getItem(SHORASH_EMERGENCY_BACKUP_KEY);return raw?JSON.parse(raw):null}catch(e){console.warn(e);return null}}
+  function downloadEmergencyBackup(){const p=getEmergencyBackup();if(!p){setBackupStatus('لا يوجد Backup تلقائي محفوظ على هذا الجهاز حالياً.',false);return}downloadJson(`${backupPrefix()}-AUTO-${backupSafeName(p.category_name||'emergency')}-${safeFileDate()}.json`,p);setBackupStatus('تم تنزيل آخر Backup تلقائي محفوظ ✓')}
+  function fullBackupPayload(){return makeBackup('full',{categories:cloneRows(adminCategories),products:cloneRows(adminProducts),product_options:cloneRows(adminOptions),restaurant_settings:adminRestaurantSettings?.id?[JSON.parse(JSON.stringify(adminRestaurantSettings))]:[]})}
+  function backupFullMenu(){const p=fullBackupPayload();downloadJson(`${backupPrefix()}-full-${safeFileDate()}.json`,p);setBackupStatus('تم إنشاء نسخة كاملة ✓');return p}
+  function backupSettingsOnly(){const p=makeBackup('settings',{restaurant_settings:adminRestaurantSettings?.id?[JSON.parse(JSON.stringify(adminRestaurantSettings))]:[]});downloadJson(`${backupPrefix()}-settings-${safeFileDate()}.json`,p);setBackupStatus('تم إنشاء نسخة للإعدادات فقط ✓');return p}
+  function backupAllCategories(){const p=makeBackup('categories',{categories:cloneRows(adminCategories)});downloadJson(`${backupPrefix()}-categories-${safeFileDate()}.json`,p);setBackupStatus('تم إنشاء نسخة للأقسام فقط ✓');return p}
+  function backupAllProducts(){const p=makeBackup('products',{products:cloneRows(adminProducts),product_options:cloneRows(adminOptions)});downloadJson(`${backupPrefix()}-products-${safeFileDate()}.json`,p);setBackupStatus('تم إنشاء نسخة للأصناف والخيارات ✓');return p}
+  function backupPricesOnly(){const p=makeBackup('prices',{price_products:adminProducts.map(x=>({id:x.id,base_price:x.base_price})),price_options:adminOptions.map(x=>({id:x.id,price:x.price}))});downloadJson(`${backupPrefix()}-prices-${safeFileDate()}.json`,p);setBackupStatus('تم إنشاء نسخة للأسعار فقط ✓');return p}
+  function buildCategoryBackup(categoryId){const c=adminCategories.find(x=>String(x.id)===String(categoryId));if(!c)throw new Error('القسم غير موجود.');const products=adminProducts.filter(x=>String(x.category_id)===String(categoryId)),ids=new Set(products.map(x=>String(x.id))),options=adminOptions.filter(x=>ids.has(String(x.product_id)));return makeBackup('category_with_products',{categories:[JSON.parse(JSON.stringify(c))],products:cloneRows(products),product_options:cloneRows(options)},{category_id:c.id,category_name:c.name_ar||c.name||''})}
+  function backupOneCategory(id){const p=buildCategoryBackup(id);downloadJson(`${backupPrefix()}-category-${backupSafeName(p.category_name||'category')}-${safeFileDate()}.json`,p);setBackupStatus(`تم إنشاء نسخة لقسم ${p.category_name||''} مع أصنافه ✓`);return p}
+  function backupTypeNote(type){return({full:'يشمل الأقسام، الأصناف، الخيارات وإعدادات المطعم بالكامل.',settings:'يشمل إعدادات المطعم فقط، ومنها السوشيال والأزرار المضافة.',categories:'يشمل الأقسام فقط بدون الأصناف.',products:'يشمل الأصناف والخيارات والأسعار بدون الأقسام والإعدادات.',prices:'يحفظ الأسعار الحالية فقط لاسترجاعها بسرعة.',category:'يحفظ القسم المختار مع كل أصنافه وخياراته.'})[type]||''}
+  function updateBackupTypeUI(){const t=document.getElementById('backupTypeSelect')?.value||'full',w=document.getElementById('backupTypeCategoryWrap'),n=document.getElementById('backupTypeNote');if(w)w.hidden=t!=='category';if(n)n.textContent=backupTypeNote(t)}
+  function downloadSelectedBackupType(){const t=document.getElementById('backupTypeSelect')?.value||'full';try{if(t==='full')return backupFullMenu();if(t==='settings')return backupSettingsOnly();if(t==='categories')return backupAllCategories();if(t==='products')return backupAllProducts();if(t==='prices')return backupPricesOnly();if(t==='category'){const id=val('backupCategorySelect');if(!id){setBackupStatus('اختر قسماً أولاً.',false);return}return backupOneCategory(id)}}catch(e){setBackupStatus('فشل إنشاء النسخة: '+(e.message||e),false)}}
+  async function upsertInChunks(table,rows){if(!Array.isArray(rows)||!rows.length)return;for(let i=0;i<rows.length;i+=100){const r=await supabaseClient.from(table).upsert(rows.slice(i,i+100),{onConflict:'id'});if(r.error)throw r.error}}
+  async function restorePrices(pp,po){pp=Array.isArray(pp)?pp:[];po=Array.isArray(po)?po:[];for(let i=0;i<pp.length;i+=40)await Promise.all(pp.slice(i,i+40).map(async x=>{if(!x?.id)return;const r=await supabaseClient.from('products').update({base_price:x.base_price}).eq('id',x.id);if(r.error)throw r.error}));for(let i=0;i<po.length;i+=60)await Promise.all(po.slice(i,i+60).map(async x=>{if(!x?.id)return;const r=await supabaseClient.from('product_options').update({price:x.price}).eq('id',x.id);if(r.error)throw r.error}));return{price_products:pp.length,price_options:po.length}}
+  async function restoreBackupObject(payload){if(!payload||payload.format!=='SHORASH_MENU_BACKUP')throw new Error('هذا الملف ليس Backup مدعوم.');const d=payload.data||{},categories=Array.isArray(d.categories)?d.categories:[],products=Array.isArray(d.products)?d.products:[],options=Array.isArray(d.product_options)?d.product_options:[],settings=Array.isArray(d.restaurant_settings)?d.restaurant_settings:[],pp=Array.isArray(d.price_products)?d.price_products:[],po=Array.isArray(d.price_options)?d.price_options:[];if(!categories.length&&!products.length&&!options.length&&!settings.length&&!pp.length&&!po.length)throw new Error('النسخة لا تحتوي بيانات قابلة للاسترجاع.');await upsertInChunks('restaurant_settings',settings);await upsertInChunks('categories',categories);await upsertInChunks('products',products);await upsertInChunks('product_options',options);const pr=await restorePrices(pp,po);await loadAdminDashboard();return{categories:categories.length,products:products.length,options:options.length,settings:settings.length,price_products:pr.price_products,price_options:pr.price_options}}
+  async function handleRestoreFile(file){if(!file)return;if(!confirm('سيتم استرجاع البيانات الموجودة داخل النسخة الاحتياطية.\n\nالسجلات المتطابقة سيتم تحديثها ولن نحذف بيانات أخرى غير موجودة في النسخة.\n\nهل تريد المتابعة؟'))return;setBackupStatus('جاري قراءة واسترجاع النسخة...');try{const p=JSON.parse(await file.text()),r=await restoreBackupObject(p),parts=[];if(r.settings)parts.push(`إعدادات: ${r.settings}`);if(r.categories)parts.push(`أقسام: ${r.categories}`);if(r.products)parts.push(`أصناف: ${r.products}`);if(r.options)parts.push(`خيارات: ${r.options}`);if(r.price_products||r.price_options)parts.push(`أسعار: ${r.price_products+r.price_options}`);setBackupStatus('تم الاسترجاع بنجاح ✓'+(parts.length?' — '+parts.join('، '):''));alert('تم استرجاع النسخة الاحتياطية بنجاح ✓')}catch(e){console.error(e);setBackupStatus('فشل الاسترجاع: '+(e.message||e),false);alert('فشل الاسترجاع: '+(e.message||e))}finally{const input=document.getElementById('restoreBackupInput');if(input)input.value=''}}
 
 
   // ==========================================
@@ -5528,14 +5466,10 @@
   });
 
   document.getElementById('backupFullBtn').addEventListener('click',backupFullMenu);
-  document.getElementById('backupCategoriesBtn').addEventListener('click',backupAllCategories);
-  document.getElementById('backupProductsBtn').addEventListener('click',backupAllProducts);
+  document.getElementById('backupTypeSelect').addEventListener('change',updateBackupTypeUI);
+  document.getElementById('backupSelectedTypeBtn').addEventListener('click',downloadSelectedBackupType);
+  updateBackupTypeUI();
 
-  document.getElementById('backupCategoryBtn').addEventListener('click',()=>{
-    const id=val('backupCategorySelect');
-    if(!id){setBackupStatus('اختر قسماً أولاً.',false);return;}
-    try{backupOneCategory(id)}catch(e){setBackupStatus('فشل النسخ الاحتياطي: '+(e.message||e),false)}
-  });
 
   document.getElementById('restoreBackupBtn').addEventListener('click',()=>{
     document.getElementById('restoreBackupInput').click();
