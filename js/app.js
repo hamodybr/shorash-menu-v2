@@ -1078,57 +1078,21 @@ function applyUiDesignSettings(){
         max-height:var(--sm-ui-card-height,160px)!important;
 
         border-radius:var(--sm-ui-card-radius,18px)!important;
-
-        /*
-          V4.5.2 — PRODUCT CARD = FOOTER GLASS RECIPE
-
-          Footer source:
-          border: rgba(183,132,61,.48)
-          background: rgba(8,8,7,.91) -> rgba(13,10,7,.88)
-          blur(15px) saturate(1.08)
-          shadow + tiny inner highlight
-
-          Only alpha changes when Admin increases transparency.
-        */
-        border:
-          1px solid rgba(183,132,61,.48)!important;
-
-        background:
-          linear-gradient(
-            145deg,
-            rgba(
-              8,8,7,
-              var(--sm-ui-card-glass-a1,.91)
-            ),
-            rgba(
-              13,10,7,
-              var(--sm-ui-card-glass-a2,.88)
-            )
-          )!important;
-
-        backdrop-filter:
-          blur(15px)
-          saturate(1.08)!important;
-
-        -webkit-backdrop-filter:
-          blur(15px)
-          saturate(1.08)!important;
-
-        box-shadow:
-          0 16px 42px rgba(0,0,0,.38),
-          inset 0 1px rgba(255,255,255,.025)!important;
       }
 
       /*
-        IMPORTANT:
-        no second sheen / overlay over the card.
-        The footer does not need one, so the product card does not either.
+        V4.5.3:
+        Background / border / blur / shadow are NOT hard-coded here.
+        They are copied from the live rendered footer with inline !important
+        by syncProductGlassFromLiveFooter().
       */
+
       .sm-card::before,
       .sm-card::after{
         content:none!important;
         display:none!important;
         background:none!important;
+        background-image:none!important;
         box-shadow:none!important;
       }
 
@@ -1264,6 +1228,358 @@ function applyUiDesignSettings(){
       .sm-footer-phone,.sm-phone{font-size:var(--sm-ui-footer-phone-font,17px)!important}
     }`;
 }
+
+// ==========================================
+// V4.5.3 — LIVE FOOTER GLASS ENGINE
+// ==========================================
+
+let footerGlassObserver=null;
+let footerGlassRaf=0;
+
+
+function multiplyRgbaAlpha(cssText,factor){
+
+  if(
+    !cssText ||
+    cssText==="none"
+  ){
+    return cssText;
+  }
+
+
+  const cleanFactor=
+    Math.max(
+      0,
+      Math.min(
+        1,
+        Number(factor)
+      )
+    );
+
+
+  // rgba(12, 10, 7, 0.54)
+  let result=
+    String(cssText).replace(
+      /rgba\(\s*([0-9.]+)\s*,\s*([0-9.]+)\s*,\s*([0-9.]+)\s*,\s*([0-9.]+)\s*\)/gi,
+      (_,r,g,b,a)=>{
+        const next=
+          Math.max(
+            0,
+            Math.min(
+              1,
+              Number(a)*cleanFactor
+            )
+          );
+
+        return `rgba(${r}, ${g}, ${b}, ${Math.round(next*1000)/1000})`;
+      }
+    );
+
+
+  // rgba modern syntax: rgba(12 10 7 / 0.54)
+  result=
+    result.replace(
+      /rgba\(\s*([0-9.]+)\s+([0-9.]+)\s+([0-9.]+)\s*\/\s*([0-9.]+)\s*\)/gi,
+      (_,r,g,b,a)=>{
+        const next=
+          Math.max(
+            0,
+            Math.min(
+              1,
+              Number(a)*cleanFactor
+            )
+          );
+
+        return `rgba(${r} ${g} ${b} / ${Math.round(next*1000)/1000})`;
+      }
+    );
+
+
+  return result;
+}
+
+
+function footerGlassSnapshot(){
+
+  const footer=
+    document.querySelector(
+      ".sm-footer"
+    );
+
+
+  if(!footer)return null;
+
+
+  const style=
+    getComputedStyle(
+      footer
+    );
+
+
+  return {
+    backgroundImage:
+      style.backgroundImage,
+
+    backgroundColor:
+      style.backgroundColor,
+
+    borderTop:
+      style.borderTop,
+
+    borderRight:
+      style.borderRight,
+
+    borderBottom:
+      style.borderBottom,
+
+    borderLeft:
+      style.borderLeft,
+
+    boxShadow:
+      style.boxShadow,
+
+    backdropFilter:
+      style.backdropFilter ||
+      "none",
+
+    webkitBackdropFilter:
+      style.webkitBackdropFilter ||
+      style.getPropertyValue(
+        "-webkit-backdrop-filter"
+      ) ||
+      "none"
+  };
+}
+
+
+function syncProductGlassFromLiveFooter(){
+
+  if(!DB)return;
+
+
+  const snapshot=
+    footerGlassSnapshot();
+
+
+  if(!snapshot)return;
+
+
+  const transparency=
+    Math.max(
+      0,
+      Math.min(
+        100,
+        uiDesignValue(
+          "card_glass_transparency"
+        )
+      )
+    );
+
+
+  /*
+    0%   = exact live footer.
+    100% = same footer recipe, but background alpha becomes 0.
+    Blur, border and shadow stay footer-style.
+  */
+  const factor=
+    1-(transparency/100);
+
+
+  const backgroundImage=
+    multiplyRgbaAlpha(
+      snapshot.backgroundImage,
+      factor
+    );
+
+
+  const backgroundColor=
+    multiplyRgbaAlpha(
+      snapshot.backgroundColor,
+      factor
+    );
+
+
+  document
+    .querySelectorAll(
+      "#smMenu .sm-card"
+    )
+    .forEach(card=>{
+
+      /*
+        INLINE !important deliberately beats:
+        - style.css
+        - category-specific .sm-*-card backgrounds
+        - old mobile CSS
+        - any previous runtime style
+      */
+      card.style.setProperty(
+        "background-image",
+        backgroundImage || "none",
+        "important"
+      );
+
+      card.style.setProperty(
+        "background-color",
+        backgroundColor || "transparent",
+        "important"
+      );
+
+
+      card.style.setProperty(
+        "border-top",
+        snapshot.borderTop,
+        "important"
+      );
+
+      card.style.setProperty(
+        "border-right",
+        snapshot.borderRight,
+        "important"
+      );
+
+      card.style.setProperty(
+        "border-bottom",
+        snapshot.borderBottom,
+        "important"
+      );
+
+      card.style.setProperty(
+        "border-left",
+        snapshot.borderLeft,
+        "important"
+      );
+
+
+      card.style.setProperty(
+        "box-shadow",
+        snapshot.boxShadow,
+        "important"
+      );
+
+
+      card.style.setProperty(
+        "backdrop-filter",
+        snapshot.backdropFilter,
+        "important"
+      );
+
+      card.style.setProperty(
+        "-webkit-backdrop-filter",
+        snapshot.webkitBackdropFilter,
+        "important"
+      );
+
+
+      // Absolutely no second background behind the text.
+      const info=
+        card.querySelector(
+          ".sm-info"
+        );
+
+      if(info){
+        info.style.setProperty(
+          "background",
+          "transparent",
+          "important"
+        );
+
+        info.style.setProperty(
+          "background-image",
+          "none",
+          "important"
+        );
+
+        info.style.setProperty(
+          "box-shadow",
+          "none",
+          "important"
+        );
+
+        info.style.setProperty(
+          "backdrop-filter",
+          "none",
+          "important"
+        );
+
+        info.style.setProperty(
+          "-webkit-backdrop-filter",
+          "none",
+          "important"
+        );
+      }
+    });
+
+
+  document.documentElement.dataset.smGlassSource=
+    "live-footer";
+}
+
+
+function scheduleFooterGlassSync(){
+
+  cancelAnimationFrame(
+    footerGlassRaf
+  );
+
+
+  footerGlassRaf=
+    requestAnimationFrame(
+      syncProductGlassFromLiveFooter
+    );
+}
+
+
+function initFooterGlassSync(){
+
+  const menu=
+    document.getElementById(
+      "smMenu"
+    );
+
+
+  if(!menu)return;
+
+
+  footerGlassObserver?.disconnect();
+
+
+  footerGlassObserver=
+    new MutationObserver(
+      scheduleFooterGlassSync
+    );
+
+
+  footerGlassObserver.observe(
+    menu,
+    {
+      childList:true,
+      subtree:true
+    }
+  );
+
+
+  window.addEventListener(
+    "resize",
+    scheduleFooterGlassSync,
+    {
+      passive:true
+    }
+  );
+
+
+  scheduleFooterGlassSync();
+
+  setTimeout(
+    scheduleFooterGlassSync,
+    80
+  );
+
+  setTimeout(
+    scheduleFooterGlassSync,
+    350
+  );
+}
+
 
 function installMenuCardPolish(){
   if(document.getElementById("smMenuCardPolishV38"))return;
@@ -1835,6 +2151,7 @@ function render() {
     `;
 
     watchCards();
+    scheduleFooterGlassSync();
     return;
   }
 
@@ -1881,6 +2198,7 @@ function render() {
 
 
   watchCards();
+  scheduleFooterGlassSync();
 }
 
 /* ========================================
@@ -4100,6 +4418,8 @@ async function startShorash() {
 
     applyRestaurantBranding();
     applyLang();
+
+    initFooterGlassSync();
 
     saveBrandCache();
     setupIntro();
