@@ -877,90 +877,6 @@
 
   
     /* =========================================================
-       SHORASH ADMIN V3.2 — LEGACY IMAGE MIGRATION
-       ========================================================= */
-    .migration-card{
-      border-color:rgba(216,169,88,.24);
-      background:
-        linear-gradient(145deg,rgba(216,169,88,.07),rgba(255,255,255,.02));
-    }
-
-    .migration-count{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      min-width:34px;
-      padding:4px 8px;
-      margin-inline-start:6px;
-      border-radius:999px;
-      background:rgba(216,169,88,.12);
-      color:#e2b55e;
-      font-size:11px;
-      font-weight:900;
-    }
-
-    .migration-progress-wrap{
-      display:none;
-      margin-top:12px;
-    }
-
-    .migration-progress-wrap.active{
-      display:block;
-    }
-
-    .migration-progress-track{
-      width:100%;
-      height:8px;
-      border-radius:999px;
-      overflow:hidden;
-      background:#050403;
-      border:1px solid rgba(255,255,255,.075);
-    }
-
-    .migration-progress-bar{
-      width:0%;
-      height:100%;
-      background:#d8a958;
-      transition:width .18s ease;
-    }
-
-    .migration-progress-text{
-      margin-top:7px;
-      color:#b7b0a7;
-      font-size:11px;
-      line-height:1.6;
-    }
-
-    .migration-results{
-      margin-top:8px;
-      font-size:11px;
-      line-height:1.7;
-      color:#8f8981;
-      white-space:pre-wrap;
-    }
-
-    .migration-errors{
-      display:none;
-      margin-top:9px;
-      max-height:190px;
-      overflow:auto;
-      border:1px solid rgba(248,113,113,.17);
-      background:rgba(95,20,20,.11);
-      border-radius:11px;
-      padding:9px;
-      color:#fecaca;
-      font-size:10px;
-      line-height:1.6;
-      direction:ltr;
-      text-align:left;
-    }
-
-    .migration-errors.active{
-      display:block;
-    }
-
-  
-    /* =========================================================
        SHORASH ADMIN V3.3 — RESTAURANT SETTINGS
        ========================================================= */
     .restaurant-settings-card{
@@ -1161,6 +1077,114 @@
 
       .settings-field.full,
       .settings-section-title{
+        grid-column:auto;
+      }
+    }
+
+  
+    /* =========================================================
+       SHORASH ADMIN V3.5 — QUICK ACTIONS + BULK PRICES
+       ========================================================= */
+
+    .settings-inline-grid{
+      grid-column:1 / -1;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+    }
+
+    .bulk-price-card{
+      border-color:rgba(216,169,88,.26);
+      background:
+        linear-gradient(145deg,rgba(216,169,88,.07),rgba(255,255,255,.018));
+    }
+
+    .bulk-price-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .bulk-price-field{
+      display:grid;
+      gap:6px;
+    }
+
+    .bulk-price-field.full{
+      grid-column:1 / -1;
+    }
+
+    .bulk-price-field label{
+      color:#aaa198;
+      font-size:11px;
+    }
+
+    .bulk-price-field select,
+    .bulk-price-field input{
+      width:100%;
+      box-sizing:border-box;
+      border:1px solid rgba(255,255,255,.09);
+      background:#050403;
+      color:#fff;
+      border-radius:11px;
+      padding:11px;
+      outline:none;
+      font:inherit;
+    }
+
+    .bulk-price-preview{
+      grid-column:1 / -1;
+      border:1px solid rgba(255,255,255,.07);
+      background:#090705;
+      border-radius:12px;
+      padding:11px;
+      color:#a9a198;
+      font-size:11px;
+      line-height:1.8;
+    }
+
+    .bulk-price-preview strong{
+      color:#e2b55e;
+    }
+
+    .bulk-price-warning{
+      grid-column:1 / -1;
+      color:#9d958c;
+      font-size:10px;
+      line-height:1.7;
+    }
+
+    .bulk-price-actions{
+      grid-column:1 / -1;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:2px;
+    }
+
+    .bulk-price-actions .btn{
+      min-width:160px;
+    }
+
+    .bulk-price-msg{
+      grid-column:1 / -1;
+      min-height:18px;
+      font-size:11px;
+      line-height:1.7;
+    }
+
+    @media(max-width:650px){
+      .settings-inline-grid,
+      .bulk-price-grid{
+        grid-template-columns:1fr;
+      }
+
+      .bulk-price-field.full,
+      .bulk-price-preview,
+      .bulk-price-warning,
+      .bulk-price-actions,
+      .bulk-price-msg{
         grid-column:auto;
       }
     }
@@ -1425,7 +1449,7 @@
             <input id="rs_name_en" type="text" placeholder="SHORASH REST & CAFE">
           </div>
 
-          <div class="settings-section-title">النص تحت SHORASH MENU</div>
+          <div class="settings-section-title">النص تحت اسم المنيو</div>
 
           <div class="settings-field">
             <label>العربي</label>
@@ -1439,7 +1463,11 @@
 
           <div class="settings-field full">
             <label>English</label>
-            <input id="rs_subtitle_en" type="text" placeholder="Discover Shorash Menu">
+            <input id="rs_subtitle_en" type="text" placeholder="Discover {name} Menu">
+          </div>
+
+          <div style="grid-column:1/-1;color:#756f68;font-size:10px;line-height:1.65;">
+            استخدم <bdi>{name}</bdi> داخل النص إذا تريد اسم المطعم يتغير تلقائياً عند تغيير الاسم.
           </div>
 
           <div class="settings-section-title">التواصل والموقع</div>
@@ -1457,6 +1485,88 @@
           <div class="settings-field full">
             <label>رابط الموقع Google Maps</label>
             <input id="rs_location" type="url" placeholder="https://maps.google.com/...">
+          </div>
+
+          <div class="settings-section-title">أزرار أعلى المنيو</div>
+
+          <div class="settings-inline-grid">
+            <div class="settings-toggle-card">
+              <div class="settings-toggle-copy">
+                <strong>📍 الموقع</strong>
+                <span>إظهار أو إخفاء زر الموقع أعلى المنيو.</span>
+              </div>
+              <label class="settings-switch">
+                <input id="rs_top_location_enabled" type="checkbox">
+                <i></i>
+              </label>
+            </div>
+
+            <div class="settings-toggle-card">
+              <div class="settings-toggle-copy">
+                <strong>☎ الاتصال</strong>
+                <span>إظهار أو إخفاء زر الاتصال أعلى المنيو.</span>
+              </div>
+              <label class="settings-switch">
+                <input id="rs_top_call_enabled" type="checkbox">
+                <i></i>
+              </label>
+            </div>
+
+            <div class="settings-toggle-card">
+              <div class="settings-toggle-copy">
+                <strong>💬 WhatsApp</strong>
+                <span>إظهار أو إخفاء زر واتساب أعلى المنيو.</span>
+              </div>
+              <label class="settings-switch">
+                <input id="rs_top_whatsapp_enabled" type="checkbox">
+                <i></i>
+              </label>
+            </div>
+          </div>
+
+          <div class="settings-field">
+            <label>نص زر الموقع — عربي</label>
+            <input id="rs_top_location_label_ar" type="text" placeholder="موقعنا">
+          </div>
+
+          <div class="settings-field">
+            <label>نص زر الموقع — کوردي</label>
+            <input id="rs_top_location_label_ku" type="text" placeholder="شوێنی مە">
+          </div>
+
+          <div class="settings-field full">
+            <label>Location button — English</label>
+            <input id="rs_top_location_label_en" type="text" placeholder="Location">
+          </div>
+
+          <div class="settings-field">
+            <label>نص زر الاتصال — عربي</label>
+            <input id="rs_top_call_label_ar" type="text" placeholder="اتصال">
+          </div>
+
+          <div class="settings-field">
+            <label>نص زر الاتصال — کوردي</label>
+            <input id="rs_top_call_label_ku" type="text" placeholder="پەیوەندی">
+          </div>
+
+          <div class="settings-field full">
+            <label>Call button — English</label>
+            <input id="rs_top_call_label_en" type="text" placeholder="Call">
+          </div>
+
+          <div class="settings-field">
+            <label>نص زر WhatsApp — عربي</label>
+            <input id="rs_top_whatsapp_label_ar" type="text" placeholder="واتساب منيو">
+          </div>
+
+          <div class="settings-field">
+            <label>نص زر WhatsApp — کوردي</label>
+            <input id="rs_top_whatsapp_label_ku" type="text" placeholder="مێنیوی واتساپ">
+          </div>
+
+          <div class="settings-field full">
+            <label>WhatsApp button — English</label>
+            <input id="rs_top_whatsapp_label_en" type="text" placeholder="WhatsApp Menu">
           </div>
 
           <div class="settings-section-title">العنوان الظاهر في الفوتر</div>
@@ -1600,6 +1710,67 @@
           <div id="restaurantSettingsMsg" class="settings-msg"></div>
         </div>
       </div>
+      <div class="tools-card bulk-price-card">
+        <h3>💰 تعديل الأسعار دفعة واحدة</h3>
+        <p>
+          ارفع أو نزّل أسعار كل المنيو أو قسم معيّن بمقدار ثابت.
+          يتم تعديل سعر الصنف الأساسي وكل خياراته معاً.
+        </p>
+
+        <div class="bulk-price-grid">
+
+          <div class="bulk-price-field">
+            <label>النطاق</label>
+            <select id="bulkPriceCategorySelect">
+              <option value="__all__">كل المنيو</option>
+            </select>
+          </div>
+
+          <div class="bulk-price-field">
+            <label>العملية</label>
+            <select id="bulkPriceOperation">
+              <option value="increase">زيادة السعر</option>
+              <option value="decrease">تنزيل السعر</option>
+            </select>
+          </div>
+
+          <div class="bulk-price-field full">
+            <label>المقدار بالدينار العراقي</label>
+            <input
+              id="bulkPriceAmount"
+              type="number"
+              inputmode="numeric"
+              min="1"
+              step="1"
+              value="1000"
+              placeholder="مثال: 1000"
+            >
+          </div>
+
+          <div id="bulkPricePreview" class="bulk-price-preview">
+            اختر النطاق والمقدار لمعاينة التغيير.
+          </div>
+
+          <div class="bulk-price-warning">
+            الأمان: لا يسمح النظام بتنزيل أي سعر إلى أقل من صفر.
+            وقبل التنفيذ يحفظ نسخة تلقائية محلياً من الأسعار الحالية.
+          </div>
+
+          <div class="bulk-price-actions">
+            <button id="applyBulkPriceBtn" class="btn btn-gold" type="button">
+              تنفيذ تغيير الأسعار
+            </button>
+
+            <button id="downloadPriceBackupBtn" class="btn btn-dark" type="button">
+              تنزيل آخر نسخة أسعار
+            </button>
+          </div>
+
+          <div id="bulkPriceMsg" class="bulk-price-msg"></div>
+
+        </div>
+      </div>
+
       <div class="tools-card">
         <h3>💾 نسخة كاملة للمنيو</h3>
         <p>الأقسام + الأصناف + الأسعار والخيارات.</p>
@@ -1610,57 +1781,13 @@
 
       <div class="tools-card">
         <h3>↩ استرجاع البيانات</h3>
-        <p>استرجع أي ملف Backup تم إنشاؤه من لوحة SHORASH.</p>
+        <p>استرجع أي ملف Backup تم إنشاؤه من لوحة المطعم.</p>
         <div class="tools-actions">
           <button class="btn btn-gold" type="button" id="restoreBackupBtn">اختيار ملف واسترجاع</button>
           <button class="btn btn-dark" type="button" id="downloadEmergencyBackupBtn">آخر Backup تلقائي</button>
           <input id="restoreBackupInput" type="file" accept=".json,application/json" hidden>
         </div>
       </div>
-      <div id="legacyMigrationCard" class="tools-card migration-card">
-        <h3>
-          🖼 نقل الصور القديمة إلى Supabase
-          <span id="legacyImageCount" class="migration-count">—</span>
-        </h3>
-
-        <p>
-          ينقل صور الأصناف التي ما زالت من catalog.kurdunus.com إلى
-          Storage الخاص بالمشروع، ثم يحدّث رابط الصورة تلقائياً.
-          العملية قابلة للاستكمال: إذا توقفت، شغّلها مرة ثانية وسيتم تجاوز الصور المنقولة.
-        </p>
-
-        <div class="tools-actions">
-          <button id="startImageMigrationBtn" class="btn btn-gold" type="button">
-            بدء نقل الصور
-          </button>
-
-          <button id="stopImageMigrationBtn" class="btn btn-dark" type="button" disabled>
-            إيقاف
-          </button>
-        </div>
-
-        <div id="migrationProgressWrap" class="migration-progress-wrap">
-          <div class="migration-progress-track">
-            <div id="migrationProgressBar" class="migration-progress-bar"></div>
-          </div>
-          <div id="migrationProgressText" class="migration-progress-text"></div>
-          <div id="migrationResults" class="migration-results"></div>
-          <div id="migrationErrors" class="migration-errors"></div>
-        </div>
-      </div>
-
-      <div id="legacyMigrationDone" class="tools-card" style="display:none;">
-        <h3>✅ الصور القديمة</h3>
-        <p>
-          جميع صور الأصناف تم نقلها إلى Supabase Storage.
-        </p>
-        <div class="tools-actions">
-          <button id="recheckLegacyImagesBtn" class="btn btn-dark" type="button">
-            إعادة الفحص
-          </button>
-        </div>
-      </div>
-
       <div class="tools-card admin-account-card">
         <h3>🔐 حساب الإدارة</h3>
         <p>أنت مسجل دخول حالياً بهذا الحساب:</p>
@@ -1751,9 +1878,6 @@
   let adminSession = null;
   let adminDashboardLoaded = false;
 
-  let migrationStopRequested = false;
-  let migrationRunning = false;
-
   let adminRestaurantSettings = {};
 
 
@@ -1783,6 +1907,254 @@
 
     return number.toLocaleString('en-US') + ' د.ع';
 
+  }
+
+
+  // ==========================================
+  // BULK PRICE ADJUSTMENT
+  // ==========================================
+
+  const PRICE_SAFETY_BACKUP_KEY='SHORASH_LAST_PRICE_BACKUP_V1';
+
+  function renderBulkPriceCategoryOptions(){
+    const select=document.getElementById('bulkPriceCategorySelect');
+    if(!select)return;
+
+    const current=select.value || '__all__';
+
+    const categories=adminCategories
+      .filter(category=>!isHiddenCategory(category));
+
+    select.innerHTML=
+      '<option value="__all__">كل المنيو — الأصناف المعروضة</option>'+
+      categories.map(category=>`
+        <option value="${escapeAdminHtml(category.id)}">
+          ${escapeAdminHtml(category.name_ar||category.name||'بدون اسم')}
+        </option>
+      `).join('');
+
+    if(
+      current==='__all__' ||
+      categories.some(c=>String(c.id)===String(current))
+    ){
+      select.value=current;
+    }
+
+    updateBulkPricePreview();
+  }
+
+  function getBulkPriceScopeProducts(){
+    const select=document.getElementById('bulkPriceCategorySelect');
+    const categoryId=select?.value || '__all__';
+
+    return adminProducts.filter(product=>{
+      if(product.is_active===false || product.is_visible===false){
+        return false;
+      }
+
+      if(categoryId==='__all__'){
+        const category=adminCategories.find(
+          c=>String(c.id)===String(product.category_id)
+        );
+
+        return !!category && !isHiddenCategory(category) && category.is_visible!==false;
+      }
+
+      return String(product.category_id)===String(categoryId);
+    });
+  }
+
+  function getBulkPriceDelta(){
+    const amount=Math.trunc(
+      Number(document.getElementById('bulkPriceAmount')?.value || 0)
+    );
+
+    const operation=
+      document.getElementById('bulkPriceOperation')?.value || 'increase';
+
+    if(!Number.isFinite(amount) || amount<=0){
+      return 0;
+    }
+
+    return operation==='decrease'
+      ? -amount
+      : amount;
+  }
+
+  function updateBulkPricePreview(){
+    const preview=document.getElementById('bulkPricePreview');
+    if(!preview)return;
+
+    const products=getBulkPriceScopeProducts();
+    const ids=new Set(products.map(p=>String(p.id)));
+
+    const basePrices=products.filter(
+      p=>p.base_price!==null &&
+         p.base_price!==undefined &&
+         p.base_price!==''
+    );
+
+    const options=adminOptions.filter(
+      o=>ids.has(String(o.product_id)) &&
+         o.price!==null &&
+         o.price!==undefined &&
+         o.price!==''
+    );
+
+    const delta=getBulkPriceDelta();
+
+    const sign=delta>0?'+':'';
+    const amountText=delta
+      ? `${sign}${Number(delta).toLocaleString('en-US')} د.ع`
+      : '—';
+
+    const scopeSelect=document.getElementById('bulkPriceCategorySelect');
+    const scopeLabel=
+      scopeSelect?.selectedOptions?.[0]?.textContent?.trim() ||
+      'كل المنيو';
+
+    preview.innerHTML=
+      `<strong>${escapeAdminHtml(scopeLabel)}</strong><br>`+
+      `التغيير: <strong>${escapeAdminHtml(amountText)}</strong><br>`+
+      `الأصناف ضمن النطاق: <strong>${products.length}</strong> • `+
+      `أسعار أساسية: <strong>${basePrices.length}</strong> • `+
+      `أسعار خيارات: <strong>${options.length}</strong>`;
+  }
+
+  function setBulkPriceMsg(message='',ok=true){
+    const el=document.getElementById('bulkPriceMsg');
+    if(!el)return;
+    el.textContent=message;
+    el.style.color=ok?'#baf3d7':'#fecaca';
+  }
+
+  function savePriceSafetyBackup(){
+    const payload=makeBackup(
+      'before_price_adjustment',
+      {
+        products:cloneRows(adminProducts),
+        product_options:cloneRows(adminOptions)
+      },
+      {
+        reason:'before_bulk_price_adjustment'
+      }
+    );
+
+    localStorage.setItem(
+      PRICE_SAFETY_BACKUP_KEY,
+      JSON.stringify(payload)
+    );
+
+    return payload;
+  }
+
+  function downloadLastPriceBackup(){
+    try{
+      const raw=localStorage.getItem(PRICE_SAFETY_BACKUP_KEY);
+
+      if(!raw){
+        setBulkPriceMsg('لا توجد نسخة أسعار محفوظة حتى الآن.',false);
+        return;
+      }
+
+      const payload=JSON.parse(raw);
+
+      downloadJson(
+        `SHORASH-price-backup-${safeFileDate()}.json`,
+        payload
+      );
+
+      setBulkPriceMsg('تم تنزيل آخر نسخة أسعار ✓',true);
+
+    }catch(e){
+      setBulkPriceMsg(
+        'تعذر تنزيل النسخة: '+(e.message||e),
+        false
+      );
+    }
+  }
+
+  async function applyBulkPriceAdjustment(){
+    const btn=document.getElementById('applyBulkPriceBtn');
+    const select=document.getElementById('bulkPriceCategorySelect');
+    const delta=getBulkPriceDelta();
+
+    if(!delta){
+      setBulkPriceMsg('اكتب مقدار صحيح أكبر من صفر.',false);
+      return;
+    }
+
+    const products=getBulkPriceScopeProducts();
+
+    if(!products.length){
+      setBulkPriceMsg('لا توجد أصناف معروضة ضمن هذا النطاق.',false);
+      return;
+    }
+
+    const categoryId=
+      select?.value==='__all__'
+        ? null
+        : select?.value || null;
+
+    const scopeLabel=
+      select?.selectedOptions?.[0]?.textContent?.trim() ||
+      'كل المنيو';
+
+    const operationText=
+      delta>0
+        ? `زيادة ${Number(delta).toLocaleString('en-US')} د.ع`
+        : `تنزيل ${Number(Math.abs(delta)).toLocaleString('en-US')} د.ع`;
+
+    const confirmed=confirm(
+      `${operationText}\n\n`+
+      `النطاق: ${scopeLabel}\n`+
+      `سيتم تعديل السعر الأساسي وكل أسعار الخيارات.\n\n`+
+      `متأكد من التنفيذ؟`
+    );
+
+    if(!confirmed)return;
+
+    btn.disabled=true;
+    btn.textContent='جاري تعديل الأسعار...';
+    setBulkPriceMsg('جاري حفظ نسخة أمان ثم تنفيذ التغيير...',true);
+
+    try{
+      savePriceSafetyBackup();
+
+      const {data,error}=await supabaseClient.rpc(
+        'adjust_menu_prices',
+        {
+          p_category_id:categoryId,
+          p_delta:delta
+        }
+      );
+
+      if(error)throw error;
+
+      const result=data||{};
+
+      await loadAdminDashboard();
+
+      setBulkPriceMsg(
+        `تم التعديل ✓ `+
+        `(${result.products_updated ?? 0} سعر أساسي، `+
+        `${result.options_updated ?? 0} سعر خيار)`,
+        true
+      );
+
+    }catch(e){
+      console.error('BULK PRICE ERROR:',e);
+
+      setBulkPriceMsg(
+        'فشل تغيير الأسعار: '+(e.message||e),
+        false
+      );
+
+    }finally{
+      btn.disabled=false;
+      btn.textContent='تنفيذ تغيير الأسعار';
+      updateBulkPricePreview();
+    }
   }
 
 
@@ -1845,9 +2217,9 @@
     set('rs_name_ku',s.name_ku || 'SHORASH');
     set('rs_name_en',s.name_en || s.name || 'SHORASH REST & CAFE');
 
-    set('rs_subtitle_ar',s.subtitle_ar ?? 'اكتشف منيو شوراش');
-    set('rs_subtitle_ku',s.subtitle_ku ?? 'مینیوی شوراش ببینە');
-    set('rs_subtitle_en',s.subtitle_en ?? 'Discover Shorash Menu');
+    set('rs_subtitle_ar',s.subtitle_ar ?? 'اكتشف منيو {name}');
+    set('rs_subtitle_ku',s.subtitle_ku ?? 'مینیوی {name} ببینە');
+    set('rs_subtitle_en',s.subtitle_en ?? 'Discover {name} Menu');
 
     set('rs_phone',s.phone || '07502662002');
 
@@ -1863,6 +2235,26 @@
     );
 
     set('rs_location',s.location || s.location_url || '');
+
+    const topLocation=document.getElementById('rs_top_location_enabled');
+    const topCall=document.getElementById('rs_top_call_enabled');
+    const topWhatsapp=document.getElementById('rs_top_whatsapp_enabled');
+
+    if(topLocation)topLocation.checked=s.top_location_enabled!==false;
+    if(topCall)topCall.checked=s.top_call_enabled!==false;
+    if(topWhatsapp)topWhatsapp.checked=s.top_whatsapp_enabled!==false;
+
+    set('rs_top_location_label_ar',s.top_location_label_ar ?? 'موقعنا');
+    set('rs_top_location_label_ku',s.top_location_label_ku ?? 'شوێنی مە');
+    set('rs_top_location_label_en',s.top_location_label_en ?? 'Location');
+
+    set('rs_top_call_label_ar',s.top_call_label_ar ?? 'اتصال');
+    set('rs_top_call_label_ku',s.top_call_label_ku ?? 'پەیوەندی');
+    set('rs_top_call_label_en',s.top_call_label_en ?? 'Call');
+
+    set('rs_top_whatsapp_label_ar',s.top_whatsapp_label_ar ?? 'واتساب منيو');
+    set('rs_top_whatsapp_label_ku',s.top_whatsapp_label_ku ?? 'مێنیوی واتساپ');
+    set('rs_top_whatsapp_label_en',s.top_whatsapp_label_en ?? 'WhatsApp Menu');
 
     set('rs_footer_location_ar',s.footer_location_ar ?? 'دهوك • كوردستان');
     set('rs_footer_location_ku',s.footer_location_ku ?? 'دهۆک • کوردستان');
@@ -2045,6 +2437,22 @@
         whatsapp_number:whatsappNumber,
         location:rsValue('rs_location'),
 
+        top_location_enabled:rsChecked('rs_top_location_enabled'),
+        top_call_enabled:rsChecked('rs_top_call_enabled'),
+        top_whatsapp_enabled:rsChecked('rs_top_whatsapp_enabled'),
+
+        top_location_label_ar:rsValue('rs_top_location_label_ar'),
+        top_location_label_ku:rsValue('rs_top_location_label_ku'),
+        top_location_label_en:rsValue('rs_top_location_label_en'),
+
+        top_call_label_ar:rsValue('rs_top_call_label_ar'),
+        top_call_label_ku:rsValue('rs_top_call_label_ku'),
+        top_call_label_en:rsValue('rs_top_call_label_en'),
+
+        top_whatsapp_label_ar:rsValue('rs_top_whatsapp_label_ar'),
+        top_whatsapp_label_ku:rsValue('rs_top_whatsapp_label_ku'),
+        top_whatsapp_label_en:rsValue('rs_top_whatsapp_label_en'),
+
         footer_location_ar:rsValue('rs_footer_location_ar'),
         footer_location_ku:rsValue('rs_footer_location_ku'),
         footer_location_en:rsValue('rs_footer_location_en'),
@@ -2108,6 +2516,8 @@
       );
 
       renderRestaurantSettings();
+      renderBulkPriceCategoryOptions();
+      applyAdminBranding();
 
     }catch(e){
       console.error('SAVE RESTAURANT SETTINGS ERROR:',e);
@@ -2118,298 +2528,6 @@
     }finally{
       btn.disabled=false;
       btn.textContent='حفظ إعدادات المطعم';
-    }
-  }
-
-
-  // ==========================================
-  // LEGACY IMAGE MIGRATION
-  // ==========================================
-
-  function isLegacyCatalogImage(url){
-    try{
-      const parsed=new URL(String(url||''));
-      return (
-        parsed.protocol==='https:' &&
-        parsed.hostname.toLowerCase()==='catalog.kurdunus.com'
-      );
-    }catch(_){
-      return false;
-    }
-  }
-
-  function getLegacyImageProducts(){
-    return adminProducts.filter(product=>
-      isLegacyCatalogImage(product.image_url || product.image || '')
-    );
-  }
-
-  function updateLegacyImageCount(){
-    const count=getLegacyImageProducts().length;
-
-    const countEl=document.getElementById('legacyImageCount');
-    const migrationCard=document.getElementById('legacyMigrationCard');
-    const doneCard=document.getElementById('legacyMigrationDone');
-
-    if(countEl)countEl.textContent=count;
-
-    // Keep the migration tool visible only while there are old images left.
-    if(count>0){
-      if(migrationCard)migrationCard.style.display='';
-      if(doneCard)doneCard.style.display='none';
-    }else{
-      if(migrationCard)migrationCard.style.display='none';
-      if(doneCard)doneCard.style.display='';
-    }
-  }
-
-  function setMigrationProgress(done,total,success,failed,skipped=0){
-    const wrap=document.getElementById('migrationProgressWrap');
-    const bar=document.getElementById('migrationProgressBar');
-    const text=document.getElementById('migrationProgressText');
-    const results=document.getElementById('migrationResults');
-
-    if(wrap)wrap.classList.add('active');
-
-    const percent=total
-      ? Math.max(0,Math.min(100,Math.round((done/total)*100)))
-      : 0;
-
-    if(bar)bar.style.width=percent+'%';
-
-    if(text){
-      text.textContent=`${done} / ${total} — ${percent}%`;
-    }
-
-    if(results){
-      results.textContent=
-        `نجح: ${success}  •  فشل: ${failed}` +
-        (skipped ? `  •  متجاوز: ${skipped}` : '');
-    }
-  }
-
-  function showMigrationErrors(errors){
-    const el=document.getElementById('migrationErrors');
-    if(!el)return;
-
-    if(!errors.length){
-      el.classList.remove('active');
-      el.textContent='';
-      return;
-    }
-
-    el.classList.add('active');
-    el.textContent=errors
-      .map(item=>`${item.name}: ${item.error}`)
-      .join('\n');
-  }
-
-  function buildFullEmergencyBackup(){
-    return makeBackup('full',{
-      categories:cloneRows(adminCategories),
-      products:cloneRows(adminProducts),
-      product_options:cloneRows(adminOptions),
-      restaurant_settings:adminRestaurantSettings?.id
-        ? [JSON.parse(JSON.stringify(adminRestaurantSettings))]
-        : []
-    },{
-      reason:'before_legacy_image_migration'
-    });
-  }
-
-  async function invokeImageMigration(product){
-    const {data,error}=await supabaseClient.functions.invoke(
-      'migrate-menu-image',
-      {
-        body:{
-          product_id:product.id
-        }
-      }
-    );
-
-    if(error){
-      let message=error.message||String(error);
-
-      try{
-        if(error.context && typeof error.context.json==='function'){
-          const detail=await error.context.json();
-          if(detail?.error)message=detail.error;
-          else if(detail?.message)message=detail.message;
-        }
-      }catch(_){}
-
-      throw new Error(message);
-    }
-
-    if(!data?.ok){
-      throw new Error(data?.error || 'Edge Function returned an invalid response.');
-    }
-
-    return data;
-  }
-
-  async function migrateLegacyImages(){
-    if(migrationRunning)return;
-
-    const products=getLegacyImageProducts();
-
-    if(!products.length){
-      alert('كل صور الأصناف أصبحت داخل Supabase Storage ✅');
-      return;
-    }
-
-    const ok=confirm(
-      `سيتم نقل ${products.length} صورة قديمة إلى Supabase Storage.\n\n` +
-      `قبل البدء سيتم حفظ Backup تلقائي لبيانات المنيو على هذا الجهاز.\n` +
-      `يمكنك إيقاف العملية وإكمالها لاحقاً.\n\n` +
-      `هل تريد البدء؟`
-    );
-
-    if(!ok)return;
-
-    // Save DB-state backup locally without starting a browser download.
-    saveEmergencyBackup(buildFullEmergencyBackup());
-
-    migrationRunning=true;
-    migrationStopRequested=false;
-
-    const startBtn=document.getElementById('startImageMigrationBtn');
-    const stopBtn=document.getElementById('stopImageMigrationBtn');
-
-    if(startBtn){
-      startBtn.disabled=true;
-      startBtn.textContent='جاري النقل...';
-    }
-    if(stopBtn)stopBtn.disabled=false;
-
-    const total=products.length;
-    let cursor=0;
-    let done=0;
-    let success=0;
-    let failed=0;
-    let skipped=0;
-    const errors=[];
-
-    showMigrationErrors([]);
-    setMigrationProgress(0,total,0,0,0);
-
-    // Three concurrent workers give good speed without flooding the function.
-    async function worker(){
-      while(true){
-        if(migrationStopRequested)return;
-
-        const index=cursor++;
-        if(index>=total)return;
-
-        const product=products[index];
-        const name=
-          product.name_ar ||
-          product.name ||
-          product.id;
-
-        try{
-          const result=await invokeImageMigration(product);
-
-          if(result.skipped){
-            skipped++;
-          }else{
-            success++;
-          }
-
-        }catch(e){
-          failed++;
-          errors.push({
-            name,
-            error:e.message||String(e)
-          });
-        }finally{
-          done++;
-          setMigrationProgress(done,total,success,failed,skipped);
-          showMigrationErrors(errors);
-        }
-      }
-    }
-
-    try{
-      await Promise.all([
-        worker(),
-        worker(),
-        worker()
-      ]);
-
-      if(migrationStopRequested){
-        const results=document.getElementById('migrationResults');
-        if(results){
-          results.textContent +=
-            '\nتم إيقاف العملية. يمكنك تشغيلها مرة ثانية لإكمال الباقي.';
-        }
-      }else{
-        const results=document.getElementById('migrationResults');
-        if(results){
-          results.textContent +=
-            `\nاكتملت العملية ✓`;
-        }
-      }
-
-      // Refresh products so the remaining legacy count becomes accurate.
-      await loadAdminDashboard();
-
-    }catch(e){
-      console.error('IMAGE MIGRATION ERROR:',e);
-      alert('تعذر إكمال نقل الصور: '+(e.message||e));
-
-    }finally{
-      migrationRunning=false;
-
-      if(startBtn){
-        startBtn.disabled=false;
-        startBtn.textContent='بدء نقل الصور';
-      }
-
-      if(stopBtn)stopBtn.disabled=true;
-      updateLegacyImageCount();
-    }
-  }
-
-  async function recheckLegacyImages(){
-    try{
-      const btn=document.getElementById('recheckLegacyImagesBtn');
-      if(btn){
-        btn.disabled=true;
-        btn.textContent='جاري الفحص...';
-      }
-
-      await loadAdminDashboard();
-
-      const remaining=getLegacyImageProducts().length;
-
-      if(remaining>0){
-        alert(`تم العثور على ${remaining} صورة قديمة تحتاج نقل.`);
-      }else{
-        alert('كل الصور ما زالت داخل Supabase Storage ✅');
-      }
-
-    }catch(e){
-      alert('فشل إعادة الفحص: '+(e.message||e));
-    }finally{
-      const btn=document.getElementById('recheckLegacyImagesBtn');
-      if(btn){
-        btn.disabled=false;
-        btn.textContent='إعادة الفحص';
-      }
-    }
-  }
-
-
-  function stopLegacyImageMigration(){
-    if(!migrationRunning)return;
-
-    migrationStopRequested=true;
-
-    const btn=document.getElementById('stopImageMigrationBtn');
-    if(btn){
-      btn.disabled=true;
-      btn.textContent='جاري الإيقاف...';
     }
   }
 
@@ -2625,7 +2743,7 @@
         'connection-box success';
 
       statusText.textContent =
-        'متصل بقاعدة بيانات SHORASH';
+        'متصل بقاعدة بيانات '+getAdminRestaurantName();
 
 
       document.getElementById('categoryCount').textContent =
@@ -2832,6 +2950,41 @@
     const el=document.getElementById('backupStatus'); if(!el)return;
     el.textContent=text||''; el.style.color=ok?'#baf3d7':'#fecaca';
   }
+
+  function getAdminRestaurantName(){
+    const s=adminRestaurantSettings||{};
+    return (
+      s.name_ar ||
+      s.name_en ||
+      s.name ||
+      'المطعم'
+    );
+  }
+
+  function applyAdminBranding(){
+    const s=adminRestaurantSettings||{};
+    const name=getAdminRestaurantName();
+    const logo=s.logo_url || 'assets/shorash-logo.jpeg';
+
+    const headerLogo=document.querySelector('.admin-logo');
+    if(headerLogo)headerLogo.src=logo;
+
+    const loginLogo=document.querySelector('.login-brand img');
+    if(loginLogo)loginLogo.src=logo;
+
+    const headerSubtitle=document.getElementById('adminPageSubtitle');
+    if(adminCurrentView==='home' && headerSubtitle){
+      headerSubtitle.textContent=name+' Admin';
+    }
+
+    const loginTitle=document.querySelector('.login-brand h1');
+    if(loginTitle && adminSession){
+      loginTitle.textContent=name+' Admin';
+    }
+
+    document.title=name+' — Admin Dashboard';
+  }
+
   function renderBackupCategoryOptions(){
     const select=document.getElementById('backupCategorySelect'); if(!select)return;
     select.innerHTML=adminCategories.filter(c=>!isHiddenCategory(c)).map(c=>`<option value="${escapeAdminHtml(c.id)}">${escapeAdminHtml(c.name_ar||c.name||'بدون اسم')}</option>`).join('');
@@ -2853,7 +3006,7 @@
     });
 
     const titles={
-      home:['الرئيسية','SHORASH Admin'],
+      home:['الرئيسية',getAdminRestaurantName()+' Admin'],
       products:['الأصناف','إدارة المواد والأسعار'],
       categories:['الأقسام','إدارة أقسام المنيو'],
       tools:['الإعدادات','إعدادات المطعم والأدوات']
@@ -4614,19 +4767,29 @@
     saveRestaurantSettings
   );
 
-  document.getElementById('startImageMigrationBtn').addEventListener(
-    'click',
-    migrateLegacyImages
+  document.getElementById('bulkPriceCategorySelect').addEventListener(
+    'change',
+    updateBulkPricePreview
   );
 
-  document.getElementById('stopImageMigrationBtn').addEventListener(
-    'click',
-    stopLegacyImageMigration
+  document.getElementById('bulkPriceOperation').addEventListener(
+    'change',
+    updateBulkPricePreview
   );
 
-  document.getElementById('recheckLegacyImagesBtn').addEventListener(
+  document.getElementById('bulkPriceAmount').addEventListener(
+    'input',
+    updateBulkPricePreview
+  );
+
+  document.getElementById('applyBulkPriceBtn').addEventListener(
     'click',
-    recheckLegacyImages
+    applyBulkPriceAdjustment
+  );
+
+  document.getElementById('downloadPriceBackupBtn').addEventListener(
+    'click',
+    downloadLastPriceBackup
   );
 
 
