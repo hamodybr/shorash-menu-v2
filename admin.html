@@ -1696,7 +1696,61 @@
     .backup-type-box{display:grid;gap:9px;padding-top:10px}.backup-type-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.backup-type-field{display:grid;gap:5px;min-width:0}.backup-type-field.full{grid-column:1/-1}.backup-type-field span{color:#908981;font-size:9px}.backup-type-field select{width:100%;min-width:0;box-sizing:border-box;border:1px solid rgba(255,255,255,.085);background:#030201;color:#f1ede8;border-radius:10px;padding:10px;font:inherit;font-size:16px;outline:none}.backup-type-note{padding:9px 10px;border:1px solid rgba(216,169,88,.1);background:rgba(216,169,88,.035);color:#888078;border-radius:10px;font-size:9px;line-height:1.65}
     @media(max-width:650px){.dynamic-grid,.backup-type-grid{grid-template-columns:1fr}.dynamic-grid .full,.backup-type-field.full{grid-column:auto}}
 
-  </style>
+  
+    /* =========================================================
+       V3.8 — SOCIAL WIDTH HARD FIX + PRODUCT SCHEDULE
+       ========================================================= */
+    html,body{
+      width:100% !important;
+      max-width:100vw !important;
+      overflow-x:hidden !important;
+    }
+    body,#adminApp,.admin-shell,.admin-main,.admin-view,#viewTools,.settings-clean-wrap{
+      min-width:0 !important;
+      max-width:100% !important;
+      overflow-x:clip !important;
+      box-sizing:border-box !important;
+    }
+    #viewTools *,.settings-clean-wrap *{box-sizing:border-box;min-width:0}
+    .settings-accordion,.settings-accordion-body,.dynamic-manager,.dynamic-list,.dynamic-item,.dynamic-item-body,.social-setting-row{
+      width:100% !important;max-width:100% !important;min-width:0 !important;overflow:hidden !important;
+    }
+    .social-setting-row{grid-template-columns:64px minmax(0,1fr) 72px !important}
+    .social-setting-row > *,.dynamic-item > summary > *,.dynamic-grid > *{
+      min-width:0 !important;max-width:100% !important;
+    }
+    .social-setting-row input,.dynamic-field input,.settings-clean-wrap input,.settings-clean-wrap textarea,.settings-clean-wrap select{
+      width:100% !important;max-width:100% !important;min-width:0 !important;
+    }
+    .social-setting-row input,.dynamic-field input[dir="ltr"],.dynamic-item-title small{
+      overflow:hidden !important;text-overflow:ellipsis !important;white-space:nowrap !important;
+    }
+    .dynamic-item > summary{grid-template-columns:30px minmax(0,1fr) 70px !important}
+    @media(max-width:650px){
+      .social-setting-row{grid-template-columns:58px minmax(0,1fr) 66px !important;gap:5px !important;padding:7px !important}
+      .social-setting-name{font-size:9px !important}
+      .mini-visibility{gap:4px !important}
+      .mini-visibility span{font-size:8px !important}
+    }
+
+    .schedule-editor{
+      margin-top:10px;border:1px solid rgba(216,169,88,.16);border-radius:13px;
+      background:rgba(216,169,88,.035);padding:11px;
+    }
+    .schedule-editor-head{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px;
+    }
+    .schedule-editor-head strong{display:block;color:#e2b55e;font-size:12px}
+    .schedule-editor-head small{display:block;color:#817a72;font-size:9px;margin-top:3px;line-height:1.5}
+    .schedule-time-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .schedule-time-grid label{display:grid;gap:5px;color:#918981;font-size:9px}
+    .schedule-time-grid input[type="time"]{
+      width:100%;min-width:0;border:1px solid rgba(255,255,255,.085);background:#030201;color:#f2eee8;
+      border-radius:10px;padding:10px;font:inherit;font-size:16px;outline:none;
+    }
+    .schedule-note{margin-top:8px;color:#766f68;font-size:9px;line-height:1.65}
+
+</style>
 </head>
 
 <body class="auth-locked">
@@ -4003,6 +4057,27 @@
       ${hasField(product,'is_visible')?`<label class="check-card"><input id="p_is_visible" type="checkbox" ${product.is_visible?'checked':''}> ظاهر في المنيو</label>`:''}
       ${hasField(product,'is_available')?`<label class="check-card"><input id="p_is_available" type="checkbox" ${product.is_available?'checked':''}> متوفر</label>`:''}
     </div>
+    ${hasField(product,'availability_schedule_enabled') ? `
+    <div class="schedule-editor">
+      <div class="schedule-editor-head">
+        <div>
+          <strong>⏰ توفر تلقائي حسب الوقت</strong>
+          <small>خارج الفترة يظهر الصنف غير متوفر حالياً.</small>
+        </div>
+        <label class="settings-switch">
+          <input id="p_availability_schedule_enabled" type="checkbox" ${product.availability_schedule_enabled?'checked':''}>
+          <i></i>
+        </label>
+      </div>
+      <div class="schedule-time-grid">
+        <label><span>متوفر من</span><input id="p_available_from" type="time" value="${escapeAdminHtml(String(product.available_from||'').slice(0,5))}"></label>
+        <label><span>متوفر إلى</span><input id="p_available_to" type="time" value="${escapeAdminHtml(String(product.available_to||'').slice(0,5))}"></label>
+      </div>
+      <div class="schedule-note">
+        حسب توقيت العراق. يدعم 06:00 → 11:00 ويدعم عبور منتصف الليل مثل 18:00 → 02:00.
+        إذا أطفأت زر "متوفر" اليدوي يبقى الصنف غير متوفر مهما كان الوقت.
+      </div>
+    </div>` : ''}
     <div class="field full"><label>خيارات الصنف والأسعار</label><div id="optionsEditor">${options.map(optionEditorHtml).join('')}</div><button class="btn btn-dark" type="button" style="margin-top:10px" onclick="addOptionEditor()">+ إضافة خيار</button></div>
     <div class="modal-actions"><button class="btn btn-dark" type="button" onclick="closeAdminEditor()">إلغاء</button><button class="btn btn-gold" id="saveProductBtn" type="button" onclick="saveAdminProduct('${escapeAdminHtml(product.id)}')">حفظ التعديلات</button></div>`;
     openAdminEditor('تعديل الصنف',html);
@@ -4059,6 +4134,16 @@
       ['is_active','is_visible','is_available'].forEach(k=>{
         if(hasField(product,k)) patch[k]=checked('p_'+k);
       });
+
+      if(hasField(product,'availability_schedule_enabled')){
+        patch.availability_schedule_enabled=checked('p_availability_schedule_enabled');
+      }
+      if(hasField(product,'available_from')){
+        patch.available_from=val('p_available_from') || null;
+      }
+      if(hasField(product,'available_to')){
+        patch.available_to=val('p_available_to') || null;
+      }
 
       if(hasField(product,'updated_at')){
         patch.updated_at=new Date().toISOString();
@@ -4253,6 +4338,19 @@
       ${hasField(sample,'is_visible')?`<label class="check-card"><input id="np_is_visible" type="checkbox" checked> ظاهر في المنيو</label>`:''}
       ${hasField(sample,'is_available')?`<label class="check-card"><input id="np_is_available" type="checkbox" checked> متوفر</label>`:''}
     </div>
+    ${hasField(sample,'availability_schedule_enabled') ? `
+    <div class="schedule-editor">
+      <div class="schedule-editor-head">
+        <div><strong>⏰ توفر تلقائي حسب الوقت</strong><small>فعّله إذا الصنف متوفر في ساعات معينة فقط.</small></div>
+        <label class="settings-switch">
+          <input id="np_availability_schedule_enabled" type="checkbox"><i></i>
+        </label>
+      </div>
+      <div class="schedule-time-grid">
+        <label><span>متوفر من</span><input id="np_available_from" type="time"></label>
+        <label><span>متوفر إلى</span><input id="np_available_to" type="time"></label>
+      </div>
+    </div>` : ''}
 
     <div class="field full">
       <label>خيارات الصنف والأسعار</label>
@@ -4410,6 +4508,16 @@
       if(hasField(sample,'is_active')) insert.is_active=checked('np_is_active');
       if(hasField(sample,'is_visible')) insert.is_visible=checked('np_is_visible');
       if(hasField(sample,'is_available')) insert.is_available=checked('np_is_available');
+
+      if(hasField(sample,'availability_schedule_enabled')){
+        insert.availability_schedule_enabled=checked('np_availability_schedule_enabled');
+      }
+      if(hasField(sample,'available_from')){
+        insert.available_from=val('np_available_from') || null;
+      }
+      if(hasField(sample,'available_to')){
+        insert.available_to=val('np_available_to') || null;
+      }
 
       const optionRows=[...document.querySelectorAll('#newOptionsEditor .option-editor')]
         .map(row=>({
