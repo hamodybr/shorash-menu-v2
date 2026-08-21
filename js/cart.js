@@ -267,7 +267,8 @@
     const restaurantName=
       restaurant().nameEn ||
       restaurant().name ||
-      "SHORASH REST & CAFE";
+      restaurant().nameAr ||
+      "Restaurant";
 
     let lines=[
       `🍽️ ${bold(restaurantName)}`,

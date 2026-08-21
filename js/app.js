@@ -1,6 +1,6 @@
 const I18N = {
   ar: {
-    subtitle: "اكتشف منيو شوراش",
+    subtitle: "اكتشف منيو {name}",
     location: "موقعنا",
     call: "اتصال",
     whatsapp: "واتساب منيو",
@@ -13,7 +13,7 @@ const I18N = {
   },
 
   ku: {
-    subtitle: "مێنیوی شوراش ببینە",
+    subtitle: "مێنیوی {name} ببینە",
     location: "شوێنی مە",
     call: "پەیوەندی",
     whatsapp: "مێنیوی واتساپ",
@@ -26,7 +26,7 @@ const I18N = {
   },
 
   en: {
-    subtitle: "Discover the SHORASH menu",
+    subtitle: "Discover {name} Menu",
     location: "Location",
     call: "Call",
     whatsapp: "WhatsApp Menu",
@@ -66,6 +66,50 @@ function money(value) {
     Number(value).toLocaleString("en-US") +
     " " +
     I18N[lang].currency
+  );
+}
+
+
+function restaurantNameForLang(targetLang=lang) {
+
+  const restaurant =
+    DB?.restaurant || {};
+
+  if (targetLang === "ar") {
+    return (
+      restaurant.nameAr ||
+      restaurant.name ||
+      restaurant.nameEn ||
+      "المطعم"
+    );
+  }
+
+  if (targetLang === "ku") {
+    return (
+      restaurant.nameKu ||
+      restaurant.nameAr ||
+      restaurant.name ||
+      "Restaurant"
+    );
+  }
+
+  return (
+    restaurant.nameEn ||
+    restaurant.name ||
+    restaurant.nameAr ||
+    "Restaurant"
+  );
+}
+
+
+function formatRestaurantTemplate(value,targetLang=lang) {
+
+  const text =
+    String(value || "");
+
+  return text.replaceAll(
+    "{name}",
+    restaurantNameForLang(targetLang)
   );
 }
 
@@ -461,56 +505,113 @@ function renderActions() {
   if (!holder || !DB) return;
 
 
-  const restaurant = DB.restaurant;
+  const restaurant =
+    DB.restaurant || {};
 
 
-  holder.className = "sm-quick-actions";
+  const quick =
+    restaurant.quickActions || {};
 
 
-  holder.innerHTML = `
-
-    <a
-      href="${restaurant.location || "#"}"
-      target="_blank"
-      rel="noopener">
-
-      <span>📍</span>
-
-      <b>
-        ${I18N[lang].location}
-      </b>
-
-    </a>
+  const actions = [];
 
 
-    <a
-      href="tel:${restaurant.phone || ""}">
+  if (
+    quick.location?.enabled !== false &&
+    String(restaurant.location || "").trim() &&
+    restaurant.location !== "#"
+  ) {
 
-      <span>☎</span>
+    actions.push(`
+      <a
+        href="${restaurant.location}"
+        target="_blank"
+        rel="noopener">
 
-      <b>
-        ${I18N[lang].call}
-      </b>
+        <span>📍</span>
 
-    </a>
+        <b>
+          ${
+            quick.location?.label?.[lang] ||
+            I18N[lang].location
+          }
+        </b>
+      </a>
+    `);
+
+  }
 
 
-    <a
-      href="${restaurant.whatsapp || "#"}"
-      target="_blank"
-      rel="noopener">
+  if (
+    quick.call?.enabled !== false &&
+    String(restaurant.phone || "").trim()
+  ) {
 
-      <span>💬</span>
+    actions.push(`
+      <a
+        href="tel:${restaurant.phone}">
 
-      <b>
-        ${I18N[lang].whatsapp}
-      </b>
+        <span>☎</span>
 
-    </a>
+        <b>
+          ${
+            quick.call?.label?.[lang] ||
+            I18N[lang].call
+          }
+        </b>
+      </a>
+    `);
 
-  `;
+  }
+
+
+  if (
+    quick.whatsapp?.enabled !== false &&
+    String(restaurant.whatsapp || "").trim()
+  ) {
+
+    actions.push(`
+      <a
+        href="${restaurant.whatsapp}"
+        target="_blank"
+        rel="noopener">
+
+        <span>💬</span>
+
+        <b>
+          ${
+            quick.whatsapp?.label?.[lang] ||
+            I18N[lang].whatsapp
+          }
+        </b>
+      </a>
+    `);
+
+  }
+
+
+  holder.className =
+    "sm-quick-actions";
+
+
+  holder.innerHTML =
+    actions.join("");
+
+
+  if (actions.length) {
+
+    holder.style.display =
+      "grid";
+
+    holder.style.gridTemplateColumns =
+      `repeat(${actions.length},minmax(0,1fr))`;
+
+  } else {
+
+    holder.style.display =
+      "none";
+  }
 }
-
 
 /* ========================================
    APPLY LANGUAGE
@@ -530,14 +631,18 @@ function applyLang() {
 
   if (subtitle) {
     const customSubtitle =
-      DB?.restaurant?.subtitle?.[lang];
+      DB?.restaurant?.subtitle?.[lang] ||
+      I18N[lang].subtitle;
 
     subtitle.textContent =
-      customSubtitle ||
-      I18N[lang].subtitle;
+      formatRestaurantTemplate(
+        customSubtitle,
+        lang
+      );
   }
 
 
+  applyRestaurantBranding();
   updateRestaurantLanguageUI();
 
   renderLanguages();
@@ -913,11 +1018,16 @@ function applyRestaurantBranding() {
   const restaurant =
     DB.restaurant || {};
 
-  if (restaurant.name) {
-    document.title =
-      restaurant.name +
-      " — Menu";
-  }
+  const currentName =
+    restaurantNameForLang(lang);
+
+  const englishName =
+    restaurantNameForLang("en");
+
+
+  document.title =
+    currentName +
+    " — Menu";
 
 
   const logo =
@@ -936,6 +1046,7 @@ function applyRestaurantBranding() {
         img.tagName === "IMG"
       ) {
         img.src = logo;
+        img.alt = currentName;
       }
 
     });
@@ -947,6 +1058,7 @@ function applyRestaurantBranding() {
 
         if (el.tagName === "IMG") {
           el.src = logo;
+          el.alt = currentName;
         }
 
         const img =
@@ -954,9 +1066,45 @@ function applyRestaurantBranding() {
 
         if (img) {
           img.src = logo;
+          img.alt = currentName;
         }
 
       });
+
+  }
+
+
+  const introBrand =
+    document.querySelector(
+      ".sm-intro-brand"
+    );
+
+  if (introBrand) {
+    introBrand.textContent =
+      currentName;
+  }
+
+
+  const menuTitle =
+    document.querySelector(
+      ".sm-header h1, .sm-hero h1"
+    );
+
+  if (menuTitle) {
+
+    if (lang === "ar") {
+      menuTitle.textContent =
+        "منيو " +
+        currentName;
+    } else if (lang === "ku") {
+      menuTitle.textContent =
+        "مینیوی " +
+        currentName;
+    } else {
+      menuTitle.textContent =
+        englishName +
+        " MENU";
+    }
 
   }
 
@@ -968,8 +1116,7 @@ function applyRestaurantBranding() {
 
   if (footerTitle) {
     footerTitle.textContent =
-      restaurant.name ||
-      "SHORASH REST & CAFE";
+      currentName;
   }
 
 
@@ -983,8 +1130,21 @@ function applyRestaurantBranding() {
       restaurant.phone;
   }
 
-}
 
+  const footerCopy =
+    document.querySelector(
+      ".sm-footer-copy"
+    );
+
+  if (footerCopy) {
+    footerCopy.textContent =
+      currentName +
+      " — All Rights Reserved " +
+      new Date().getFullYear() +
+      " ©";
+  }
+
+}
 
 /* ========================================
    BACKGROUND VIDEO
@@ -1766,15 +1926,15 @@ async function loadMenuFromSupabase() {
     subtitle: {
       ar:
         settings.subtitle_ar ||
-        "اكتشف منيو شوراش",
+        "اكتشف منيو {name}",
 
       ku:
         settings.subtitle_ku ||
-        "مینیوی شوراش ببینە",
+        "مینیوی {name} ببینە",
 
       en:
         settings.subtitle_en ||
-        "Discover Shorash Menu"
+        "Discover {name} Menu"
     },
 
     phone:
@@ -1791,6 +1951,65 @@ async function loadMenuFromSupabase() {
         whatsappNumber ||
         "9647502662002"
       ),
+
+    quickActions: {
+      location: {
+        enabled:
+          settings.top_location_enabled !== false,
+
+        label: {
+          ar:
+            settings.top_location_label_ar ||
+            "موقعنا",
+
+          ku:
+            settings.top_location_label_ku ||
+            "شوێنی مە",
+
+          en:
+            settings.top_location_label_en ||
+            "Location"
+        }
+      },
+
+      call: {
+        enabled:
+          settings.top_call_enabled !== false,
+
+        label: {
+          ar:
+            settings.top_call_label_ar ||
+            "اتصال",
+
+          ku:
+            settings.top_call_label_ku ||
+            "پەیوەندی",
+
+          en:
+            settings.top_call_label_en ||
+            "Call"
+        }
+      },
+
+      whatsapp: {
+        enabled:
+          settings.top_whatsapp_enabled !== false,
+
+        label: {
+          ar:
+            settings.top_whatsapp_label_ar ||
+            "واتساب منيو",
+
+          ku:
+            settings.top_whatsapp_label_ku ||
+            "مێنیوی واتساپ",
+
+          en:
+            settings.top_whatsapp_label_en ||
+            "WhatsApp Menu"
+        }
+      }
+    },
 
     location:
       settings.location ||
