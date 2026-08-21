@@ -2273,6 +2273,149 @@
       }
     }
 
+
+    /* =========================================================
+       SHORASH ADMIN V4.5 — SETTINGS-ONLY LIGHT / DARK
+       ========================================================= */
+    .admin-settings-theme-btn{
+      flex:0 0 auto;
+      min-height:38px;
+      padding:0 11px;
+      border:1px solid rgba(216,169,88,.24);
+      border-radius:11px;
+      background:rgba(216,169,88,.06);
+      color:#e2b55e;
+      font:inherit;
+      font-size:10px;
+      font-weight:800;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+
+    #viewTools.admin-settings-light{
+      background:#f4efe7;
+      color:#2e271f;
+      border-radius:20px;
+      padding:10px;
+      box-shadow:0 14px 44px rgba(0,0,0,.12);
+    }
+
+    #viewTools.admin-settings-light .view-title-row h2{
+      color:#2b241d !important;
+    }
+
+    #viewTools.admin-settings-light .view-subtitle{
+      color:#74695d !important;
+    }
+
+    #viewTools.admin-settings-light .admin-settings-theme-btn{
+      border-color:rgba(99,69,27,.2);
+      background:#fffaf2;
+      color:#7a5319;
+      box-shadow:0 5px 16px rgba(86,57,19,.08);
+    }
+
+    #viewTools.admin-settings-light .settings-save-bar,
+    #viewTools.admin-settings-light .settings-accordion,
+    #viewTools.admin-settings-light .settings-element,
+    #viewTools.admin-settings-light .settings-toggle-card,
+    #viewTools.admin-settings-light .settings-field-clean,
+    #viewTools.admin-settings-light .tri-box,
+    #viewTools.admin-settings-light .dynamic-manager,
+    #viewTools.admin-settings-light .dynamic-item,
+    #viewTools.admin-settings-light .ui-design-topbar,
+    #viewTools.admin-settings-light .ui-design-group,
+    #viewTools.admin-settings-light .ui-size-field,
+    #viewTools.admin-settings-light .excel-note,
+    #viewTools.admin-settings-light .backup-type-field,
+    #viewTools.admin-settings-light .bulk-price-field{
+      background:#fffaf3 !important;
+      border-color:rgba(112,79,34,.16) !important;
+      box-shadow:none !important;
+    }
+
+    #viewTools.admin-settings-light .settings-accordion[open]{
+      border-color:rgba(169,119,43,.34) !important;
+    }
+
+    #viewTools.admin-settings-light .settings-save-bar strong,
+    #viewTools.admin-settings-light .settings-accordion-title strong,
+    #viewTools.admin-settings-light .settings-element-head strong,
+    #viewTools.admin-settings-light .settings-toggle-copy strong,
+    #viewTools.admin-settings-light .ui-design-group-title strong,
+    #viewTools.admin-settings-light .dynamic-manager-head strong{
+      color:#33291f !important;
+    }
+
+    #viewTools.admin-settings-light .settings-save-bar span,
+    #viewTools.admin-settings-light .settings-accordion-title small,
+    #viewTools.admin-settings-light .settings-element-head small,
+    #viewTools.admin-settings-light .settings-toggle-copy span,
+    #viewTools.admin-settings-light .ui-design-group-title small,
+    #viewTools.admin-settings-light .ui-design-note,
+    #viewTools.admin-settings-light .excel-note{
+      color:#776b5f !important;
+    }
+
+    #viewTools.admin-settings-light .settings-input,
+    #viewTools.admin-settings-light input[type="text"],
+    #viewTools.admin-settings-light input[type="url"],
+    #viewTools.admin-settings-light input[type="number"],
+    #viewTools.admin-settings-light input[type="time"],
+    #viewTools.admin-settings-light textarea,
+    #viewTools.admin-settings-light select{
+      background:#fff !important;
+      color:#2c251e !important;
+      border-color:rgba(104,74,34,.18) !important;
+    }
+
+    #viewTools.admin-settings-light input::placeholder,
+    #viewTools.admin-settings-light textarea::placeholder{
+      color:#9b9187 !important;
+    }
+
+    #viewTools.admin-settings-light .tri-tabs,
+    #viewTools.admin-settings-light .settings-tabs{
+      background:#eee5d9 !important;
+      border-color:rgba(104,74,34,.12) !important;
+    }
+
+    #viewTools.admin-settings-light .tri-tabs button,
+    #viewTools.admin-settings-light .settings-tabs button{
+      color:#71675c !important;
+    }
+
+    #viewTools.admin-settings-light .tri-tabs button.active,
+    #viewTools.admin-settings-light .settings-tabs button.active{
+      background:#fffaf2 !important;
+      color:#9b691f !important;
+    }
+
+    #viewTools.admin-settings-light .ui-size-label span{
+      color:#645a50 !important;
+    }
+
+    #viewTools.admin-settings-light .ui-size-label b{
+      color:#9b691f !important;
+    }
+
+    #viewTools.admin-settings-light .settings-main-msg{
+      color:#6d6258;
+    }
+
+    @media(max-width:650px){
+      #viewTools.admin-settings-light{
+        padding:8px;
+        border-radius:16px;
+      }
+
+      .admin-settings-theme-btn{
+        min-height:36px;
+        padding:0 9px;
+        font-size:9px;
+      }
+    }
+
 </style>
 </head>
 
@@ -2523,6 +2666,14 @@
         <h2>الإعدادات</h2>
         <div class="view-subtitle">كل إعداد بمكانه — افتح فقط القسم اللي تحتاجه</div>
       </div>
+
+      <button
+        id="adminSettingsThemeBtn"
+        class="admin-settings-theme-btn"
+        type="button"
+        aria-label="تبديل وضع الإعدادات">
+        ☀️ نهاري
+      </button>
     </div>
 
     <div class="settings-clean-wrap">
@@ -2781,6 +2932,62 @@
           </div>
 
         </div>
+      </details>
+
+
+
+      <!-- UI DESIGN -->
+      <details class="settings-accordion">
+        <summary><span class="settings-accordion-icon">📐</span><span class="settings-accordion-title"><strong>أحجام وتخطيط المنيو</strong><small>تحكم بالكروت، الشفافية، نسبة الصورة، الخطوط، الأزرار، السلة والهيدر</small></span><span class="settings-chevron">⌄</span></summary>
+        <div class="settings-accordion-body"><div class="ui-design-wrap">
+          <div class="ui-design-topbar"><div><strong>تخصيص واجهة الزبون</strong><small>غيّر الأحجام ثم اضغط حفظ إعدادات المطعم.</small></div><button id="resetUiDesignAllBtn" class="ui-reset-all" type="button">إعادة ضبط الكل</button></div>
+
+          <details class="ui-design-group" open><summary><span class="ui-design-group-title"><strong>🍽 كارت الصنف</strong><small>الأبعاد ونسبة الصورة والمعلومات</small></span><button class="ui-design-reset" type="button" data-ui-reset-group="card">افتراضي</button></summary><div class="ui-design-fields">
+            <div class="ui-size-field"><div class="ui-size-label"><span>ارتفاع الكارت</span><b data-ui-value="card_height"></b></div><div class="ui-size-control"><input data-ui-key="card_height" type="range" min="130" max="250" step="1"><input data-ui-number="card_height" type="number" min="130" max="250" step="1"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>نسبة مساحة الصورة</span><b data-ui-value="image_percent"></b></div><div class="ui-size-control"><input data-ui-key="image_percent" type="range" min="32" max="68" step="1"><input data-ui-number="image_percent" type="number" min="32" max="68" step="1"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>شفافية خلفية الكارت</span><b data-ui-value="card_transparency"></b></div><div class="ui-size-control"><input data-ui-key="card_transparency" type="range" min="0" max="100" step="1"><input data-ui-number="card_transparency" type="number" min="0" max="100" step="1"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>استدارة الحواف</span><b data-ui-value="card_radius"></b></div><div class="ui-size-control"><input data-ui-key="card_radius" type="range" min="8" max="32" step="1"><input data-ui-number="card_radius" type="number" min="8" max="32" step="1"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>المسافة بين الكروت</span><b data-ui-value="card_gap"></b></div><div class="ui-size-control"><input data-ui-key="card_gap" type="range" min="4" max="24" step="1"><input data-ui-number="card_gap" type="number" min="4" max="24" step="1"></div></div>
+            <div class="ui-size-field full"><div class="ui-size-label"><span>Padding معلومات الكارت</span><b data-ui-value="info_padding"></b></div><div class="ui-size-control"><input data-ui-key="info_padding" type="range" min="6" max="24" step="1"><input data-ui-number="info_padding" type="number" min="6" max="24" step="1"></div></div>
+          </div></details>
+
+          <details class="ui-design-group"><summary><span class="ui-design-group-title"><strong>🔤 خطوط المنيو</strong><small>اسم الصنف، الخيارات، السعر وعنوان القسم</small></span><button class="ui-design-reset" type="button" data-ui-reset-group="text">افتراضي</button></summary><div class="ui-design-fields">
+            <div class="ui-size-field"><div class="ui-size-label"><span>اسم الصنف</span><b data-ui-value="product_name_font"></b></div><div class="ui-size-control"><input data-ui-key="product_name_font" type="range" min="11" max="24" step=".5"><input data-ui-number="product_name_font" type="number" min="11" max="24" step=".5"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>خط الخيارات</span><b data-ui-value="option_font"></b></div><div class="ui-size-control"><input data-ui-key="option_font" type="range" min="8" max="18" step=".5"><input data-ui-number="option_font" type="number" min="8" max="18" step=".5"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>خط السعر</span><b data-ui-value="price_font"></b></div><div class="ui-size-control"><input data-ui-key="price_font" type="range" min="9" max="20" step=".5"><input data-ui-number="price_font" type="number" min="9" max="20" step=".5"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>عنوان القسم</span><b data-ui-value="section_title_font"></b></div><div class="ui-size-control"><input data-ui-key="section_title_font" type="range" min="16" max="34" step="1"><input data-ui-number="section_title_font" type="number" min="16" max="34" step="1"></div></div>
+          </div></details>
+
+          <details class="ui-design-group"><summary><span class="ui-design-group-title"><strong>🔘 الأزرار والتنقل</strong><small>زر الإضافة، الأقسام والأزرار العلوية</small></span><button class="ui-design-reset" type="button" data-ui-reset-group="buttons">افتراضي</button></summary><div class="ui-design-fields">
+            <div class="ui-size-field"><div class="ui-size-label"><span>ارتفاع زر الإضافة</span><b data-ui-value="add_button_height"></b></div><div class="ui-size-control"><input data-ui-key="add_button_height" type="range" min="26" max="54" step="1"><input data-ui-number="add_button_height" type="number" min="26" max="54" step="1"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>خط زر الإضافة</span><b data-ui-value="add_button_font"></b></div><div class="ui-size-control"><input data-ui-key="add_button_font" type="range" min="8" max="16" step=".5"><input data-ui-number="add_button_font" type="number" min="8" max="16" step=".5"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>ارتفاع زر القسم</span><b data-ui-value="category_height"></b></div><div class="ui-size-control"><input data-ui-key="category_height" type="range" min="32" max="58" step="1"><input data-ui-number="category_height" type="number" min="32" max="58" step="1"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>خط زر القسم</span><b data-ui-value="category_font"></b></div><div class="ui-size-control"><input data-ui-key="category_font" type="range" min="9" max="17" step=".5"><input data-ui-number="category_font" type="number" min="9" max="17" step=".5"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>ارتفاع الأزرار العلوية</span><b data-ui-value="top_action_height"></b></div><div class="ui-size-control"><input data-ui-key="top_action_height" type="range" min="38" max="70" step="1"><input data-ui-number="top_action_height" type="number" min="38" max="70" step="1"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>خط الأزرار العلوية</span><b data-ui-value="top_action_font"></b></div><div class="ui-size-control"><input data-ui-key="top_action_font" type="range" min="8" max="17" step=".5"><input data-ui-number="top_action_font" type="number" min="8" max="17" step=".5"></div></div>
+          </div></details>
+
+          <details class="ui-design-group"><summary><span class="ui-design-group-title"><strong>🛒 زر السلة العائم</strong><small>الحجم والموقع على الشاشة</small></span><button class="ui-design-reset" type="button" data-ui-reset-group="cart">افتراضي</button></summary><div class="ui-design-fields">
+            <div class="ui-size-field"><div class="ui-size-label"><span>عرض السلة</span><b data-ui-value="cart_width"></b></div><div class="ui-size-control"><input data-ui-key="cart_width" type="range" min="110" max="300" step="1"><input data-ui-number="cart_width" type="number" min="110" max="300" step="1"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>ارتفاع السلة</span><b data-ui-value="cart_height"></b></div><div class="ui-size-control"><input data-ui-key="cart_height" type="range" min="42" max="82" step="1"><input data-ui-number="cart_height" type="number" min="42" max="82" step="1"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>خط زر السلة</span><b data-ui-value="cart_font"></b></div><div class="ui-size-control"><input data-ui-key="cart_font" type="range" min="9" max="20" step=".5"><input data-ui-number="cart_font" type="number" min="9" max="20" step=".5"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>الموقع الأفقي</span><b data-ui-value="cart_horizontal"></b></div><div class="ui-size-control"><input data-ui-key="cart_horizontal" type="range" min="15" max="85" step="1"><input data-ui-number="cart_horizontal" type="number" min="15" max="85" step="1"></div></div>
+            <div class="ui-size-field full"><div class="ui-size-label"><span>الارتفاع عن أسفل الشاشة</span><b data-ui-value="cart_bottom"></b></div><div class="ui-size-control"><input data-ui-key="cart_bottom" type="range" min="6" max="120" step="1"><input data-ui-number="cart_bottom" type="number" min="6" max="120" step="1"></div></div>
+          </div></details>
+
+          <details class="ui-design-group"><summary><span class="ui-design-group-title"><strong>🏷 الهيدر والبحث والفوتر</strong><small>الشعار والعنوان والبحث والفوتر</small></span><button class="ui-design-reset" type="button" data-ui-reset-group="chrome">افتراضي</button></summary><div class="ui-design-fields">
+            <div class="ui-size-field"><div class="ui-size-label"><span>حجم الشعار</span><b data-ui-value="logo_size"></b></div><div class="ui-size-control"><input data-ui-key="logo_size" type="range" min="55" max="150" step="1"><input data-ui-number="logo_size" type="number" min="55" max="150" step="1"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>عنوان المنيو</span><b data-ui-value="menu_title_font"></b></div><div class="ui-size-control"><input data-ui-key="menu_title_font" type="range" min="18" max="42" step="1"><input data-ui-number="menu_title_font" type="number" min="18" max="42" step="1"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>النص تحت العنوان</span><b data-ui-value="subtitle_font"></b></div><div class="ui-size-control"><input data-ui-key="subtitle_font" type="range" min="9" max="22" step=".5"><input data-ui-number="subtitle_font" type="number" min="9" max="22" step=".5"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>ارتفاع البحث</span><b data-ui-value="search_height"></b></div><div class="ui-size-control"><input data-ui-key="search_height" type="range" min="38" max="68" step="1"><input data-ui-number="search_height" type="number" min="38" max="68" step="1"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>خط البحث</span><b data-ui-value="search_font"></b></div><div class="ui-size-control"><input data-ui-key="search_font" type="range" min="16" max="22" step=".5"><input data-ui-number="search_font" type="number" min="16" max="22" step=".5"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>عنوان الفوتر</span><b data-ui-value="footer_title_font"></b></div><div class="ui-size-control"><input data-ui-key="footer_title_font" type="range" min="13" max="28" step=".5"><input data-ui-number="footer_title_font" type="number" min="13" max="28" step=".5"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>أزرار الفوتر</span><b data-ui-value="footer_action_font"></b></div><div class="ui-size-control"><input data-ui-key="footer_action_font" type="range" min="8" max="17" step=".5"><input data-ui-number="footer_action_font" type="number" min="8" max="17" step=".5"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>رقم الهاتف بالفوتر</span><b data-ui-value="footer_phone_font"></b></div><div class="ui-size-control"><input data-ui-key="footer_phone_font" type="range" min="12" max="28" step=".5"><input data-ui-number="footer_phone_font" type="number" min="12" max="28" step=".5"></div></div>
+          </div></details>
+
+          <div class="ui-design-note">كل مجموعة بيها زر افتراضي خاص بها، ويوجد زر إعادة ضبط الكل. بعد أي Reset اضغط حفظ إعدادات المطعم.<br>شفافية الكارت: 100% شفاف بالكامل، 0% أسود بالكامل. الافتراضي 95%.</div>
+        </div></div>
       </details>
 
       <!-- 3. CONTACT / TOP BUTTONS -->
@@ -3292,59 +3499,6 @@
         </div>
       </details>
 
-      <!-- UI DESIGN -->
-      <details class="settings-accordion">
-        <summary><span class="settings-accordion-icon">📐</span><span class="settings-accordion-title"><strong>أحجام وتخطيط المنيو</strong><small>تحكم بالكروت، نسبة الصورة، الخطوط، الأزرار، السلة، الهيدر والفوتر</small></span><span class="settings-chevron">⌄</span></summary>
-        <div class="settings-accordion-body"><div class="ui-design-wrap">
-          <div class="ui-design-topbar"><div><strong>تخصيص واجهة الزبون</strong><small>غيّر الأحجام ثم اضغط حفظ إعدادات المطعم.</small></div><button id="resetUiDesignAllBtn" class="ui-reset-all" type="button">إعادة ضبط الكل</button></div>
-
-          <details class="ui-design-group" open><summary><span class="ui-design-group-title"><strong>🍽 كارت الصنف</strong><small>الأبعاد ونسبة الصورة والمعلومات</small></span><button class="ui-design-reset" type="button" data-ui-reset-group="card">افتراضي</button></summary><div class="ui-design-fields">
-            <div class="ui-size-field"><div class="ui-size-label"><span>ارتفاع الكارت</span><b data-ui-value="card_height"></b></div><div class="ui-size-control"><input data-ui-key="card_height" type="range" min="130" max="250" step="1"><input data-ui-number="card_height" type="number" min="130" max="250" step="1"></div></div>
-            <div class="ui-size-field"><div class="ui-size-label"><span>نسبة مساحة الصورة</span><b data-ui-value="image_percent"></b></div><div class="ui-size-control"><input data-ui-key="image_percent" type="range" min="32" max="68" step="1"><input data-ui-number="image_percent" type="number" min="32" max="68" step="1"></div></div>
-            <div class="ui-size-field"><div class="ui-size-label"><span>شفافية خلفية الكارت</span><b data-ui-value="card_transparency"></b></div><div class="ui-size-control"><input data-ui-key="card_transparency" type="range" min="0" max="100" step="1"><input data-ui-number="card_transparency" type="number" min="0" max="100" step="1"></div></div>
-            <div class="ui-size-field"><div class="ui-size-label"><span>استدارة الحواف</span><b data-ui-value="card_radius"></b></div><div class="ui-size-control"><input data-ui-key="card_radius" type="range" min="8" max="32" step="1"><input data-ui-number="card_radius" type="number" min="8" max="32" step="1"></div></div>
-            <div class="ui-size-field"><div class="ui-size-label"><span>المسافة بين الكروت</span><b data-ui-value="card_gap"></b></div><div class="ui-size-control"><input data-ui-key="card_gap" type="range" min="4" max="24" step="1"><input data-ui-number="card_gap" type="number" min="4" max="24" step="1"></div></div>
-            <div class="ui-size-field full"><div class="ui-size-label"><span>Padding معلومات الكارت</span><b data-ui-value="info_padding"></b></div><div class="ui-size-control"><input data-ui-key="info_padding" type="range" min="6" max="24" step="1"><input data-ui-number="info_padding" type="number" min="6" max="24" step="1"></div></div>
-          </div></details>
-
-          <details class="ui-design-group"><summary><span class="ui-design-group-title"><strong>🔤 خطوط المنيو</strong><small>اسم الصنف، الخيارات، السعر وعنوان القسم</small></span><button class="ui-design-reset" type="button" data-ui-reset-group="text">افتراضي</button></summary><div class="ui-design-fields">
-            <div class="ui-size-field"><div class="ui-size-label"><span>اسم الصنف</span><b data-ui-value="product_name_font"></b></div><div class="ui-size-control"><input data-ui-key="product_name_font" type="range" min="11" max="24" step=".5"><input data-ui-number="product_name_font" type="number" min="11" max="24" step=".5"></div></div>
-            <div class="ui-size-field"><div class="ui-size-label"><span>خط الخيارات</span><b data-ui-value="option_font"></b></div><div class="ui-size-control"><input data-ui-key="option_font" type="range" min="8" max="18" step=".5"><input data-ui-number="option_font" type="number" min="8" max="18" step=".5"></div></div>
-            <div class="ui-size-field"><div class="ui-size-label"><span>خط السعر</span><b data-ui-value="price_font"></b></div><div class="ui-size-control"><input data-ui-key="price_font" type="range" min="9" max="20" step=".5"><input data-ui-number="price_font" type="number" min="9" max="20" step=".5"></div></div>
-            <div class="ui-size-field"><div class="ui-size-label"><span>عنوان القسم</span><b data-ui-value="section_title_font"></b></div><div class="ui-size-control"><input data-ui-key="section_title_font" type="range" min="16" max="34" step="1"><input data-ui-number="section_title_font" type="number" min="16" max="34" step="1"></div></div>
-          </div></details>
-
-          <details class="ui-design-group"><summary><span class="ui-design-group-title"><strong>🔘 الأزرار والتنقل</strong><small>زر الإضافة، الأقسام والأزرار العلوية</small></span><button class="ui-design-reset" type="button" data-ui-reset-group="buttons">افتراضي</button></summary><div class="ui-design-fields">
-            <div class="ui-size-field"><div class="ui-size-label"><span>ارتفاع زر الإضافة</span><b data-ui-value="add_button_height"></b></div><div class="ui-size-control"><input data-ui-key="add_button_height" type="range" min="26" max="54" step="1"><input data-ui-number="add_button_height" type="number" min="26" max="54" step="1"></div></div>
-            <div class="ui-size-field"><div class="ui-size-label"><span>خط زر الإضافة</span><b data-ui-value="add_button_font"></b></div><div class="ui-size-control"><input data-ui-key="add_button_font" type="range" min="8" max="16" step=".5"><input data-ui-number="add_button_font" type="number" min="8" max="16" step=".5"></div></div>
-            <div class="ui-size-field"><div class="ui-size-label"><span>ارتفاع زر القسم</span><b data-ui-value="category_height"></b></div><div class="ui-size-control"><input data-ui-key="category_height" type="range" min="32" max="58" step="1"><input data-ui-number="category_height" type="number" min="32" max="58" step="1"></div></div>
-            <div class="ui-size-field"><div class="ui-size-label"><span>خط زر القسم</span><b data-ui-value="category_font"></b></div><div class="ui-size-control"><input data-ui-key="category_font" type="range" min="9" max="17" step=".5"><input data-ui-number="category_font" type="number" min="9" max="17" step=".5"></div></div>
-            <div class="ui-size-field"><div class="ui-size-label"><span>ارتفاع الأزرار العلوية</span><b data-ui-value="top_action_height"></b></div><div class="ui-size-control"><input data-ui-key="top_action_height" type="range" min="38" max="70" step="1"><input data-ui-number="top_action_height" type="number" min="38" max="70" step="1"></div></div>
-            <div class="ui-size-field"><div class="ui-size-label"><span>خط الأزرار العلوية</span><b data-ui-value="top_action_font"></b></div><div class="ui-size-control"><input data-ui-key="top_action_font" type="range" min="8" max="17" step=".5"><input data-ui-number="top_action_font" type="number" min="8" max="17" step=".5"></div></div>
-          </div></details>
-
-          <details class="ui-design-group"><summary><span class="ui-design-group-title"><strong>🛒 زر السلة العائم</strong><small>الحجم والموقع على الشاشة</small></span><button class="ui-design-reset" type="button" data-ui-reset-group="cart">افتراضي</button></summary><div class="ui-design-fields">
-            <div class="ui-size-field"><div class="ui-size-label"><span>عرض السلة</span><b data-ui-value="cart_width"></b></div><div class="ui-size-control"><input data-ui-key="cart_width" type="range" min="110" max="300" step="1"><input data-ui-number="cart_width" type="number" min="110" max="300" step="1"></div></div>
-            <div class="ui-size-field"><div class="ui-size-label"><span>ارتفاع السلة</span><b data-ui-value="cart_height"></b></div><div class="ui-size-control"><input data-ui-key="cart_height" type="range" min="42" max="82" step="1"><input data-ui-number="cart_height" type="number" min="42" max="82" step="1"></div></div>
-            <div class="ui-size-field"><div class="ui-size-label"><span>خط زر السلة</span><b data-ui-value="cart_font"></b></div><div class="ui-size-control"><input data-ui-key="cart_font" type="range" min="9" max="20" step=".5"><input data-ui-number="cart_font" type="number" min="9" max="20" step=".5"></div></div>
-            <div class="ui-size-field"><div class="ui-size-label"><span>الموقع الأفقي</span><b data-ui-value="cart_horizontal"></b></div><div class="ui-size-control"><input data-ui-key="cart_horizontal" type="range" min="15" max="85" step="1"><input data-ui-number="cart_horizontal" type="number" min="15" max="85" step="1"></div></div>
-            <div class="ui-size-field full"><div class="ui-size-label"><span>الارتفاع عن أسفل الشاشة</span><b data-ui-value="cart_bottom"></b></div><div class="ui-size-control"><input data-ui-key="cart_bottom" type="range" min="6" max="120" step="1"><input data-ui-number="cart_bottom" type="number" min="6" max="120" step="1"></div></div>
-          </div></details>
-
-          <details class="ui-design-group"><summary><span class="ui-design-group-title"><strong>🏷 الهيدر والبحث والفوتر</strong><small>الشعار والعنوان والبحث والفوتر</small></span><button class="ui-design-reset" type="button" data-ui-reset-group="chrome">افتراضي</button></summary><div class="ui-design-fields">
-            <div class="ui-size-field"><div class="ui-size-label"><span>حجم الشعار</span><b data-ui-value="logo_size"></b></div><div class="ui-size-control"><input data-ui-key="logo_size" type="range" min="55" max="150" step="1"><input data-ui-number="logo_size" type="number" min="55" max="150" step="1"></div></div>
-            <div class="ui-size-field"><div class="ui-size-label"><span>عنوان المنيو</span><b data-ui-value="menu_title_font"></b></div><div class="ui-size-control"><input data-ui-key="menu_title_font" type="range" min="18" max="42" step="1"><input data-ui-number="menu_title_font" type="number" min="18" max="42" step="1"></div></div>
-            <div class="ui-size-field"><div class="ui-size-label"><span>النص تحت العنوان</span><b data-ui-value="subtitle_font"></b></div><div class="ui-size-control"><input data-ui-key="subtitle_font" type="range" min="9" max="22" step=".5"><input data-ui-number="subtitle_font" type="number" min="9" max="22" step=".5"></div></div>
-            <div class="ui-size-field"><div class="ui-size-label"><span>ارتفاع البحث</span><b data-ui-value="search_height"></b></div><div class="ui-size-control"><input data-ui-key="search_height" type="range" min="38" max="68" step="1"><input data-ui-number="search_height" type="number" min="38" max="68" step="1"></div></div>
-            <div class="ui-size-field"><div class="ui-size-label"><span>خط البحث</span><b data-ui-value="search_font"></b></div><div class="ui-size-control"><input data-ui-key="search_font" type="range" min="16" max="22" step=".5"><input data-ui-number="search_font" type="number" min="16" max="22" step=".5"></div></div>
-            <div class="ui-size-field"><div class="ui-size-label"><span>عنوان الفوتر</span><b data-ui-value="footer_title_font"></b></div><div class="ui-size-control"><input data-ui-key="footer_title_font" type="range" min="13" max="28" step=".5"><input data-ui-number="footer_title_font" type="number" min="13" max="28" step=".5"></div></div>
-            <div class="ui-size-field"><div class="ui-size-label"><span>أزرار الفوتر</span><b data-ui-value="footer_action_font"></b></div><div class="ui-size-control"><input data-ui-key="footer_action_font" type="range" min="8" max="17" step=".5"><input data-ui-number="footer_action_font" type="number" min="8" max="17" step=".5"></div></div>
-            <div class="ui-size-field"><div class="ui-size-label"><span>رقم الهاتف بالفوتر</span><b data-ui-value="footer_phone_font"></b></div><div class="ui-size-control"><input data-ui-key="footer_phone_font" type="range" min="12" max="28" step=".5"><input data-ui-number="footer_phone_font" type="number" min="12" max="28" step=".5"></div></div>
-          </div></details>
-
-          <div class="ui-design-note">كل مجموعة بيها زر افتراضي خاص بها، ويوجد زر إعادة ضبط الكل. بعد أي Reset اضغط حفظ إعدادات المطعم.<br>شفافية الكارت: 100% شفاف بالكامل، 0% أسود بالكامل. الافتراضي 95%.</div>
-        </div></div>
-      </details>
 
       <!-- EXCEL -->
       <details class="settings-accordion">
@@ -4786,6 +4940,70 @@
         }
       });
     }
+  }
+
+
+  // ==========================================
+  // SETTINGS-ONLY APPEARANCE
+  // ==========================================
+  const ADMIN_SETTINGS_THEME_KEY='SHORASH_ADMIN_SETTINGS_THEME_V1';
+
+  function applyAdminSettingsTheme(mode){
+    const view=document.getElementById('viewTools');
+    const button=document.getElementById('adminSettingsThemeBtn');
+
+    if(!view||!button)return;
+
+    const light=mode==='light';
+
+    view.classList.toggle(
+      'admin-settings-light',
+      light
+    );
+
+    button.textContent=
+      light
+        ? '🌙 ليلي'
+        : '☀️ نهاري';
+
+    button.setAttribute(
+      'aria-label',
+      light
+        ? 'تفعيل الوضع الليلي للإعدادات'
+        : 'تفعيل الوضع النهاري للإعدادات'
+    );
+  }
+
+  function initAdminSettingsTheme(){
+    let saved='dark';
+
+    try{
+      saved=
+        localStorage.getItem(
+          ADMIN_SETTINGS_THEME_KEY
+        ) || 'dark';
+    }catch(_){}
+
+    applyAdminSettingsTheme(saved);
+
+    document
+      .getElementById('adminSettingsThemeBtn')
+      ?.addEventListener('click',()=>{
+        const view=document.getElementById('viewTools');
+        const next=
+          view?.classList.contains('admin-settings-light')
+            ? 'dark'
+            : 'light';
+
+        try{
+          localStorage.setItem(
+            ADMIN_SETTINGS_THEME_KEY,
+            next
+          );
+        }catch(_){}
+
+        applyAdminSettingsTheme(next);
+      });
   }
 
 
@@ -7029,6 +7247,8 @@
     loadAnalytics
   );
   bindUiDesignControls();
+
+  initAdminSettingsTheme();
 
   document.querySelectorAll('.settings-accordion').forEach(details=>{
     details.addEventListener('toggle',()=>{
