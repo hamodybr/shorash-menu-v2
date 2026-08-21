@@ -1945,7 +1945,35 @@
       }
     }
 
-  </style>
+  
+    /* =========================================================
+       V4.1 — UI DESIGN CONTROL
+       ========================================================= */
+    .ui-design-wrap{display:grid;gap:10px;padding-top:10px}
+    .ui-design-topbar{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px;border:1px solid rgba(216,169,88,.14);border-radius:12px;background:#080604}
+    .ui-design-topbar strong{display:block;color:#e2b55e;font-size:11px}
+    .ui-design-topbar small{display:block;color:#817a72;font-size:8.5px;line-height:1.5;margin-top:3px}
+    .ui-reset-all{border:1px solid rgba(248,113,113,.24);background:rgba(248,113,113,.055);color:#fecaca;border-radius:9px;padding:8px 10px;font:inherit;font-size:9px;font-weight:800;cursor:pointer;white-space:nowrap}
+    .ui-design-group{border:1px solid rgba(255,255,255,.065);border-radius:13px;background:#070503;overflow:hidden}
+    .ui-design-group>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:11px;cursor:pointer}
+    .ui-design-group>summary::-webkit-details-marker{display:none}
+    .ui-design-group-title{min-width:0}
+    .ui-design-group-title strong{display:block;color:#ddd7cf;font-size:11px}
+    .ui-design-group-title small{display:block;margin-top:3px;color:#776f68;font-size:8.5px;line-height:1.45}
+    .ui-design-reset{flex:0 0 auto;border:1px solid rgba(216,169,88,.2);background:rgba(216,169,88,.055);color:#cda14f;border-radius:8px;padding:6px 8px;font:inherit;font-size:8px;cursor:pointer}
+    .ui-design-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px;border-top:1px solid rgba(255,255,255,.045)}
+    .ui-size-field{display:grid;gap:6px;min-width:0;padding:9px;border:1px solid rgba(255,255,255,.055);border-radius:10px;background:#030201}
+    .ui-size-field.full{grid-column:1/-1}
+    .ui-size-label{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .ui-size-label span{color:#aaa39a;font-size:9px}
+    .ui-size-label b{direction:ltr;color:#e2b55e;font-size:9px;white-space:nowrap}
+    .ui-size-control{display:grid;grid-template-columns:minmax(0,1fr) 66px;gap:7px;align-items:center}
+    .ui-size-control input[type="range"]{width:100%!important;min-width:0!important;accent-color:#d8a958}
+    .ui-size-control input[type="number"]{width:100%!important;min-width:0!important;border:1px solid rgba(255,255,255,.08);background:#080604;color:#eee9e2;border-radius:8px;padding:7px 5px;font:inherit;font-size:16px!important;direction:ltr;text-align:center}
+    .ui-design-note{color:#777068;font-size:8.5px;line-height:1.7;padding:0 2px 3px}
+    @media(max-width:650px){.ui-design-fields{grid-template-columns:1fr}.ui-size-field.full{grid-column:auto}}
+
+</style>
 </head>
 
 <body class="auth-locked">
@@ -2941,6 +2969,59 @@
         </div>
       </details>
 
+      <!-- UI DESIGN -->
+      <details class="settings-accordion">
+        <summary><span class="settings-accordion-icon">📐</span><span class="settings-accordion-title"><strong>أحجام وتخطيط المنيو</strong><small>تحكم بالكروت، نسبة الصورة، الخطوط، الأزرار، السلة، الهيدر والفوتر</small></span><span class="settings-chevron">⌄</span></summary>
+        <div class="settings-accordion-body"><div class="ui-design-wrap">
+          <div class="ui-design-topbar"><div><strong>تخصيص واجهة الزبون</strong><small>غيّر الأحجام ثم اضغط حفظ إعدادات المطعم.</small></div><button id="resetUiDesignAllBtn" class="ui-reset-all" type="button">إعادة ضبط الكل</button></div>
+
+          <details class="ui-design-group" open><summary><span class="ui-design-group-title"><strong>🍽 كارت الصنف</strong><small>الأبعاد ونسبة الصورة والمعلومات</small></span><button class="ui-design-reset" type="button" data-ui-reset-group="card">افتراضي</button></summary><div class="ui-design-fields">
+            <div class="ui-size-field"><div class="ui-size-label"><span>ارتفاع الكارت</span><b data-ui-value="card_height"></b></div><div class="ui-size-control"><input data-ui-key="card_height" type="range" min="130" max="250" step="1"><input data-ui-number="card_height" type="number" min="130" max="250" step="1"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>نسبة مساحة الصورة</span><b data-ui-value="image_percent"></b></div><div class="ui-size-control"><input data-ui-key="image_percent" type="range" min="32" max="68" step="1"><input data-ui-number="image_percent" type="number" min="32" max="68" step="1"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>استدارة الحواف</span><b data-ui-value="card_radius"></b></div><div class="ui-size-control"><input data-ui-key="card_radius" type="range" min="8" max="32" step="1"><input data-ui-number="card_radius" type="number" min="8" max="32" step="1"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>المسافة بين الكروت</span><b data-ui-value="card_gap"></b></div><div class="ui-size-control"><input data-ui-key="card_gap" type="range" min="4" max="24" step="1"><input data-ui-number="card_gap" type="number" min="4" max="24" step="1"></div></div>
+            <div class="ui-size-field full"><div class="ui-size-label"><span>Padding معلومات الكارت</span><b data-ui-value="info_padding"></b></div><div class="ui-size-control"><input data-ui-key="info_padding" type="range" min="6" max="24" step="1"><input data-ui-number="info_padding" type="number" min="6" max="24" step="1"></div></div>
+          </div></details>
+
+          <details class="ui-design-group"><summary><span class="ui-design-group-title"><strong>🔤 خطوط المنيو</strong><small>اسم الصنف، الخيارات، السعر وعنوان القسم</small></span><button class="ui-design-reset" type="button" data-ui-reset-group="text">افتراضي</button></summary><div class="ui-design-fields">
+            <div class="ui-size-field"><div class="ui-size-label"><span>اسم الصنف</span><b data-ui-value="product_name_font"></b></div><div class="ui-size-control"><input data-ui-key="product_name_font" type="range" min="11" max="24" step=".5"><input data-ui-number="product_name_font" type="number" min="11" max="24" step=".5"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>خط الخيارات</span><b data-ui-value="option_font"></b></div><div class="ui-size-control"><input data-ui-key="option_font" type="range" min="8" max="18" step=".5"><input data-ui-number="option_font" type="number" min="8" max="18" step=".5"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>خط السعر</span><b data-ui-value="price_font"></b></div><div class="ui-size-control"><input data-ui-key="price_font" type="range" min="9" max="20" step=".5"><input data-ui-number="price_font" type="number" min="9" max="20" step=".5"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>عنوان القسم</span><b data-ui-value="section_title_font"></b></div><div class="ui-size-control"><input data-ui-key="section_title_font" type="range" min="16" max="34" step="1"><input data-ui-number="section_title_font" type="number" min="16" max="34" step="1"></div></div>
+          </div></details>
+
+          <details class="ui-design-group"><summary><span class="ui-design-group-title"><strong>🔘 الأزرار والتنقل</strong><small>زر الإضافة، الأقسام والأزرار العلوية</small></span><button class="ui-design-reset" type="button" data-ui-reset-group="buttons">افتراضي</button></summary><div class="ui-design-fields">
+            <div class="ui-size-field"><div class="ui-size-label"><span>ارتفاع زر الإضافة</span><b data-ui-value="add_button_height"></b></div><div class="ui-size-control"><input data-ui-key="add_button_height" type="range" min="26" max="54" step="1"><input data-ui-number="add_button_height" type="number" min="26" max="54" step="1"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>خط زر الإضافة</span><b data-ui-value="add_button_font"></b></div><div class="ui-size-control"><input data-ui-key="add_button_font" type="range" min="8" max="16" step=".5"><input data-ui-number="add_button_font" type="number" min="8" max="16" step=".5"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>ارتفاع زر القسم</span><b data-ui-value="category_height"></b></div><div class="ui-size-control"><input data-ui-key="category_height" type="range" min="32" max="58" step="1"><input data-ui-number="category_height" type="number" min="32" max="58" step="1"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>خط زر القسم</span><b data-ui-value="category_font"></b></div><div class="ui-size-control"><input data-ui-key="category_font" type="range" min="9" max="17" step=".5"><input data-ui-number="category_font" type="number" min="9" max="17" step=".5"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>ارتفاع الأزرار العلوية</span><b data-ui-value="top_action_height"></b></div><div class="ui-size-control"><input data-ui-key="top_action_height" type="range" min="38" max="70" step="1"><input data-ui-number="top_action_height" type="number" min="38" max="70" step="1"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>خط الأزرار العلوية</span><b data-ui-value="top_action_font"></b></div><div class="ui-size-control"><input data-ui-key="top_action_font" type="range" min="8" max="17" step=".5"><input data-ui-number="top_action_font" type="number" min="8" max="17" step=".5"></div></div>
+          </div></details>
+
+          <details class="ui-design-group"><summary><span class="ui-design-group-title"><strong>🛒 زر السلة العائم</strong><small>الحجم والموقع على الشاشة</small></span><button class="ui-design-reset" type="button" data-ui-reset-group="cart">افتراضي</button></summary><div class="ui-design-fields">
+            <div class="ui-size-field"><div class="ui-size-label"><span>عرض السلة</span><b data-ui-value="cart_width"></b></div><div class="ui-size-control"><input data-ui-key="cart_width" type="range" min="110" max="300" step="1"><input data-ui-number="cart_width" type="number" min="110" max="300" step="1"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>ارتفاع السلة</span><b data-ui-value="cart_height"></b></div><div class="ui-size-control"><input data-ui-key="cart_height" type="range" min="42" max="82" step="1"><input data-ui-number="cart_height" type="number" min="42" max="82" step="1"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>خط زر السلة</span><b data-ui-value="cart_font"></b></div><div class="ui-size-control"><input data-ui-key="cart_font" type="range" min="9" max="20" step=".5"><input data-ui-number="cart_font" type="number" min="9" max="20" step=".5"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>الموقع الأفقي</span><b data-ui-value="cart_horizontal"></b></div><div class="ui-size-control"><input data-ui-key="cart_horizontal" type="range" min="15" max="85" step="1"><input data-ui-number="cart_horizontal" type="number" min="15" max="85" step="1"></div></div>
+            <div class="ui-size-field full"><div class="ui-size-label"><span>الارتفاع عن أسفل الشاشة</span><b data-ui-value="cart_bottom"></b></div><div class="ui-size-control"><input data-ui-key="cart_bottom" type="range" min="6" max="120" step="1"><input data-ui-number="cart_bottom" type="number" min="6" max="120" step="1"></div></div>
+          </div></details>
+
+          <details class="ui-design-group"><summary><span class="ui-design-group-title"><strong>🏷 الهيدر والبحث والفوتر</strong><small>الشعار والعنوان والبحث والفوتر</small></span><button class="ui-design-reset" type="button" data-ui-reset-group="chrome">افتراضي</button></summary><div class="ui-design-fields">
+            <div class="ui-size-field"><div class="ui-size-label"><span>حجم الشعار</span><b data-ui-value="logo_size"></b></div><div class="ui-size-control"><input data-ui-key="logo_size" type="range" min="55" max="150" step="1"><input data-ui-number="logo_size" type="number" min="55" max="150" step="1"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>عنوان المنيو</span><b data-ui-value="menu_title_font"></b></div><div class="ui-size-control"><input data-ui-key="menu_title_font" type="range" min="18" max="42" step="1"><input data-ui-number="menu_title_font" type="number" min="18" max="42" step="1"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>النص تحت العنوان</span><b data-ui-value="subtitle_font"></b></div><div class="ui-size-control"><input data-ui-key="subtitle_font" type="range" min="9" max="22" step=".5"><input data-ui-number="subtitle_font" type="number" min="9" max="22" step=".5"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>ارتفاع البحث</span><b data-ui-value="search_height"></b></div><div class="ui-size-control"><input data-ui-key="search_height" type="range" min="38" max="68" step="1"><input data-ui-number="search_height" type="number" min="38" max="68" step="1"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>خط البحث</span><b data-ui-value="search_font"></b></div><div class="ui-size-control"><input data-ui-key="search_font" type="range" min="16" max="22" step=".5"><input data-ui-number="search_font" type="number" min="16" max="22" step=".5"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>عنوان الفوتر</span><b data-ui-value="footer_title_font"></b></div><div class="ui-size-control"><input data-ui-key="footer_title_font" type="range" min="13" max="28" step=".5"><input data-ui-number="footer_title_font" type="number" min="13" max="28" step=".5"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>أزرار الفوتر</span><b data-ui-value="footer_action_font"></b></div><div class="ui-size-control"><input data-ui-key="footer_action_font" type="range" min="8" max="17" step=".5"><input data-ui-number="footer_action_font" type="number" min="8" max="17" step=".5"></div></div>
+            <div class="ui-size-field"><div class="ui-size-label"><span>رقم الهاتف بالفوتر</span><b data-ui-value="footer_phone_font"></b></div><div class="ui-size-control"><input data-ui-key="footer_phone_font" type="range" min="12" max="28" step=".5"><input data-ui-number="footer_phone_font" type="number" min="12" max="28" step=".5"></div></div>
+          </div></details>
+
+          <div class="ui-design-note">كل مجموعة بيها زر افتراضي خاص بها، ويوجد زر إعادة ضبط الكل. بعد أي Reset اضغط حفظ إعدادات المطعم.</div>
+        </div></div>
+      </details>
+
       <!-- EXCEL -->
       <details class="settings-accordion">
         <summary>
@@ -3732,6 +3813,22 @@
   function moveCustomAction(type,id,d){const list=actionDraft(type),i=list.findIndex(x=>String(x.id)===String(id));moveArrayItem(list,i,d);renderCustomActions(type)}
 
   // ==========================================
+  // UI DESIGN SETTINGS
+  // ==========================================
+  const UI_DESIGN_DEFAULTS={card_height:160,image_percent:50,card_radius:18,card_gap:10,info_padding:10,product_name_font:14,option_font:10.5,price_font:11,section_title_font:21,add_button_height:30,add_button_font:10,category_height:41,category_font:12,top_action_height:48,top_action_font:11,cart_width:180,cart_height:56,cart_font:13,cart_horizontal:50,cart_bottom:16,logo_size:84,menu_title_font:26,subtitle_font:12,search_height:46,search_font:16,footer_title_font:17,footer_action_font:10.5,footer_phone_font:17};
+  const UI_DESIGN_GROUPS={card:['card_height','image_percent','card_radius','card_gap','info_padding'],text:['product_name_font','option_font','price_font','section_title_font'],buttons:['add_button_height','add_button_font','category_height','category_font','top_action_height','top_action_font'],cart:['cart_width','cart_height','cart_font','cart_horizontal','cart_bottom'],chrome:['logo_size','menu_title_font','subtitle_font','search_height','search_font','footer_title_font','footer_action_font','footer_phone_font']};
+  const UI_DESIGN_UNITS={image_percent:'%',cart_horizontal:'%'};
+  function uiDesignObject(v){if(v&&typeof v==='object'&&!Array.isArray(v))return JSON.parse(JSON.stringify(v));if(typeof v==='string'){try{const p=JSON.parse(v);return p&&typeof p==='object'&&!Array.isArray(p)?p:{}}catch(_){return {}}}return {}}
+  function clampUiValue(k,v){const r=document.querySelector(`[data-ui-key="${k}"]`);let n=Number(v);if(!Number.isFinite(n))n=UI_DESIGN_DEFAULTS[k];if(r){const min=Number(r.min),max=Number(r.max);if(Number.isFinite(min))n=Math.max(min,n);if(Number.isFinite(max))n=Math.min(max,n)}return Math.round(n*10)/10}
+  function uiValueLabel(k,v){return `${v}${UI_DESIGN_UNITS[k]||'px'}`}
+  function setUiDesignField(k,v){const n=clampUiValue(k,v),r=document.querySelector(`[data-ui-key="${k}"]`),num=document.querySelector(`[data-ui-number="${k}"]`),o=document.querySelector(`[data-ui-value="${k}"]`);if(r)r.value=n;if(num)num.value=n;if(o)o.textContent=uiValueLabel(k,n)}
+  function renderUiDesignSettings(){const s=uiDesignObject(adminRestaurantSettings?.ui_design_settings);Object.keys(UI_DESIGN_DEFAULTS).forEach(k=>setUiDesignField(k,s[k]===null||s[k]===undefined?UI_DESIGN_DEFAULTS[k]:s[k]))}
+  function collectUiDesignSettings(){const x={};Object.keys(UI_DESIGN_DEFAULTS).forEach(k=>{const n=document.querySelector(`[data-ui-number="${k}"]`);x[k]=clampUiValue(k,n?.value??UI_DESIGN_DEFAULTS[k])});return x}
+  function resetUiDesignGroup(g){(UI_DESIGN_GROUPS[g]||[]).forEach(k=>setUiDesignField(k,UI_DESIGN_DEFAULTS[k]))}
+  function resetUiDesignAll(){if(!confirm('إعادة كل أحجام وتصميم المنيو إلى الإعدادات الافتراضية؟'))return;Object.keys(UI_DESIGN_DEFAULTS).forEach(k=>setUiDesignField(k,UI_DESIGN_DEFAULTS[k]))}
+  function bindUiDesignControls(){document.querySelectorAll('[data-ui-key]').forEach(r=>r.addEventListener('input',()=>setUiDesignField(r.dataset.uiKey,r.value)));document.querySelectorAll('[data-ui-number]').forEach(n=>n.addEventListener('input',()=>setUiDesignField(n.dataset.uiNumber,n.value)));document.querySelectorAll('[data-ui-reset-group]').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();resetUiDesignGroup(b.dataset.uiResetGroup)}));document.getElementById('resetUiDesignAllBtn')?.addEventListener('click',resetUiDesignAll)}
+
+  // ==========================================
   // RESTAURANT SETTINGS
   // ==========================================
 
@@ -3929,6 +4026,7 @@
     }
 
     renderCustomManagers();
+    renderUiDesignSettings();
     setRestaurantSettingsMsg('');
   }
 
@@ -4081,6 +4179,8 @@
         custom_social_links:customSocialLinksDraft.map(x=>({id:String(x.id||newDynamicId('social')),name:String(x.name||''),icon:String(x.icon||''),url:String(x.url||''),enabled:x.enabled!==false})),
         custom_top_actions:customTopActionsDraft.map(x=>({id:String(x.id||newDynamicId('top')),icon:String(x.icon||''),label_ar:String(x.label_ar||''),label_ku:String(x.label_ku||''),label_en:String(x.label_en||''),url:String(x.url||''),enabled:x.enabled!==false})),
         custom_footer_actions:customFooterActionsDraft.map(x=>({id:String(x.id||newDynamicId('footer')),icon:String(x.icon||''),label_ar:String(x.label_ar||''),label_ku:String(x.label_ku||''),label_en:String(x.label_en||''),url:String(x.url||''),enabled:x.enabled!==false})),
+
+        ui_design_settings:collectUiDesignSettings(),
 
         logo_url:logoUrl || '',
         background_video:rsValue('rs_background_video'),
@@ -6580,6 +6680,7 @@
     'click',
     loadAnalytics
   );
+  bindUiDesignControls();
 
   document.getElementById('bulkPriceCategorySelect').addEventListener(
     'change',

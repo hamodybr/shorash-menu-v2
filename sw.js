@@ -1,4 +1,4 @@
-const CACHE_NAME = "restaurant-menu-v4-0";
+const CACHE_NAME = "restaurant-menu-v4-1";
 
 const CORE = [
   "./",
@@ -6,8 +6,8 @@ const CORE = [
   "./manifest.webmanifest",
   "./css/style.css?v=4.0",
   "./css/cart.css?v=3.6",
-  "./js/app.js?v=12.0",
-  "./js/cart.js?v=3.7",
+  "./js/app.js?v=13.0",
+  "./js/cart.js?v=3.8",
   "./js/supabase-config.js?v=1.0",
   "./assets/favicon.png",
   "./assets/apple-touch-icon.png",
