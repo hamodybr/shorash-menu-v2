@@ -65,6 +65,7 @@ const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
 
 const safeArray=value=>{if(Array.isArray(value))return value;if(typeof value==="string"){try{const p=JSON.parse(value);return Array.isArray(p)?p:[]}catch(_){return []}}return []};
+const safeObject=value=>{if(value&&typeof value==="object"&&!Array.isArray(value))return value;if(typeof value==="string"){try{const p=JSON.parse(value);return p&&typeof p==="object"&&!Array.isArray(p)?p:{}}catch(_){return {}}}return {}};
 const escapeUi=value=>String(value??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
 const actionLabel=(item,currentLang=lang)=>String(item?.[`label_${currentLang}`]??item?.label_ar??item?.label_en??"").trim();
 
@@ -194,7 +195,7 @@ function installMenuDiscoveryUI(){
 
     .sm-share-product{
       position:absolute;
-      z-index:5;
+      z-index:45;
       top:7px;
       inset-inline-start:7px;
       width:29px;
@@ -202,6 +203,9 @@ function installMenuDiscoveryUI(){
       font-size:12px;
       backdrop-filter:blur(10px);
       -webkit-backdrop-filter:blur(10px);
+      pointer-events:auto;
+      touch-action:manipulation;
+      -webkit-tap-highlight-color:transparent;
     }
 
     .sm-search-category{
@@ -374,18 +378,12 @@ function updateSearchCount(count=null){
 
 
 function makeDeepLink(type,id){
-  const url=new URL(window.location.href);
-
-  url.searchParams.delete("product");
-  url.searchParams.delete("category");
-  url.searchParams.delete("q");
-
-  url.searchParams.set(type,String(id));
-  url.hash="";
-
+  const cleanId=String(id||"").trim();
+  const url=new URL(window.location.origin+window.location.pathname);
+  url.searchParams.set(type,cleanId);
+  if(type==="product")url.hash=`product-${cleanId}`;
   return url.toString();
 }
-
 
 async function shareMenuLink(url,title,eventType,refId){
   trackMenuEvent(eventType,refId);
@@ -474,31 +472,19 @@ function applyDeepLinkBeforeRender(){
 
 
 function scrollToDeepLink(){
-  const productId=
-    new URLSearchParams(window.location.search)
-      .get("product");
-
+  const productId=String(new URLSearchParams(window.location.search).get("product")||"").trim();
   if(!productId)return;
-
-  setTimeout(()=>{
-    const card=document.getElementById(`product-${CSS.escape(String(productId))}`);
-
-    if(!card)return;
-
-    card.scrollIntoView({
-      behavior:"smooth",
-      block:"center"
-    });
-
+  const locate=()=>{
+    const safeId=productId.replace(/"/g,'\\"');
+    const card=document.querySelector(`[data-product-card="${safeId}"]`)||document.getElementById(`product-${productId}`);
+    if(!card)return false;
+    card.scrollIntoView({behavior:"smooth",block:"center"});
     card.classList.add("sm-deep-highlight");
-
-    setTimeout(
-      ()=>card.classList.remove("sm-deep-highlight"),
-      2200
-    );
-  },180);
+    setTimeout(()=>card.classList.remove("sm-deep-highlight"),2400);
+    return true;
+  };
+  [80,250,650,1200,2200].forEach(delay=>setTimeout(locate,delay));
 }
-
 
 function trackMenuEvent(type,refId="",languageValue=lang){
   if(
@@ -609,6 +595,43 @@ function registerPwa(){
   );
 }
 
+
+const UI_DESIGN_DEFAULTS={card_height:160,image_percent:50,card_radius:18,card_gap:10,info_padding:10,product_name_font:14,option_font:10.5,price_font:11,section_title_font:21,add_button_height:30,add_button_font:10,category_height:41,category_font:12,top_action_height:48,top_action_font:11,cart_width:180,cart_height:56,cart_font:13,cart_horizontal:50,cart_bottom:16,logo_size:84,menu_title_font:26,subtitle_font:12,search_height:46,search_font:16,footer_title_font:17,footer_action_font:10.5,footer_phone_font:17};
+function uiDesignValue(k){const v=Number(DB?.restaurant?.uiDesign?.[k]);return Number.isFinite(v)?v:UI_DESIGN_DEFAULTS[k]}
+function applyUiDesignSettings(){
+  if(!DB)return;
+  const root=document.documentElement;
+  ['card_height','card_radius','card_gap','info_padding','product_name_font','option_font','price_font','section_title_font','add_button_height','add_button_font','category_height','category_font','top_action_height','top_action_font','cart_width','cart_height','cart_font','cart_bottom','logo_size','menu_title_font','subtitle_font','search_height','search_font','footer_title_font','footer_action_font','footer_phone_font'].forEach(k=>root.style.setProperty(`--sm-ui-${k.replaceAll('_','-')}`,`${uiDesignValue(k)}px`));
+  root.style.setProperty('--sm-ui-image-percent',`${uiDesignValue('image_percent')}%`);
+  root.style.setProperty('--sm-ui-info-percent',`${100-uiDesignValue('image_percent')}%`);
+  root.style.setProperty('--sm-ui-cart-horizontal',`${uiDesignValue('cart_horizontal')}%`);
+  let style=document.getElementById('smUiDesignRuntime');if(!style){style=document.createElement('style');style.id='smUiDesignRuntime';document.head.appendChild(style)}
+  style.textContent=`
+    @media(max-width:768px){
+      .sm-grid{gap:var(--sm-ui-card-gap,10px)!important}
+      html[dir="ltr"] .sm-card{grid-template-columns:var(--sm-ui-image-percent,50%) var(--sm-ui-info-percent,50%)!important}
+      html[dir="rtl"] .sm-card{grid-template-columns:var(--sm-ui-info-percent,50%) var(--sm-ui-image-percent,50%)!important}
+      .sm-card{grid-template-rows:var(--sm-ui-card-height,160px)!important;height:var(--sm-ui-card-height,160px)!important;min-height:var(--sm-ui-card-height,160px)!important;max-height:var(--sm-ui-card-height,160px)!important;border-radius:var(--sm-ui-card-radius,18px)!important}
+      .sm-card .sm-img,.sm-card .sm-info{height:var(--sm-ui-card-height,160px)!important;min-height:var(--sm-ui-card-height,160px)!important;max-height:var(--sm-ui-card-height,160px)!important}
+      .sm-card .sm-info{padding:var(--sm-ui-info-padding,10px)!important}
+      .sm-card .sm-name{font-size:var(--sm-ui-product-name-font,14px)!important}
+      .sm-card .sm-option{font-size:var(--sm-ui-option-font,10.5px)!important}
+      .sm-card .sm-price{font-size:var(--sm-ui-price-font,11px)!important}
+      .sm-section-title{font-size:var(--sm-ui-section-title-font,21px)!important}
+      .sm-card .sm-choose-options,.sm-card .sm-direct-add{min-height:var(--sm-ui-add-button-height,30px)!important;font-size:var(--sm-ui-add-button-font,10px)!important}
+      #smCats .sm-cat,.sm-cats .sm-cat{height:var(--sm-ui-category-height,41px)!important;min-height:var(--sm-ui-category-height,41px)!important;font-size:var(--sm-ui-category-font,12px)!important}
+      .sm-quick-actions a,#smActions a{min-height:var(--sm-ui-top-action-height,48px)!important;font-size:var(--sm-ui-top-action-font,11px)!important}
+      .sm-quick-actions a b,#smActions a b{font-size:var(--sm-ui-top-action-font,11px)!important}
+      .sm-logo,.sm-intro-logo-wrap{width:var(--sm-ui-logo-size,84px)!important;height:var(--sm-ui-logo-size,84px)!important}
+      .sm-header h1,.sm-hero h1,.sm-title{font-size:var(--sm-ui-menu-title-font,26px)!important}
+      #smSubtitle,#smHeroSubtitle,.sm-subtitle{font-size:var(--sm-ui-subtitle-font,12px)!important}
+      .sm-search-wrap{min-height:var(--sm-ui-search-height,46px)!important}
+      .sm-search-input{font-size:max(16px,var(--sm-ui-search-font,16px))!important}
+      .sm-footer h2,.sm-footer-brand strong{font-size:var(--sm-ui-footer-title-font,17px)!important}
+      .sm-footer-main-actions a,.sm-footer-actions a{font-size:var(--sm-ui-footer-action-font,10.5px)!important}
+      .sm-footer-phone,.sm-phone{font-size:var(--sm-ui-footer-phone-font,17px)!important}
+    }`;
+}
 
 function installMenuCardPolish(){
   if(document.getElementById("smMenuCardPolishV38"))return;
@@ -1440,14 +1463,15 @@ document.addEventListener(
 
     if(productShare){
       event.preventDefault();
-      event.stopPropagation();
+      event.stopImmediatePropagation();
 
-      const id=productShare.dataset.shareProduct;
-      const product=DB?.products?.find(p=>String(p.id)===String(id));
+      const id=String(productShare.dataset.shareProduct||"").trim();
+      const product=DB?.products?.find(p=>String(p.id)===id);
+      if(!id||!product)return;
 
-      shareMenuLink(
+      void shareMenuLink(
         makeDeepLink("product",id),
-        product?txt(product.name):document.title,
+        txt(product.name)||document.title,
         "share_product",
         id
       );
@@ -3054,6 +3078,9 @@ async function loadMenuFromSupabase() {
     customFooterActions:
       safeArray(settings.custom_footer_actions),
 
+    uiDesign:
+      safeObject(settings.ui_design_settings),
+
     display: {
       logo:
         settings.show_logo !== false,
@@ -3352,6 +3379,7 @@ async function startShorash() {
 
     installMenuCardPolish();
     installMenuDiscoveryUI();
+    applyUiDesignSettings();
     ensureSearchUI();
 
     applyDeepLinkBeforeRender();

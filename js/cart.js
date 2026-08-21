@@ -71,6 +71,20 @@
     style.textContent=`
       /* iPhone Safari auto-zooms inputs with font-size below 16px. */
       @media (max-width: 900px){
+        #smCartFab{
+          width:var(--sm-ui-cart-width,180px)!important;
+          min-width:var(--sm-ui-cart-width,180px)!important;
+          max-width:min(var(--sm-ui-cart-width,180px),92vw)!important;
+          height:var(--sm-ui-cart-height,56px)!important;
+          min-height:var(--sm-ui-cart-height,56px)!important;
+          font-size:var(--sm-ui-cart-font,13px)!important;
+          left:var(--sm-ui-cart-horizontal,50%)!important;
+          right:auto!important;
+          bottom:calc(var(--sm-ui-cart-bottom,16px) + env(safe-area-inset-bottom))!important;
+          transform:translateX(-50%)!important;
+        }
+        #smCartFab span{font-size:inherit}
+
         #smCheckoutSheet input,
         #smCheckoutSheet textarea,
         #smCheckoutSheet select{
