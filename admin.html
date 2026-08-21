@@ -1973,6 +1973,210 @@
     .ui-design-note{color:#777068;font-size:8.5px;line-height:1.7;padding:0 2px 3px}
     @media(max-width:650px){.ui-design-fields{grid-template-columns:1fr}.ui-size-field.full{grid-column:auto}}
 
+
+    /* =========================================================
+       SHORASH ADMIN V4.2 — VIEWPORT / WIDTH HARDENING
+       ========================================================= */
+
+    html,
+    body{
+      inline-size:100% !important;
+      width:100% !important;
+      max-inline-size:100vw !important;
+      max-width:100vw !important;
+      overflow-x:hidden !important;
+      overscroll-behavior-x:none;
+    }
+
+    body{
+      position:relative;
+    }
+
+    .admin-shell,
+    .admin-main,
+    .admin-view,
+    #viewTools,
+    .settings-clean-wrap{
+      inline-size:100% !important;
+      width:100% !important;
+      max-inline-size:100% !important;
+      max-width:100% !important;
+      min-inline-size:0 !important;
+      min-width:0 !important;
+      overflow-x:hidden !important;
+      box-sizing:border-box !important;
+    }
+
+    #viewTools{
+      contain:inline-size;
+    }
+
+    .settings-clean-wrap,
+    .settings-accordion,
+    .settings-accordion-body,
+    .settings-element,
+    .settings-element-head,
+    .tri-box,
+    .tri-tabs,
+    .tri-pane,
+    .settings-logo-row,
+    .settings-logo-controls,
+    .settings-simple-grid,
+    .settings-toggle-grid,
+    .dynamic-manager,
+    .dynamic-manager-head,
+    .dynamic-list,
+    .dynamic-item,
+    .dynamic-item-body,
+    .dynamic-grid,
+    .social-setting-row,
+    .ui-design-wrap,
+    .ui-design-group,
+    .ui-design-fields,
+    .ui-size-field,
+    .ui-size-control,
+    .backup-type-grid,
+    .bulk-price-grid,
+    .excel-tools{
+      min-inline-size:0 !important;
+      min-width:0 !important;
+      max-inline-size:100% !important;
+      max-width:100% !important;
+      box-sizing:border-box !important;
+    }
+
+    .settings-accordion{
+      inline-size:100% !important;
+      width:100% !important;
+      contain:inline-size;
+      overflow:hidden !important;
+    }
+
+    .settings-accordion-body{
+      inline-size:100% !important;
+      width:100% !important;
+      overflow:hidden !important;
+    }
+
+    .settings-logo-row,
+    .compact-logo-row{
+      grid-template-columns:64px minmax(0,1fr) !important;
+    }
+
+    .settings-logo-controls,
+    .settings-logo-controls > *,
+    .settings-logo-controls input,
+    .tri-pane input,
+    .tri-pane textarea,
+    .settings-input,
+    .settings-field-clean input,
+    .social-setting-row input,
+    .dynamic-field input,
+    .ui-size-control input,
+    .backup-type-field select,
+    .bulk-price-field select,
+    .bulk-price-field input{
+      min-width:0 !important;
+      width:100% !important;
+      max-width:100% !important;
+    }
+
+    .settings-file-btn{
+      width:auto !important;
+      max-width:100% !important;
+    }
+
+    .settings-element-head > div,
+    .settings-accordion-title,
+    .dynamic-manager-head > div,
+    .ui-design-group-title{
+      min-width:0 !important;
+      overflow-wrap:anywhere;
+    }
+
+    @media(max-width:650px){
+      .settings-element-head,
+      .dynamic-manager-head,
+      .ui-design-topbar{
+        flex-wrap:wrap;
+      }
+
+      .settings-save-bar{
+        width:100% !important;
+        max-width:100% !important;
+      }
+
+      .settings-save-bar .btn{
+        min-width:0 !important;
+      }
+
+      .settings-logo-row,
+      .compact-logo-row{
+        grid-template-columns:58px minmax(0,1fr) !important;
+      }
+
+      .settings-logo-preview,
+      .compact-logo-row .settings-logo-preview{
+        width:58px !important;
+        height:58px !important;
+      }
+
+      .ui-size-control{
+        grid-template-columns:minmax(0,1fr) 62px !important;
+      }
+
+      .tri-tabs{
+        grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+      }
+
+      .tri-tabs button{
+        min-width:0 !important;
+        overflow:hidden;
+        text-overflow:ellipsis;
+      }
+    }
+
+    /* Appearance controls */
+    .appearance-mode-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+
+    .appearance-mode-card{
+      display:grid;
+      gap:5px;
+      padding:10px;
+      border:1px solid rgba(255,255,255,.065);
+      border-radius:11px;
+      background:#050301;
+    }
+
+    .appearance-mode-card span{
+      color:#938b82;
+      font-size:9px;
+    }
+
+    .appearance-mode-card select,
+    .appearance-mode-card input{
+      width:100%;
+      min-width:0;
+      border:1px solid rgba(255,255,255,.085);
+      background:#020201;
+      color:#eee8e0;
+      border-radius:9px;
+      padding:9px;
+      font:inherit;
+      font-size:16px;
+      outline:none;
+    }
+
+    @media(max-width:650px){
+      .appearance-mode-grid{
+        grid-template-columns:1fr;
+      }
+    }
+
 </style>
 </head>
 
@@ -2344,7 +2548,7 @@
             <div class="settings-element-head">
               <div>
                 <strong>اسم المطعم</strong>
-                <small>إذا مسحت الاسم يبقى فارغاً — لن يرجع تلقائياً إلى شوراش.</small>
+                
               </div>
               <label class="mini-visibility">
                 <span>عنوان المنيو</span>
@@ -2914,6 +3118,42 @@
               type="url"
               placeholder="assets/background.mp4 أو رابط مباشر"
             >
+          </div>
+
+          <div class="settings-element">
+            <div class="settings-element-head">
+              <div>
+                <strong>الوضع النهاري / الداكن</strong>
+                <small>حدد الوضع الافتراضي ويمكن إظهار زر للزبون حتى يغيّره بنفسه.</small>
+              </div>
+              <label class="mini-visibility">
+                <span>زر التبديل</span>
+                <input id="rs_show_theme_toggle" type="checkbox">
+                <i></i>
+              </label>
+            </div>
+
+            <div class="appearance-mode-grid">
+              <label class="appearance-mode-card">
+                <span>الوضع الافتراضي</span>
+                <select id="rs_theme_default">
+                  <option value="dark">🌙 داكن</option>
+                  <option value="light">☀️ نهاري</option>
+                </select>
+              </label>
+
+              <label class="appearance-mode-card">
+                <span>مدة شاشة البداية بالمللي ثانية</span>
+                <input
+                  id="rs_intro_duration_ms"
+                  type="number"
+                  min="400"
+                  max="3000"
+                  step="50"
+                  value="900"
+                >
+              </label>
+            </div>
           </div>
         </div>
       </details>
@@ -3996,6 +4236,10 @@
     set('rs_background_video',s.background_video ?? s.background_video_url ?? '');
     bool('rs_background_video_enabled',s.background_video_enabled,true);
 
+    set('rs_theme_default',s.theme_default ?? 'dark');
+    bool('rs_show_theme_toggle',s.show_theme_toggle,true);
+    set('rs_intro_duration_ms',s.intro_duration_ms ?? 900);
+
     // Delivery / announcement
     bool('rs_announcement_enabled',s.announcement_enabled,false);
     bool('rs_delivery_info_enabled',s.delivery_info_enabled,true);
@@ -4186,6 +4430,23 @@
         background_video:rsValue('rs_background_video'),
         background_video_enabled:rsChecked('rs_background_video_enabled'),
 
+        theme_default:
+          ['dark','light'].includes(rsValue('rs_theme_default'))
+            ? rsValue('rs_theme_default')
+            : 'dark',
+
+        show_theme_toggle:
+          rsChecked('rs_show_theme_toggle'),
+
+        intro_duration_ms:
+          Math.max(
+            400,
+            Math.min(
+              3000,
+              Number(rsValue('rs_intro_duration_ms')) || 900
+            )
+          ),
+
         is_open:rsChecked('rs_is_open'),
         orders_enabled:rsChecked('rs_orders_enabled'),
         delivery_enabled:rsChecked('rs_delivery_enabled'),
@@ -4250,10 +4511,23 @@
 
     }catch(e){
       console.error('SAVE RESTAURANT SETTINGS ERROR:',e);
-      setRestaurantSettingsMsg(
-        'فشل الحفظ: '+(e.message||e),
-        false
-      );
+
+      const message=String(e?.message||e||'');
+
+      if(
+        message.includes('ui_design_settings') &&
+        message.toLowerCase().includes('schema cache')
+      ){
+        setRestaurantSettingsMsg(
+          'قاعدة البيانات تحتاج تحديث V4.2. شغّل ملف SQL المرفق مرة واحدة ثم اعمل Refresh.',
+          false
+        );
+      }else{
+        setRestaurantSettingsMsg(
+          'فشل الحفظ: '+message,
+          false
+        );
+      }
     }finally{
       btn.disabled=false;
       btn.textContent='حفظ إعدادات المطعم';
@@ -6681,6 +6955,19 @@
     loadAnalytics
   );
   bindUiDesignControls();
+
+  document.querySelectorAll('.settings-accordion').forEach(details=>{
+    details.addEventListener('toggle',()=>{
+      document.documentElement.style.maxWidth='100vw';
+      document.body.style.maxWidth='100vw';
+      document.body.style.overflowX='hidden';
+
+      requestAnimationFrame(()=>{
+        const scrolling=document.scrollingElement;
+        if(scrolling)scrolling.scrollLeft=0;
+      });
+    });
+  });
 
   document.getElementById('bulkPriceCategorySelect').addEventListener(
     'change',

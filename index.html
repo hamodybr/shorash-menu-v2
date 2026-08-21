@@ -1,9 +1,20 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-sm-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#080604">
+
+  <script>
+    window.__smIntroBornAt=Date.now();
+
+    try{
+      const savedTheme=localStorage.getItem("SM_THEME_PREF_V1");
+      if(savedTheme==="light"||savedTheme==="dark"){
+        document.documentElement.dataset.smTheme=savedTheme;
+      }
+    }catch(_){}
+  </script>
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -38,18 +49,15 @@
 
     <div class="sm-intro-logo-wrap">
       <img
-        src="assets/shorash-logo.jpeg"
-        alt="SHORASH"
-        class="sm-intro-logo">
+        src=""
+        alt=""
+        class="sm-intro-logo"
+        style="visibility:hidden">
     </div>
 
-    <div class="sm-intro-brand">
-      SHORASH
-    </div>
+    <div class="sm-intro-brand"></div>
 
-    <div class="sm-intro-sub">
-      REST &amp; CAFE
-    </div>
+    <div class="sm-intro-sub">MENU</div>
 
   </div>
 
@@ -60,16 +68,15 @@
 
       <div class="sm-logo-wrap">
         <img
-          src="assets/shorash-logo.jpeg"
-          alt="SHORASH Logo"
-          class="sm-logo">
+          src=""
+          alt=""
+          class="sm-logo"
+          style="visibility:hidden">
       </div>
 
-      <h1>SHORASH MENU</h1>
+      <h1>MENU</h1>
 
-      <p id="smSubtitle">
-        اكتشف منيو شوراش
-      </p>
+      <p id="smSubtitle"></p>
 
       <div id="smLangs" class="sm-langs"></div>
 
@@ -172,13 +179,48 @@
   </button>
 
 
+  <script>
+    (function(){
+      try{
+        const raw=localStorage.getItem("SHORASH_BRAND_CACHE_V1");
+        if(!raw)return;
+
+        const cached=JSON.parse(raw)||{};
+        const lang=localStorage.getItem("shorashLang")||"ar";
+
+        const name=
+          lang==="ku"
+            ? (cached.nameKu||cached.nameAr||cached.nameEn||"")
+            : lang==="en"
+              ? (cached.nameEn||cached.nameAr||cached.nameKu||"")
+              : (cached.nameAr||cached.nameKu||cached.nameEn||"");
+
+        const brand=document.querySelector(".sm-intro-brand");
+        if(brand)brand.textContent=name;
+
+        const logo=document.querySelector(".sm-intro-logo");
+        if(logo && cached.logo){
+          logo.src=cached.logo;
+          logo.style.visibility="visible";
+        }
+
+        if(
+          !localStorage.getItem("SM_THEME_PREF_V1") &&
+          (cached.themeDefault==="light"||cached.themeDefault==="dark")
+        ){
+          document.documentElement.dataset.smTheme=cached.themeDefault;
+        }
+      }catch(_){}
+    })();
+  </script>
+
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase-config.js?v=1.0"></script>
 
   <!-- Menu + Cart -->
-  <script src="js/app.js?v=13.0"></script>
-  <script src="js/cart.js?v=3.8"></script>
+  <script src="js/app.js?v=14.0"></script>
+  <script src="js/cart.js?v=3.9"></script>
 
 </body>
 </html>
