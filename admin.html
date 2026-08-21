@@ -1189,6 +1189,413 @@
       }
     }
 
+  
+    /* =========================================================
+       SHORASH ADMIN V3.6 — CLEAN SETTINGS UI
+       ========================================================= */
+
+    .settings-clean-wrap{
+      display:grid;
+      gap:10px;
+      padding-bottom:18px;
+    }
+
+    .settings-save-bar{
+      position:sticky;
+      top:74px;
+      z-index:18;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:11px 12px;
+      border:1px solid rgba(216,169,88,.25);
+      border-radius:15px;
+      background:rgba(12,9,6,.93);
+      box-shadow:0 12px 28px rgba(0,0,0,.25);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+    }
+
+    .settings-save-bar strong{
+      display:block;
+      color:#e2b55e;
+      font-size:13px;
+    }
+
+    .settings-save-bar span{
+      display:block;
+      color:#837d75;
+      font-size:9px;
+      margin-top:2px;
+    }
+
+    .settings-save-bar .btn{
+      white-space:nowrap;
+      min-width:126px;
+      padding:10px 12px;
+    }
+
+    .settings-main-msg{
+      min-height:0;
+      margin:0 4px;
+    }
+
+    .settings-accordion{
+      overflow:hidden;
+      border:1px solid rgba(216,169,88,.16);
+      border-radius:16px;
+      background:
+        linear-gradient(145deg,rgba(216,169,88,.045),rgba(255,255,255,.012));
+    }
+
+    .settings-accordion[open]{
+      border-color:rgba(216,169,88,.3);
+    }
+
+    .settings-accordion > summary{
+      list-style:none;
+      cursor:pointer;
+      display:grid;
+      grid-template-columns:38px 1fr auto;
+      align-items:center;
+      gap:9px;
+      min-height:66px;
+      padding:10px 12px;
+      user-select:none;
+      -webkit-user-select:none;
+    }
+
+    .settings-accordion > summary::-webkit-details-marker{
+      display:none;
+    }
+
+    .settings-accordion-icon{
+      width:38px;
+      height:38px;
+      display:grid;
+      place-items:center;
+      border-radius:12px;
+      background:rgba(216,169,88,.07);
+      border:1px solid rgba(216,169,88,.14);
+      font-size:18px;
+    }
+
+    .settings-accordion-title strong{
+      display:block;
+      color:#eee9e2;
+      font-size:13px;
+      margin-bottom:3px;
+    }
+
+    .settings-accordion-title small{
+      display:block;
+      color:#7f7971;
+      font-size:9px;
+      line-height:1.45;
+    }
+
+    .settings-chevron{
+      color:#9e968d;
+      font-size:18px;
+      transform:rotate(0deg);
+      transition:.18s;
+    }
+
+    .settings-accordion[open] .settings-chevron{
+      transform:rotate(180deg);
+      color:#e2b55e;
+    }
+
+    .settings-accordion-body{
+      display:grid;
+      gap:10px;
+      padding:0 10px 11px;
+      border-top:1px solid rgba(255,255,255,.045);
+    }
+
+    .settings-toggle-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      padding-top:10px;
+    }
+
+    .settings-full-toggle{
+      margin-top:10px;
+    }
+
+    .settings-element{
+      display:grid;
+      gap:9px;
+      padding:11px;
+      border:1px solid rgba(255,255,255,.065);
+      border-radius:13px;
+      background:#080604;
+    }
+
+    .settings-element:first-child{
+      margin-top:10px;
+    }
+
+    .settings-element-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .settings-element-head strong{
+      display:block;
+      color:#e8e2da;
+      font-size:12px;
+    }
+
+    .settings-element-head small{
+      display:block;
+      margin-top:3px;
+      color:#777169;
+      font-size:9px;
+      line-height:1.5;
+    }
+
+    .mini-visibility{
+      flex:0 0 auto;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      color:#8f887f;
+      font-size:9px;
+      cursor:pointer;
+    }
+
+    .mini-visibility input{
+      position:absolute;
+      opacity:0;
+      pointer-events:none;
+    }
+
+    .mini-visibility i{
+      position:relative;
+      display:block;
+      width:39px;
+      height:23px;
+      border-radius:999px;
+      background:#29241f;
+      border:1px solid rgba(255,255,255,.08);
+      transition:.18s;
+    }
+
+    .mini-visibility i::after{
+      content:'';
+      position:absolute;
+      width:17px;
+      height:17px;
+      top:2px;
+      right:2px;
+      border-radius:50%;
+      background:#827a71;
+      transition:.18s;
+    }
+
+    .mini-visibility input:checked + i{
+      background:rgba(216,169,88,.22);
+      border-color:rgba(216,169,88,.4);
+    }
+
+    .mini-visibility input:checked + i::after{
+      transform:translateX(-16px);
+      background:#e2b55e;
+    }
+
+    .tri-box{
+      display:grid;
+      gap:7px;
+    }
+
+    .tri-tabs{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:4px;
+      padding:3px;
+      border-radius:10px;
+      background:#030201;
+      border:1px solid rgba(255,255,255,.06);
+    }
+
+    .tri-tabs button{
+      border:0;
+      border-radius:8px;
+      padding:7px 4px;
+      background:transparent;
+      color:#817a72;
+      font:inherit;
+      font-size:9px;
+      cursor:pointer;
+    }
+
+    .tri-tabs button.active{
+      background:rgba(216,169,88,.12);
+      color:#e2b55e;
+    }
+
+    .tri-pane{
+      display:none;
+    }
+
+    .tri-pane.active{
+      display:block;
+    }
+
+    .tri-pane input,
+    .tri-pane textarea,
+    .settings-input,
+    .settings-field-clean input,
+    .social-setting-row input{
+      width:100%;
+      box-sizing:border-box;
+      border:1px solid rgba(255,255,255,.085);
+      background:#030201;
+      color:#f4f0eb;
+      border-radius:10px;
+      padding:10px 11px;
+      outline:none;
+      font:inherit;
+      font-size:12px;
+    }
+
+    .tri-pane textarea{
+      min-height:72px;
+      resize:vertical;
+      line-height:1.65;
+    }
+
+    .tri-pane input:focus,
+    .tri-pane textarea:focus,
+    .settings-input:focus,
+    .settings-field-clean input:focus,
+    .social-setting-row input:focus{
+      border-color:rgba(216,169,88,.5);
+    }
+
+    .settings-simple-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      padding-top:10px;
+    }
+
+    .settings-field-clean{
+      display:grid;
+      gap:5px;
+    }
+
+    .settings-field-clean.full{
+      grid-column:1 / -1;
+    }
+
+    .settings-field-clean > span{
+      color:#948c83;
+      font-size:9px;
+    }
+
+    .social-setting-row{
+      display:grid;
+      grid-template-columns:72px 1fr auto;
+      gap:8px;
+      align-items:center;
+      padding:9px;
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:12px;
+      background:#080604;
+    }
+
+    .social-setting-row:first-child{
+      margin-top:10px;
+    }
+
+    .social-setting-name{
+      color:#d9d3cc;
+      font-size:10px;
+      font-weight:800;
+      direction:ltr;
+      text-align:left;
+    }
+
+    .compact-logo-row{
+      grid-template-columns:64px 1fr;
+    }
+
+    .compact-logo-row .settings-logo-preview{
+      width:64px;
+      height:64px;
+    }
+
+    .settings-logo-controls{
+      display:grid;
+      gap:7px;
+    }
+
+    .backup-compact-actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:7px;
+      padding-top:10px;
+    }
+
+    .settings-subdetails{
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:12px;
+      background:#080604;
+    }
+
+    .settings-subdetails > summary{
+      list-style:none;
+      padding:11px;
+      color:#b3aca3;
+      font-size:10px;
+      cursor:pointer;
+    }
+
+    .settings-subdetails > summary::-webkit-details-marker{
+      display:none;
+    }
+
+    .settings-subdetails-body{
+      padding:0 9px 9px;
+    }
+
+    @media(max-width:650px){
+      .settings-save-bar{
+        top:68px;
+      }
+
+      .settings-save-bar span{
+        display:none;
+      }
+
+      .settings-toggle-grid,
+      .settings-simple-grid{
+        grid-template-columns:1fr;
+      }
+
+      .settings-field-clean.full{
+        grid-column:auto;
+      }
+
+      .social-setting-row{
+        grid-template-columns:64px 1fr auto;
+      }
+
+      .social-setting-row input{
+        min-width:0;
+      }
+
+      .backup-compact-actions{
+        grid-template-columns:1fr;
+      }
+    }
+
   </style>
 </head>
 
@@ -1361,271 +1768,176 @@
 
   <section id="viewTools" class="admin-view" data-view="tools">
     <div class="view-title-row">
-      <div><h2>الإعدادات</h2><div class="view-subtitle">إعدادات المطعم والأدوات</div></div>
+      <div>
+        <h2>الإعدادات</h2>
+        <div class="view-subtitle">كل إعداد بمكانه — افتح فقط القسم اللي تحتاجه</div>
+      </div>
     </div>
 
-    <div class="tools-primary">
+    <div class="settings-clean-wrap">
 
-      <div class="tools-card restaurant-settings-card">
-        <h3>🏪 إعدادات المطعم</h3>
-        <p>
-          غيّر معلومات المطعم وحالة استقبال الطلبات من هنا بدون تعديل الكود.
-          المنيو يبقى قابل للتصفح حتى عند إيقاف الطلبات.
-        </p>
+      <div class="settings-save-bar">
+        <div>
+          <strong>إعدادات المطعم</strong>
+          <span>التغييرات لا تثبت إلا بعد الضغط على حفظ.</span>
+        </div>
+        <button id="saveRestaurantSettingsBtn" class="btn btn-gold" type="button">
+          حفظ التغييرات
+        </button>
+      </div>
 
-        <div class="settings-status-grid">
-          <div class="settings-toggle-card">
-            <div class="settings-toggle-copy">
-              <strong>المطعم مفتوح</strong>
-              <span>إذا أوقفته تظهر رسالة الإغلاق ويتوقف الطلب.</span>
+      <div id="restaurantSettingsMsg" class="settings-msg settings-main-msg"></div>
+
+      <!-- 1. STATUS -->
+      <details class="settings-accordion" open>
+        <summary>
+          <span class="settings-accordion-icon">🟢</span>
+          <span class="settings-accordion-title">
+            <strong>الحالة والطلبات</strong>
+            <small>فتح المطعم، الطلبات، التوصيل والاستلام</small>
+          </span>
+          <span class="settings-chevron">⌄</span>
+        </summary>
+
+        <div class="settings-accordion-body">
+          <div class="settings-toggle-grid">
+
+            <div class="settings-toggle-card">
+              <div class="settings-toggle-copy">
+                <strong>المطعم مفتوح</strong>
+                <span>إذا أوقفته يظهر تنبيه الإغلاق ويتوقف الطلب.</span>
+              </div>
+              <label class="settings-switch">
+                <input id="rs_is_open" type="checkbox">
+                <i></i>
+              </label>
             </div>
-            <label class="settings-switch">
-              <input id="rs_is_open" type="checkbox">
-              <i></i>
-            </label>
+
+            <div class="settings-toggle-card">
+              <div class="settings-toggle-copy">
+                <strong>استقبال الطلبات</strong>
+                <span>إيقاف السلة والإرسال مع بقاء المنيو للتصفح.</span>
+              </div>
+              <label class="settings-switch">
+                <input id="rs_orders_enabled" type="checkbox">
+                <i></i>
+              </label>
+            </div>
+
+            <div class="settings-toggle-card">
+              <div class="settings-toggle-copy">
+                <strong>التوصيل</strong>
+                <span>تشغيل أو إيقاف خيار التوصيل.</span>
+              </div>
+              <label class="settings-switch">
+                <input id="rs_delivery_enabled" type="checkbox">
+                <i></i>
+              </label>
+            </div>
+
+            <div class="settings-toggle-card">
+              <div class="settings-toggle-copy">
+                <strong>الاستلام من المطعم</strong>
+                <span>تشغيل أو إيقاف الاستلام من المطعم.</span>
+              </div>
+              <label class="settings-switch">
+                <input id="rs_pickup_enabled" type="checkbox">
+                <i></i>
+              </label>
+            </div>
+
           </div>
 
-          <div class="settings-toggle-card">
-            <div class="settings-toggle-copy">
-              <strong>استقبال الطلبات</strong>
-              <span>إيقاف السلة والإرسال مؤقتاً مع بقاء المنيو ظاهر.</span>
+          <div class="settings-element">
+            <div class="settings-element-head">
+              <div>
+                <strong>رسالة الإغلاق</strong>
+                <small>تظهر فقط عندما يكون الطلب متوقفاً.</small>
+              </div>
             </div>
-            <label class="settings-switch">
-              <input id="rs_orders_enabled" type="checkbox">
-              <i></i>
-            </label>
-          </div>
 
-          <div class="settings-toggle-card">
-            <div class="settings-toggle-copy">
-              <strong>التوصيل</strong>
-              <span>تشغيل أو إيقاف خيار التوصيل للزبون.</span>
+            <div class="tri-box" data-tri-box="closed_message">
+              <div class="tri-tabs">
+                <button type="button" class="active" onclick="switchTriLang('closed_message','ar',this)">عربي</button>
+                <button type="button" onclick="switchTriLang('closed_message','ku',this)">کوردی</button>
+                <button type="button" onclick="switchTriLang('closed_message','en',this)">English</button>
+              </div>
+              <div class="tri-pane active" data-tri-pane="closed_message:ar">
+                <textarea id="rs_closed_message_ar" placeholder="رسالة الإغلاق بالعربي"></textarea>
+              </div>
+              <div class="tri-pane" data-tri-pane="closed_message:ku">
+                <textarea id="rs_closed_message_ku" placeholder="پەیامی داخستن"></textarea>
+              </div>
+              <div class="tri-pane" data-tri-pane="closed_message:en">
+                <textarea id="rs_closed_message_en" placeholder="Closed message"></textarea>
+              </div>
             </div>
-            <label class="settings-switch">
-              <input id="rs_delivery_enabled" type="checkbox">
-              <i></i>
-            </label>
-          </div>
-
-          <div class="settings-toggle-card">
-            <div class="settings-toggle-copy">
-              <strong>الاستلام من المطعم</strong>
-              <span>تشغيل أو إيقاف خيار الاستلام من المطعم.</span>
-            </div>
-            <label class="settings-switch">
-              <input id="rs_pickup_enabled" type="checkbox">
-              <i></i>
-            </label>
-          </div>
-
-          <div class="settings-toggle-card">
-            <div class="settings-toggle-copy">
-              <strong>إعلان أعلى المنيو</strong>
-              <span>إظهار أو إخفاء شريط إعلان قصير للزبائن.</span>
-            </div>
-            <label class="settings-switch">
-              <input id="rs_announcement_enabled" type="checkbox">
-              <i></i>
-            </label>
           </div>
         </div>
+      </details>
 
-        <div class="restaurant-settings-grid">
+      <!-- 2. IDENTITY -->
+      <details class="settings-accordion">
+        <summary>
+          <span class="settings-accordion-icon">🎨</span>
+          <span class="settings-accordion-title">
+            <strong>الهوية وواجهة المنيو</strong>
+            <small>الاسم، الشعار، العنوان، اللغة وعناصر الواجهة</small>
+          </span>
+          <span class="settings-chevron">⌄</span>
+        </summary>
 
-          <div class="settings-section-title">اسم المطعم</div>
+        <div class="settings-accordion-body">
 
-          <div class="settings-field">
-            <label>الاسم بالعربي</label>
-            <input id="rs_name_ar" type="text" placeholder="شوراش">
-          </div>
-
-          <div class="settings-field">
-            <label>الاسم بالكوردي</label>
-            <input id="rs_name_ku" type="text" placeholder="SHORASH">
-          </div>
-
-          <div class="settings-field full">
-            <label>الاسم بالإنجليزي</label>
-            <input id="rs_name_en" type="text" placeholder="SHORASH REST & CAFE">
-          </div>
-
-          <div class="settings-section-title">النص تحت اسم المنيو</div>
-
-          <div class="settings-field">
-            <label>العربي</label>
-            <input id="rs_subtitle_ar" type="text" placeholder="اكتشف منيو شوراش">
-          </div>
-
-          <div class="settings-field">
-            <label>الكوردي</label>
-            <input id="rs_subtitle_ku" type="text">
-          </div>
-
-          <div class="settings-field full">
-            <label>English</label>
-            <input id="rs_subtitle_en" type="text" placeholder="Discover {name} Menu">
-          </div>
-
-          <div style="grid-column:1/-1;color:#756f68;font-size:10px;line-height:1.65;">
-            استخدم <bdi>{name}</bdi> داخل النص إذا تريد اسم المطعم يتغير تلقائياً عند تغيير الاسم.
-          </div>
-
-          <div class="settings-section-title">التواصل والموقع</div>
-
-          <div class="settings-field">
-            <label>رقم الهاتف</label>
-            <input id="rs_phone" type="text" inputmode="tel" placeholder="07502662002">
-          </div>
-
-          <div class="settings-field">
-            <label>رقم WhatsApp</label>
-            <input id="rs_whatsapp_number" type="text" inputmode="tel" placeholder="9647502662002">
-          </div>
-
-          <div class="settings-field full">
-            <label>رابط الموقع Google Maps</label>
-            <input id="rs_location" type="url" placeholder="https://maps.google.com/...">
-          </div>
-
-          <div class="settings-section-title">أزرار أعلى المنيو</div>
-
-          <div class="settings-inline-grid">
-            <div class="settings-toggle-card">
-              <div class="settings-toggle-copy">
-                <strong>📍 الموقع</strong>
-                <span>إظهار أو إخفاء زر الموقع أعلى المنيو.</span>
-              </div>
-              <label class="settings-switch">
-                <input id="rs_top_location_enabled" type="checkbox">
-                <i></i>
-              </label>
-            </div>
-
-            <div class="settings-toggle-card">
-              <div class="settings-toggle-copy">
-                <strong>☎ الاتصال</strong>
-                <span>إظهار أو إخفاء زر الاتصال أعلى المنيو.</span>
-              </div>
-              <label class="settings-switch">
-                <input id="rs_top_call_enabled" type="checkbox">
-                <i></i>
-              </label>
-            </div>
-
-            <div class="settings-toggle-card">
-              <div class="settings-toggle-copy">
-                <strong>💬 WhatsApp</strong>
-                <span>إظهار أو إخفاء زر واتساب أعلى المنيو.</span>
-              </div>
-              <label class="settings-switch">
-                <input id="rs_top_whatsapp_enabled" type="checkbox">
-                <i></i>
-              </label>
-            </div>
-          </div>
-
-          <div class="settings-field">
-            <label>نص زر الموقع — عربي</label>
-            <input id="rs_top_location_label_ar" type="text" placeholder="موقعنا">
-          </div>
-
-          <div class="settings-field">
-            <label>نص زر الموقع — کوردي</label>
-            <input id="rs_top_location_label_ku" type="text" placeholder="شوێنی مە">
-          </div>
-
-          <div class="settings-field full">
-            <label>Location button — English</label>
-            <input id="rs_top_location_label_en" type="text" placeholder="Location">
-          </div>
-
-          <div class="settings-field">
-            <label>نص زر الاتصال — عربي</label>
-            <input id="rs_top_call_label_ar" type="text" placeholder="اتصال">
-          </div>
-
-          <div class="settings-field">
-            <label>نص زر الاتصال — کوردي</label>
-            <input id="rs_top_call_label_ku" type="text" placeholder="پەیوەندی">
-          </div>
-
-          <div class="settings-field full">
-            <label>Call button — English</label>
-            <input id="rs_top_call_label_en" type="text" placeholder="Call">
-          </div>
-
-          <div class="settings-field">
-            <label>نص زر WhatsApp — عربي</label>
-            <input id="rs_top_whatsapp_label_ar" type="text" placeholder="واتساب منيو">
-          </div>
-
-          <div class="settings-field">
-            <label>نص زر WhatsApp — کوردي</label>
-            <input id="rs_top_whatsapp_label_ku" type="text" placeholder="مێنیوی واتساپ">
-          </div>
-
-          <div class="settings-field full">
-            <label>WhatsApp button — English</label>
-            <input id="rs_top_whatsapp_label_en" type="text" placeholder="WhatsApp Menu">
-          </div>
-
-          <div class="settings-section-title">العنوان الظاهر في الفوتر</div>
-
-          <div class="settings-field">
-            <label>العربي</label>
-            <input id="rs_footer_location_ar" type="text" placeholder="دهوك • كوردستان">
-          </div>
-
-          <div class="settings-field">
-            <label>الكوردي</label>
-            <input id="rs_footer_location_ku" type="text">
-          </div>
-
-          <div class="settings-field full">
-            <label>English</label>
-            <input id="rs_footer_location_en" type="text" placeholder="Duhok • Kurdistan">
-          </div>
-
-          <div class="settings-section-title">السوشيال ميديا</div>
-
-          <div class="settings-field">
-            <label>Instagram</label>
-            <input id="rs_instagram_url" type="url" placeholder="https://instagram.com/...">
-          </div>
-
-          <div class="settings-field">
-            <label>Facebook</label>
-            <input id="rs_facebook_url" type="url" placeholder="https://facebook.com/...">
-          </div>
-
-          <div class="settings-field">
-            <label>TikTok</label>
-            <input id="rs_tiktok_url" type="url" placeholder="https://tiktok.com/@...">
-          </div>
-
-          <div class="settings-field">
-            <label>Snapchat</label>
-            <input id="rs_snapchat_url" type="url" placeholder="https://snapchat.com/add/...">
-          </div>
-
-          <div style="grid-column:1/-1;color:#756f68;font-size:10px;line-height:1.6;">
-            إذا تركت أي رابط فارغ، يختفي زر المنصة تلقائياً من المنيو.
-          </div>
-
-          <div class="settings-section-title">الهوية والخلفية</div>
-
-          <div class="settings-field full">
-            <label>شعار المطعم</label>
-            <div class="settings-logo-row">
-              <img
-                id="rs_logo_preview"
-                class="settings-logo-preview"
-                src="assets/shorash-logo.jpeg"
-                alt=""
-              >
+          <div class="settings-element">
+            <div class="settings-element-head">
               <div>
+                <strong>اسم المطعم</strong>
+                <small>إذا مسحت الاسم يبقى فارغاً — لن يرجع تلقائياً إلى شوراش.</small>
+              </div>
+              <label class="mini-visibility">
+                <span>عنوان المنيو</span>
+                <input id="rs_show_menu_title" type="checkbox">
+                <i></i>
+              </label>
+            </div>
+
+            <div class="tri-box" data-tri-box="restaurant_name">
+              <div class="tri-tabs">
+                <button type="button" class="active" onclick="switchTriLang('restaurant_name','ar',this)">عربي</button>
+                <button type="button" onclick="switchTriLang('restaurant_name','ku',this)">کوردی</button>
+                <button type="button" onclick="switchTriLang('restaurant_name','en',this)">English</button>
+              </div>
+              <div class="tri-pane active" data-tri-pane="restaurant_name:ar">
+                <input id="rs_name_ar" type="text" placeholder="اسم المطعم بالعربي">
+              </div>
+              <div class="tri-pane" data-tri-pane="restaurant_name:ku">
+                <input id="rs_name_ku" type="text" placeholder="ناڤێ چێشتخانێ">
+              </div>
+              <div class="tri-pane" data-tri-pane="restaurant_name:en">
+                <input id="rs_name_en" type="text" placeholder="Restaurant name">
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-element">
+            <div class="settings-element-head">
+              <div>
+                <strong>الشعار</strong>
+                <small>يظهر أعلى المنيو وفي شاشة البداية.</small>
+              </div>
+              <label class="mini-visibility">
+                <span>إظهار</span>
+                <input id="rs_show_logo" type="checkbox">
+                <i></i>
+              </label>
+            </div>
+
+            <div class="settings-logo-row compact-logo-row">
+              <img id="rs_logo_preview" class="settings-logo-preview" src="assets/shorash-logo.jpeg" alt="">
+              <div class="settings-logo-controls">
                 <label class="settings-file-btn">
-                  📷 اختيار شعار من الجهاز
+                  📷 رفع شعار
                   <input
                     id="rs_logo_file"
                     type="file"
@@ -1633,205 +1945,643 @@
                     onchange="previewRestaurantLogo(this)"
                   >
                 </label>
-                <div style="color:#756f68;font-size:10px;margin-top:7px;">
-                  أو ضع رابط مباشر في الحقل أدناه.
-                </div>
+                <input id="rs_logo_url" class="settings-input" type="url" placeholder="رابط الشعار — ويمكن تركه فارغاً">
               </div>
             </div>
           </div>
 
-          <div class="settings-field full">
-            <label>رابط الشعار</label>
-            <input id="rs_logo_url" type="url" placeholder="https://...">
+          <div class="settings-element">
+            <div class="settings-element-head">
+              <div>
+                <strong>النص تحت اسم المنيو</strong>
+                <small>يمكن استخدام <bdi>{name}</bdi> ليأخذ اسم المطعم تلقائياً.</small>
+              </div>
+              <label class="mini-visibility">
+                <span>إظهار</span>
+                <input id="rs_show_subtitle" type="checkbox">
+                <i></i>
+              </label>
+            </div>
+
+            <div class="tri-box" data-tri-box="subtitle">
+              <div class="tri-tabs">
+                <button type="button" class="active" onclick="switchTriLang('subtitle','ar',this)">عربي</button>
+                <button type="button" onclick="switchTriLang('subtitle','ku',this)">کوردی</button>
+                <button type="button" onclick="switchTriLang('subtitle','en',this)">English</button>
+              </div>
+              <div class="tri-pane active" data-tri-pane="subtitle:ar">
+                <input id="rs_subtitle_ar" type="text" placeholder="مثال: اكتشف منيو {name}">
+              </div>
+              <div class="tri-pane" data-tri-pane="subtitle:ku">
+                <input id="rs_subtitle_ku" type="text" placeholder="مثال: مینیوی {name} ببینە">
+              </div>
+              <div class="tri-pane" data-tri-pane="subtitle:en">
+                <input id="rs_subtitle_en" type="text" placeholder="Example: Discover {name} Menu">
+              </div>
+            </div>
           </div>
 
-          <div class="settings-field full">
-            <label>رابط فيديو الخلفية</label>
-            <input id="rs_background_video" type="url" placeholder="assets/background.mp4 أو https://...">
-          </div>
+          <div class="settings-toggle-grid">
 
-          <div class="settings-section-title">معلومات التوصيل</div>
+            <div class="settings-toggle-card">
+              <div class="settings-toggle-copy">
+                <strong>مبدّل اللغة</strong>
+                <span>عربي / کوردی / English</span>
+              </div>
+              <label class="settings-switch">
+                <input id="rs_show_language_switch" type="checkbox">
+                <i></i>
+              </label>
+            </div>
 
-          <div class="settings-field full">
-            <label>العربي</label>
-            <textarea id="rs_delivery_info_ar" placeholder="مثال: التوصيل داخل دهوك فقط • المدة 30–45 دقيقة"></textarea>
-          </div>
+            <div class="settings-toggle-card">
+              <div class="settings-toggle-copy">
+                <strong>شريط الأقسام</strong>
+                <span>أزرار الأقسام أعلى الأصناف.</span>
+              </div>
+              <label class="settings-switch">
+                <input id="rs_show_category_nav" type="checkbox">
+                <i></i>
+              </label>
+            </div>
 
-          <div class="settings-field full">
-            <label>الكوردي</label>
-            <textarea id="rs_delivery_info_ku"></textarea>
-          </div>
+            <div class="settings-toggle-card">
+              <div class="settings-toggle-copy">
+                <strong>زر الرجوع للأعلى</strong>
+                <span>السهم الذي يظهر عند النزول بالصفحة.</span>
+              </div>
+              <label class="settings-switch">
+                <input id="rs_show_back_to_top" type="checkbox">
+                <i></i>
+              </label>
+            </div>
 
-          <div class="settings-field full">
-            <label>English</label>
-            <textarea id="rs_delivery_info_en"></textarea>
-          </div>
+            <div class="settings-toggle-card">
+              <div class="settings-toggle-copy">
+                <strong>شاشة البداية</strong>
+                <span>Intro عند أول فتح للمنيو.</span>
+              </div>
+              <label class="settings-switch">
+                <input id="rs_intro_enabled" type="checkbox">
+                <i></i>
+              </label>
+            </div>
 
-          <div class="settings-section-title">إعلان أعلى المنيو</div>
-
-          <div class="settings-field full">
-            <label>العربي</label>
-            <textarea id="rs_announcement_ar" placeholder="مثال: 🔥 عرض اليوم — التوصيل مجاني"></textarea>
-          </div>
-
-          <div class="settings-field full">
-            <label>الكوردي</label>
-            <textarea id="rs_announcement_ku"></textarea>
-          </div>
-
-          <div class="settings-field full">
-            <label>English</label>
-            <textarea id="rs_announcement_en"></textarea>
-          </div>
-
-          <div class="settings-section-title">رسالة إيقاف الطلب / الإغلاق</div>
-
-          <div class="settings-field full">
-            <label>العربي</label>
-            <textarea id="rs_closed_message_ar" placeholder="المطعم مغلق حالياً. يسعدنا استقبال طلبك عند إعادة فتح الطلبات."></textarea>
-          </div>
-
-          <div class="settings-field full">
-            <label>الكوردي</label>
-            <textarea id="rs_closed_message_ku"></textarea>
-          </div>
-
-          <div class="settings-field full">
-            <label>English</label>
-            <textarea id="rs_closed_message_en"></textarea>
           </div>
 
         </div>
+      </details>
 
-        <div class="settings-save-row">
-          <button id="saveRestaurantSettingsBtn" class="btn btn-gold" type="button">
-            حفظ إعدادات المطعم
-          </button>
-          <div id="restaurantSettingsMsg" class="settings-msg"></div>
+      <!-- 3. CONTACT / TOP BUTTONS -->
+      <details class="settings-accordion">
+        <summary>
+          <span class="settings-accordion-icon">📞</span>
+          <span class="settings-accordion-title">
+            <strong>التواصل وأزرار أعلى المنيو</strong>
+            <small>الهاتف، WhatsApp، الموقع وأسماء الأزرار</small>
+          </span>
+          <span class="settings-chevron">⌄</span>
+        </summary>
+
+        <div class="settings-accordion-body">
+          <div class="settings-simple-grid">
+            <label class="settings-field-clean">
+              <span>رقم الهاتف</span>
+              <input id="rs_phone" type="text" inputmode="tel" placeholder="0750...">
+            </label>
+
+            <label class="settings-field-clean">
+              <span>رقم WhatsApp</span>
+              <input id="rs_whatsapp_number" type="text" inputmode="tel" placeholder="964750...">
+            </label>
+
+            <label class="settings-field-clean full">
+              <span>رابط Google Maps</span>
+              <input id="rs_location" type="url" placeholder="https://maps.google.com/...">
+            </label>
+          </div>
+
+          <div class="settings-element">
+            <div class="settings-element-head">
+              <div>
+                <strong>📍 زر الموقع</strong>
+                <small>زر الموقع الظاهر أعلى المنيو.</small>
+              </div>
+              <label class="mini-visibility">
+                <span>إظهار</span>
+                <input id="rs_top_location_enabled" type="checkbox">
+                <i></i>
+              </label>
+            </div>
+
+            <div class="tri-box" data-tri-box="top_location_label">
+              <div class="tri-tabs">
+                <button type="button" class="active" onclick="switchTriLang('top_location_label','ar',this)">عربي</button>
+                <button type="button" onclick="switchTriLang('top_location_label','ku',this)">کوردی</button>
+                <button type="button" onclick="switchTriLang('top_location_label','en',this)">English</button>
+              </div>
+              <div class="tri-pane active" data-tri-pane="top_location_label:ar">
+                <input id="rs_top_location_label_ar" type="text" placeholder="موقعنا">
+              </div>
+              <div class="tri-pane" data-tri-pane="top_location_label:ku">
+                <input id="rs_top_location_label_ku" type="text" placeholder="شوێنی مە">
+              </div>
+              <div class="tri-pane" data-tri-pane="top_location_label:en">
+                <input id="rs_top_location_label_en" type="text" placeholder="Location">
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-element">
+            <div class="settings-element-head">
+              <div>
+                <strong>☎ زر الاتصال</strong>
+                <small>زر الاتصال الظاهر أعلى المنيو.</small>
+              </div>
+              <label class="mini-visibility">
+                <span>إظهار</span>
+                <input id="rs_top_call_enabled" type="checkbox">
+                <i></i>
+              </label>
+            </div>
+
+            <div class="tri-box" data-tri-box="top_call_label">
+              <div class="tri-tabs">
+                <button type="button" class="active" onclick="switchTriLang('top_call_label','ar',this)">عربي</button>
+                <button type="button" onclick="switchTriLang('top_call_label','ku',this)">کوردی</button>
+                <button type="button" onclick="switchTriLang('top_call_label','en',this)">English</button>
+              </div>
+              <div class="tri-pane active" data-tri-pane="top_call_label:ar">
+                <input id="rs_top_call_label_ar" type="text" placeholder="اتصال">
+              </div>
+              <div class="tri-pane" data-tri-pane="top_call_label:ku">
+                <input id="rs_top_call_label_ku" type="text" placeholder="پەیوەندی">
+              </div>
+              <div class="tri-pane" data-tri-pane="top_call_label:en">
+                <input id="rs_top_call_label_en" type="text" placeholder="Call">
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-element">
+            <div class="settings-element-head">
+              <div>
+                <strong>💬 زر WhatsApp</strong>
+                <small>زر WhatsApp الظاهر أعلى المنيو.</small>
+              </div>
+              <label class="mini-visibility">
+                <span>إظهار</span>
+                <input id="rs_top_whatsapp_enabled" type="checkbox">
+                <i></i>
+              </label>
+            </div>
+
+            <div class="tri-box" data-tri-box="top_whatsapp_label">
+              <div class="tri-tabs">
+                <button type="button" class="active" onclick="switchTriLang('top_whatsapp_label','ar',this)">عربي</button>
+                <button type="button" onclick="switchTriLang('top_whatsapp_label','ku',this)">کوردی</button>
+                <button type="button" onclick="switchTriLang('top_whatsapp_label','en',this)">English</button>
+              </div>
+              <div class="tri-pane active" data-tri-pane="top_whatsapp_label:ar">
+                <input id="rs_top_whatsapp_label_ar" type="text" placeholder="واتساب منيو">
+              </div>
+              <div class="tri-pane" data-tri-pane="top_whatsapp_label:ku">
+                <input id="rs_top_whatsapp_label_ku" type="text" placeholder="مێنیوی واتساپ">
+              </div>
+              <div class="tri-pane" data-tri-pane="top_whatsapp_label:en">
+                <input id="rs_top_whatsapp_label_en" type="text" placeholder="WhatsApp Menu">
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="tools-card bulk-price-card">
-        <h3>💰 تعديل الأسعار دفعة واحدة</h3>
-        <p>
-          ارفع أو نزّل أسعار كل المنيو أو قسم معيّن بمقدار ثابت.
-          يتم تعديل سعر الصنف الأساسي وكل خياراته معاً.
-        </p>
+      </details>
 
-        <div class="bulk-price-grid">
+      <!-- 4. SOCIALS -->
+      <details class="settings-accordion">
+        <summary>
+          <span class="settings-accordion-icon">📱</span>
+          <span class="settings-accordion-title">
+            <strong>السوشيال ميديا</strong>
+            <small>الرابط + إظهار أو إخفاء كل منصة</small>
+          </span>
+          <span class="settings-chevron">⌄</span>
+        </summary>
 
-          <div class="bulk-price-field">
-            <label>النطاق</label>
-            <select id="bulkPriceCategorySelect">
-              <option value="__all__">كل المنيو</option>
-            </select>
+        <div class="settings-accordion-body">
+          <div class="social-setting-row">
+            <div class="social-setting-name">Instagram</div>
+            <input id="rs_instagram_url" type="url" placeholder="https://instagram.com/...">
+            <label class="mini-visibility">
+              <span>إظهار</span>
+              <input id="rs_instagram_enabled" type="checkbox">
+              <i></i>
+            </label>
           </div>
 
-          <div class="bulk-price-field">
-            <label>العملية</label>
-            <select id="bulkPriceOperation">
-              <option value="increase">زيادة السعر</option>
-              <option value="decrease">تنزيل السعر</option>
-            </select>
+          <div class="social-setting-row">
+            <div class="social-setting-name">Facebook</div>
+            <input id="rs_facebook_url" type="url" placeholder="https://facebook.com/...">
+            <label class="mini-visibility">
+              <span>إظهار</span>
+              <input id="rs_facebook_enabled" type="checkbox">
+              <i></i>
+            </label>
           </div>
 
-          <div class="bulk-price-field full">
-            <label>المقدار بالدينار العراقي</label>
+          <div class="social-setting-row">
+            <div class="social-setting-name">TikTok</div>
+            <input id="rs_tiktok_url" type="url" placeholder="https://tiktok.com/@...">
+            <label class="mini-visibility">
+              <span>إظهار</span>
+              <input id="rs_tiktok_enabled" type="checkbox">
+              <i></i>
+            </label>
+          </div>
+
+          <div class="social-setting-row">
+            <div class="social-setting-name">Snapchat</div>
+            <input id="rs_snapchat_url" type="url" placeholder="https://snapchat.com/add/...">
+            <label class="mini-visibility">
+              <span>إظهار</span>
+              <input id="rs_snapchat_enabled" type="checkbox">
+              <i></i>
+            </label>
+          </div>
+        </div>
+      </details>
+
+      <!-- 5. FOOTER -->
+      <details class="settings-accordion">
+        <summary>
+          <span class="settings-accordion-icon">▰</span>
+          <span class="settings-accordion-title">
+            <strong>الفوتر أسفل المنيو</strong>
+            <small>الاسم، العنوان، الهاتف، الأزرار وحقوق النشر</small>
+          </span>
+          <span class="settings-chevron">⌄</span>
+        </summary>
+
+        <div class="settings-accordion-body">
+
+          <div class="settings-toggle-card settings-full-toggle">
+            <div class="settings-toggle-copy">
+              <strong>الفوتر بالكامل</strong>
+              <span>إخفاء أو إظهار الجزء السفلي كاملاً.</span>
+            </div>
+            <label class="settings-switch">
+              <input id="rs_show_footer" type="checkbox">
+              <i></i>
+            </label>
+          </div>
+
+          <div class="settings-toggle-grid">
+            <div class="settings-toggle-card">
+              <div class="settings-toggle-copy">
+                <strong>اسم المطعم</strong>
+                <span>الاسم داخل الفوتر.</span>
+              </div>
+              <label class="settings-switch">
+                <input id="rs_show_footer_brand" type="checkbox">
+                <i></i>
+              </label>
+            </div>
+
+            <div class="settings-toggle-card">
+              <div class="settings-toggle-copy">
+                <strong>رقم الهاتف</strong>
+                <span>الرقم النصي في الفوتر.</span>
+              </div>
+              <label class="settings-switch">
+                <input id="rs_show_footer_phone" type="checkbox">
+                <i></i>
+              </label>
+            </div>
+
+            <div class="settings-toggle-card">
+              <div class="settings-toggle-copy">
+                <strong>حقوق النشر</strong>
+                <span>اسم المطعم والسنة.</span>
+              </div>
+              <label class="settings-switch">
+                <input id="rs_show_footer_copy" type="checkbox">
+                <i></i>
+              </label>
+            </div>
+
+            <div class="settings-toggle-card">
+              <div class="settings-toggle-copy">
+                <strong>روابط السوشيال</strong>
+                <span>مجموعة Instagram وغيرها.</span>
+              </div>
+              <label class="settings-switch">
+                <input id="rs_show_footer_socials" type="checkbox">
+                <i></i>
+              </label>
+            </div>
+          </div>
+
+          <div class="settings-element">
+            <div class="settings-element-head">
+              <div>
+                <strong>العنوان الظاهر</strong>
+                <small>مثال: دهوك • كوردستان</small>
+              </div>
+              <label class="mini-visibility">
+                <span>إظهار</span>
+                <input id="rs_show_footer_location" type="checkbox">
+                <i></i>
+              </label>
+            </div>
+
+            <div class="tri-box" data-tri-box="footer_location">
+              <div class="tri-tabs">
+                <button type="button" class="active" onclick="switchTriLang('footer_location','ar',this)">عربي</button>
+                <button type="button" onclick="switchTriLang('footer_location','ku',this)">کوردی</button>
+                <button type="button" onclick="switchTriLang('footer_location','en',this)">English</button>
+              </div>
+              <div class="tri-pane active" data-tri-pane="footer_location:ar">
+                <input id="rs_footer_location_ar" type="text" placeholder="دهوك • كوردستان">
+              </div>
+              <div class="tri-pane" data-tri-pane="footer_location:ku">
+                <input id="rs_footer_location_ku" type="text" placeholder="دهۆک • کوردستان">
+              </div>
+              <div class="tri-pane" data-tri-pane="footer_location:en">
+                <input id="rs_footer_location_en" type="text" placeholder="Duhok • Kurdistan">
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-toggle-grid">
+            <div class="settings-toggle-card">
+              <div class="settings-toggle-copy">
+                <strong>زر الموقع في الفوتر</strong>
+                <span>Location</span>
+              </div>
+              <label class="settings-switch">
+                <input id="rs_footer_location_enabled" type="checkbox">
+                <i></i>
+              </label>
+            </div>
+
+            <div class="settings-toggle-card">
+              <div class="settings-toggle-copy">
+                <strong>زر الاتصال في الفوتر</strong>
+                <span>Call</span>
+              </div>
+              <label class="settings-switch">
+                <input id="rs_footer_call_enabled" type="checkbox">
+                <i></i>
+              </label>
+            </div>
+
+            <div class="settings-toggle-card">
+              <div class="settings-toggle-copy">
+                <strong>زر WhatsApp في الفوتر</strong>
+                <span>WhatsApp Menu</span>
+              </div>
+              <label class="settings-switch">
+                <input id="rs_footer_whatsapp_enabled" type="checkbox">
+                <i></i>
+              </label>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- 6. ANNOUNCEMENT / DELIVERY INFO -->
+      <details class="settings-accordion">
+        <summary>
+          <span class="settings-accordion-icon">📣</span>
+          <span class="settings-accordion-title">
+            <strong>الإعلان ومعلومات التوصيل</strong>
+            <small>نصوص اختيارية تظهر للزبون</small>
+          </span>
+          <span class="settings-chevron">⌄</span>
+        </summary>
+
+        <div class="settings-accordion-body">
+
+          <div class="settings-element">
+            <div class="settings-element-head">
+              <div>
+                <strong>إعلان أعلى المنيو</strong>
+                <small>عرض، تنبيه أو رسالة قصيرة.</small>
+              </div>
+              <label class="mini-visibility">
+                <span>إظهار</span>
+                <input id="rs_announcement_enabled" type="checkbox">
+                <i></i>
+              </label>
+            </div>
+
+            <div class="tri-box" data-tri-box="announcement">
+              <div class="tri-tabs">
+                <button type="button" class="active" onclick="switchTriLang('announcement','ar',this)">عربي</button>
+                <button type="button" onclick="switchTriLang('announcement','ku',this)">کوردی</button>
+                <button type="button" onclick="switchTriLang('announcement','en',this)">English</button>
+              </div>
+              <div class="tri-pane active" data-tri-pane="announcement:ar">
+                <textarea id="rs_announcement_ar" placeholder="مثال: 🔥 عروض قوية اليوم"></textarea>
+              </div>
+              <div class="tri-pane" data-tri-pane="announcement:ku">
+                <textarea id="rs_announcement_ku"></textarea>
+              </div>
+              <div class="tri-pane" data-tri-pane="announcement:en">
+                <textarea id="rs_announcement_en"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-element">
+            <div class="settings-element-head">
+              <div>
+                <strong>معلومات التوصيل</strong>
+                <small>تظهر داخل صفحة إكمال الطلب.</small>
+              </div>
+              <label class="mini-visibility">
+                <span>إظهار</span>
+                <input id="rs_delivery_info_enabled" type="checkbox">
+                <i></i>
+              </label>
+            </div>
+
+            <div class="tri-box" data-tri-box="delivery_info">
+              <div class="tri-tabs">
+                <button type="button" class="active" onclick="switchTriLang('delivery_info','ar',this)">عربي</button>
+                <button type="button" onclick="switchTriLang('delivery_info','ku',this)">کوردی</button>
+                <button type="button" onclick="switchTriLang('delivery_info','en',this)">English</button>
+              </div>
+              <div class="tri-pane active" data-tri-pane="delivery_info:ar">
+                <textarea id="rs_delivery_info_ar" placeholder="مثال: التوصيل داخل دهوك فقط • 30–45 دقيقة"></textarea>
+              </div>
+              <div class="tri-pane" data-tri-pane="delivery_info:ku">
+                <textarea id="rs_delivery_info_ku"></textarea>
+              </div>
+              <div class="tri-pane" data-tri-pane="delivery_info:en">
+                <textarea id="rs_delivery_info_en"></textarea>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </details>
+
+      <!-- 7. BACKGROUND -->
+      <details class="settings-accordion">
+        <summary>
+          <span class="settings-accordion-icon">🎬</span>
+          <span class="settings-accordion-title">
+            <strong>الخلفية والمظهر</strong>
+            <small>فيديو الخلفية وعناصر العرض</small>
+          </span>
+          <span class="settings-chevron">⌄</span>
+        </summary>
+
+        <div class="settings-accordion-body">
+          <div class="settings-element">
+            <div class="settings-element-head">
+              <div>
+                <strong>فيديو الخلفية</strong>
+                <small>يمكن إيقافه بدون حذف الرابط.</small>
+              </div>
+              <label class="mini-visibility">
+                <span>إظهار</span>
+                <input id="rs_background_video_enabled" type="checkbox">
+                <i></i>
+              </label>
+            </div>
+
             <input
-              id="bulkPriceAmount"
-              type="number"
-              inputmode="numeric"
-              min="1"
-              step="1"
-              value="1000"
-              placeholder="مثال: 1000"
+              id="rs_background_video"
+              class="settings-input"
+              type="url"
+              placeholder="assets/background.mp4 أو رابط مباشر"
             >
           </div>
+        </div>
+      </details>
 
-          <div id="bulkPricePreview" class="bulk-price-preview">
-            اختر النطاق والمقدار لمعاينة التغيير.
+      <!-- 8. BULK PRICE -->
+      <details class="settings-accordion">
+        <summary>
+          <span class="settings-accordion-icon">💰</span>
+          <span class="settings-accordion-title">
+            <strong>تعديل الأسعار دفعة واحدة</strong>
+            <small>كل المنيو أو قسم معيّن</small>
+          </span>
+          <span class="settings-chevron">⌄</span>
+        </summary>
+
+        <div class="settings-accordion-body">
+          <div class="bulk-price-grid">
+            <div class="bulk-price-field">
+              <label>النطاق</label>
+              <select id="bulkPriceCategorySelect">
+                <option value="__all__">كل المنيو</option>
+              </select>
+            </div>
+
+            <div class="bulk-price-field">
+              <label>العملية</label>
+              <select id="bulkPriceOperation">
+                <option value="increase">زيادة السعر</option>
+                <option value="decrease">تنزيل السعر</option>
+              </select>
+            </div>
+
+            <div class="bulk-price-field full">
+              <label>المقدار بالدينار العراقي</label>
+              <input id="bulkPriceAmount" type="number" inputmode="numeric" min="1" step="1" value="1000">
+            </div>
+
+            <div id="bulkPricePreview" class="bulk-price-preview">
+              اختر النطاق والمقدار لمعاينة التغيير.
+            </div>
+
+            <div class="bulk-price-warning">
+              يتم تعديل السعر الأساسي وكل خيارات الأصناف. يمنع النظام نزول أي سعر تحت الصفر.
+            </div>
+
+            <div class="bulk-price-actions">
+              <button id="applyBulkPriceBtn" class="btn btn-gold" type="button">تنفيذ تغيير الأسعار</button>
+              <button id="downloadPriceBackupBtn" class="btn btn-dark" type="button">تنزيل آخر نسخة أسعار</button>
+            </div>
+
+            <div id="bulkPriceMsg" class="bulk-price-msg"></div>
+          </div>
+        </div>
+      </details>
+
+      <!-- 9. BACKUP -->
+      <details class="settings-accordion">
+        <summary>
+          <span class="settings-accordion-icon">💾</span>
+          <span class="settings-accordion-title">
+            <strong>النسخ الاحتياطي والاسترجاع</strong>
+            <small>Backup كامل أو جزئي</small>
+          </span>
+          <span class="settings-chevron">⌄</span>
+        </summary>
+
+        <div class="settings-accordion-body">
+
+          <div class="backup-compact-actions">
+            <button class="btn btn-gold" type="button" id="backupFullBtn">تنزيل Backup كامل</button>
+            <button class="btn btn-gold" type="button" id="restoreBackupBtn">اختيار ملف واسترجاع</button>
+            <button class="btn btn-dark" type="button" id="downloadEmergencyBackupBtn">آخر Backup تلقائي</button>
+            <input id="restoreBackupInput" type="file" accept=".json,application/json" hidden>
           </div>
 
-          <div class="bulk-price-warning">
-            الأمان: لا يسمح النظام بتنزيل أي سعر إلى أقل من صفر.
-            وقبل التنفيذ يحفظ نسخة تلقائية محلياً من الأسعار الحالية.
-          </div>
+          <details class="settings-subdetails">
+            <summary>Backup إضافي حسب النوع</summary>
+            <div class="settings-subdetails-body">
+              <div class="backup-grid">
+                <div class="backup-card">
+                  <h3>الأقسام فقط</h3>
+                  <button class="btn btn-dark" type="button" id="backupCategoriesBtn">تنزيل الأقسام</button>
+                </div>
 
-          <div class="bulk-price-actions">
-            <button id="applyBulkPriceBtn" class="btn btn-gold" type="button">
-              تنفيذ تغيير الأسعار
-            </button>
+                <div class="backup-card">
+                  <h3>الأصناف والخيارات</h3>
+                  <button class="btn btn-dark" type="button" id="backupProductsBtn">تنزيل الأصناف</button>
+                </div>
 
-            <button id="downloadPriceBackupBtn" class="btn btn-dark" type="button">
-              تنزيل آخر نسخة أسعار
-            </button>
-          </div>
+                <div class="backup-card">
+                  <h3>قسم معيّن</h3>
+                  <div class="backup-row">
+                    <select id="backupCategorySelect"></select>
+                    <button class="btn btn-dark" type="button" id="backupCategoryBtn">تنزيل</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </details>
 
-          <div id="bulkPriceMsg" class="bulk-price-msg"></div>
-
+          <div id="backupStatus" class="backup-status"></div>
         </div>
-      </div>
+      </details>
 
-      <div class="tools-card">
-        <h3>💾 نسخة كاملة للمنيو</h3>
-        <p>الأقسام + الأصناف + الأسعار والخيارات.</p>
-        <div class="tools-actions">
-          <button class="btn btn-gold" type="button" id="backupFullBtn">تنزيل Backup كامل</button>
-        </div>
-      </div>
+      <!-- 10. ACCOUNT -->
+      <details class="settings-accordion">
+        <summary>
+          <span class="settings-accordion-icon">🔐</span>
+          <span class="settings-accordion-title">
+            <strong>حساب الإدارة</strong>
+            <small>الحساب الحالي وتسجيل الخروج</small>
+          </span>
+          <span class="settings-chevron">⌄</span>
+        </summary>
 
-      <div class="tools-card">
-        <h3>↩ استرجاع البيانات</h3>
-        <p>استرجع أي ملف Backup تم إنشاؤه من لوحة المطعم.</p>
-        <div class="tools-actions">
-          <button class="btn btn-gold" type="button" id="restoreBackupBtn">اختيار ملف واسترجاع</button>
-          <button class="btn btn-dark" type="button" id="downloadEmergencyBackupBtn">آخر Backup تلقائي</button>
-          <input id="restoreBackupInput" type="file" accept=".json,application/json" hidden>
+        <div class="settings-accordion-body">
+          <div id="adminAccountEmail" class="admin-account-email">—</div>
+          <button id="adminLogoutBtn" class="logout-btn" type="button">
+            تسجيل الخروج
+          </button>
         </div>
-      </div>
-      <div class="tools-card admin-account-card">
-        <h3>🔐 حساب الإدارة</h3>
-        <p>أنت مسجل دخول حالياً بهذا الحساب:</p>
-        <div id="adminAccountEmail" class="admin-account-email">—</div>
-        <button id="adminLogoutBtn" class="logout-btn" type="button">
-          تسجيل الخروج
-        </button>
-      </div>
+      </details>
 
     </div>
 
-    <details class="compact-details advanced-backup">
-      <summary>خيارات Backup إضافية</summary>
-      <div class="compact-details-body">
-        <section class="panel backup-panel">
-          <div class="panel-header"><h2>النسخ الاحتياطي والاسترجاع</h2></div>
-          <div class="panel-body">
-            <div class="backup-grid">
-              <div class="backup-card">
-                <h3>الأقسام كاملة</h3>
-                <p>بيانات جميع الأقسام فقط.</p>
-                <button class="btn btn-dark" type="button" id="backupCategoriesBtn">تنزيل الأقسام</button>
-              </div>
-
-              <div class="backup-card">
-                <h3>الأصناف كاملة</h3>
-                <p>كل الأصناف مع الخيارات والأسعار.</p>
-                <button class="btn btn-dark" type="button" id="backupProductsBtn">تنزيل الأصناف</button>
-              </div>
-
-              <div class="backup-card">
-                <h3>قسم معيّن مع أصنافه</h3>
-                <div class="backup-row">
-                  <select id="backupCategorySelect"></select>
-                  <button class="btn btn-dark" type="button" id="backupCategoryBtn">تنزيل</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-    </details>
-
-    <div id="backupStatus" class="backup-status"></div>
   </section>
 
 </main>
@@ -2171,6 +2921,22 @@
   const DEFAULT_CLOSED_EN =
     'The restaurant is currently closed. Ordering will be available again when we reopen.';
 
+  function switchTriLang(group,language,button){
+    const box=document.querySelector(`[data-tri-box="${group}"]`);
+    if(!box)return;
+
+    box.querySelectorAll('.tri-tabs button').forEach(btn=>{
+      btn.classList.toggle('active',btn===button);
+    });
+
+    box.querySelectorAll('[data-tri-pane]').forEach(pane=>{
+      pane.classList.toggle(
+        'active',
+        pane.dataset.triPane===`${group}:${language}`
+      );
+    });
+  }
+
   function rsValue(id){
     return String(document.getElementById(id)?.value ?? '').trim();
   }
@@ -2213,84 +2979,106 @@
       if(el)el.value=value ?? '';
     };
 
-    set('rs_name_ar',s.name_ar || s.name || 'شوراش');
-    set('rs_name_ku',s.name_ku || 'SHORASH');
-    set('rs_name_en',s.name_en || s.name || 'SHORASH REST & CAFE');
+    const bool=(id,value,defaultValue=true)=>{
+      const el=document.getElementById(id);
+      if(el){
+        el.checked=
+          value===null || value===undefined
+            ? defaultValue
+            : value===true;
+      }
+    };
 
-    set('rs_subtitle_ar',s.subtitle_ar ?? 'اكتشف منيو {name}');
-    set('rs_subtitle_ku',s.subtitle_ku ?? 'مینیوی {name} ببینە');
-    set('rs_subtitle_en',s.subtitle_en ?? 'Discover {name} Menu');
+    // Identity — EMPTY means empty. No automatic SHORASH restoration.
+    set('rs_name_ar',s.name_ar ?? s.name ?? '');
+    set('rs_name_ku',s.name_ku ?? '');
+    set('rs_name_en',s.name_en ?? s.name ?? '');
 
-    set('rs_phone',s.phone || '07502662002');
+    set('rs_subtitle_ar',s.subtitle_ar ?? '');
+    set('rs_subtitle_ku',s.subtitle_ku ?? '');
+    set('rs_subtitle_en',s.subtitle_en ?? '');
+
+    bool('rs_show_menu_title',s.show_menu_title,true);
+    bool('rs_show_logo',s.show_logo,true);
+    bool('rs_show_subtitle',s.show_subtitle,true);
+    bool('rs_show_language_switch',s.show_language_switch,true);
+    bool('rs_show_category_nav',s.show_category_nav,true);
+    bool('rs_show_back_to_top',s.show_back_to_top,true);
+    bool('rs_intro_enabled',s.intro_enabled,true);
+
+    // Business status
+    bool('rs_is_open',s.is_open,true);
+    bool('rs_orders_enabled',s.orders_enabled,true);
+    bool('rs_delivery_enabled',s.delivery_enabled,true);
+    bool('rs_pickup_enabled',s.pickup_enabled,true);
+
+    // Contact
+    set('rs_phone',s.phone ?? '');
 
     const oldWhatsapp=
-      s.whatsapp_number ||
-      s.whatsapp ||
-      s.whatsapp_url ||
-      '9647502662002';
+      s.whatsapp_number ??
+      s.whatsapp ??
+      s.whatsapp_url ??
+      '';
 
     set(
       'rs_whatsapp_number',
-      normalizeWhatsappNumber(oldWhatsapp) || '9647502662002'
+      normalizeWhatsappNumber(oldWhatsapp)
     );
 
-    set('rs_location',s.location || s.location_url || '');
+    set('rs_location',s.location ?? s.location_url ?? '');
 
-    const topLocation=document.getElementById('rs_top_location_enabled');
-    const topCall=document.getElementById('rs_top_call_enabled');
-    const topWhatsapp=document.getElementById('rs_top_whatsapp_enabled');
+    bool('rs_top_location_enabled',s.top_location_enabled,true);
+    bool('rs_top_call_enabled',s.top_call_enabled,true);
+    bool('rs_top_whatsapp_enabled',s.top_whatsapp_enabled,true);
 
-    if(topLocation)topLocation.checked=s.top_location_enabled!==false;
-    if(topCall)topCall.checked=s.top_call_enabled!==false;
-    if(topWhatsapp)topWhatsapp.checked=s.top_whatsapp_enabled!==false;
+    set('rs_top_location_label_ar',s.top_location_label_ar ?? '');
+    set('rs_top_location_label_ku',s.top_location_label_ku ?? '');
+    set('rs_top_location_label_en',s.top_location_label_en ?? '');
 
-    set('rs_top_location_label_ar',s.top_location_label_ar ?? 'موقعنا');
-    set('rs_top_location_label_ku',s.top_location_label_ku ?? 'شوێنی مە');
-    set('rs_top_location_label_en',s.top_location_label_en ?? 'Location');
+    set('rs_top_call_label_ar',s.top_call_label_ar ?? '');
+    set('rs_top_call_label_ku',s.top_call_label_ku ?? '');
+    set('rs_top_call_label_en',s.top_call_label_en ?? '');
 
-    set('rs_top_call_label_ar',s.top_call_label_ar ?? 'اتصال');
-    set('rs_top_call_label_ku',s.top_call_label_ku ?? 'پەیوەندی');
-    set('rs_top_call_label_en',s.top_call_label_en ?? 'Call');
+    set('rs_top_whatsapp_label_ar',s.top_whatsapp_label_ar ?? '');
+    set('rs_top_whatsapp_label_ku',s.top_whatsapp_label_ku ?? '');
+    set('rs_top_whatsapp_label_en',s.top_whatsapp_label_en ?? '');
 
-    set('rs_top_whatsapp_label_ar',s.top_whatsapp_label_ar ?? 'واتساب منيو');
-    set('rs_top_whatsapp_label_ku',s.top_whatsapp_label_ku ?? 'مێنیوی واتساپ');
-    set('rs_top_whatsapp_label_en',s.top_whatsapp_label_en ?? 'WhatsApp Menu');
+    // Footer
+    bool('rs_show_footer',s.show_footer,true);
+    bool('rs_show_footer_brand',s.show_footer_brand,true);
+    bool('rs_show_footer_location',s.show_footer_location,true);
+    bool('rs_show_footer_phone',s.show_footer_phone,true);
+    bool('rs_show_footer_socials',s.show_footer_socials,true);
+    bool('rs_show_footer_copy',s.show_footer_copy,true);
 
-    set('rs_footer_location_ar',s.footer_location_ar ?? 'دهوك • كوردستان');
-    set('rs_footer_location_ku',s.footer_location_ku ?? 'دهۆک • کوردستان');
-    set('rs_footer_location_en',s.footer_location_en ?? 'Duhok • Kurdistan');
+    bool('rs_footer_location_enabled',s.footer_location_enabled,true);
+    bool('rs_footer_call_enabled',s.footer_call_enabled,true);
+    bool('rs_footer_whatsapp_enabled',s.footer_whatsapp_enabled,true);
 
-    set('rs_instagram_url',
-      s.instagram_url !== undefined && s.instagram_url !== null
-        ? s.instagram_url
-        : 'https://www.instagram.com/shorashrest'
-    );
+    set('rs_footer_location_ar',s.footer_location_ar ?? '');
+    set('rs_footer_location_ku',s.footer_location_ku ?? '');
+    set('rs_footer_location_en',s.footer_location_en ?? '');
 
-    set('rs_facebook_url',
-      s.facebook_url !== undefined && s.facebook_url !== null
-        ? s.facebook_url
-        : 'https://facebook.com/shorashrest'
-    );
+    // Socials
+    set('rs_instagram_url',s.instagram_url ?? '');
+    set('rs_facebook_url',s.facebook_url ?? '');
+    set('rs_tiktok_url',s.tiktok_url ?? '');
+    set('rs_snapchat_url',s.snapchat_url ?? '');
 
-    set('rs_tiktok_url',
-      s.tiktok_url !== undefined && s.tiktok_url !== null
-        ? s.tiktok_url
-        : 'https://www.tiktok.com/@shorashrest'
-    );
+    bool('rs_instagram_enabled',s.instagram_enabled,true);
+    bool('rs_facebook_enabled',s.facebook_enabled,true);
+    bool('rs_tiktok_enabled',s.tiktok_enabled,true);
+    bool('rs_snapchat_enabled',s.snapchat_enabled,true);
 
-    set('rs_snapchat_url',
-      s.snapchat_url !== undefined && s.snapchat_url !== null
-        ? s.snapchat_url
-        : 'https://www.snapchat.com/add/shorest2000'
-    );
+    // Appearance
+    set('rs_logo_url',s.logo_url ?? '');
+    set('rs_background_video',s.background_video ?? s.background_video_url ?? '');
+    bool('rs_background_video_enabled',s.background_video_enabled,true);
 
-    set('rs_logo_url',s.logo_url || '');
-    set(
-      'rs_background_video',
-      s.background_video ||
-      s.background_video_url ||
-      'assets/background.mp4'
-    );
+    // Delivery / announcement
+    bool('rs_announcement_enabled',s.announcement_enabled,false);
+    bool('rs_delivery_info_enabled',s.delivery_info_enabled,true);
 
     set('rs_delivery_info_ar',s.delivery_info_ar ?? '');
     set('rs_delivery_info_ku',s.delivery_info_ku ?? '');
@@ -2300,42 +3088,26 @@
     set('rs_announcement_ku',s.announcement_ku ?? '');
     set('rs_announcement_en',s.announcement_en ?? '');
 
-    set(
-      'rs_closed_message_ar',
-      s.closed_message_ar || DEFAULT_CLOSED_AR
-    );
-
-    set(
-      'rs_closed_message_ku',
-      s.closed_message_ku || DEFAULT_CLOSED_KU
-    );
-
-    set(
-      'rs_closed_message_en',
-      s.closed_message_en || DEFAULT_CLOSED_EN
-    );
-
-    const open=document.getElementById('rs_is_open');
-    const orders=document.getElementById('rs_orders_enabled');
-
-    if(open)open.checked=s.is_open!==false;
-    if(orders)orders.checked=s.orders_enabled!==false;
-
-    const delivery=document.getElementById('rs_delivery_enabled');
-    const pickup=document.getElementById('rs_pickup_enabled');
-    const announcement=document.getElementById('rs_announcement_enabled');
-
-    if(delivery)delivery.checked=s.delivery_enabled!==false;
-    if(pickup)pickup.checked=s.pickup_enabled!==false;
-    if(announcement)announcement.checked=s.announcement_enabled===true;
+    set('rs_closed_message_ar',s.closed_message_ar ?? '');
+    set('rs_closed_message_ku',s.closed_message_ku ?? '');
+    set('rs_closed_message_en',s.closed_message_en ?? '');
 
     const preview=document.getElementById('rs_logo_preview');
     if(preview){
-      preview.src=s.logo_url || 'assets/shorash-logo.jpeg';
+      const logo=String(s.logo_url ?? '').trim();
+
+      if(logo){
+        preview.src=logo;
+        preview.style.visibility='visible';
+      }else{
+        preview.removeAttribute('src');
+        preview.style.visibility='hidden';
+      }
     }
 
     setRestaurantSettingsMsg('');
   }
+
 
   function previewRestaurantLogo(input){
     const file=input?.files?.[0];
@@ -2420,10 +3192,6 @@
           rsValue('rs_whatsapp_number')
         );
 
-      if(!whatsappNumber){
-        throw new Error('اكتب رقم WhatsApp صحيح.');
-      }
-
       const patch={
         name_ar:rsValue('rs_name_ar'),
         name_ku:rsValue('rs_name_ku'),
@@ -2432,6 +3200,14 @@
         subtitle_ar:rsValue('rs_subtitle_ar'),
         subtitle_ku:rsValue('rs_subtitle_ku'),
         subtitle_en:rsValue('rs_subtitle_en'),
+
+        show_menu_title:rsChecked('rs_show_menu_title'),
+        show_logo:rsChecked('rs_show_logo'),
+        show_subtitle:rsChecked('rs_show_subtitle'),
+        show_language_switch:rsChecked('rs_show_language_switch'),
+        show_category_nav:rsChecked('rs_show_category_nav'),
+        show_back_to_top:rsChecked('rs_show_back_to_top'),
+        intro_enabled:rsChecked('rs_intro_enabled'),
 
         phone:rsValue('rs_phone'),
         whatsapp_number:whatsappNumber,
@@ -2457,33 +3233,50 @@
         footer_location_ku:rsValue('rs_footer_location_ku'),
         footer_location_en:rsValue('rs_footer_location_en'),
 
+        show_footer:rsChecked('rs_show_footer'),
+        show_footer_brand:rsChecked('rs_show_footer_brand'),
+        show_footer_location:rsChecked('rs_show_footer_location'),
+        show_footer_phone:rsChecked('rs_show_footer_phone'),
+        show_footer_socials:rsChecked('rs_show_footer_socials'),
+        show_footer_copy:rsChecked('rs_show_footer_copy'),
+
+        footer_location_enabled:rsChecked('rs_footer_location_enabled'),
+        footer_call_enabled:rsChecked('rs_footer_call_enabled'),
+        footer_whatsapp_enabled:rsChecked('rs_footer_whatsapp_enabled'),
+
         instagram_url:rsValue('rs_instagram_url'),
         facebook_url:rsValue('rs_facebook_url'),
         tiktok_url:rsValue('rs_tiktok_url'),
         snapchat_url:rsValue('rs_snapchat_url'),
 
-        logo_url:logoUrl || null,
+        instagram_enabled:rsChecked('rs_instagram_enabled'),
+        facebook_enabled:rsChecked('rs_facebook_enabled'),
+        tiktok_enabled:rsChecked('rs_tiktok_enabled'),
+        snapchat_enabled:rsChecked('rs_snapchat_enabled'),
+
+        logo_url:logoUrl || '',
         background_video:rsValue('rs_background_video'),
+        background_video_enabled:rsChecked('rs_background_video_enabled'),
 
         is_open:rsChecked('rs_is_open'),
         orders_enabled:rsChecked('rs_orders_enabled'),
         delivery_enabled:rsChecked('rs_delivery_enabled'),
         pickup_enabled:rsChecked('rs_pickup_enabled'),
-        announcement_enabled:rsChecked('rs_announcement_enabled'),
 
+        delivery_info_enabled:rsChecked('rs_delivery_info_enabled'),
         delivery_info_ar:rsValue('rs_delivery_info_ar'),
         delivery_info_ku:rsValue('rs_delivery_info_ku'),
         delivery_info_en:rsValue('rs_delivery_info_en'),
 
+        announcement_enabled:rsChecked('rs_announcement_enabled'),
         announcement_ar:rsValue('rs_announcement_ar'),
         announcement_ku:rsValue('rs_announcement_ku'),
         announcement_en:rsValue('rs_announcement_en'),
-        closed_message_ar:
-          rsValue('rs_closed_message_ar') || DEFAULT_CLOSED_AR,
-        closed_message_ku:
-          rsValue('rs_closed_message_ku') || DEFAULT_CLOSED_KU,
-        closed_message_en:
-          rsValue('rs_closed_message_en') || DEFAULT_CLOSED_EN,
+
+        closed_message_ar:rsValue('rs_closed_message_ar'),
+        closed_message_ku:rsValue('rs_closed_message_ku'),
+        closed_message_en:rsValue('rs_closed_message_en'),
+
         updated_at:new Date().toISOString()
       };
 
@@ -2519,9 +3312,7 @@
       }
 
       setRestaurantSettingsMsg(
-        patch.is_open && patch.orders_enabled
-          ? 'تم الحفظ ✓ — المطعم يستقبل الطلبات'
-          : 'تم الحفظ ✓ — الطلبات متوقفة حالياً',
+        'تم حفظ الإعدادات بنجاح ✓',
         true
       );
 
@@ -2754,7 +3545,7 @@
         'connection-box success';
 
       statusText.textContent =
-        'متصل بقاعدة بيانات '+getAdminRestaurantName();
+        getAdminRestaurantName()?('متصل بقاعدة بيانات '+getAdminRestaurantName()):'متصل بقاعدة البيانات';
 
 
       document.getElementById('categoryCount').textContent =
@@ -2968,9 +3759,10 @@
     const s=adminRestaurantSettings||{};
     return (
       s.name_ar ||
+      s.name_ku ||
       s.name_en ||
       s.name ||
-      'المطعم'
+      ''
     );
   }
 
@@ -3019,7 +3811,7 @@
     });
 
     const titles={
-      home:['الرئيسية',getAdminRestaurantName()+' Admin'],
+      home:['الرئيسية',getAdminRestaurantName()?getAdminRestaurantName()+' Admin':'لوحة الإدارة'],
       products:['الأصناف','إدارة المواد والأسعار'],
       categories:['الأقسام','إدارة أقسام المنيو'],
       tools:['الإعدادات','إعدادات المطعم والأدوات']
