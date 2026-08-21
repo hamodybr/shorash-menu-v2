@@ -529,10 +529,16 @@ function applyLang() {
   const subtitle = $("#smSubtitle");
 
   if (subtitle) {
+    const customSubtitle =
+      DB?.restaurant?.subtitle?.[lang];
+
     subtitle.textContent =
+      customSubtitle ||
       I18N[lang].subtitle;
   }
 
+
+  updateRestaurantLanguageUI();
 
   renderLanguages();
   renderActions();
@@ -721,11 +727,6 @@ function setupFooter() {
   }
 
 
-  /*
-    SHORASH social links.
-    Change these later if needed.
-  */
-
   const facebook =
     $("#smFacebook");
 
@@ -739,28 +740,249 @@ function setupFooter() {
     $("#smInstagram");
 
 
-  if (facebook) {
-    facebook.href =
-      "https://facebook.com/shorashrest";
+  function applySocialLink(element,url) {
+
+    if (!element) return;
+
+    const clean =
+      String(url || "").trim();
+
+    if (clean) {
+      element.href = clean;
+      element.hidden = false;
+      element.style.display = "";
+    } else {
+      element.removeAttribute("href");
+      element.hidden = true;
+      element.style.display = "none";
+    }
   }
 
 
-  if (snapchat) {
-    snapchat.href =
-      "https://www.snapchat.com/add/shorest2000";
+  applySocialLink(
+    facebook,
+    restaurant.social?.facebook
+  );
+
+  applySocialLink(
+    snapchat,
+    restaurant.social?.snapchat
+  );
+
+  applySocialLink(
+    tiktok,
+    restaurant.social?.tiktok
+  );
+
+  applySocialLink(
+    instagram,
+    restaurant.social?.instagram
+  );
+
+
+  if (location) {
+    const hasLocation =
+      String(
+        restaurant.location || ""
+      ).trim() &&
+      restaurant.location !== "#";
+
+    location.hidden =
+      !hasLocation;
+
+    location.style.display =
+      hasLocation
+        ? ""
+        : "none";
+  }
+
+}
+
+
+/* ========================================
+   LANGUAGE-AWARE RESTAURANT UI
+======================================== */
+
+function updateRestaurantLanguageUI() {
+
+  if (!DB) return;
+
+  const restaurant =
+    DB.restaurant || {};
+
+
+  const footerLocation =
+    document.querySelector(
+      ".sm-footer-location, .sm-footer-brand span"
+    );
+
+  if (footerLocation) {
+    footerLocation.textContent =
+      restaurant.footerLocation?.[lang] ||
+      restaurant.footerLocation?.ar ||
+      "Duhok • Kurdistan";
   }
 
 
-  if (tiktok) {
-    tiktok.href =
-      "https://www.tiktok.com/@shorashrest";
+  let announcement =
+    document.getElementById(
+      "smAnnouncement"
+    );
+
+
+  if (!announcement) {
+
+    announcement =
+      document.createElement("div");
+
+    announcement.id =
+      "smAnnouncement";
+
+    announcement.style.cssText =
+      [
+        "display:none",
+        "width:min(calc(100% - 20px),680px)",
+        "box-sizing:border-box",
+        "margin:0 auto 12px",
+        "padding:10px 14px",
+        "border:1px solid rgba(232,184,98,.26)",
+        "border-radius:13px",
+        "background:rgba(27,18,10,.78)",
+        "color:#e8b862",
+        "font-size:12px",
+        "font-weight:700",
+        "line-height:1.65",
+        "text-align:center",
+        "backdrop-filter:blur(12px)",
+        "-webkit-backdrop-filter:blur(12px)",
+        "box-shadow:0 10px 30px rgba(0,0,0,.18)"
+      ].join(";");
+
+
+    const target =
+      document.querySelector(
+        ".sm-cats-wrap"
+      ) ||
+      document.getElementById(
+        "smCatsSentinel"
+      );
+
+
+    if (target?.parentNode) {
+      target.parentNode.insertBefore(
+        announcement,
+        target
+      );
+    } else {
+      document.body.appendChild(
+        announcement
+      );
+    }
   }
 
 
-  if (instagram) {
-    instagram.href =
-      "https://www.instagram.com/shorashrest";
+  const announcementText =
+    restaurant.announcement?.[lang] ||
+    restaurant.announcement?.ar ||
+    "";
+
+
+  const showAnnouncement =
+    restaurant.announcementEnabled === true &&
+    String(announcementText).trim();
+
+
+  announcement.textContent =
+    announcementText;
+
+  announcement.style.display =
+    showAnnouncement
+      ? "block"
+      : "none";
+}
+
+
+/* ========================================
+   RESTAURANT BRANDING
+======================================== */
+
+function applyRestaurantBranding() {
+
+  if (!DB) return;
+
+  const restaurant =
+    DB.restaurant || {};
+
+  if (restaurant.name) {
+    document.title =
+      restaurant.name +
+      " — Menu";
   }
+
+
+  const logo =
+    restaurant.logo;
+
+  if (logo) {
+
+    [
+      ...document.querySelectorAll(
+        ".sm-intro-logo, #smLogo"
+      )
+    ].forEach(img => {
+
+      if (
+        img &&
+        img.tagName === "IMG"
+      ) {
+        img.src = logo;
+      }
+
+    });
+
+
+    document
+      .querySelectorAll(".sm-logo")
+      .forEach(el => {
+
+        if (el.tagName === "IMG") {
+          el.src = logo;
+        }
+
+        const img =
+          el.querySelector?.("img");
+
+        if (img) {
+          img.src = logo;
+        }
+
+      });
+
+  }
+
+
+  const footerTitle =
+    document.querySelector(
+      ".sm-footer h2, .sm-footer-brand strong"
+    );
+
+  if (footerTitle) {
+    footerTitle.textContent =
+      restaurant.name ||
+      "SHORASH REST & CAFE";
+  }
+
+
+  const footerPhone =
+    document.querySelector(
+      ".sm-footer-phone, .sm-phone bdi"
+    );
+
+  if (footerPhone && restaurant.phone) {
+    footerPhone.textContent =
+      restaurant.phone;
+  }
+
 }
 
 
@@ -1490,31 +1712,190 @@ async function loadMenuFromSupabase() {
      RESTAURANT OBJECT
   ========================= */
 
+  const whatsappRaw =
+    String(
+      settings.whatsapp_number ||
+      settings.whatsapp ||
+      settings.whatsapp_url ||
+      "9647502662002"
+    );
+
+  let whatsappNumber =
+    whatsappRaw.replace(/\D/g,"");
+
+  if (whatsappNumber.startsWith("00")) {
+    whatsappNumber =
+      whatsappNumber.slice(2);
+  }
+
+  if (/^07\d{9}$/.test(whatsappNumber)) {
+    whatsappNumber =
+      "964" +
+      whatsappNumber.slice(1);
+  }
+
+  if (/^7\d{9}$/.test(whatsappNumber)) {
+    whatsappNumber =
+      "964" +
+      whatsappNumber;
+  }
+
   const restaurant = {
 
     name:
       settings.name_en ||
+      settings.name_ar ||
       settings.name ||
       "SHORASH REST & CAFE",
 
+    nameAr:
+      settings.name_ar ||
+      settings.name ||
+      "شوراش",
+
+    nameKu:
+      settings.name_ku ||
+      settings.name_ar ||
+      "SHORASH",
+
+    nameEn:
+      settings.name_en ||
+      settings.name ||
+      "SHORASH REST & CAFE",
+
+    subtitle: {
+      ar:
+        settings.subtitle_ar ||
+        "اكتشف منيو شوراش",
+
+      ku:
+        settings.subtitle_ku ||
+        "مینیوی شوراش ببینە",
+
+      en:
+        settings.subtitle_en ||
+        "Discover Shorash Menu"
+    },
+
     phone:
       settings.phone ||
+      "07502662002",
+
+    whatsappNumber:
+      whatsappNumber ||
       "9647502662002",
 
     whatsapp:
-      settings.whatsapp ||
-      settings.whatsapp_url ||
-      "https://wa.me/9647502662002",
+      "https://wa.me/" +
+      (
+        whatsappNumber ||
+        "9647502662002"
+      ),
 
     location:
       settings.location ||
       settings.location_url ||
       "#",
 
+    footerLocation: {
+      ar:
+        settings.footer_location_ar ||
+        "دهوك • كوردستان",
+
+      ku:
+        settings.footer_location_ku ||
+        "دهۆک • کوردستان",
+
+      en:
+        settings.footer_location_en ||
+        "Duhok • Kurdistan"
+    },
+
+    social: {
+      instagram:
+        settings.instagram_url !== undefined &&
+        settings.instagram_url !== null
+          ? settings.instagram_url
+          : "https://www.instagram.com/shorashrest",
+
+      facebook:
+        settings.facebook_url !== undefined &&
+        settings.facebook_url !== null
+          ? settings.facebook_url
+          : "https://facebook.com/shorashrest",
+
+      tiktok:
+        settings.tiktok_url !== undefined &&
+        settings.tiktok_url !== null
+          ? settings.tiktok_url
+          : "https://www.tiktok.com/@shorashrest",
+
+      snapchat:
+        settings.snapchat_url !== undefined &&
+        settings.snapchat_url !== null
+          ? settings.snapchat_url
+          : "https://www.snapchat.com/add/shorest2000"
+    },
+
     backgroundVideo:
       settings.background_video ||
       settings.background_video_url ||
-      "assets/background.mp4"
+      "assets/background.mp4",
+
+    logo:
+      settings.logo_url ||
+      "assets/shorash-logo.jpeg",
+
+    isOpen:
+      settings.is_open !== false,
+
+    ordersEnabled:
+      settings.orders_enabled !== false,
+
+    deliveryEnabled:
+      settings.delivery_enabled !== false,
+
+    pickupEnabled:
+      settings.pickup_enabled !== false,
+
+    deliveryInfo: {
+      ar:
+        settings.delivery_info_ar || "",
+
+      ku:
+        settings.delivery_info_ku || "",
+
+      en:
+        settings.delivery_info_en || ""
+    },
+
+    announcementEnabled:
+      settings.announcement_enabled === true,
+
+    announcement: {
+      ar:
+        settings.announcement_ar || "",
+
+      ku:
+        settings.announcement_ku || "",
+
+      en:
+        settings.announcement_en || ""
+    },
+
+    closedMessage: {
+      ar:
+        settings.closed_message_ar ||
+        "المطعم مغلق حالياً. يسعدنا استقبال طلبك عند إعادة فتح الطلبات.",
+
+      ku:
+        settings.closed_message_ku ||
+        "چێشتخانەکە لە ئێستادا داخراوە. کاتێک داواکاری دووبارە کراوە دەبێت، بەخێربێیت.",
+
+      en:
+        settings.closed_message_en ||
+        "The restaurant is currently closed. Ordering will be available again when we reopen."
+    }
 
   };
 
@@ -1668,6 +2049,8 @@ async function startShorash() {
     setupBackground();
 
     setupFooter();
+
+    applyRestaurantBranding();
 
     applyLang();
 
