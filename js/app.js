@@ -9,7 +9,12 @@ const I18N = {
     hot: "حار 🌶",
     offer: "عرض",
     unavailable: "غير متوفر حالياً",
-    currency: "د.ع"
+    currency: "د.ع",
+    search: "ابحث عن صنف...",
+    searchResults: "نتائج البحث",
+    noResults: "ما لقينا صنف مطابق",
+    share: "مشاركة",
+    copied: "تم نسخ الرابط"
   },
 
   ku: {
@@ -22,7 +27,12 @@ const I18N = {
     hot: "توند 🌶",
     offer: "ئۆفەر",
     unavailable: "بەردەست نییە",
-    currency: "د.ع"
+    currency: "د.ع",
+    search: "لێگەڕان بۆ بەرهەم...",
+    searchResults: "ئەنجامی گەڕان",
+    noResults: "هیچ بەرهەمێک نەدۆزرایەوە",
+    share: "هاوبەشکردن",
+    copied: "لینک کۆپی کرا"
   },
 
   en: {
@@ -35,7 +45,12 @@ const I18N = {
     hot: "Spicy 🌶",
     offer: "Offer",
     unavailable: "Currently unavailable",
-    currency: "IQD"
+    currency: "IQD",
+    search: "Search menu...",
+    searchResults: "Search results",
+    noResults: "No matching items",
+    share: "Share",
+    copied: "Link copied"
   }
 };
 
@@ -43,6 +58,8 @@ const I18N = {
 let DB = null;
 let lang = localStorage.getItem("shorashLang") || "ar";
 let active = "";
+let searchQuery = "";
+let searchTracked = false;
 
 const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
@@ -71,6 +88,524 @@ function money(value) {
     Number(value).toLocaleString("en-US") +
     " " +
     I18N[lang].currency
+  );
+}
+
+
+function installMenuDiscoveryUI(){
+
+  if(document.getElementById("smDiscoveryStyle"))return;
+
+  const style=document.createElement("style");
+  style.id="smDiscoveryStyle";
+
+  style.textContent=`
+    .sm-search-wrap{
+      width:min(calc(100% - 4px),680px);
+      margin:12px auto 4px;
+      display:grid;
+      grid-template-columns:auto minmax(0,1fr) auto;
+      align-items:center;
+      gap:7px;
+      padding:7px 9px;
+      border:1px solid rgba(232,184,98,.18);
+      border-radius:14px;
+      background:rgba(10,7,4,.68);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+      box-sizing:border-box;
+    }
+
+    .sm-search-icon{
+      font-size:14px;
+      opacity:.8;
+    }
+
+    .sm-search-input{
+      width:100%;
+      min-width:0;
+      border:0;
+      outline:0;
+      background:transparent;
+      color:#f4efe9;
+      font:inherit;
+      font-size:16px;
+      line-height:1.4;
+    }
+
+    .sm-search-input::placeholder{
+      color:#817971;
+    }
+
+    .sm-search-clear{
+      width:28px;
+      height:28px;
+      display:grid;
+      place-items:center;
+      border:0;
+      border-radius:9px;
+      background:rgba(255,255,255,.05);
+      color:#a69e95;
+      font-size:15px;
+    }
+
+    .sm-search-count{
+      width:min(calc(100% - 14px),680px);
+      margin:5px auto 2px;
+      color:#8e867d;
+      font-size:9px;
+      text-align:center;
+      min-height:14px;
+    }
+
+    .sm-section-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      margin-bottom:8px;
+    }
+
+    .sm-section-head .sm-section-title{
+      margin:0 !important;
+    }
+
+    .sm-share-category,
+    .sm-share-product{
+      display:grid;
+      place-items:center;
+      border:1px solid rgba(232,184,98,.2);
+      background:rgba(12,8,5,.76);
+      color:#e8b862;
+      border-radius:10px;
+      cursor:pointer;
+    }
+
+    .sm-share-category{
+      min-width:34px;
+      height:34px;
+      padding:0 8px;
+      font-size:14px;
+    }
+
+    .sm-card{
+      position:relative;
+    }
+
+    .sm-share-product{
+      position:absolute;
+      z-index:5;
+      top:7px;
+      inset-inline-start:7px;
+      width:29px;
+      height:29px;
+      font-size:12px;
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+    }
+
+    .sm-search-category{
+      color:#91877d;
+      font-size:8.5px;
+      line-height:1.3;
+      margin:-1px 0 4px;
+    }
+
+    .sm-deep-highlight{
+      animation:smDeepPulse 1.8s ease;
+    }
+
+    @keyframes smDeepPulse{
+      0%,100%{box-shadow:inherit}
+      30%,65%{box-shadow:0 0 0 2px rgba(232,184,98,.65),0 12px 35px rgba(0,0,0,.35)}
+    }
+
+    .sm-offline-banner{
+      position:fixed;
+      z-index:85;
+      left:50%;
+      bottom:calc(82px + env(safe-area-inset-bottom));
+      transform:translateX(-50%);
+      width:max-content;
+      max-width:88%;
+      padding:7px 11px;
+      border:1px solid rgba(232,184,98,.2);
+      border-radius:999px;
+      background:rgba(10,7,4,.9);
+      color:#d6aa5b;
+      font-size:9px;
+      text-align:center;
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+    }
+  `;
+
+  document.head.appendChild(style);
+}
+
+
+function normalizeSearchText(value){
+  return String(value||"")
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u064B-\u065F\u0670]/g,"")
+    .replace(/[أإآ]/g,"ا")
+    .replace(/ة/g,"ه")
+    .replace(/ى/g,"ي")
+    .replace(/\s+/g," ")
+    .trim();
+}
+
+
+function productMatchesSearch(product,query){
+  const q=normalizeSearchText(query);
+
+  if(!q)return true;
+
+  const parts=[
+    product.name?.ar,
+    product.name?.ku,
+    product.name?.en,
+    product.category?.ar,
+    product.category?.ku,
+    product.category?.en,
+    ...(product.options||[]).flatMap(option=>[
+      option.ar,
+      option.ku,
+      option.en
+    ])
+  ];
+
+  return normalizeSearchText(
+    parts.filter(Boolean).join(" ")
+  ).includes(q);
+}
+
+
+function ensureSearchUI(){
+  if(document.getElementById("smSearchWrap"))return;
+
+  const actions=document.getElementById("smActions");
+  if(!actions)return;
+
+  const wrap=document.createElement("div");
+  wrap.id="smSearchWrap";
+  wrap.className="sm-search-wrap";
+
+  wrap.innerHTML=`
+    <span class="sm-search-icon">⌕</span>
+    <input
+      id="smSearchInput"
+      class="sm-search-input"
+      type="search"
+      autocomplete="off"
+      enterkeyhint="search"
+    >
+    <button id="smSearchClear" class="sm-search-clear" type="button" aria-label="Clear">×</button>
+  `;
+
+  actions.insertAdjacentElement("afterend",wrap);
+
+  const count=document.createElement("div");
+  count.id="smSearchCount";
+  count.className="sm-search-count";
+  wrap.insertAdjacentElement("afterend",count);
+
+  const input=document.getElementById("smSearchInput");
+  const clear=document.getElementById("smSearchClear");
+
+  input.addEventListener("input",()=>{
+    const next=input.value.trim();
+    const wasEmpty=!searchQuery;
+    searchQuery=next;
+
+    if(next && wasEmpty && !searchTracked){
+      searchTracked=true;
+      trackMenuEvent("search_use");
+    }
+
+    if(!next){
+      searchTracked=false;
+    }
+
+    render();
+    updateSearchCount();
+  });
+
+  clear.addEventListener("click",()=>{
+    input.value="";
+    searchQuery="";
+    searchTracked=false;
+    render();
+    updateSearchCount();
+    input.focus();
+  });
+
+  updateSearchUiLanguage();
+}
+
+
+function updateSearchUiLanguage(){
+  const input=document.getElementById("smSearchInput");
+  if(input)input.placeholder=I18N[lang].search;
+}
+
+
+function updateSearchCount(count=null){
+  const holder=document.getElementById("smSearchCount");
+  if(!holder)return;
+
+  if(!searchQuery){
+    holder.textContent="";
+    return;
+  }
+
+  const total=count===null
+    ? DB.products.filter(p=>productMatchesSearch(p,searchQuery)).length
+    : count;
+
+  holder.textContent=
+    lang==="en"
+      ? `${total} result${total===1?"":"s"}`
+      : lang==="ku"
+        ? `${total} ئەنجام`
+        : `${total} نتيجة`;
+}
+
+
+function makeDeepLink(type,id){
+  const url=new URL(window.location.href);
+
+  url.searchParams.delete("product");
+  url.searchParams.delete("category");
+  url.searchParams.delete("q");
+
+  url.searchParams.set(type,String(id));
+  url.hash="";
+
+  return url.toString();
+}
+
+
+async function shareMenuLink(url,title,eventType,refId){
+  trackMenuEvent(eventType,refId);
+
+  try{
+    if(navigator.share){
+      await navigator.share({
+        title:title||document.title,
+        url
+      });
+      return;
+    }
+  }catch(error){
+    if(error?.name==="AbortError")return;
+  }
+
+  try{
+    await navigator.clipboard.writeText(url);
+  }catch(_){
+    const area=document.createElement("textarea");
+    area.value=url;
+    document.body.appendChild(area);
+    area.select();
+    document.execCommand("copy");
+    area.remove();
+  }
+
+  const toast=document.getElementById("smCartToast");
+
+  if(toast){
+    toast.textContent=I18N[lang].copied;
+    toast.classList.add("show");
+    setTimeout(()=>toast.classList.remove("show"),1600);
+  }
+}
+
+
+function setUrlForCategory(categoryId){
+  const url=new URL(window.location.href);
+
+  url.searchParams.delete("product");
+  url.searchParams.delete("q");
+
+  if(categoryId){
+    url.searchParams.set("category",String(categoryId));
+  }else{
+    url.searchParams.delete("category");
+  }
+
+  history.replaceState(
+    {},
+    "",
+    url.pathname+url.search
+  );
+}
+
+
+function applyDeepLinkBeforeRender(){
+  const params=new URLSearchParams(window.location.search);
+
+  const productId=params.get("product");
+  const categoryId=params.get("category");
+  const q=params.get("q");
+
+  if(q){
+    searchQuery=q;
+  }
+
+  if(productId){
+    const product=DB.products.find(p=>String(p.id)===String(productId));
+
+    if(product?.category){
+      active=product.category.ar;
+      return;
+    }
+  }
+
+  if(categoryId){
+    const category=categories().find(c=>String(c.id)===String(categoryId));
+
+    if(category){
+      active=category.ar;
+    }
+  }
+}
+
+
+function scrollToDeepLink(){
+  const productId=
+    new URLSearchParams(window.location.search)
+      .get("product");
+
+  if(!productId)return;
+
+  setTimeout(()=>{
+    const card=document.getElementById(`product-${CSS.escape(String(productId))}`);
+
+    if(!card)return;
+
+    card.scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
+
+    card.classList.add("sm-deep-highlight");
+
+    setTimeout(
+      ()=>card.classList.remove("sm-deep-highlight"),
+      2200
+    );
+  },180);
+}
+
+
+function trackMenuEvent(type,refId="",languageValue=lang){
+  if(
+    typeof supabaseClient==="undefined" ||
+    !supabaseClient
+  ) return;
+
+  supabaseClient
+    .rpc(
+      "track_menu_event",
+      {
+        p_event_type:String(type||""),
+        p_ref_id:String(refId||""),
+        p_language:String(languageValue||"")
+      }
+    )
+    .then(({error})=>{
+      if(error){
+        console.debug("Analytics skipped:",error.message||error);
+      }
+    })
+    .catch(()=>{});
+}
+
+
+function trackPageViewOnce(){
+  const day=new Intl.DateTimeFormat(
+    "en-CA",
+    {
+      timeZone:"Asia/Baghdad",
+      year:"numeric",
+      month:"2-digit",
+      day:"2-digit"
+    }
+  ).format(new Date());
+
+  const key=`shorash:view:${day}`;
+
+  if(sessionStorage.getItem(key))return;
+
+  sessionStorage.setItem(key,"1");
+  trackMenuEvent("menu_view");
+}
+
+
+function saveMenuOfflineCache(db){
+  try{
+    localStorage.setItem(
+      "SHORASH_MENU_OFFLINE_CACHE_V1",
+      JSON.stringify({
+        saved_at:Date.now(),
+        db
+      })
+    );
+  }catch(_){}
+}
+
+
+function loadMenuOfflineCache(){
+  try{
+    const raw=localStorage.getItem("SHORASH_MENU_OFFLINE_CACHE_V1");
+    if(!raw)return null;
+
+    const parsed=JSON.parse(raw);
+
+    if(
+      !parsed?.db ||
+      !Array.isArray(parsed.db.products)
+    ) return null;
+
+    return parsed.db;
+  }catch(_){
+    return null;
+  }
+}
+
+
+function showOfflineDataBanner(){
+  if(document.getElementById("smOfflineBanner"))return;
+
+  const el=document.createElement("div");
+  el.id="smOfflineBanner";
+  el.className="sm-offline-banner";
+  el.textContent=
+    lang==="en"
+      ?"Offline mode — showing last saved menu"
+      :lang==="ku"
+        ?"دۆخی ئۆفلاین — دوایین مینیو نیشان دەدرێت"
+        :"وضع أوفلاين — نعرض آخر نسخة محفوظة";
+
+  document.body.appendChild(el);
+
+  setTimeout(()=>el.remove(),4500);
+}
+
+
+function registerPwa(){
+  if(!("serviceWorker" in navigator))return;
+
+  window.addEventListener(
+    "load",
+    ()=>{
+      navigator.serviceWorker
+        .register("./sw.js")
+        .catch(error=>console.debug("SW:",error));
+    },
+    {once:true}
   );
 }
 
@@ -392,7 +927,8 @@ function renderCats() {
     .map(category => `
       <button
         class="sm-cat ${category.ar === active ? "active" : ""}"
-        data-cat="${category.ar}">
+        data-cat="${category.ar}"
+        data-cat-id="${category.id}">
         ${txt(category)}
       </button>
     `)
@@ -521,7 +1057,19 @@ function productCard(product) {
 
 
   return `
-    <article class="${classes}">
+    <article
+      id="product-${product.id}"
+      class="${classes}"
+      data-product-card="${product.id}"
+    >
+
+      <button
+        class="sm-share-product"
+        type="button"
+        data-share-product="${product.id}"
+        aria-label="${I18N[lang].share}">
+        ↗
+      </button>
 
       ${badges(product)}
 
@@ -555,6 +1103,12 @@ function productCard(product) {
           ${txt(product.name)}
         </div>
 
+        ${
+          searchQuery
+            ? `<div class="sm-search-category">${txt(product.category)}</div>`
+            : ""
+        }
+
         ${options}
 
         ${
@@ -578,39 +1132,88 @@ function productCard(product) {
 
 function render() {
 
-  const menu = $("#smMenu");
+  const menu=$("#smMenu");
 
-  if (!menu || !DB) return;
-
-
-  const products = DB.products.filter(
-    product =>
-      product.category &&
-      product.category.ar === active
-  );
+  if(!menu||!DB)return;
 
 
-  if (!products.length) {
+  if(searchQuery){
 
-    menu.innerHTML = "";
+    const products=DB.products.filter(
+      product=>productMatchesSearch(product,searchQuery)
+    );
+
+    updateSearchCount(products.length);
+
+
+    if(!products.length){
+      menu.innerHTML=`
+        <section class="sm-section">
+          <div class="analytics-empty" style="padding:30px 12px;text-align:center;color:#9a9188;">
+            ${I18N[lang].noResults}
+          </div>
+        </section>
+      `;
+      return;
+    }
+
+
+    menu.innerHTML=`
+      <section class="sm-section">
+
+        <div class="sm-section-head">
+          <h2 class="sm-section-title">
+            ${I18N[lang].searchResults}
+          </h2>
+        </div>
+
+        <div class="sm-grid">
+          ${products.map(productCard).join("")}
+        </div>
+
+      </section>
+    `;
+
+    watchCards();
     return;
-
   }
 
 
-  menu.innerHTML = `
+  const products=DB.products.filter(
+    product=>
+      product.category &&
+      product.category.ar===active
+  );
+
+
+  if(!products.length){
+    menu.innerHTML="";
+    return;
+  }
+
+
+  const category=products[0].category;
+
+
+  menu.innerHTML=`
     <section class="sm-section">
 
-      <h2 class="sm-section-title">
-        ${txt(products[0].category)}
-      </h2>
+      <div class="sm-section-head">
+        <h2 class="sm-section-title">
+          ${txt(category)}
+        </h2>
+
+        <button
+          class="sm-share-category"
+          type="button"
+          data-share-category="${category.id}"
+          aria-label="${I18N[lang].share}">
+          ↗
+        </button>
+      </div>
 
       <div class="sm-grid">
-
-        ${products
-          .map(productCard)
-          .join("")}
-
+        ${products.map(productCard).join("")}
       </div>
 
     </section>
@@ -619,7 +1222,6 @@ function render() {
 
   watchCards();
 }
-
 
 /* ========================================
    LANGUAGES
@@ -724,6 +1326,7 @@ function applyLang() {
   applyRestaurantBranding();
   updateRestaurantLanguageUI();
 
+  updateSearchUiLanguage();
   renderLanguages();
   renderActions();
   renderCats();
@@ -822,7 +1425,55 @@ document.addEventListener(
         lang
       );
 
+      trackMenuEvent("language_change","",lang);
+
       applyLang();
+
+      return;
+    }
+
+
+    const productShare=
+      event.target.closest(
+        "[data-share-product]"
+      );
+
+    if(productShare){
+      event.preventDefault();
+      event.stopPropagation();
+
+      const id=productShare.dataset.shareProduct;
+      const product=DB?.products?.find(p=>String(p.id)===String(id));
+
+      shareMenuLink(
+        makeDeepLink("product",id),
+        product?txt(product.name):document.title,
+        "share_product",
+        id
+      );
+
+      return;
+    }
+
+
+    const categoryShare=
+      event.target.closest(
+        "[data-share-category]"
+      );
+
+    if(categoryShare){
+      event.preventDefault();
+      event.stopPropagation();
+
+      const id=categoryShare.dataset.shareCategory;
+      const category=categories().find(c=>String(c.id)===String(id));
+
+      shareMenuLink(
+        makeDeepLink("category",id),
+        category?txt(category):document.title,
+        "share_category",
+        id
+      );
 
       return;
     }
@@ -849,6 +1500,17 @@ document.addEventListener(
 
       active =
         categoryButton.dataset.cat;
+
+      searchQuery="";
+      const searchInput=document.getElementById("smSearchInput");
+      if(searchInput)searchInput.value="";
+      updateSearchCount();
+
+      const categoryId=
+        categoryButton.dataset.catId || "";
+
+      setUrlForCategory(categoryId);
+      trackMenuEvent("category_view",categoryId);
 
 
       renderCats();
@@ -2598,6 +3260,8 @@ async function startShorash() {
         "✅ SHORASH MENU LOADED FROM SUPABASE"
       );
 
+      saveMenuOfflineCache(DB);
+
 
     } catch (supabaseError) {
 
@@ -2611,13 +3275,33 @@ async function startShorash() {
          FALLBACK TO JSON
       ========================= */
 
-      DB =
-        await loadMenuFallback();
+      try{
+        DB=
+          await loadMenuFallback();
 
+        console.log(
+          "✅ SHORASH MENU LOADED FROM JSON FALLBACK"
+        );
 
-      console.log(
-        "✅ SHORASH MENU LOADED FROM JSON FALLBACK"
-      );
+        saveMenuOfflineCache(DB);
+
+      }catch(jsonError){
+
+        const cached=
+          loadMenuOfflineCache();
+
+        if(!cached){
+          throw jsonError;
+        }
+
+        DB=cached;
+
+        console.log(
+          "✅ SHORASH MENU LOADED FROM OFFLINE CACHE"
+        );
+
+        showOfflineDataBanner();
+      }
 
     }
 
@@ -2667,6 +3351,15 @@ async function startShorash() {
     ========================= */
 
     installMenuCardPolish();
+    installMenuDiscoveryUI();
+    ensureSearchUI();
+
+    applyDeepLinkBeforeRender();
+
+    const searchInput=document.getElementById("smSearchInput");
+    if(searchInput && searchQuery){
+      searchInput.value=searchQuery;
+    }
 
     setupIntro();
 
@@ -2687,6 +3380,13 @@ async function startShorash() {
 
     window.SHORASH_LANG =
       () => lang;
+
+    window.SHORASH_TRACK=
+      trackMenuEvent;
+
+    trackPageViewOnce();
+    registerPwa();
+    scrollToDeepLink();
 
 
     if(!window.__shorashScheduleTimer){
