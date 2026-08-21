@@ -959,6 +959,212 @@
       display:block;
     }
 
+  
+    /* =========================================================
+       SHORASH ADMIN V3.3 — RESTAURANT SETTINGS
+       ========================================================= */
+    .restaurant-settings-card{
+      border-color:rgba(216,169,88,.25);
+      background:
+        linear-gradient(145deg,rgba(216,169,88,.065),rgba(255,255,255,.018));
+    }
+
+    .settings-status-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      margin-bottom:14px;
+    }
+
+    .settings-toggle-card{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      border:1px solid rgba(255,255,255,.075);
+      background:#090705;
+      border-radius:14px;
+      padding:12px;
+    }
+
+    .settings-toggle-copy strong{
+      display:block;
+      color:#eee9e2;
+      font-size:13px;
+      margin-bottom:3px;
+    }
+
+    .settings-toggle-copy span{
+      display:block;
+      color:#827c74;
+      font-size:10px;
+      line-height:1.5;
+    }
+
+    .settings-switch{
+      position:relative;
+      width:48px;
+      height:28px;
+      flex:0 0 auto;
+    }
+
+    .settings-switch input{
+      position:absolute;
+      opacity:0;
+      pointer-events:none;
+    }
+
+    .settings-switch i{
+      position:absolute;
+      inset:0;
+      border-radius:999px;
+      background:#2a2521;
+      border:1px solid rgba(255,255,255,.09);
+      transition:.18s;
+    }
+
+    .settings-switch i::after{
+      content:'';
+      position:absolute;
+      width:20px;
+      height:20px;
+      top:3px;
+      right:3px;
+      border-radius:50%;
+      background:#8b837a;
+      transition:.18s;
+    }
+
+    .settings-switch input:checked + i{
+      background:rgba(216,169,88,.25);
+      border-color:rgba(216,169,88,.48);
+    }
+
+    .settings-switch input:checked + i::after{
+      transform:translateX(-20px);
+      background:#e2b55e;
+    }
+
+    .restaurant-settings-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    .settings-field{
+      display:grid;
+      gap:6px;
+    }
+
+    .settings-field.full{
+      grid-column:1 / -1;
+    }
+
+    .settings-field label{
+      color:#a9a198;
+      font-size:11px;
+    }
+
+    .settings-field input,
+    .settings-field textarea{
+      width:100%;
+      box-sizing:border-box;
+      border:1px solid rgba(255,255,255,.09);
+      background:#050403;
+      color:#fff;
+      border-radius:11px;
+      padding:11px;
+      outline:none;
+      font:inherit;
+    }
+
+    .settings-field textarea{
+      min-height:75px;
+      resize:vertical;
+      line-height:1.7;
+    }
+
+    .settings-field input:focus,
+    .settings-field textarea:focus{
+      border-color:rgba(216,169,88,.52);
+    }
+
+    .settings-section-title{
+      grid-column:1 / -1;
+      margin-top:6px;
+      padding-top:12px;
+      border-top:1px solid rgba(255,255,255,.06);
+      color:#e2b55e;
+      font-size:12px;
+      font-weight:900;
+    }
+
+    .settings-logo-row{
+      display:grid;
+      grid-template-columns:74px 1fr;
+      gap:10px;
+      align-items:center;
+    }
+
+    .settings-logo-preview{
+      width:74px;
+      height:74px;
+      object-fit:cover;
+      border-radius:50%;
+      border:1px solid rgba(216,169,88,.28);
+      background:#090705;
+    }
+
+    .settings-file-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:max-content;
+      max-width:100%;
+      border:1px solid rgba(216,169,88,.24);
+      background:rgba(216,169,88,.06);
+      color:#e2b55e;
+      border-radius:10px;
+      padding:9px 11px;
+      font-size:11px;
+      cursor:pointer;
+    }
+
+    .settings-file-btn input{
+      display:none;
+    }
+
+    .settings-save-row{
+      display:flex;
+      align-items:center;
+      gap:9px;
+      margin-top:14px;
+      flex-wrap:wrap;
+    }
+
+    .settings-save-row .btn{
+      min-width:160px;
+    }
+
+    .settings-msg{
+      min-height:18px;
+      color:#8f8981;
+      font-size:11px;
+      line-height:1.6;
+    }
+
+    @media(max-width:650px){
+      .settings-status-grid,
+      .restaurant-settings-grid{
+        grid-template-columns:1fr;
+      }
+
+      .settings-field.full,
+      .settings-section-title{
+        grid-column:auto;
+      }
+    }
+
   </style>
 </head>
 
@@ -1131,10 +1337,269 @@
 
   <section id="viewTools" class="admin-view" data-view="tools">
     <div class="view-title-row">
-      <div><h2>الأدوات</h2><div class="view-subtitle">النسخ الاحتياطي والاسترجاع</div></div>
+      <div><h2>الإعدادات</h2><div class="view-subtitle">إعدادات المطعم والأدوات</div></div>
     </div>
 
     <div class="tools-primary">
+
+      <div class="tools-card restaurant-settings-card">
+        <h3>🏪 إعدادات المطعم</h3>
+        <p>
+          غيّر معلومات المطعم وحالة استقبال الطلبات من هنا بدون تعديل الكود.
+          المنيو يبقى قابل للتصفح حتى عند إيقاف الطلبات.
+        </p>
+
+        <div class="settings-status-grid">
+          <div class="settings-toggle-card">
+            <div class="settings-toggle-copy">
+              <strong>المطعم مفتوح</strong>
+              <span>إذا أوقفته تظهر رسالة الإغلاق ويتوقف الطلب.</span>
+            </div>
+            <label class="settings-switch">
+              <input id="rs_is_open" type="checkbox">
+              <i></i>
+            </label>
+          </div>
+
+          <div class="settings-toggle-card">
+            <div class="settings-toggle-copy">
+              <strong>استقبال الطلبات</strong>
+              <span>إيقاف السلة والإرسال مؤقتاً مع بقاء المنيو ظاهر.</span>
+            </div>
+            <label class="settings-switch">
+              <input id="rs_orders_enabled" type="checkbox">
+              <i></i>
+            </label>
+          </div>
+
+          <div class="settings-toggle-card">
+            <div class="settings-toggle-copy">
+              <strong>التوصيل</strong>
+              <span>تشغيل أو إيقاف خيار التوصيل للزبون.</span>
+            </div>
+            <label class="settings-switch">
+              <input id="rs_delivery_enabled" type="checkbox">
+              <i></i>
+            </label>
+          </div>
+
+          <div class="settings-toggle-card">
+            <div class="settings-toggle-copy">
+              <strong>الاستلام من المطعم</strong>
+              <span>تشغيل أو إيقاف خيار الاستلام من المطعم.</span>
+            </div>
+            <label class="settings-switch">
+              <input id="rs_pickup_enabled" type="checkbox">
+              <i></i>
+            </label>
+          </div>
+
+          <div class="settings-toggle-card">
+            <div class="settings-toggle-copy">
+              <strong>إعلان أعلى المنيو</strong>
+              <span>إظهار أو إخفاء شريط إعلان قصير للزبائن.</span>
+            </div>
+            <label class="settings-switch">
+              <input id="rs_announcement_enabled" type="checkbox">
+              <i></i>
+            </label>
+          </div>
+        </div>
+
+        <div class="restaurant-settings-grid">
+
+          <div class="settings-section-title">اسم المطعم</div>
+
+          <div class="settings-field">
+            <label>الاسم بالعربي</label>
+            <input id="rs_name_ar" type="text" placeholder="شوراش">
+          </div>
+
+          <div class="settings-field">
+            <label>الاسم بالكوردي</label>
+            <input id="rs_name_ku" type="text" placeholder="SHORASH">
+          </div>
+
+          <div class="settings-field full">
+            <label>الاسم بالإنجليزي</label>
+            <input id="rs_name_en" type="text" placeholder="SHORASH REST & CAFE">
+          </div>
+
+          <div class="settings-section-title">النص تحت SHORASH MENU</div>
+
+          <div class="settings-field">
+            <label>العربي</label>
+            <input id="rs_subtitle_ar" type="text" placeholder="اكتشف منيو شوراش">
+          </div>
+
+          <div class="settings-field">
+            <label>الكوردي</label>
+            <input id="rs_subtitle_ku" type="text">
+          </div>
+
+          <div class="settings-field full">
+            <label>English</label>
+            <input id="rs_subtitle_en" type="text" placeholder="Discover Shorash Menu">
+          </div>
+
+          <div class="settings-section-title">التواصل والموقع</div>
+
+          <div class="settings-field">
+            <label>رقم الهاتف</label>
+            <input id="rs_phone" type="text" inputmode="tel" placeholder="07502662002">
+          </div>
+
+          <div class="settings-field">
+            <label>رقم WhatsApp</label>
+            <input id="rs_whatsapp_number" type="text" inputmode="tel" placeholder="9647502662002">
+          </div>
+
+          <div class="settings-field full">
+            <label>رابط الموقع Google Maps</label>
+            <input id="rs_location" type="url" placeholder="https://maps.google.com/...">
+          </div>
+
+          <div class="settings-section-title">العنوان الظاهر في الفوتر</div>
+
+          <div class="settings-field">
+            <label>العربي</label>
+            <input id="rs_footer_location_ar" type="text" placeholder="دهوك • كوردستان">
+          </div>
+
+          <div class="settings-field">
+            <label>الكوردي</label>
+            <input id="rs_footer_location_ku" type="text">
+          </div>
+
+          <div class="settings-field full">
+            <label>English</label>
+            <input id="rs_footer_location_en" type="text" placeholder="Duhok • Kurdistan">
+          </div>
+
+          <div class="settings-section-title">السوشيال ميديا</div>
+
+          <div class="settings-field">
+            <label>Instagram</label>
+            <input id="rs_instagram_url" type="url" placeholder="https://instagram.com/...">
+          </div>
+
+          <div class="settings-field">
+            <label>Facebook</label>
+            <input id="rs_facebook_url" type="url" placeholder="https://facebook.com/...">
+          </div>
+
+          <div class="settings-field">
+            <label>TikTok</label>
+            <input id="rs_tiktok_url" type="url" placeholder="https://tiktok.com/@...">
+          </div>
+
+          <div class="settings-field">
+            <label>Snapchat</label>
+            <input id="rs_snapchat_url" type="url" placeholder="https://snapchat.com/add/...">
+          </div>
+
+          <div style="grid-column:1/-1;color:#756f68;font-size:10px;line-height:1.6;">
+            إذا تركت أي رابط فارغ، يختفي زر المنصة تلقائياً من المنيو.
+          </div>
+
+          <div class="settings-section-title">الهوية والخلفية</div>
+
+          <div class="settings-field full">
+            <label>شعار المطعم</label>
+            <div class="settings-logo-row">
+              <img
+                id="rs_logo_preview"
+                class="settings-logo-preview"
+                src="assets/shorash-logo.jpeg"
+                alt=""
+              >
+              <div>
+                <label class="settings-file-btn">
+                  📷 اختيار شعار من الجهاز
+                  <input
+                    id="rs_logo_file"
+                    type="file"
+                    accept="image/*"
+                    onchange="previewRestaurantLogo(this)"
+                  >
+                </label>
+                <div style="color:#756f68;font-size:10px;margin-top:7px;">
+                  أو ضع رابط مباشر في الحقل أدناه.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-field full">
+            <label>رابط الشعار</label>
+            <input id="rs_logo_url" type="url" placeholder="https://...">
+          </div>
+
+          <div class="settings-field full">
+            <label>رابط فيديو الخلفية</label>
+            <input id="rs_background_video" type="url" placeholder="assets/background.mp4 أو https://...">
+          </div>
+
+          <div class="settings-section-title">معلومات التوصيل</div>
+
+          <div class="settings-field full">
+            <label>العربي</label>
+            <textarea id="rs_delivery_info_ar" placeholder="مثال: التوصيل داخل دهوك فقط • المدة 30–45 دقيقة"></textarea>
+          </div>
+
+          <div class="settings-field full">
+            <label>الكوردي</label>
+            <textarea id="rs_delivery_info_ku"></textarea>
+          </div>
+
+          <div class="settings-field full">
+            <label>English</label>
+            <textarea id="rs_delivery_info_en"></textarea>
+          </div>
+
+          <div class="settings-section-title">إعلان أعلى المنيو</div>
+
+          <div class="settings-field full">
+            <label>العربي</label>
+            <textarea id="rs_announcement_ar" placeholder="مثال: 🔥 عرض اليوم — التوصيل مجاني"></textarea>
+          </div>
+
+          <div class="settings-field full">
+            <label>الكوردي</label>
+            <textarea id="rs_announcement_ku"></textarea>
+          </div>
+
+          <div class="settings-field full">
+            <label>English</label>
+            <textarea id="rs_announcement_en"></textarea>
+          </div>
+
+          <div class="settings-section-title">رسالة إيقاف الطلب / الإغلاق</div>
+
+          <div class="settings-field full">
+            <label>العربي</label>
+            <textarea id="rs_closed_message_ar" placeholder="المطعم مغلق حالياً. يسعدنا استقبال طلبك عند إعادة فتح الطلبات."></textarea>
+          </div>
+
+          <div class="settings-field full">
+            <label>الكوردي</label>
+            <textarea id="rs_closed_message_ku"></textarea>
+          </div>
+
+          <div class="settings-field full">
+            <label>English</label>
+            <textarea id="rs_closed_message_en"></textarea>
+          </div>
+
+        </div>
+
+        <div class="settings-save-row">
+          <button id="saveRestaurantSettingsBtn" class="btn btn-gold" type="button">
+            حفظ إعدادات المطعم
+          </button>
+          <div id="restaurantSettingsMsg" class="settings-msg"></div>
+        </div>
+      </div>
       <div class="tools-card">
         <h3>💾 نسخة كاملة للمنيو</h3>
         <p>الأقسام + الأصناف + الأسعار والخيارات.</p>
@@ -1248,7 +1713,7 @@
   <button class="nav-btn active" type="button" data-admin-nav="home"><span class="nav-icon">⌂</span><span>الرئيسية</span></button>
   <button class="nav-btn" type="button" data-admin-nav="products"><span class="nav-icon">🍽</span><span>الأصناف</span></button>
   <button class="nav-btn" type="button" data-admin-nav="categories"><span class="nav-icon">▦</span><span>الأقسام</span></button>
-  <button class="nav-btn" type="button" data-admin-nav="tools"><span class="nav-icon">⚙</span><span>الأدوات</span></button>
+  <button class="nav-btn" type="button" data-admin-nav="tools"><span class="nav-icon">⚙</span><span>الإعدادات</span></button>
 </nav>
 
 
@@ -1289,6 +1754,8 @@
   let migrationStopRequested = false;
   let migrationRunning = false;
 
+  let adminRestaurantSettings = {};
+
 
   // ==========================================
   // Escape HTML
@@ -1316,6 +1783,342 @@
 
     return number.toLocaleString('en-US') + ' د.ع';
 
+  }
+
+
+  // ==========================================
+  // RESTAURANT SETTINGS
+  // ==========================================
+
+  const DEFAULT_CLOSED_AR =
+    'المطعم مغلق حالياً. يسعدنا استقبال طلبك عند إعادة فتح الطلبات.';
+
+  const DEFAULT_CLOSED_KU =
+    'چێشتخانەکە لە ئێستادا داخراوە. کاتێک داواکاری دووبارە کراوە دەبێت، بەخێربێیت.';
+
+  const DEFAULT_CLOSED_EN =
+    'The restaurant is currently closed. Ordering will be available again when we reopen.';
+
+  function rsValue(id){
+    return String(document.getElementById(id)?.value ?? '').trim();
+  }
+
+  function rsChecked(id){
+    return !!document.getElementById(id)?.checked;
+  }
+
+  function normalizeWhatsappNumber(value){
+    let digits=String(value||'').replace(/\D/g,'');
+
+    if(digits.startsWith('00')){
+      digits=digits.slice(2);
+    }
+
+    if(/^07\d{9}$/.test(digits)){
+      digits='964'+digits.slice(1);
+    }
+
+    if(/^7\d{9}$/.test(digits)){
+      digits='964'+digits;
+    }
+
+    return digits;
+  }
+
+  function setRestaurantSettingsMsg(message='',ok=true){
+    const el=document.getElementById('restaurantSettingsMsg');
+    if(!el)return;
+
+    el.textContent=message;
+    el.style.color=ok?'#baf3d7':'#fecaca';
+  }
+
+  function renderRestaurantSettings(){
+    const s=adminRestaurantSettings||{};
+
+    const set=(id,value)=>{
+      const el=document.getElementById(id);
+      if(el)el.value=value ?? '';
+    };
+
+    set('rs_name_ar',s.name_ar || s.name || 'شوراش');
+    set('rs_name_ku',s.name_ku || 'SHORASH');
+    set('rs_name_en',s.name_en || s.name || 'SHORASH REST & CAFE');
+
+    set('rs_subtitle_ar',s.subtitle_ar ?? 'اكتشف منيو شوراش');
+    set('rs_subtitle_ku',s.subtitle_ku ?? 'مینیوی شوراش ببینە');
+    set('rs_subtitle_en',s.subtitle_en ?? 'Discover Shorash Menu');
+
+    set('rs_phone',s.phone || '07502662002');
+
+    const oldWhatsapp=
+      s.whatsapp_number ||
+      s.whatsapp ||
+      s.whatsapp_url ||
+      '9647502662002';
+
+    set(
+      'rs_whatsapp_number',
+      normalizeWhatsappNumber(oldWhatsapp) || '9647502662002'
+    );
+
+    set('rs_location',s.location || s.location_url || '');
+
+    set('rs_footer_location_ar',s.footer_location_ar ?? 'دهوك • كوردستان');
+    set('rs_footer_location_ku',s.footer_location_ku ?? 'دهۆک • کوردستان');
+    set('rs_footer_location_en',s.footer_location_en ?? 'Duhok • Kurdistan');
+
+    set('rs_instagram_url',
+      s.instagram_url !== undefined && s.instagram_url !== null
+        ? s.instagram_url
+        : 'https://www.instagram.com/shorashrest'
+    );
+
+    set('rs_facebook_url',
+      s.facebook_url !== undefined && s.facebook_url !== null
+        ? s.facebook_url
+        : 'https://facebook.com/shorashrest'
+    );
+
+    set('rs_tiktok_url',
+      s.tiktok_url !== undefined && s.tiktok_url !== null
+        ? s.tiktok_url
+        : 'https://www.tiktok.com/@shorashrest'
+    );
+
+    set('rs_snapchat_url',
+      s.snapchat_url !== undefined && s.snapchat_url !== null
+        ? s.snapchat_url
+        : 'https://www.snapchat.com/add/shorest2000'
+    );
+
+    set('rs_logo_url',s.logo_url || '');
+    set(
+      'rs_background_video',
+      s.background_video ||
+      s.background_video_url ||
+      'assets/background.mp4'
+    );
+
+    set('rs_delivery_info_ar',s.delivery_info_ar ?? '');
+    set('rs_delivery_info_ku',s.delivery_info_ku ?? '');
+    set('rs_delivery_info_en',s.delivery_info_en ?? '');
+
+    set('rs_announcement_ar',s.announcement_ar ?? '');
+    set('rs_announcement_ku',s.announcement_ku ?? '');
+    set('rs_announcement_en',s.announcement_en ?? '');
+
+    set(
+      'rs_closed_message_ar',
+      s.closed_message_ar || DEFAULT_CLOSED_AR
+    );
+
+    set(
+      'rs_closed_message_ku',
+      s.closed_message_ku || DEFAULT_CLOSED_KU
+    );
+
+    set(
+      'rs_closed_message_en',
+      s.closed_message_en || DEFAULT_CLOSED_EN
+    );
+
+    const open=document.getElementById('rs_is_open');
+    const orders=document.getElementById('rs_orders_enabled');
+
+    if(open)open.checked=s.is_open!==false;
+    if(orders)orders.checked=s.orders_enabled!==false;
+
+    const delivery=document.getElementById('rs_delivery_enabled');
+    const pickup=document.getElementById('rs_pickup_enabled');
+    const announcement=document.getElementById('rs_announcement_enabled');
+
+    if(delivery)delivery.checked=s.delivery_enabled!==false;
+    if(pickup)pickup.checked=s.pickup_enabled!==false;
+    if(announcement)announcement.checked=s.announcement_enabled===true;
+
+    const preview=document.getElementById('rs_logo_preview');
+    if(preview){
+      preview.src=s.logo_url || 'assets/shorash-logo.jpeg';
+    }
+
+    setRestaurantSettingsMsg('');
+  }
+
+  function previewRestaurantLogo(input){
+    const file=input?.files?.[0];
+    if(!file)return;
+
+    const preview=document.getElementById('rs_logo_preview');
+
+    if(preview){
+      preview.src=URL.createObjectURL(file);
+    }
+  }
+
+  async function uploadRestaurantLogo(){
+    const input=document.getElementById('rs_logo_file');
+    const file=input?.files?.[0];
+
+    if(!file){
+      return rsValue('rs_logo_url');
+    }
+
+    if(!file.type.startsWith('image/')){
+      throw new Error('الملف المختار ليس صورة.');
+    }
+
+    if(file.size>10*1024*1024){
+      throw new Error('حجم الشعار أكبر من 10MB.');
+    }
+
+    const ext=({
+      'image/jpeg':'jpg',
+      'image/png':'png',
+      'image/webp':'webp',
+      'image/gif':'gif'
+    })[file.type] || 'jpg';
+
+    const path=
+      `settings/logo/${Date.now()}-${Math.random().toString(36).slice(2,8)}.${ext}`;
+
+    setRestaurantSettingsMsg('جاري رفع الشعار...');
+
+    const result=await supabaseClient.storage
+      .from('menu-images')
+      .upload(
+        path,
+        file,
+        {
+          cacheControl:'31536000',
+          upsert:false,
+          contentType:file.type
+        }
+      );
+
+    if(result.error)throw result.error;
+
+    const publicData=supabaseClient.storage
+      .from('menu-images')
+      .getPublicUrl(path);
+
+    const url=publicData?.data?.publicUrl;
+
+    if(!url){
+      throw new Error('تعذر إنشاء رابط عام للشعار.');
+    }
+
+    const inputUrl=document.getElementById('rs_logo_url');
+    if(inputUrl)inputUrl.value=url;
+
+    return url;
+  }
+
+  async function saveRestaurantSettings(){
+    const btn=document.getElementById('saveRestaurantSettingsBtn');
+
+    btn.disabled=true;
+    btn.textContent='جاري الحفظ...';
+
+    try{
+      const logoUrl=await uploadRestaurantLogo();
+
+      const whatsappNumber=
+        normalizeWhatsappNumber(
+          rsValue('rs_whatsapp_number')
+        );
+
+      if(!whatsappNumber){
+        throw new Error('اكتب رقم WhatsApp صحيح.');
+      }
+
+      const patch={
+        name_ar:rsValue('rs_name_ar'),
+        name_ku:rsValue('rs_name_ku'),
+        name_en:rsValue('rs_name_en'),
+
+        subtitle_ar:rsValue('rs_subtitle_ar'),
+        subtitle_ku:rsValue('rs_subtitle_ku'),
+        subtitle_en:rsValue('rs_subtitle_en'),
+
+        phone:rsValue('rs_phone'),
+        whatsapp_number:whatsappNumber,
+        location:rsValue('rs_location'),
+
+        footer_location_ar:rsValue('rs_footer_location_ar'),
+        footer_location_ku:rsValue('rs_footer_location_ku'),
+        footer_location_en:rsValue('rs_footer_location_en'),
+
+        instagram_url:rsValue('rs_instagram_url'),
+        facebook_url:rsValue('rs_facebook_url'),
+        tiktok_url:rsValue('rs_tiktok_url'),
+        snapchat_url:rsValue('rs_snapchat_url'),
+
+        logo_url:logoUrl || null,
+        background_video:rsValue('rs_background_video'),
+
+        is_open:rsChecked('rs_is_open'),
+        orders_enabled:rsChecked('rs_orders_enabled'),
+        delivery_enabled:rsChecked('rs_delivery_enabled'),
+        pickup_enabled:rsChecked('rs_pickup_enabled'),
+        announcement_enabled:rsChecked('rs_announcement_enabled'),
+
+        delivery_info_ar:rsValue('rs_delivery_info_ar'),
+        delivery_info_ku:rsValue('rs_delivery_info_ku'),
+        delivery_info_en:rsValue('rs_delivery_info_en'),
+
+        announcement_ar:rsValue('rs_announcement_ar'),
+        announcement_ku:rsValue('rs_announcement_ku'),
+        announcement_en:rsValue('rs_announcement_en'),
+        closed_message_ar:
+          rsValue('rs_closed_message_ar') || DEFAULT_CLOSED_AR,
+        closed_message_ku:
+          rsValue('rs_closed_message_ku') || DEFAULT_CLOSED_KU,
+        closed_message_en:
+          rsValue('rs_closed_message_en') || DEFAULT_CLOSED_EN,
+        updated_at:new Date().toISOString()
+      };
+
+      let result;
+
+      if(adminRestaurantSettings?.id){
+        result=await supabaseClient
+          .from('restaurant_settings')
+          .update(patch)
+          .eq('id',adminRestaurantSettings.id)
+          .select('*')
+          .single();
+      }else{
+        result=await supabaseClient
+          .from('restaurant_settings')
+          .insert(patch)
+          .select('*')
+          .single();
+      }
+
+      if(result.error)throw result.error;
+
+      adminRestaurantSettings=result.data||patch;
+
+      setRestaurantSettingsMsg(
+        patch.is_open && patch.orders_enabled
+          ? 'تم الحفظ ✓ — المطعم يستقبل الطلبات'
+          : 'تم الحفظ ✓ — الطلبات متوقفة حالياً',
+        true
+      );
+
+      renderRestaurantSettings();
+
+    }catch(e){
+      console.error('SAVE RESTAURANT SETTINGS ERROR:',e);
+      setRestaurantSettingsMsg(
+        'فشل الحفظ: '+(e.message||e),
+        false
+      );
+    }finally{
+      btn.disabled=false;
+      btn.textContent='حفظ إعدادات المطعم';
+    }
   }
 
 
@@ -1405,7 +2208,10 @@
     return makeBackup('full',{
       categories:cloneRows(adminCategories),
       products:cloneRows(adminProducts),
-      product_options:cloneRows(adminOptions)
+      product_options:cloneRows(adminOptions),
+      restaurant_settings:adminRestaurantSettings?.id
+        ? [JSON.parse(JSON.stringify(adminRestaurantSettings))]
+        : []
     },{
       reason:'before_legacy_image_migration'
     });
@@ -1766,7 +2572,8 @@
       const [
         categoriesResult,
         productsResult,
-        optionsResult
+        optionsResult,
+        settingsResult
       ] = await Promise.all([
 
         supabaseClient
@@ -1781,7 +2588,12 @@
 
         supabaseClient
           .from('product_options')
+          .select('*'),
+
+        supabaseClient
+          .from('restaurant_settings')
           .select('*')
+          .limit(1)
 
       ]);
 
@@ -1798,10 +2610,15 @@
         throw optionsResult.error;
       }
 
+      if (settingsResult.error) {
+        throw settingsResult.error;
+      }
+
 
       adminCategories = categoriesResult.data || [];
       adminProducts = productsResult.data || [];
       adminOptions = optionsResult.data || [];
+      adminRestaurantSettings = settingsResult.data?.[0] || {};
 
 
       status.className =
@@ -1827,6 +2644,7 @@
       renderCategorySortList();
       renderProductSortCategoryOptions();
       updateLegacyImageCount();
+      renderRestaurantSettings();
 
 
       console.log(
@@ -2038,7 +2856,7 @@
       home:['الرئيسية','SHORASH Admin'],
       products:['الأصناف','إدارة المواد والأسعار'],
       categories:['الأقسام','إدارة أقسام المنيو'],
-      tools:['الأدوات','Backup و Restore']
+      tools:['الإعدادات','إعدادات المطعم والأدوات']
     };
 
     const title=document.getElementById('adminPageTitle');
@@ -3322,7 +4140,10 @@
     const payload=makeBackup('full',{
       categories:cloneRows(adminCategories),
       products:cloneRows(adminProducts),
-      product_options:cloneRows(adminOptions)
+      product_options:cloneRows(adminOptions),
+      restaurant_settings:adminRestaurantSettings?.id
+        ? [JSON.parse(JSON.stringify(adminRestaurantSettings))]
+        : []
     });
     downloadJson(`SHORASH-full-${safeFileDate()}.json`,payload);
     setBackupStatus('تم إنشاء نسخة كاملة للمنيو ✓');
@@ -3787,6 +4608,11 @@
     adminSignOut
   );
 
+
+  document.getElementById('saveRestaurantSettingsBtn').addEventListener(
+    'click',
+    saveRestaurantSettings
+  );
 
   document.getElementById('startImageMigrationBtn').addEventListener(
     'click',
