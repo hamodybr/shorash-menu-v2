@@ -272,6 +272,26 @@
       return;
     }
 
+    const currentDB=window.SHORASH_DB;
+
+    const unavailableItem=cart.find(item=>{
+      const product=currentDB?.products?.find(
+        p=>String(p.id)===String(item.productId)
+      );
+      return product?.badges?.unavailable===true;
+    });
+
+    if(unavailableItem){
+      toast(
+        lang()==="en"
+          ?"One of the items in your cart is not available right now."
+          :lang()==="ku"
+            ?"یەکێک لە بەرهەمەکانی سەبەتەکەت لە ئێستادا بەردەست نییە."
+            :"أحد الأصناف في السلة غير متوفر حالياً."
+      );
+      return;
+    }
+
     const name=document.getElementById("smCustomerName").value.trim();
     let phone=document.getElementById("smCustomerPhone").value.trim();
     const address=document.getElementById("smCustomerAddress").value.trim();

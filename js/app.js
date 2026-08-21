@@ -75,6 +75,110 @@ function money(value) {
 }
 
 
+function installMenuCardPolish(){
+  if(document.getElementById("smMenuCardPolishV38"))return;
+
+  const style=document.createElement("style");
+  style.id="smMenuCardPolishV38";
+  style.textContent=`
+    @media(max-width:768px){
+      .sm-card{
+        grid-template-rows:160px !important;
+        height:160px !important;
+        min-height:160px !important;
+        max-height:160px !important;
+      }
+      .sm-card .sm-img,.sm-card .sm-info{
+        height:160px !important;
+        min-height:160px !important;
+        max-height:160px !important;
+      }
+      .sm-card .sm-info{padding:11px 10px !important}
+      .sm-card .sm-name{font-size:14px !important;line-height:1.35 !important;margin-bottom:5px !important}
+      .sm-card .sm-option{font-size:10.5px !important;line-height:1.45 !important}
+      .sm-card .sm-price{font-size:11px !important;line-height:1.35 !important}
+      .sm-card .sm-choose-options,.sm-card .sm-direct-add{min-height:30px !important;font-size:10px !important}
+      .sm-schedule-note{margin-top:4px;font-size:8.5px;line-height:1.45;color:rgba(232,184,98,.82)}
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+function iraqMinutesNow(){
+  const parts=new Intl.DateTimeFormat("en-GB",{
+    timeZone:"Asia/Baghdad",
+    hour:"2-digit",
+    minute:"2-digit",
+    hour12:false
+  }).formatToParts(new Date());
+
+  const h=Number(parts.find(p=>p.type==="hour")?.value||0);
+  const m=Number(parts.find(p=>p.type==="minute")?.value||0);
+  return h*60+m;
+}
+
+function timeToMinutes(value){
+  const match=String(value||"").match(/^(\d{1,2}):(\d{2})/);
+  if(!match)return null;
+  const h=Number(match[1]),m=Number(match[2]);
+  if(!Number.isFinite(h)||!Number.isFinite(m))return null;
+  return h*60+m;
+}
+
+function scheduledAvailability(product){
+  if(product?.availability_schedule_enabled!==true){
+    return true;
+  }
+
+  const from=timeToMinutes(product.available_from);
+  const to=timeToMinutes(product.available_to);
+
+  if(from===null||to===null||from===to){
+    return true;
+  }
+
+  const now=iraqMinutesNow();
+
+  return from<to
+    ? now>=from&&now<to
+    : now>=from||now<to;
+}
+
+function productScheduleText(product){
+  if(
+    product?.availability_schedule_enabled!==true ||
+    !product.available_from ||
+    !product.available_to
+  ) return "";
+
+  const from=String(product.available_from).slice(0,5);
+  const to=String(product.available_to).slice(0,5);
+
+  if(lang==="en")return `Available ${from}–${to}`;
+  if(lang==="ku")return `بەردەستە ${from}–${to}`;
+  return `متوفر ${from}–${to}`;
+}
+
+function refreshScheduledAvailability(){
+  if(!DB?.products)return;
+
+  DB.products.forEach(product=>{
+    const scheduleUnavailable=
+      product.availability_schedule_enabled===true &&
+      scheduledAvailability(product)===false;
+
+    product.badges.unavailable=
+      product.manualUnavailable===true ||
+      scheduleUnavailable;
+
+    product.scheduleText=
+      productScheduleText(product);
+  });
+
+  render();
+}
+
+
 function restaurantNameForLang(targetLang=lang) {
 
   const restaurant =
@@ -435,6 +539,13 @@ function productCard(product) {
         </div>
 
         ${options}
+
+        ${
+          b.unavailable && product.scheduleText
+            ? `<div class="sm-schedule-note">${product.scheduleText}</div>`
+            : ""
+        }
+
         ${variantButton}
 
       </div>
@@ -1873,10 +1984,34 @@ async function loadMenuFromSupabase() {
         }
 
 
+        const manualUnavailable=
+          product.is_available === false ||
+          product.available === false;
+
+        const scheduleUnavailable=
+          product.availability_schedule_enabled === true &&
+          scheduledAvailability(product) === false;
+
+
         return {
 
           id:
             product.id,
+
+          manualUnavailable:
+            manualUnavailable,
+
+          availability_schedule_enabled:
+            product.availability_schedule_enabled === true,
+
+          available_from:
+            product.available_from || null,
+
+          available_to:
+            product.available_to || null,
+
+          scheduleText:
+            productScheduleText(product),
 
           name: {
 
@@ -1943,8 +2078,8 @@ async function loadMenuFromSupabase() {
               ),
 
             unavailable:
-              product.is_available === false ||
-              product.available === false
+              manualUnavailable ||
+              scheduleUnavailable
 
           },
 
@@ -2489,6 +2624,8 @@ async function startShorash() {
        INITIALIZE WEBSITE
     ========================= */
 
+    installMenuCardPolish();
+
     setupIntro();
 
     setupBackground();
@@ -2508,6 +2645,14 @@ async function startShorash() {
 
     window.SHORASH_LANG =
       () => lang;
+
+
+    if(!window.__shorashScheduleTimer){
+      window.__shorashScheduleTimer=setInterval(
+        refreshScheduledAvailability,
+        60000
+      );
+    }
 
 
     window.dispatchEvent(
