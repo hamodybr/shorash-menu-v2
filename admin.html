@@ -2508,6 +2508,16 @@
 
       adminRestaurantSettings=result.data||patch;
 
+      const refreshedSettings=await supabaseClient
+        .from('restaurant_settings')
+        .select('*')
+        .order('updated_at',{ascending:false})
+        .limit(1);
+
+      if(!refreshedSettings.error && refreshedSettings.data?.[0]){
+        adminRestaurantSettings=refreshedSettings.data[0];
+      }
+
       setRestaurantSettingsMsg(
         patch.is_open && patch.orders_enabled
           ? 'تم الحفظ ✓ — المطعم يستقبل الطلبات'
@@ -2711,6 +2721,7 @@
         supabaseClient
           .from('restaurant_settings')
           .select('*')
+          .order('updated_at', { ascending: false })
           .limit(1)
 
       ]);
@@ -2761,8 +2772,9 @@
       renderBackupCategoryOptions();
       renderCategorySortList();
       renderProductSortCategoryOptions();
-      updateLegacyImageCount();
       renderRestaurantSettings();
+      renderBulkPriceCategoryOptions();
+      applyAdminBranding();
 
 
       console.log(
@@ -2787,7 +2799,8 @@
         'connection-box error';
 
       statusText.textContent =
-        'حدث خطأ أثناء تحميل قاعدة البيانات';
+        'حدث خطأ أثناء تحميل قاعدة البيانات: ' +
+        (error?.message || error || 'خطأ غير معروف');
 
     }
 
