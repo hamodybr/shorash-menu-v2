@@ -4630,6 +4630,36 @@
       ${hasField(sample,'is_visible')?`<label class="check-card"><input id="nc_is_visible" type="checkbox" checked> ظاهر</label>`:''}
     </div>
 
+    ${hasField(sample,'availability_schedule_enabled') ? `
+    <div class="schedule-editor">
+      <div class="schedule-editor-head">
+        <div>
+          <strong>⏰ توفر القسم حسب الوقت</strong>
+          <small>خارج هذه الفترة يبقى القسم ظاهراً لكن كل أصنافه تصبح غير متوفرة حالياً.</small>
+        </div>
+        <label class="settings-switch">
+          <input id="nc_availability_schedule_enabled" type="checkbox">
+          <i></i>
+        </label>
+      </div>
+
+      <div class="schedule-time-grid">
+        <label>
+          <span>القسم متوفر من</span>
+          <input id="nc_available_from" type="time">
+        </label>
+
+        <label>
+          <span>القسم متوفر إلى</span>
+          <input id="nc_available_to" type="time">
+        </label>
+      </div>
+
+      <div class="schedule-note">
+        مثال القهوة: 11:00 → 00:00. ويدعم عبور منتصف الليل مثل 18:00 → 02:00.
+      </div>
+    </div>` : ''}
+
     <div style="font-size:12px;color:#8f8981;margin:10px 0 2px">
       ملاحظة: القسم الجديد يظهر في لوحة الإدارة فوراً. في المنيو الرئيسي سيظهر بعد إضافة أول صنف له.
     </div>
@@ -4676,6 +4706,18 @@
       if(hasField(sample,'sort_order')) payload.sort_order=Number(val('nc_sort_order')||getNextCategorySortOrder());
       if(hasField(sample,'is_active')) payload.is_active=checked('nc_is_active');
       if(hasField(sample,'is_visible')) payload.is_visible=checked('nc_is_visible');
+
+      if(hasField(sample,'availability_schedule_enabled')){
+        payload.availability_schedule_enabled=checked('nc_availability_schedule_enabled');
+      }
+
+      if(hasField(sample,'available_from')){
+        payload.available_from=val('nc_available_from') || null;
+      }
+
+      if(hasField(sample,'available_to')){
+        payload.available_to=val('nc_available_to') || null;
+      }
 
       const now=new Date().toISOString();
       if(hasField(sample,'created_at')) payload.created_at=now;
@@ -4729,6 +4771,48 @@
         ${hasField(c,'is_active')?`<label class="check-card"><input id="c_is_active" type="checkbox" ${c.is_active?'checked':''}> فعال</label>`:''}
         ${hasField(c,'is_visible')?`<label class="check-card"><input id="c_is_visible" type="checkbox" ${c.is_visible?'checked':''}> ظاهر في المنيو</label>`:''}
       </div>
+
+      ${hasField(c,'availability_schedule_enabled') ? `
+      <div class="schedule-editor">
+        <div class="schedule-editor-head">
+          <div>
+            <strong>⏰ توفر القسم حسب الوقت</strong>
+            <small>إذا انتهى الوقت، كل أصناف هذا القسم تصبح غير متوفرة تلقائياً.</small>
+          </div>
+          <label class="settings-switch">
+            <input
+              id="c_availability_schedule_enabled"
+              type="checkbox"
+              ${c.availability_schedule_enabled?'checked':''}
+            >
+            <i></i>
+          </label>
+        </div>
+
+        <div class="schedule-time-grid">
+          <label>
+            <span>القسم متوفر من</span>
+            <input
+              id="c_available_from"
+              type="time"
+              value="${escapeAdminHtml(String(c.available_from||'').slice(0,5))}"
+            >
+          </label>
+
+          <label>
+            <span>القسم متوفر إلى</span>
+            <input
+              id="c_available_to"
+              type="time"
+              value="${escapeAdminHtml(String(c.available_to||'').slice(0,5))}"
+            >
+          </label>
+        </div>
+
+        <div class="schedule-note">
+          مثال: القهوة 11:00 → 00:00. يبقى القسم ظاهر حتى خارج الوقت، لكن أصنافه تظهر "غير متوفر حالياً".
+        </div>
+      </div>` : ''}
       <div style="font-size:12px;color:#9f9991;line-height:1.8;margin-top:8px">إلغاء «ظاهر في المنيو» يخفي القسم وكل أصنافه من منيو الزبائن بدون حذف أي بيانات.</div>
       <div class="modal-actions">
         <button class="btn btn-dark" type="button" onclick="closeAdminEditor()">إلغاء</button>
@@ -4749,6 +4833,19 @@
     if(hasField(c,'sort_order'))patch.sort_order=Number(val('c_sort_order')||0);
     if(hasField(c,'is_active'))patch.is_active=checked('c_is_active');
     if(hasField(c,'is_visible'))patch.is_visible=checked('c_is_visible');
+
+    if(hasField(c,'availability_schedule_enabled')){
+      patch.availability_schedule_enabled=checked('c_availability_schedule_enabled');
+    }
+
+    if(hasField(c,'available_from')){
+      patch.available_from=val('c_available_from') || null;
+    }
+
+    if(hasField(c,'available_to')){
+      patch.available_to=val('c_available_to') || null;
+    }
+
     if(hasField(c,'updated_at'))patch.updated_at=new Date().toISOString();
 
     const btn=document.getElementById('saveCategoryBtn');
