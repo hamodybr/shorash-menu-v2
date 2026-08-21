@@ -61,7 +61,39 @@
   const save=()=>{localStorage.setItem(KEY,JSON.stringify(cart));render()};
   const totals=()=>({qty:cart.reduce((s,x)=>s+x.qty,0),sum:cart.reduce((s,x)=>s+x.qty*x.price,0)});
 
+
+  function installIosFormZoomFix(){
+    if(document.getElementById("smIosFormZoomFix"))return;
+
+    const style=document.createElement("style");
+    style.id="smIosFormZoomFix";
+
+    style.textContent=`
+      /* iPhone Safari auto-zooms inputs with font-size below 16px. */
+      @media (max-width: 900px){
+        #smCheckoutSheet input,
+        #smCheckoutSheet textarea,
+        #smCheckoutSheet select{
+          font-size:16px !important;
+        }
+
+        #smCheckoutSheet,
+        #smCheckoutSheet .sm-checkout-body,
+        #smCheckoutSheet label,
+        #smCheckoutSheet input,
+        #smCheckoutSheet textarea{
+          min-width:0;
+          max-width:100%;
+          box-sizing:border-box;
+        }
+      }
+    `;
+
+    document.head.appendChild(style);
+  }
+
   function ensureUI(){
+    installIosFormZoomFix();
     if(document.getElementById("smCartFab"))return;
     document.body.insertAdjacentHTML("beforeend",`
       <div

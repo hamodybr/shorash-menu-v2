@@ -47,6 +47,11 @@ let active = "";
 const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
 
+const safeArray=value=>{if(Array.isArray(value))return value;if(typeof value==="string"){try{const p=JSON.parse(value);return Array.isArray(p)?p:[]}catch(_){return []}}return []};
+const escapeUi=value=>String(value??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+const actionLabel=(item,currentLang=lang)=>String(item?.[`label_${currentLang}`]??item?.label_ar??item?.label_en??"").trim();
+
+
 
 function txt(obj) {
   if (!obj) return "";
@@ -546,120 +551,7 @@ function renderLanguages() {
    TOP ACTIONS
 ======================================== */
 
-function renderActions() {
-
-  const holder = $("#smActions");
-
-  if (!holder || !DB) return;
-
-
-  const restaurant =
-    DB.restaurant || {};
-
-
-  const quick =
-    restaurant.quickActions || {};
-
-
-  const actions = [];
-
-
-  if (
-    quick.location?.enabled !== false &&
-    String(restaurant.location || "").trim() &&
-    restaurant.location !== "#"
-  ) {
-
-    actions.push(`
-      <a
-        href="${restaurant.location}"
-        target="_blank"
-        rel="noopener">
-
-        <span>📍</span>
-
-        <b>
-          ${
-            quick.location?.label?.[lang] ||
-            I18N[lang].location
-          }
-        </b>
-      </a>
-    `);
-
-  }
-
-
-  if (
-    quick.call?.enabled !== false &&
-    String(restaurant.phone || "").trim()
-  ) {
-
-    actions.push(`
-      <a
-        href="tel:${restaurant.phone}">
-
-        <span>☎</span>
-
-        <b>
-          ${
-            quick.call?.label?.[lang] ||
-            I18N[lang].call
-          }
-        </b>
-      </a>
-    `);
-
-  }
-
-
-  if (
-    quick.whatsapp?.enabled !== false &&
-    String(restaurant.whatsapp || "").trim()
-  ) {
-
-    actions.push(`
-      <a
-        href="${restaurant.whatsapp}"
-        target="_blank"
-        rel="noopener">
-
-        <span>💬</span>
-
-        <b>
-          ${
-            quick.whatsapp?.label?.[lang] ||
-            I18N[lang].whatsapp
-          }
-        </b>
-      </a>
-    `);
-
-  }
-
-
-  holder.className =
-    "sm-quick-actions";
-
-
-  holder.innerHTML =
-    actions.join("");
-
-
-  if (actions.length) {
-
-    holder.style.display =
-      "grid";
-
-    holder.style.gridTemplateColumns =
-      `repeat(${actions.length},minmax(0,1fr))`;
-
-  } else {
-
-    holder.style.display =
-      "none";
-  }
-}
+function renderActions(){const holder=$("#smActions");if(!holder||!DB)return;const r=DB.restaurant||{},q=r.quickActions||{},a=[];if(q.location?.enabled!==false&&String(r.location||"").trim()&&r.location!=="#")a.push({icon:"📍",label:q.location?.label?.[lang]||I18N[lang].location,url:r.location});if(q.call?.enabled!==false&&String(r.phone||"").trim())a.push({icon:"☎",label:q.call?.label?.[lang]||I18N[lang].call,url:"tel:"+r.phone});if(q.whatsapp?.enabled!==false&&String(r.whatsapp||"").trim())a.push({icon:"💬",label:q.whatsapp?.label?.[lang]||I18N[lang].whatsapp,url:r.whatsapp});safeArray(r.customTopActions).forEach(i=>{const l=actionLabel(i),u=String(i?.url||"").trim();if(i?.enabled!==false&&l&&u)a.push({icon:String(i.icon||"🔗"),label:l,url:u})});holder.className="sm-quick-actions";holder.innerHTML=a.map(i=>`<a href="${escapeUi(i.url)}" ${/^https?:/i.test(i.url)?'target="_blank" rel="noopener"':''}><span>${escapeUi(i.icon)}</span><b>${escapeUi(i.label)}</b></a>`).join("");if(a.length){holder.style.display="grid";holder.style.gridTemplateColumns=`repeat(${a.length},minmax(0,1fr))`}else holder.style.display="none"}
 
 /* ========================================
    APPLY LANGUAGE
@@ -1008,6 +900,11 @@ function setupFooter() {
         ? "none"
         : "";
   }
+  const footerActionsParent=location?.parentElement||call?.parentElement||whatsapp?.parentElement||document.querySelector(".sm-footer-actions");
+  if(footerActionsParent){footerActionsParent.querySelectorAll(".sm-custom-footer-action").forEach(el=>el.remove());safeArray(restaurant.customFooterActions).forEach(item=>{const label=actionLabel(item),url=String(item?.url||"").trim();if(item?.enabled===false||!label||!url)return;const link=document.createElement("a");link.className=(location?.className||call?.className||whatsapp?.className||"")+" sm-custom-footer-action";link.href=url;if(/^https?:/i.test(url)){link.target="_blank";link.rel="noopener"}link.innerHTML=`<span>${escapeUi(item.icon||"🔗")}</span><b>${escapeUi(label)}</b>`;footerActionsParent.appendChild(link)})}
+  const socialParent=instagram?.parentElement||facebook?.parentElement||tiktok?.parentElement||snapchat?.parentElement||document.querySelector(".sm-footer-socials, .sm-footer-social");
+  if(socialParent){socialParent.querySelectorAll(".sm-custom-social-link").forEach(el=>el.remove());safeArray(restaurant.customSocialLinks).forEach(item=>{const url=String(item?.url||"").trim(),name=String(item?.name||"Social").trim();if(item?.enabled===false||!url)return;const link=document.createElement("a");link.className=(instagram?.className||facebook?.className||"sm-social-link")+" sm-custom-social-link";link.href=url;link.target="_blank";link.rel="noopener";link.title=name;link.setAttribute("aria-label",name);link.innerHTML=`<span style="display:grid;place-items:center;min-width:1.25em;min-height:1.25em;font-size:1.05em;">${escapeUi(item.icon||"🔗")}</span>`;socialParent.appendChild(link)})}
+
 }
 
 
@@ -2308,6 +2205,15 @@ async function loadMenuFromSupabase() {
       snapchat:
         settings.snapchat_enabled !== false
     },
+
+    customSocialLinks:
+      safeArray(settings.custom_social_links),
+
+    customTopActions:
+      safeArray(settings.custom_top_actions),
+
+    customFooterActions:
+      safeArray(settings.custom_footer_actions),
 
     display: {
       logo:
