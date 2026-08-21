@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-sm-theme="dark">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -9,10 +9,8 @@
     window.__smIntroBornAt=Date.now();
 
     try{
-      const savedTheme=localStorage.getItem("SM_THEME_PREF_V1");
-      if(savedTheme==="light"||savedTheme==="dark"){
-        document.documentElement.dataset.smTheme=savedTheme;
-      }
+      localStorage.removeItem("SM_THEME_PREF_V1");
+      document.documentElement.removeAttribute("data-sm-theme");
     }catch(_){}
   </script>
   <meta name="mobile-web-app-capable" content="yes">
@@ -20,7 +18,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Menu">
 
-  <title>SHORASH REST & CAFE</title>
+  <title>Menu</title>
 
   <!-- SHORASH Favicon -->
   <link rel="icon" type="image/png" href="assets/favicon.png">
@@ -110,7 +108,7 @@
 
         <div class="sm-footer-line"></div>
 
-        <h2>SHORASH REST &amp; CAFE</h2>
+        <h2></h2>
 
         <p class="sm-footer-location">
           Duhok • Kurdistan
@@ -154,13 +152,9 @@
         </div>
 
 
-        <div class="sm-footer-phone">
-          +964 750 266 2002
-        </div>
+        <div class="sm-footer-phone"></div>
 
-        <div class="sm-footer-copy">
-          SHORASH — All Rights Reserved 2026 ©
-        </div>
+        <div class="sm-footer-copy"></div>
 
       </div>
 
@@ -198,18 +192,14 @@
         const brand=document.querySelector(".sm-intro-brand");
         if(brand)brand.textContent=name;
 
-        const logo=document.querySelector(".sm-intro-logo");
-        if(logo && cached.logo){
-          logo.src=cached.logo;
-          logo.style.visibility="visible";
-        }
-
-        if(
-          !localStorage.getItem("SM_THEME_PREF_V1") &&
-          (cached.themeDefault==="light"||cached.themeDefault==="dark")
-        ){
-          document.documentElement.dataset.smTheme=cached.themeDefault;
-        }
+        document
+          .querySelectorAll(".sm-intro-logo, .sm-logo")
+          .forEach(logo=>{
+            if(logo && cached.logo){
+              logo.src=cached.logo;
+              logo.style.visibility="visible";
+            }
+          });
       }catch(_){}
     })();
   </script>
@@ -219,8 +209,8 @@
   <script src="js/supabase-config.js?v=1.0"></script>
 
   <!-- Menu + Cart -->
-  <script src="js/app.js?v=14.0"></script>
-  <script src="js/cart.js?v=3.9"></script>
+  <script src="js/app.js?v=15.0"></script>
+  <script src="js/cart.js?v=4.0"></script>
 
 </body>
 </html>

@@ -2177,6 +2177,102 @@
       }
     }
 
+
+    /* =========================================================
+       SHORASH ADMIN V4.3 — MOBILE SETTINGS POLISH
+       ========================================================= */
+    .settings-save-bar{
+      position:relative !important;
+      top:auto !important;
+      z-index:2 !important;
+      margin-bottom:2px;
+    }
+
+    html,body{
+      width:100% !important;
+      max-width:100vw !important;
+      min-width:0 !important;
+      overflow-x:hidden !important;
+    }
+
+    .admin-main,.admin-view,#viewTools,.settings-clean-wrap,
+    .settings-accordion,.settings-accordion-body{
+      width:100% !important;
+      max-width:100% !important;
+      min-width:0 !important;
+      box-sizing:border-box !important;
+    }
+
+    #viewTools,.settings-clean-wrap,.settings-accordion{
+      contain:inline-size;
+    }
+
+    .settings-accordion[open],
+    .settings-accordion-body{
+      overflow:hidden !important;
+    }
+
+    .settings-accordion-body > *,
+    .settings-element > *,
+    .settings-element-head > *,
+    .settings-logo-row > *,
+    .settings-logo-controls > *,
+    .social-setting-row > *,
+    .dynamic-manager > *,
+    .dynamic-item > *,
+    .dynamic-item-body > *,
+    .dynamic-grid > *,
+    .ui-design-group > *,
+    .ui-design-fields > *,
+    .ui-size-field > *,
+    .ui-size-control > *{
+      min-width:0 !important;
+      max-width:100% !important;
+      box-sizing:border-box !important;
+    }
+
+    .settings-logo-controls{
+      overflow:hidden !important;
+    }
+
+    .settings-logo-controls input,.settings-input,.tri-pane input,.tri-pane textarea,
+    .social-setting-row input,.dynamic-field input,.ui-size-control input{
+      width:100% !important;
+      min-width:0 !important;
+      max-width:100% !important;
+      box-sizing:border-box !important;
+    }
+
+    @media(max-width:650px){
+      .settings-save-bar{
+        flex-wrap:wrap;
+        padding:10px !important;
+      }
+
+      .settings-save-bar .btn{
+        min-width:0 !important;
+        width:auto !important;
+        max-width:100% !important;
+      }
+
+      .settings-logo-row,.compact-logo-row{
+        grid-template-columns:56px minmax(0,1fr) !important;
+      }
+
+      .settings-logo-preview,.compact-logo-row .settings-logo-preview{
+        width:56px !important;
+        height:56px !important;
+      }
+
+      .ui-size-control{
+        grid-template-columns:minmax(0,1fr) 62px !important;
+      }
+
+      .tri-tabs{
+        grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+      }
+    }
+
 </style>
 </head>
 
@@ -3123,26 +3219,13 @@
           <div class="settings-element">
             <div class="settings-element-head">
               <div>
-                <strong>الوضع النهاري / الداكن</strong>
-                <small>حدد الوضع الافتراضي ويمكن إظهار زر للزبون حتى يغيّره بنفسه.</small>
+                <strong>شاشة البداية</strong>
+                <small>تحكم بمدة ظهور الـ Intro عند فتح المنيو.</small>
               </div>
-              <label class="mini-visibility">
-                <span>زر التبديل</span>
-                <input id="rs_show_theme_toggle" type="checkbox">
-                <i></i>
-              </label>
             </div>
 
             <div class="appearance-mode-grid">
-              <label class="appearance-mode-card">
-                <span>الوضع الافتراضي</span>
-                <select id="rs_theme_default">
-                  <option value="dark">🌙 داكن</option>
-                  <option value="light">☀️ نهاري</option>
-                </select>
-              </label>
-
-              <label class="appearance-mode-card">
+              <label class="appearance-mode-card" style="grid-column:1/-1;">
                 <span>مدة شاشة البداية بالمللي ثانية</span>
                 <input
                   id="rs_intro_duration_ms"
@@ -4236,8 +4319,6 @@
     set('rs_background_video',s.background_video ?? s.background_video_url ?? '');
     bool('rs_background_video_enabled',s.background_video_enabled,true);
 
-    set('rs_theme_default',s.theme_default ?? 'dark');
-    bool('rs_show_theme_toggle',s.show_theme_toggle,true);
     set('rs_intro_duration_ms',s.intro_duration_ms ?? 900);
 
     // Delivery / announcement
@@ -4429,14 +4510,6 @@
         logo_url:logoUrl || '',
         background_video:rsValue('rs_background_video'),
         background_video_enabled:rsChecked('rs_background_video_enabled'),
-
-        theme_default:
-          ['dark','light'].includes(rsValue('rs_theme_default'))
-            ? rsValue('rs_theme_default')
-            : 'dark',
-
-        show_theme_toggle:
-          rsChecked('rs_show_theme_toggle'),
 
         intro_duration_ms:
           Math.max(
